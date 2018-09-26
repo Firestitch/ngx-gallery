@@ -1,1 +1,8 @@
-<fs-component></fs-component>
+<fs-gallery [(ngModel)]="items" [config]="config">
+  <ng-template fsGalleryThumbnail image="image.small" let-item="item">
+    <a class="bottom-left"><mat-icon>settings</mat-icon></a>
+  </ng-template>
+  <ng-template fsGalleryPreview image="image.large" let-item="item">
+    <div>{{ item.description }}</div>
+  </ng-template>
+</fs-gallery>

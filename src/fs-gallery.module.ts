@@ -1,29 +1,47 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FsComponentComponent } from './components/fs-component/fs-component.component';
-// import { FsComponentService } from './services';
+import { MatIconModule } from '@angular/material';
+
+import {
+  FsGalleryComponent,
+  FsGalleryThumbnailComponent
+} from './components';
+
+import {
+  FsGalleryThumbnailDirective,
+  FsGalleryPreviewDirective
+} from './directives';
+
+import { FsGalleryService } from './services';
+
 
 @NgModule({
   imports: [
     CommonModule,
+    MatIconModule
   ],
   exports: [
-    FsComponentComponent,
+    FsGalleryComponent,
+
+    FsGalleryThumbnailDirective,
+    FsGalleryPreviewDirective
   ],
   entryComponents: [
   ],
   declarations: [
-    FsComponentComponent,
+    FsGalleryComponent,
+    FsGalleryThumbnailComponent,
+
+    FsGalleryThumbnailDirective,
+    FsGalleryPreviewDirective
   ],
-  providers: [
-    // FsComponentService,
-  ],
+  providers: []
 })
 export class FsGalleryModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FsGalleryModule,
-      // providers: [FsComponentService]
+      providers: [FsGalleryService]
     };
   }
 }

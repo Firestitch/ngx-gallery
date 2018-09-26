@@ -1,0 +1,19 @@
+:host {
+  ::ng-deep {
+    .fs-gallery-thumbnail {
+      position: relative;
+      width: 187px;
+      height: 126px;
+      cursor: pointer;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      .bottom-left {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+    }
+  }
+}

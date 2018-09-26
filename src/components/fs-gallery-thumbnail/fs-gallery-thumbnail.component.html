@@ -1,0 +1,7 @@
+<div class="fs-gallery-thumbnail" [ngStyle]="fsGalleryService.config?.thumbnail?.styles">
+  <img src="{{ image }}">
+  <ng-template
+    [ngTemplateOutlet]="fsGalleryService.thumbnailTemplate"
+    [ngTemplateOutletContext]="{ item: data }"
+  ></ng-template>
+</div>

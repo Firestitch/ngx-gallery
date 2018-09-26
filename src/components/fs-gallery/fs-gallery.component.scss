@@ -1,0 +1,10 @@
+:host {
+  .fs-gallery-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    /deep/ .fs-gallery-thumbnail {
+      // @TODO
+      margin: 0 6px 4px 0;
+    }
+  }
+}
