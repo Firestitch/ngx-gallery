@@ -1,0 +1,15 @@
+:host {
+  .fs-gallery-preview-backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9000;
+    outline: none;
+    overflow: visible;
+    background: none !important;
+
+    &[hidden] { display: none !important; }
+  }
+}

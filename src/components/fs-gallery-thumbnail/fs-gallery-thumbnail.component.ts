@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, ViewContainerRef, OnInit } from '@angular/core';
 
-import { get } from 'lodash';
-
-import { FsGalleryService } from '../../services';
 import { FsGalleryDataItem } from '../../interfaces';
+import {
+  FsGalleryService,
+  FsGalleryPreviewFactory,
+  FsGalleryPreviewService
+} from '../../services';
 
 
 @Component({
@@ -17,10 +19,20 @@ export class FsGalleryThumbnailComponent implements OnInit {
 
   public image: string = null;
 
-  constructor(public fsGalleryService: FsGalleryService) { }
+  constructor(
+    public fsGalleryService: FsGalleryService,
+    private fsGalleryPreviewService: FsGalleryPreviewService,
+    @Inject(ViewContainerRef) private viewContainerRef,
+    private fsGalleryPreviewFactory: FsGalleryPreviewFactory
+  ) { }
 
   ngOnInit() {
-    this.image = get(this.data, this.fsGalleryService.thumbnailDirective.image, null);
+    this.image = this.fsGalleryService.getThumbnailImage(this.data);
+  }
+
+  openPreview() {
+    this.fsGalleryPreviewFactory.setRootViewContainerRef(this.viewContainerRef);
+    this.fsGalleryPreviewService.instance = this.fsGalleryPreviewFactory.addDynamicComponent(this.data);
   }
 
 }

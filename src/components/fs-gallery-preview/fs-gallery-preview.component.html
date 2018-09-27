@@ -1,0 +1,9 @@
+<div class="fs-gallery-preview-backdrop" (click)="close($event)"></div>
+
+<div class="fs-gallery-preview">
+  <img src="{{ image }}">
+  <ng-template
+    [ngTemplateOutlet]="fsGalleryService.previewTemplate"
+    [ngTemplateOutletContext]="{ item: data }"
+  ></ng-template>
+</div>

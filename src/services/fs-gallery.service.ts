@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { get } from 'lodash';
+
 import { FsGalleryDataItem, FsGalleryConfig } from '../interfaces';
 import { FsGalleryPreviewDirective, FsGalleryThumbnailDirective } from '../directives';
 
@@ -41,5 +43,13 @@ export class FsGalleryService {
   }
 
   constructor() { }
+
+  getThumbnailImage(data: FsGalleryDataItem) {
+    return get(data, this.thumbnailDirective.image, null);
+  }
+
+  getPreviewImage(data: FsGalleryDataItem) {
+    return get(data, this.previewDirective.image, null);
+  }
 
 }

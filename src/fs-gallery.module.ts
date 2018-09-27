@@ -4,7 +4,8 @@ import { MatIconModule } from '@angular/material';
 
 import {
   FsGalleryComponent,
-  FsGalleryThumbnailComponent
+  FsGalleryThumbnailComponent,
+  FsGalleryPreviewComponent
 } from './components';
 
 import {
@@ -12,7 +13,11 @@ import {
   FsGalleryPreviewDirective
 } from './directives';
 
-import { FsGalleryService } from './services';
+import {
+  FsGalleryService,
+  FsGalleryPreviewService,
+  FsGalleryPreviewFactory
+} from './services';
 
 
 @NgModule({
@@ -27,21 +32,25 @@ import { FsGalleryService } from './services';
     FsGalleryPreviewDirective
   ],
   entryComponents: [
+    FsGalleryPreviewComponent
   ],
   declarations: [
     FsGalleryComponent,
     FsGalleryThumbnailComponent,
+    FsGalleryPreviewComponent,
 
     FsGalleryThumbnailDirective,
     FsGalleryPreviewDirective
   ],
-  providers: []
+  providers: [
+    FsGalleryPreviewFactory
+  ]
 })
 export class FsGalleryModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FsGalleryModule,
-      providers: [FsGalleryService]
+      providers: [FsGalleryPreviewService]
     };
   }
 }

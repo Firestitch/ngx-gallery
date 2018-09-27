@@ -10,7 +10,7 @@ import { FsGalleryService } from '../../services';
   selector: 'fs-gallery',
   templateUrl: './fs-gallery.component.html',
   styleUrls: [ './fs-gallery.component.scss' ],
-  providers: [FS_GALLERY_ACCESSOR]
+  providers: [FS_GALLERY_ACCESSOR, FsGalleryService]
 })
 export class FsGalleryComponent implements OnInit {
 
