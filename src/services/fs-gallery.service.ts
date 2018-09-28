@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { indexOf } from '@firestitch/common/array';
+
 import { get } from 'lodash';
 
 import { FsGalleryDataItem, FsGalleryConfig } from '../interfaces';
@@ -26,7 +28,9 @@ export class FsGalleryService {
   }
 
   private _defaultConfig: FsGalleryConfig = {
+    indexField: 'id',
     draggable: false,
+    repeat: true,
     thumbnail: {
       styles: {}
     }
@@ -50,6 +54,10 @@ export class FsGalleryService {
 
   getPreviewImage(data: FsGalleryDataItem) {
     return get(data, this.previewDirective.image, null);
+  }
+
+  getDataIndex(data: FsGalleryDataItem) {
+    return indexOf(this.model, { [this.config.indexField]: data[this.config.indexField] });
   }
 
 }

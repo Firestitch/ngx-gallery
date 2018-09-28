@@ -1,6 +1,8 @@
 import { ComponentFactoryResolver, Injectable, Inject, ReflectiveInjector } from '@angular/core';
+
 import { FsGalleryPreviewComponent } from './../components';
 import { FsGalleryDataItem } from '../interfaces';
+import { FsGalleryPreviewService } from '../services';
 
 
 @Injectable()
@@ -9,7 +11,9 @@ export class FsGalleryPreviewFactory {
   private factoryResolver = null;
   private rootViewContainer = null;
 
-  constructor(@Inject(ComponentFactoryResolver) factoryResolver) {
+  constructor(
+  @Inject(ComponentFactoryResolver) factoryResolver,
+  private fsGalleryPreviewService: FsGalleryPreviewService) {
     this.factoryResolver = factoryResolver;
   }
 
@@ -26,7 +30,8 @@ export class FsGalleryPreviewFactory {
 
     this.rootViewContainer.insert(component.hostView);
 
-    component.instance.data = data;
+    this.fsGalleryPreviewService.instance = component;
+    this.fsGalleryPreviewService.setData(data);
 
     return component;
   }

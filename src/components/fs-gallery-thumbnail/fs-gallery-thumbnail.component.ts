@@ -32,7 +32,7 @@ export class FsGalleryThumbnailComponent implements OnInit {
 
   openPreview() {
     this.fsGalleryPreviewFactory.setRootViewContainerRef(this.viewContainerRef);
-    this.fsGalleryPreviewService.instance = this.fsGalleryPreviewFactory.addDynamicComponent(this.data);
+    this.fsGalleryPreviewFactory.addDynamicComponent(this.data);
   }
 
 }

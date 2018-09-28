@@ -1,0 +1,17 @@
+:host {
+  width: 100%;
+  .fs-gallery-preview-carousel {
+    // Scroll doesn't work correctly with display: flex; and jsustify-content: center;
+    position: absolute;
+    display: inline-block;
+    width: 100%;
+    margin: 15px 0;
+    white-space: nowrap;
+    text-align: center;
+    overflow-x: auto;
+
+    /deep/ .fs-gallery-preview-carousel-thumbnail {
+      margin-right: 5px;
+    }
+  }
+}

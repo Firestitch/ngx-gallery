@@ -1,9 +1,36 @@
 <div class="fs-gallery-preview-backdrop" (click)="close($event)"></div>
 
 <div class="fs-gallery-preview">
-  <img src="{{ image }}">
-  <ng-template
-    [ngTemplateOutlet]="fsGalleryService.previewTemplate"
-    [ngTemplateOutletContext]="{ item: data }"
-  ></ng-template>
+  <fs-gallery-preview-header></fs-gallery-preview-header>
+  <div class="wrap">
+    <div class="panel">
+
+      <div class="preview">
+
+        <a class="action prev" (click)="prev()">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </a>
+
+        <div class="image-wrap">
+          <img class="image" src="{{ image }}">
+        </div>
+
+        <a class="action next" (click)="next()">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </a>
+
+      </div>
+
+      <!-- @TODO
+      <ng-template
+        [ngTemplateOutlet]="fsGalleryService.previewTemplate"
+        [ngTemplateOutletContext]="{ item: data }"
+      ></ng-template>
+      -->
+
+      <!-- @TODO place for right sidenav -->
+    </div>
+
+    <fs-gallery-preview-carousel></fs-gallery-preview-carousel>
+  </div>
 </div>

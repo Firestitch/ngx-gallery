@@ -1,0 +1,12 @@
+:host {
+  .fs-gallery-preview-carousel-thumbnail {
+    display: inline-block;
+    width: 100px;
+    height: 80px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}

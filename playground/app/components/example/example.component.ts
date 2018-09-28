@@ -42,6 +42,22 @@ export class ExampleComponent {
         small: `https://images.pexels.com/photos/529930/pexels-photo-529930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
         large: `https://images.pexels.com/photos/529930/pexels-photo-529930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
+    },
+    {
+      id: 5,
+      description: 'Image1 description',
+      image: {
+        small: `https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+      }
+    },
+    {
+      id: 6,
+      description: 'Image2 description',
+      image: {
+        small: `https://images.pexels.com/photos/529930/pexels-photo-529930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/529930/pexels-photo-529930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+      }
     }
   ]
 }

@@ -5,7 +5,10 @@ import { MatIconModule } from '@angular/material';
 import {
   FsGalleryComponent,
   FsGalleryThumbnailComponent,
-  FsGalleryPreviewComponent
+  FsGalleryPreviewComponent,
+  FsGalleryPreviewHeaderComponent,
+  FsGalleryPreviewCarouselComponent,
+  FsGalleryPreviewCarouselThumbnailComponent
 } from './components';
 
 import {
@@ -38,6 +41,9 @@ import {
     FsGalleryComponent,
     FsGalleryThumbnailComponent,
     FsGalleryPreviewComponent,
+    FsGalleryPreviewHeaderComponent,
+    FsGalleryPreviewCarouselComponent,
+    FsGalleryPreviewCarouselThumbnailComponent,
 
     FsGalleryThumbnailDirective,
     FsGalleryPreviewDirective
