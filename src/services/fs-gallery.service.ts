@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { indexOf } from '@firestitch/common/array';
+import { guid } from '@firestitch/common/util';
 
 import { get } from 'lodash';
 
@@ -30,6 +31,7 @@ export class FsGalleryService {
   private _defaultConfig: FsGalleryConfig = {
     indexField: 'id',
     draggable: false,
+    dragName: null,
     repeat: true,
     thumbnail: {
       styles: {}
@@ -44,6 +46,10 @@ export class FsGalleryService {
 
   set config(value: FsGalleryConfig) {
     this._config = Object.assign(this._defaultConfig, value);
+
+    if (this.config.draggable && !this.config.dragName) {
+      this.config.dragName = '' + guid();
+    }
   }
 
   constructor() { }

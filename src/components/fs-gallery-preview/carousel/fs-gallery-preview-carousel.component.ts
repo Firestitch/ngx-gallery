@@ -22,4 +22,8 @@ export class FsGalleryPreviewCarouselComponent implements OnInit {
     this.model = this.fsGalleryService.model;
   }
 
+  onSelect(data: FsGalleryDataItem) {
+    this.fsGalleryPreviewService.setData(data);
+  }
+
 }

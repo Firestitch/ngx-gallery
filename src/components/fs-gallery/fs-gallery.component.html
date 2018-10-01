@@ -1,7 +1,22 @@
-<div class="fs-gallery-thumbnails">
-  <fs-gallery-thumbnail
-    *ngFor="let item of model"
-    [data]="item"
-  >
-  </fs-gallery-thumbnail>
+<div
+  *ngIf="fsGalleryService.config.draggable"
+  class="fs-gallery-thumbnails"
+  [dragula]="fsGalleryService.config.dragName"
+  [dragulaModel]="model"
+  (dragulaModelChange)="writeValue($event)">
+  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
 </div>
+
+<div
+  *ngIf="!fsGalleryService.config.draggable"
+  class="fs-gallery-thumbnails">
+  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
+</div>
+
+<ng-template #thumbnailsTemplate>
+    <fs-gallery-thumbnail
+      *ngFor="let item of model"
+      [data]="item"
+    >
+    </fs-gallery-thumbnail>
+</ng-template>

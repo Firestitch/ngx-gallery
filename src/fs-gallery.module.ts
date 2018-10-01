@@ -1,6 +1,9 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+
+import { DragulaModule } from 'ng2-dragula';
 
 import {
   FsGalleryComponent,
@@ -17,16 +20,19 @@ import {
 } from './directives';
 
 import {
-  FsGalleryService,
   FsGalleryPreviewService,
   FsGalleryPreviewFactory
 } from './services';
+
+import 'hammerjs';
+import { HammerConfig } from './classes';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    DragulaModule.forRoot()
   ],
   exports: [
     FsGalleryComponent,
@@ -49,14 +55,21 @@ import {
     FsGalleryPreviewDirective
   ],
   providers: [
-    FsGalleryPreviewFactory
+    FsGalleryPreviewFactory,
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: HammerConfig
+    }
   ]
 })
 export class FsGalleryModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FsGalleryModule,
-      providers: [FsGalleryPreviewService]
+      providers: [
+        FsGalleryPreviewService
+      ]
     };
   }
+
 }

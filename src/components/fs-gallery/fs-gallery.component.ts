@@ -37,7 +37,9 @@ export class FsGalleryComponent implements OnInit {
   registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
   registerOnTouched(fn: () => any): void { this._onTouched = fn }
 
-  constructor(private fsGalleryService: FsGalleryService) { }
+  constructor(
+    public fsGalleryService: FsGalleryService
+    ) { }
 
   ngOnInit() {
     this.fsGalleryService.previewTemplate = this.previewTemplate;
@@ -52,4 +54,5 @@ export class FsGalleryComponent implements OnInit {
     this._onChange(this.fsGalleryService.model);
     this.model = this.fsGalleryService.model;
   }
+
 }

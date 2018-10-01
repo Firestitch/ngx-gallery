@@ -1,5 +1,10 @@
 <div class="header">
-  <div class="actions">
+  <div class="actions left">
+    <div class="action">
+      <span>{{ activeIndex + 1 }}/{{ model.length }}</span>
+    </div>
+  </div>
+  <div class="actions right">
     <a class="action" (click)="close()">
       <mat-icon>close</mat-icon>
     </a>

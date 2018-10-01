@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
@@ -46,6 +46,21 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   next() {
     this.fsGalleryPreviewService.next();
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    switch (event.keyCode) {
+      case 27:
+        this.fsGalleryPreviewService.close();
+        break;
+      case 37:
+        this.prev();
+        break;
+      case 39:
+        this.next();
+        break;
+    }
   }
 
   ngOnDestroy() {

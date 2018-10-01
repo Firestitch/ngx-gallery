@@ -12,7 +12,7 @@
         </a>
 
         <div class="image-wrap">
-          <img class="image" src="{{ image }}">
+          <img class="image" src="{{ image }}" (swipeleft)="next()" (swiperight)="prev()">
         </div>
 
         <a class="action next" (click)="next()">
