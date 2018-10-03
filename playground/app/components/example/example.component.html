@@ -1,3 +1,8 @@
+<div class="actions" fxLayout="row" fxLayoutAlign="end start">
+  <button mat-raised-button color="primary" (click)="switchOrder()">
+    {{ config.draggable ? 'Done' : 'Reorder' }}
+  </button>
+</div>
 <fs-gallery [(ngModel)]="items" [config]="config">
   <ng-template fsGalleryThumbnail image="image.small" let-item="item">
     <a class="bottom-left"><mat-icon>settings</mat-icon></a>

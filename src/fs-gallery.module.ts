@@ -10,8 +10,7 @@ import {
   FsGalleryThumbnailComponent,
   FsGalleryPreviewComponent,
   FsGalleryPreviewHeaderComponent,
-  FsGalleryPreviewCarouselComponent,
-  FsGalleryPreviewCarouselThumbnailComponent
+  FsGalleryPreviewCarouselComponent
 } from './components';
 
 import {
@@ -49,7 +48,6 @@ import { HammerConfig } from './classes';
     FsGalleryPreviewComponent,
     FsGalleryPreviewHeaderComponent,
     FsGalleryPreviewCarouselComponent,
-    FsGalleryPreviewCarouselThumbnailComponent,
 
     FsGalleryThumbnailDirective,
     FsGalleryPreviewDirective

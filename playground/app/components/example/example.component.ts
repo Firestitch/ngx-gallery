@@ -4,60 +4,73 @@ import { FsGalleryConfig } from '../../../../src';
 
 @Component({
   selector: 'example',
-  templateUrl: './example.component.html'
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.css']
 })
 export class ExampleComponent {
 
-  public config: FsGalleryConfig = { draggable: true };
+  public config: FsGalleryConfig = { draggable: false };
 
   public items: object[] = [
     {
       id: 1,
-      description: 'Image1 description',
+      description: 'Image 1 description',
       image: {
-        small: `https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-        large: `https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+        small: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
     },
     {
       id: 2,
-      description: 'Image2 description',
+      description: 'Image 2 description',
       image: {
-        small: `https://images.pexels.com/photos/529930/pexels-photo-529930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-        large: `https://images.pexels.com/photos/529930/pexels-photo-529930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+        small: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
     },
     {
       id: 3,
-      description: 'Image1 description',
+      description: 'Image 3 description',
       image: {
-        small: `https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-        large: `https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+        small: `https://images.pexels.com/photos/371916/pexels-photo-371916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/371916/pexels-photo-371916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
     },
     {
       id: 4,
-      description: 'Image2 description',
+      description: 'Image 4 description',
       image: {
-        small: `https://images.pexels.com/photos/529930/pexels-photo-529930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-        large: `https://images.pexels.com/photos/529930/pexels-photo-529930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+        small: `https://images.pexels.com/photos/1209843/pexels-photo-1209843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/1209843/pexels-photo-1209843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
     },
     {
       id: 5,
-      description: 'Image1 description',
+      description: 'Image 5 description',
       image: {
-        small: `https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-        large: `https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+        small: `https://images.pexels.com/photos/547119/pexels-photo-547119.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/547119/pexels-photo-547119.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
     },
     {
       id: 6,
-      description: 'Image2 description',
+      description: 'Image 6 description',
       image: {
-        small: `https://images.unsplash.com/photo-1531966662811-c6501e46eda6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ee1a4ae3348e7f71fd3810cbcdec92a3&w=1000&q=80`,
-        large: `https://images.unsplash.com/photo-1531966662811-c6501e46eda6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ee1a4ae3348e7f71fd3810cbcdec92a3&w=1000&q=80`
+        small: `https://images.pexels.com/photos/39501/lamborghini-brno-racing-car-automobiles-39501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/39501/lamborghini-brno-racing-car-automobiles-39501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+      }
+    },
+    {
+      id: 7,
+      description: 'Image 7 description',
+      image: {
+        small: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        large: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
     }
   ]
+
+  switchOrder() {
+    this.config.draggable = !this.config.draggable;
+  }
 }

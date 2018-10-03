@@ -10,8 +10,27 @@
     text-align: center;
     overflow-x: auto;
 
-    /deep/ .fs-gallery-preview-carousel-thumbnail {
-      margin-right: 5px;
+    ::ng-deep {
+      .fs-gallery-thumbnail {
+        margin-right: 5px;
+        display: inline-block;
+        width: 100px;
+        height: 80px;
+        cursor: pointer;
+
+        &.active {
+          img {
+            border: 2px solid #fff;
+            width: 96px;
+            height: 76px;
+          }
+        }
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
     }
   }
 }
