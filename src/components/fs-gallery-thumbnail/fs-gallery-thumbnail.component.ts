@@ -1,10 +1,13 @@
-import { Component, Inject, Input, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
+
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators';
 
 import { FsGalleryDataItem } from '../../interfaces';
 import {
   FsGalleryService,
-  FsGalleryPreviewFactory,
-  FsGalleryPreviewService
+  FsGalleryPreviewService,
+  FsGalleryPreviewFactory
 } from '../../services';
 
 
@@ -13,26 +16,58 @@ import {
   templateUrl: './fs-gallery-thumbnail.component.html',
   styleUrls: [ './fs-gallery-thumbnail.component.scss' ]
 })
-export class FsGalleryThumbnailComponent implements OnInit {
+export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
 
   @Input() public data: FsGalleryDataItem = null;
+  @Input() public carousel = false;
+
+  @Output() public select = new EventEmitter<FsGalleryDataItem>();
 
   public image: string = null;
+
+  public isActive = false;
+
+  private _destroy$ = new Subject();
 
   constructor(
     public fsGalleryService: FsGalleryService,
     private fsGalleryPreviewService: FsGalleryPreviewService,
-    @Inject(ViewContainerRef) private viewContainerRef,
-    private fsGalleryPreviewFactory: FsGalleryPreviewFactory
+    private fsGalleryPreviewFactory: FsGalleryPreviewFactory,
+    private viewContainerRef: ViewContainerRef
   ) { }
 
   ngOnInit() {
     this.image = this.fsGalleryService.getThumbnailImage(this.data);
+
+    if (this.carousel) {
+      this.watchData();
+    }
   }
 
-  openPreview() {
+  private watchData() {
+    this.fsGalleryPreviewService.data$
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(response => {
+
+        this.isActive =
+          response[this.fsGalleryService.config.indexField] === this.data[this.fsGalleryService.config.indexField];
+      });
+  }
+
+  onSelect() {
+    this.select.emit(this.data);
+  }
+
+  openPreview(data: FsGalleryDataItem) {
     this.fsGalleryPreviewFactory.setRootViewContainerRef(this.viewContainerRef);
-    this.fsGalleryPreviewFactory.addDynamicComponent(this.data);
+    this.fsGalleryPreviewFactory.addDynamicComponent(data);
+  }
+
+  ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
 }

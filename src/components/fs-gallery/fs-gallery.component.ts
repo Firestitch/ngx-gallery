@@ -1,9 +1,21 @@
-import { Component, Input, ContentChild, TemplateRef, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ContentChild,
+  ViewChild,
+  TemplateRef,
+  KeyValueDiffers,
+  OnInit,
+  DoCheck
+} from '@angular/core';
 
 import { FsGalleryPreviewDirective, FsGalleryThumbnailDirective } from '../../directives';
 import { FS_GALLERY_ACCESSOR } from '../../value-accessors';
 import { FsGalleryDataItem, FsGalleryConfig } from '../../interfaces';
-import { FsGalleryService } from '../../services';
+import { FsGalleryThumbnailComponent } from '../fs-gallery-thumbnail';
+import {
+  FsGalleryService
+} from '../../services';
 
 
 @Component({
@@ -12,9 +24,22 @@ import { FsGalleryService } from '../../services';
   styleUrls: [ './fs-gallery.component.scss' ],
   providers: [FS_GALLERY_ACCESSOR, FsGalleryService]
 })
-export class FsGalleryComponent implements OnInit {
+export class FsGalleryComponent implements OnInit, DoCheck {
 
-  @Input() public config: FsGalleryConfig = null;
+  private _config: FsGalleryConfig = null;
+
+  @Input() set config(value: FsGalleryConfig) {
+
+    this._config = value;
+
+    if (!this._differ) {
+      this._differ = this._differs.find({}).create();
+    }
+  }
+
+  get config(): FsGalleryConfig {
+    return this._config;
+  }
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
   public previewTemplate: FsGalleryPreviewDirective = null;
@@ -28,7 +53,12 @@ export class FsGalleryComponent implements OnInit {
   @ContentChild(FsGalleryThumbnailDirective)
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
 
+  @ViewChild('fsGalleryThumbnail')
+  public fsGalleryThumbnail: FsGalleryThumbnailComponent = null;
+
   public model: FsGalleryDataItem[] = [];
+
+  private _differ = null;
 
   _onTouched = () => { };
   _onChange = (value: any) => { };
@@ -38,21 +68,32 @@ export class FsGalleryComponent implements OnInit {
   registerOnTouched(fn: () => any): void { this._onTouched = fn }
 
   constructor(
-    public fsGalleryService: FsGalleryService
-    ) { }
+    public fsGalleryService: FsGalleryService,
+    private _differs: KeyValueDiffers
+  ) { }
 
   ngOnInit() {
     this.fsGalleryService.previewTemplate = this.previewTemplate;
     this.fsGalleryService.thumbnailTemplate = this.thumbnailTemplate;
     this.fsGalleryService.previewDirective = this.previewDirective;
     this.fsGalleryService.thumbnailDirective = this.thumbnailDirective;
-    this.fsGalleryService.config = this.config;
+  }
+
+  ngDoCheck() {
+    const changes = this._differ.diff(this.config);
+    if (changes && this.config) {
+      this.fsGalleryService.config = this.config;
+    }
   }
 
   writeValue(value: FsGalleryDataItem[]): void {
     this.fsGalleryService.model = value;
     this._onChange(this.fsGalleryService.model);
     this.model = this.fsGalleryService.model;
+  }
+
+  openPreview(data: FsGalleryDataItem) {
+    this.fsGalleryThumbnail.openPreview(data);
   }
 
 }

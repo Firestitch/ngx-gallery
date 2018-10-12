@@ -15,8 +15,10 @@
 
 <ng-template #thumbnailsTemplate>
     <fs-gallery-thumbnail
+      #fsGalleryThumbnail
       *ngFor="let item of model"
       [data]="item"
+      (select)="openPreview($event)"
     >
     </fs-gallery-thumbnail>
 </ng-template>

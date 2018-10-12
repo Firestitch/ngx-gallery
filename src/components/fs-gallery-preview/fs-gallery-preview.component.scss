@@ -53,15 +53,27 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          position: relative;
 
           .action {
             display: flex;
             align-items: center;
+            z-index: 1;
+            &.hidden {
+              display: none;
+            }
+            &.prev {
+              margin-right: -30px;
+            }
+            &.next {
+              margin-left: -30px;
+            }
           }
 
           .image-wrap {
             display: contents;
             position: relative;
+            cursor: pointer;
             .image {
               display: flex;
               vertical-align: middle;
@@ -71,6 +83,16 @@
               width: auto !important;
               height: auto !important;
             }
+          }
+
+          .description {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.45);
+            color: #EEE;
+            padding: 10px 40px;
+            position: absolute;
+            bottom: 0;
+            text-align: center;
           }
         }
       }
@@ -100,8 +122,12 @@
   .fs-gallery-preview {
     .wrap {
       padding: 0 0 114px 0 !important;
-      .preview {
-        align-items: start !important;
+      .panel {
+        .preview {
+          .action {
+            display: none !important;
+          }
+        }
       }
     }
   }

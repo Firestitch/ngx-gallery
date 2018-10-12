@@ -18,6 +18,8 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   public image: string = null;
 
+  public imageHover = false;
+
   private _destroy$ = new Subject();
 
   constructor(
@@ -46,6 +48,17 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   next() {
     this.fsGalleryPreviewService.next();
+  }
+
+  imageClick($event) {
+    const cursorX = $event.clientX;
+    const imageWidth = $event.target.width;
+    const windowWidth = $event.view.innerWidth;
+    if (cursorX <= (windowWidth / 2)) {
+      this.prev();
+    } else {
+      this.next();
+    }
   }
 
   @HostListener('document:keydown', ['$event'])

@@ -7,26 +7,34 @@
 
       <div class="preview">
 
-        <a class="action prev" (click)="prev()">
-          <mat-icon>keyboard_arrow_left</mat-icon>
-        </a>
+        <div
+          class="image-wrap"
+          (mouseenter)="imageHover = true"
+          (mouseleave) ="imageHover = false">
 
-        <div class="image-wrap">
-          <img class="image" src="{{ image }}" (swipeleft)="next()" (swiperight)="prev()">
+          <a class="action prev" [ngClass]="{ hidden: !imageHover }" (click)="prev()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </a>
+
+          <img
+            class="image"
+            (click)="imageClick($event)"
+            src="{{ image }}"
+            (swipeleft)="next()"
+            (swiperight)="prev()">
+
+          <a class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </a>
         </div>
 
-        <a class="action next" (click)="next()">
-          <mat-icon>keyboard_arrow_right</mat-icon>
-        </a>
-
+        <div *ngIf="fsGalleryService.previewTemplate" class="description">
+          <ng-template
+            [ngTemplateOutlet]="fsGalleryService.previewTemplate"
+            [ngTemplateOutletContext]="{ item: data }"
+          ></ng-template>
+        </div>
       </div>
-
-      <!-- @TODO
-      <ng-template
-        [ngTemplateOutlet]="fsGalleryService.previewTemplate"
-        [ngTemplateOutletContext]="{ item: data }"
-      ></ng-template>
-      -->
 
       <!-- @TODO place for right sidenav -->
     </div>

@@ -1,6 +1,13 @@
 @import "./../../styles.scss";
 
 :host {
+
+  ::ng-deep {
+    [hidden] {
+      display: none !important;
+    }
+  }
+
   .fs-gallery-thumbnails {
     display: flex;
     flex-wrap: wrap;
