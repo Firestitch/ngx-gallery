@@ -1,10 +1,11 @@
 <div
   class="fs-gallery-thumbnail"
+  id="fs-gallery-thumbnail-{{ data[fsGalleryService.config.indexField] }}"
   [ngStyle]="fsGalleryService.config?.thumbnail?.styles"
   [ngClass]="{ active: isActive, carousel: carousel }"
   (click)="onSelect()">
   <img src="{{ image }}">
-  <div class="fs-gallery-thumbnail-poster" [hidden]="carousel">
+  <div class="fs-gallery-thumbnail-poster" [hidden]="carousel" id="fs-gallery-thumbnail-poster-{{ data[fsGalleryService.config.indexField] }}">
     <mat-icon>{{ fsGalleryService.config.draggable ? 'open_with' : 'search' }}</mat-icon>
   </div>
   <div *ngIf="!carousel && !fsGalleryService.config.draggable" class="fs-gallery-thumbnail-actions">

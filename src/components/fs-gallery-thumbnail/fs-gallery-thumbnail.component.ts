@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewContainerRef, ElementRef, OnInit, OnDestroy } from '@angular/core';
 
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
     private viewContainerRef: ViewContainerRef
   ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.image = this.fsGalleryService.getThumbnailImage(this.data);
 
     if (this.carousel) {
@@ -44,7 +44,7 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private watchData() {
+  public watchData() {
     this.fsGalleryPreviewService.data$
       .pipe(
         takeUntil(this._destroy$)
@@ -56,16 +56,16 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSelect() {
+  public onSelect() {
     this.select.emit(this.data);
   }
 
-  openPreview(data: FsGalleryDataItem) {
+  public openPreview(data: FsGalleryDataItem) {
     this.fsGalleryPreviewFactory.setRootViewContainerRef(this.viewContainerRef);
     this.fsGalleryPreviewFactory.addDynamicComponent(data);
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
   }

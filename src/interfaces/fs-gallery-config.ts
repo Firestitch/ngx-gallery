@@ -6,5 +6,7 @@ export interface FsGalleryConfig {
   repeat?: boolean;
   draggable?: boolean;
   dragName?: string;
+  updateImage?: boolean;
+  addImage?: boolean;
   thumbnail?: FsGalleryThumbnailConfig;
 }
