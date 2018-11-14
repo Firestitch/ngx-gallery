@@ -124,8 +124,10 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
                                        .getElementsByClassName('fs-gallery-thumbnails')[0];
 
     this.ngZone.runOutsideAngular(() => {
-      this._fsGalleryThumbnailsRef.addEventListener('dragover', this._onDragOver, false);
-      this._fsGalleryThumbnailsRef.addEventListener('drop', this._onDragDrop, false);
+      if (this.fsGalleryService.config.addImage) {
+        this._fsGalleryThumbnailsRef.addEventListener('dragover', this._onDragOver, false);
+        this._fsGalleryThumbnailsRef.addEventListener('drop', this._onDragDrop, false);
+      }
     });
   }
 
@@ -153,8 +155,10 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   }
 
   public ngOnDestroy() {
-    this._fsGalleryThumbnailsRef.removeEventListener('dragover', this._onDragOver, false);
-    this._fsGalleryThumbnailsRef.removeEventListener('drop', this._onDragDrop, false);
+    if (this.fsGalleryService.config.addImage) {
+      this._fsGalleryThumbnailsRef.removeEventListener('dragover', this._onDragOver, false);
+      this._fsGalleryThumbnailsRef.removeEventListener('drop', this._onDragDrop, false);
+    }
   }
 
 }
