@@ -6,7 +6,6 @@ import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { DragulaModule } from 'ng2-dragula';
 
 import { FsFileModule } from '@firestitch/file';
-import { FsBadgeModule } from '@firestitch/badge';
 
 import {
   FsGalleryComponent,
