@@ -8,6 +8,7 @@ import {
   ElementRef,
   TemplateRef,
   KeyValueDiffers,
+  NgZone,
   OnInit,
   DoCheck,
   AfterViewInit,
@@ -99,7 +100,8 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   constructor(
     public fsGalleryService: FsGalleryService,
     private _differs: KeyValueDiffers,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private ngZone: NgZone
   ) { }
 
   public ngOnInit() {
@@ -121,8 +123,10 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
                                        .nativeElement
                                        .getElementsByClassName('fs-gallery-thumbnails')[0];
 
-    this._fsGalleryThumbnailsRef.addEventListener('dragover', this._onDragOver, false);
-    this._fsGalleryThumbnailsRef.addEventListener('drop', this._onDragDrop, false);
+    this.ngZone.runOutsideAngular(() => {
+      this._fsGalleryThumbnailsRef.addEventListener('dragover', this._onDragOver, false);
+      this._fsGalleryThumbnailsRef.addEventListener('drop', this._onDragDrop, false);
+    });
   }
 
   public writeValue(value: FsGalleryDataItem[]): void {

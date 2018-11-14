@@ -9,6 +9,7 @@ import { FsGalleryModule } from '../src';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app/material.module';
 import { FsExampleModule } from '@firestitch/example';
+import { FsFileModule } from '@firestitch/file';
 import {  ExampleComponent,
           ExamplesComponent } from './app/components';
 
@@ -26,6 +27,7 @@ const routes: Routes = [
     AppMaterialModule,
     FormsModule,
     FsExampleModule,
+    FsFileModule,
     RouterModule.forRoot(routes),
   ],
   entryComponents: [
