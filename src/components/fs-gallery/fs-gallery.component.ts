@@ -82,6 +82,10 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       return;
     }
 
+    if (!this.fsGalleryService.config.addImage) {
+      return;
+    }
+
     this.addImage.emit(this.fsGalleryService.seekForClosest($event));
   };
 
@@ -117,10 +121,8 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
                                        .nativeElement
                                        .getElementsByClassName('fs-gallery-thumbnails')[0];
 
-    if (this.fsGalleryService.config.addImage) {
-      this._fsGalleryThumbnailsRef.addEventListener('dragover', this._onDragOver, false);
-      this._fsGalleryThumbnailsRef.addEventListener('drop', this._onDragDrop, false);
-    }
+    this._fsGalleryThumbnailsRef.addEventListener('dragover', this._onDragOver, false);
+    this._fsGalleryThumbnailsRef.addEventListener('drop', this._onDragDrop, false);
   }
 
   public writeValue(value: FsGalleryDataItem[]): void {
@@ -147,10 +149,8 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   }
 
   public ngOnDestroy() {
-    if (this.fsGalleryService.config.addImage) {
-      this._fsGalleryThumbnailsRef.removeEventListener('dragover', this._onDragOver, false);
-      this._fsGalleryThumbnailsRef.removeEventListener('drop', this._onDragDrop, false);
-    }
+    this._fsGalleryThumbnailsRef.removeEventListener('dragover', this._onDragOver, false);
+    this._fsGalleryThumbnailsRef.removeEventListener('drop', this._onDragDrop, false);
   }
 
 }
