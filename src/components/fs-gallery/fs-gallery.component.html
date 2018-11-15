@@ -3,7 +3,7 @@
   class="fs-gallery-thumbnails"
   [dragula]="fsGalleryService.config.dragName"
   [dragulaModel]="model"
-  (dragulaModelChange)="writeValue($event)">
+  (dragulaModelChange)="writeValue($event, true)">
   <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
 </div>
 

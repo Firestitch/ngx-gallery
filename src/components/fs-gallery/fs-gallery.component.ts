@@ -51,6 +51,7 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   @Output() public updateImage = new EventEmitter<FsGalleryUpdateImage>();
   @Output() public addImage = new EventEmitter<FsGalleryAddImage>();
+  @Output() public reorderImages = new EventEmitter<FsGalleryDataItem[]>();
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
   public previewTemplate: FsGalleryPreviewDirective = null;
@@ -139,10 +140,14 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     });
   }
 
-  public writeValue(value: FsGalleryDataItem[]): void {
+  public writeValue(value: FsGalleryDataItem[], reorder = false): void {
     this.fsGalleryService.model = value;
     this._onChange(this.fsGalleryService.model);
     this.model = this.fsGalleryService.model;
+
+    if (reorder) {
+      this.reorderImages.emit(this.fsGalleryService.model);
+    }
   }
 
   public openPreview(data: FsGalleryDataItem) {

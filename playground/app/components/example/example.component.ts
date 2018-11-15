@@ -86,4 +86,8 @@ export class ExampleComponent {
     console.log(data);
   }
 
+  public onReorderImages(data) {
+    console.log(data);
+  }
+
 }
