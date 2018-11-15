@@ -78,7 +78,9 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   };
 
   private _onDragDrop = $event => {
+
     $event.preventDefault();
+
     if (this.fsGalleryService.isThumbnail($event.target)) {
       return;
     }
@@ -87,7 +89,13 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       return;
     }
 
-    this.addImage.emit(this.fsGalleryService.seekForClosest($event));
+    if (!$event.dataTransfer.files.length) {
+      return;
+    }
+
+    this.addImage.emit(
+      Object.assign(this.fsGalleryService.seekForClosest($event), { file: $event.dataTransfer.files[0] })
+    );
   };
 
   _onTouched = () => { };

@@ -68,7 +68,7 @@ export class FsGalleryService {
     return indexOf(this.model, { [this.config.indexField]: data[this.config.indexField] });
   }
 
-  public seekForClosest(event): FsGalleryAddImage {
+  public seekForClosest(event) {
     // screenX, screenY
     const x = event.x;
     const y = event.y;
