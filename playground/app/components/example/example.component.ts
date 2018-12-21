@@ -9,7 +9,7 @@ import { FsGalleryConfig } from '../../../../src';
 })
 export class ExampleComponent {
 
-  public config: FsGalleryConfig = { draggable: false, updateImage: true, addImage: true };
+  public config: FsGalleryConfig = { draggable: false };
 
   public items: object[] = [
     {
@@ -72,18 +72,6 @@ export class ExampleComponent {
 
   public switchOrder() {
     this.config.draggable = !this.config.draggable;
-  }
-
-  public switchUpdateImage() {
-    this.config.updateImage = !this.config.updateImage;
-  }
-
-  public onUpdateImage(data) {
-    console.log(data);
-  }
-
-  public onAddImage(data) {
-    console.log(data);
   }
 
   public onReorderImages(data) {

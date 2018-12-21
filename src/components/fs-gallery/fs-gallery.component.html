@@ -14,18 +14,11 @@
 </div>
 
 <ng-template #thumbnailsTemplate>
-  <fs-file
+  <fs-gallery-thumbnail
+    #fsGalleryThumbnail
     *ngFor="let item of model"
-    (select)="onUpdateImage(item, $event)"
-    (click)="onUpdateImageClick($event)"
-    [ngClass]="{ 'update-image': fsGalleryService.config.updateImage }"
-    accept="image/*">
-      <fs-gallery-thumbnail
-        #fsGalleryThumbnail
-        [data]="item"
-        (select)="openPreview($event)"
-        (updateImage)="onUpdateImage($event)"
-      >
-      </fs-gallery-thumbnail>
-  </fs-file>
+    [data]="item"
+    (select)="openPreview($event)"
+  >
+  </fs-gallery-thumbnail>
 </ng-template>

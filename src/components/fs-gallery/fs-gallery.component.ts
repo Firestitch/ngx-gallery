@@ -5,21 +5,15 @@ import {
   ContentChild,
   ViewChild,
   EventEmitter,
-  ElementRef,
   TemplateRef,
   KeyValueDiffers,
-  NgZone,
   OnInit,
-  DoCheck,
-  AfterViewInit,
-  OnDestroy
+  DoCheck
 } from '@angular/core';
-
-import { FsFile } from '@firestitch/file';
 
 import { FsGalleryPreviewDirective, FsGalleryThumbnailDirective } from '../../directives';
 import { FS_GALLERY_ACCESSOR } from '../../value-accessors';
-import { FsGalleryDataItem, FsGalleryConfig, FsGalleryUpdateImage, FsGalleryAddImage } from '../../interfaces';
+import { FsGalleryDataItem, FsGalleryConfig } from '../../interfaces';
 import { FsGalleryThumbnailComponent } from '../fs-gallery-thumbnail';
 import {
   FsGalleryService
@@ -32,7 +26,7 @@ import {
   styleUrls: [ './fs-gallery.component.scss' ],
   providers: [FS_GALLERY_ACCESSOR, FsGalleryService]
 })
-export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
+export class FsGalleryComponent implements OnInit, DoCheck {
 
   private _config: FsGalleryConfig = null;
 
@@ -49,8 +43,6 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     return this._config;
   }
 
-  @Output() public updateImage = new EventEmitter<FsGalleryUpdateImage>();
-  @Output() public addImage = new EventEmitter<FsGalleryAddImage>();
   @Output() public reorderImages = new EventEmitter<FsGalleryDataItem[]>();
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
@@ -72,33 +64,6 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   private _differ = null;
 
-  private _fsGalleryThumbnailsRef = null;
-
-  private _onDragOver = $event => {
-    $event.preventDefault();
-  };
-
-  private _onDragDrop = $event => {
-
-    $event.preventDefault();
-
-    if (this.fsGalleryService.isThumbnail($event.target)) {
-      return;
-    }
-
-    if (!this.fsGalleryService.config.addImage) {
-      return;
-    }
-
-    if (!$event.dataTransfer.files.length) {
-      return;
-    }
-
-    this.addImage.emit(
-      Object.assign(this.fsGalleryService.seekForClosest($event), { file: $event.dataTransfer.files[0] })
-    );
-  };
-
   _onTouched = () => { };
   _onChange = (value: any) => { };
   onFocused = (event: any) => { };
@@ -108,9 +73,7 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   constructor(
     public fsGalleryService: FsGalleryService,
-    private _differs: KeyValueDiffers,
-    private elementRef: ElementRef,
-    private ngZone: NgZone
+    private _differs: KeyValueDiffers
   ) { }
 
   public ngOnInit() {
@@ -127,19 +90,6 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     }
   }
 
-  public ngAfterViewInit() {
-    this._fsGalleryThumbnailsRef = this.elementRef
-                                       .nativeElement
-                                       .getElementsByClassName('fs-gallery-thumbnails')[0];
-
-    this.ngZone.runOutsideAngular(() => {
-      if (this.fsGalleryService.config.addImage) {
-        this._fsGalleryThumbnailsRef.addEventListener('dragover', this._onDragOver, false);
-        this._fsGalleryThumbnailsRef.addEventListener('drop', this._onDragDrop, false);
-      }
-    });
-  }
-
   public writeValue(value: FsGalleryDataItem[], reorder = false): void {
     this.fsGalleryService.model = value;
     this._onChange(this.fsGalleryService.model);
@@ -152,26 +102,6 @@ export class FsGalleryComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   public openPreview(data: FsGalleryDataItem) {
     this.fsGalleryThumbnail.openPreview(data);
-  }
-
-  public onUpdateImage(data: FsGalleryUpdateImage, fsFile: FsFile) {
-
-    if (!this.fsGalleryService.config.updateImage) {
-      return;
-    }
-
-    this.updateImage.emit({ data: data, file: fsFile });
-  }
-
-  public onUpdateImageClick($event) {
-    $event.preventDefault();
-  }
-
-  public ngOnDestroy() {
-    if (this.fsGalleryService.config.addImage) {
-      this._fsGalleryThumbnailsRef.removeEventListener('dragover', this._onDragOver, false);
-      this._fsGalleryThumbnailsRef.removeEventListener('drop', this._onDragDrop, false);
-    }
   }
 
 }
