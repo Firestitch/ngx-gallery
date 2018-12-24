@@ -2,7 +2,7 @@
 
 <div class="fs-gallery-preview">
   <fs-gallery-preview-header></fs-gallery-preview-header>
-  <div class="wrap">
+  <div class="wrap" [ngStyle]="{ 'padding-bottom': fsGalleryService.config.showCarousel ? '114px' : '0' }">
     <div class="panel">
 
       <div class="preview">

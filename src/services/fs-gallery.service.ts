@@ -33,6 +33,7 @@ export class FsGalleryService {
     draggable: false,
     dragName: null,
     repeat: true,
+    showCarousel: true,
     thumbnail: {
       styles: {}
     }
