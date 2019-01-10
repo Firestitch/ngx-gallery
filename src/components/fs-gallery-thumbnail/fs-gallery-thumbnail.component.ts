@@ -20,6 +20,7 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
 
   @Input() public data: FsGalleryDataItem = null;
   @Input() public carousel = false;
+  @Input() public overwriteThumbnailTemplate = false;
 
   @Output() public select = new EventEmitter<FsGalleryDataItem>();
 

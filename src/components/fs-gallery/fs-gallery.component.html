@@ -18,6 +18,7 @@
     #fsGalleryThumbnail
     *ngFor="let item of model"
     [data]="item"
+    [overwriteThumbnailTemplate]="fsGalleryService.config.overwriteThumbnailTemplate"
     (select)="openPreview($event)"
   >
   </fs-gallery-thumbnail>

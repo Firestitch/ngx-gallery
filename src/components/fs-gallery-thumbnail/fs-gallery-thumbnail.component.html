@@ -1,4 +1,5 @@
 <div
+  *ngIf="!overwriteThumbnailTemplate"
   class="fs-gallery-thumbnail"
   id="fs-gallery-thumbnail-{{ data[fsGalleryService.config.indexField] }}"
   [ngStyle]="fsGalleryService.config?.thumbnail?.styles"
@@ -14,4 +15,14 @@
       [ngTemplateOutletContext]="{ item: data }"
     ></ng-template>
   </div>
+</div>
+
+<div
+  class="fs-gallery-thumbnail-custom"
+  *ngIf="overwriteThumbnailTemplate"
+  (click)="onSelect()">
+  <ng-template
+    [ngTemplateOutlet]="fsGalleryService.thumbnailTemplate"
+    [ngTemplateOutletContext]="{ item: data }"
+  ></ng-template>
 </div>

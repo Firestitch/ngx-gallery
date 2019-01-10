@@ -34,6 +34,7 @@ export class FsGalleryService {
     dragName: null,
     repeat: true,
     showCarousel: true,
+    overwriteThumbnailTemplate: false,
     thumbnail: {
       styles: {}
     }

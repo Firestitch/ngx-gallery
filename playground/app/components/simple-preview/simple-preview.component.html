@@ -1,0 +1,10 @@
+<fs-gallery
+  [(ngModel)]="items"
+  [config]="config">
+  <ng-template fsGalleryThumbnail image="image" let-item="item">
+    <a>{{ item.image }}</a>
+  </ng-template>
+  <ng-template fsGalleryPreview image="image" let-item="item">
+    <div>{{ item.description }}</div>
+  </ng-template>
+</fs-gallery>
