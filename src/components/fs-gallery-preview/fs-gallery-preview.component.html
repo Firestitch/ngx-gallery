@@ -12,7 +12,7 @@
           (mouseenter)="imageHover = true"
           (mouseleave) ="imageHover = false">
 
-          <a class="action prev" [ngClass]="{ hidden: !imageHover }" (click)="prev()">
+          <a *ngIf="fsGalleryService.model.length > 1" class="action prev" [ngClass]="{ hidden: !imageHover }" (click)="prev()">
             <mat-icon>keyboard_arrow_left</mat-icon>
           </a>
 
@@ -23,7 +23,7 @@
             (swipeleft)="next()"
             (swiperight)="prev()">
 
-          <a class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">
+          <a *ngIf="fsGalleryService.model.length > 1" class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </a>
         </div>
