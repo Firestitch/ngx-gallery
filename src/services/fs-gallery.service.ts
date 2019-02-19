@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { indexOf } from '@firestitch/common/array';
-import { guid } from '@firestitch/common/util';
+import { indexOf } from '@firestitch/common';
+import { guid } from '@firestitch/common';
 
 import { get } from 'lodash';
 
