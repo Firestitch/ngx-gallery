@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { FsGalleryConfig } from '../../../../src';
+import { FsGalleryConfig } from '@firestitch/gallery';
 
 
 @Component({
