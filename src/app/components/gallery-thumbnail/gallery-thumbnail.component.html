@@ -2,14 +2,23 @@
   *ngIf="!overwriteThumbnailTemplate"
   class="fs-gallery-thumbnail"
   id="fs-gallery-thumbnail-{{ data[fsGalleryService.config.indexField] }}"
-  [ngStyle]="fsGalleryService.config?.thumbnail?.styles"
+  [ngStyle]="styles"
   [ngClass]="{ active: isActive, carousel: carousel }"
-  (click)="onSelect()">
-  <img src="{{ image }}">
+  (click)="onSelect()"
+>
+  <img [src]="image" alt="">
+  <div class="description">
+    <div class="name">
+      <span>{{ data.name }}</span>
+    </div>
+  </div>
   <div class="fs-gallery-thumbnail-poster" [hidden]="carousel" id="fs-gallery-thumbnail-poster-{{ data[fsGalleryService.config.indexField] }}">
     <mat-icon>{{ fsGalleryService.config.draggable ? 'open_with' : 'search' }}</mat-icon>
   </div>
-  <div *ngIf="!carousel && !fsGalleryService.config.draggable" class="fs-gallery-thumbnail-actions">
+  <div *ngIf="!carousel && !fsGalleryService.config.draggable"
+       class="fs-gallery-thumbnail-actions"
+       (click)="preventEventPropagation($event)"
+  >
     <ng-template
       [ngTemplateOutlet]="fsGalleryService.thumbnailTemplate"
       [ngTemplateOutletContext]="{ item: data }"

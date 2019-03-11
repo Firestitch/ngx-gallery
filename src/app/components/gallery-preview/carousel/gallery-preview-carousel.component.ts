@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 import { FsGalleryPreviewService } from '../../../services/gallery-preview.service';
 import { FsGalleryService } from '../../../services/gallery.service';
 
-import { FsGalleryDataItem } from '../../../interfaces/gallery-data-item';
+import { FsGalleryDataItem } from '../../../interfaces/gallery-data-item.interface';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { FsGalleryDataItem } from '../../../interfaces/gallery-data-item';
 })
 export class FsGalleryPreviewCarouselComponent implements OnInit {
 
-  public model: FsGalleryDataItem[] = [];
+  public data$: BehaviorSubject<FsGalleryDataItem[]>;
 
   constructor(
     private fsGalleryPreviewService: FsGalleryPreviewService,
@@ -21,7 +22,7 @@ export class FsGalleryPreviewCarouselComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.model = this.fsGalleryService.model;
+    this.data$ = this.fsGalleryService.data$;
   }
 
   onSelect(data: FsGalleryDataItem) {

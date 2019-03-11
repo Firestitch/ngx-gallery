@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, ViewContainerRef, OnInit, OnDes
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { FsGalleryDataItem } from '../../interfaces/gallery-data-item';
+import { FsGalleryDataItem } from '../../interfaces/gallery-data-item.interface';
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryPreviewService } from '../../services/gallery-preview.service';
 import { FsGalleryPreviewFactory } from '../../services/gallery-preview-factory.service';
@@ -22,6 +22,10 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
   @Output() public select = new EventEmitter<FsGalleryDataItem>();
 
   public image: string = null;
+  public styles = {
+    width: null,
+    height: null,
+  };
 
   public isActive = false;
 
@@ -36,6 +40,11 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.image = this.fsGalleryService.getThumbnailImage(this.data);
+
+    this.fsGalleryService.dimentionsChange$.subscribe(() => {
+      this.styles.width = this.fsGalleryService.imageWidth + 'px';
+      this.styles.height = this.fsGalleryService.imageHeight + 'px';
+    });
 
     if (this.carousel) {
       this.watchData();
@@ -68,4 +77,8 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
+  public preventEventPropagation(event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
 }

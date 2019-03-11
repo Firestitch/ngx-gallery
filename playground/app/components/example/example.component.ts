@@ -1,20 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import { FsGalleryConfig } from '@firestitch/gallery';
+import { FsGalleryComponent, FsGalleryConfig } from '@firestitch/gallery';
+import { ItemType } from '@firestitch/filter';
+
+import { of } from 'rxjs';
 
 
 @Component({
   selector: 'example',
   templateUrl: './example.component.html',
-  styleUrls: ['./example.component.css']
+  styleUrls: ['./example.component.scss']
 })
 export class ExampleComponent {
 
-  public config: FsGalleryConfig = { draggable: false };
+  @ViewChild('gallery')
+  public gallery: FsGalleryComponent;
+  public reorderEnabled = false;
+
+  public config: FsGalleryConfig = {
+    filters: [
+      {
+        name: 'keyword',
+        type: ItemType.Text,
+        label: 'Search',
+        query: 'keyword'
+      }
+    ],
+    draggable: false,
+    fetch: (query) => {
+      console.log('fetch', query);
+
+      return of(this.items);
+    },
+    upload: (files) => {
+      console.log('uploading...', files);
+    }
+  };
+
+/*
+  public config: FsGalleryConfig = {
+    fetch: () => {
+      return of();
+    },
+    filters: [
+      {
+        name: 'keyword',
+        type: ItemType.Text,
+        label: 'Search',
+        query: 'keyword'
+      }
+    ],
+    draggable: false,
+    upload: (files) => {
+      this.items.push(...);
+    }
+  };
+*/
+
 
   public items: object[] = [
     {
       id: 1,
+      name: 'Image 1',
       description: 'Image 1 description',
       image: {
         small: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -23,6 +70,7 @@ export class ExampleComponent {
     },
     {
       id: 2,
+      name: 'Image 2',
       description: 'Image 2 description',
       image: {
         small: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -31,6 +79,7 @@ export class ExampleComponent {
     },
     {
       id: 3,
+      name: 'Image 3',
       description: 'Image 3 description',
       image: {
         small: `https://images.pexels.com/photos/371916/pexels-photo-371916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -39,6 +88,7 @@ export class ExampleComponent {
     },
     {
       id: 4,
+      name: 'Image 4',
       description: 'Image 4 description',
       image: {
         small: `https://images.pexels.com/photos/1209843/pexels-photo-1209843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -47,6 +97,7 @@ export class ExampleComponent {
     },
     {
       id: 5,
+      name: 'Image 5',
       description: 'Image 5 description',
       image: {
         small: `https://images.pexels.com/photos/547119/pexels-photo-547119.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -55,6 +106,7 @@ export class ExampleComponent {
     },
     {
       id: 6,
+      name: 'Image 6',
       description: 'Image 6 description',
       image: {
         small: `https://images.pexels.com/photos/39501/lamborghini-brno-racing-car-automobiles-39501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -63,16 +115,24 @@ export class ExampleComponent {
     },
     {
       id: 7,
+      name: 'Image 7',
       description: 'Image 7 description',
       image: {
         small: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
         large: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
     }
-  ]
+  ];
 
   public switchOrder() {
-    this.config.draggable = !this.config.draggable;
+
+    if (this.gallery.isDragEnabled()) {
+      this.gallery.disableDrag();
+      this.reorderEnabled = false;
+    } else {
+      this.gallery.enableDrag();
+      this.reorderEnabled = true;
+    }
   }
 
   public onReorderImages(data) {

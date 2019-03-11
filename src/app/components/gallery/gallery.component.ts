@@ -6,9 +6,7 @@ import {
   ViewChild,
   EventEmitter,
   TemplateRef,
-  KeyValueDiffers,
   OnInit,
-  DoCheck, Provider, forwardRef
 } from '@angular/core';
 
 import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
@@ -17,37 +15,27 @@ import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.directive';
 import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
 
-import { FsGalleryDataItem } from '../../interfaces/gallery-data-item';
-import { FsGalleryConfig } from '../../interfaces/gallery-config';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FsGalleryDataItem } from '../../interfaces/gallery-data-item.interface';
+import { GalleryConfig } from '../../classes/gallery.config';
+import { BehaviorSubject } from 'rxjs';
 
-
-export const FS_GALLERY_ACCESSOR: Provider = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => FsGalleryComponent),
-  multi: true
-};
 
 @Component({
   selector: 'fs-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: [ './gallery.component.scss' ],
-  providers: [FS_GALLERY_ACCESSOR, FsGalleryService]
+  providers: [ FsGalleryService ]
 })
-export class FsGalleryComponent implements OnInit, DoCheck {
+export class FsGalleryComponent implements OnInit {
 
-  private _config: FsGalleryConfig = null;
+  private _config: GalleryConfig = null;
 
-  @Input() set config(value: FsGalleryConfig) {
-
-    this._config = value;
-
-    if (!this._differ) {
-      this._differ = this._differs.find({}).create();
-    }
+  @Input() set config(value) {
+    this._config = new GalleryConfig(value);
+    this.galleryService.config = this.config;
   }
 
-  get config(): FsGalleryConfig {
+  get config(): GalleryConfig {
     return this._config;
   }
 
@@ -68,43 +56,28 @@ export class FsGalleryComponent implements OnInit, DoCheck {
   @ViewChild('fsGalleryThumbnail')
   public fsGalleryThumbnail: FsGalleryThumbnailComponent = null;
 
-  public model: FsGalleryDataItem[] = [];
-
-  private _differ = null;
-
-  _onTouched = () => { };
-  _onChange = (value: any) => { };
-  onFocused = (event: any) => { };
-
-  registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
-  registerOnTouched(fn: () => any): void { this._onTouched = fn }
+  public data$: BehaviorSubject<FsGalleryDataItem[]>;
+  public dragEnabled = true;
 
   constructor(
-    public fsGalleryService: FsGalleryService,
-    private _differs: KeyValueDiffers
+    public galleryService: FsGalleryService,
   ) { }
 
   public ngOnInit() {
-    this.fsGalleryService.previewTemplate = this.previewTemplate;
-    this.fsGalleryService.thumbnailTemplate = this.thumbnailTemplate;
-    this.fsGalleryService.previewDirective = this.previewDirective;
-    this.fsGalleryService.thumbnailDirective = this.thumbnailDirective;
+    this.galleryService.previewTemplate = this.previewTemplate;
+    this.galleryService.thumbnailTemplate = this.thumbnailTemplate;
+    this.galleryService.previewDirective = this.previewDirective;
+    this.galleryService.thumbnailDirective = this.thumbnailDirective;
+
+    this.data$ = this.galleryService.data$;
+    this.dragEnabled = this.galleryService.config.draggable;
   }
 
-  public ngDoCheck() {
-    const changes = this._differ.diff(this.config);
-    if (changes && this.config) {
-      this.fsGalleryService.config = this.config;
-    }
-  }
-
-  public writeValue(value: FsGalleryDataItem[], reorder = false): void {
-    this.fsGalleryService.model = value;
-    this._onChange(this.fsGalleryService.model);
-    this.model = this.fsGalleryService.model;
+  public orderChange(value: FsGalleryDataItem[], reorder = false): void {
+    this.data$.next(value);
 
     if (reorder) {
-      this.reorderImages.emit(this.fsGalleryService.model);
+      this.reorderImages.emit(this.data$.getValue());
     }
   }
 
@@ -112,4 +85,19 @@ export class FsGalleryComponent implements OnInit, DoCheck {
     this.fsGalleryThumbnail.openPreview(data);
   }
 
+  public isDragEnabled() {
+    return this.dragEnabled;
+  }
+
+  public enableDrag() {
+    this.dragEnabled = true;
+  }
+
+  public disableDrag() {
+    this.dragEnabled = false;
+  }
+
+  public refresh() {
+    this.galleryService.loadData();
+  }
 }

@@ -2,7 +2,7 @@
 
 <div class="fs-gallery-preview">
   <fs-gallery-preview-header></fs-gallery-preview-header>
-  <div class="wrap" [ngStyle]="{ 'padding-bottom': fsGalleryService.config.showCarousel ? '114px' : '0' }">
+  <div class="wrap" [ngStyle]="{ 'padding-bottom': galleryService.config.showCarousel ? '114px' : '0' }">
     <div class="panel">
 
       <div class="preview">
@@ -12,25 +12,25 @@
           (mouseenter)="imageHover = true"
           (mouseleave) ="imageHover = false">
 
-          <a *ngIf="fsGalleryService.model.length > 1" class="action prev" [ngClass]="{ hidden: !imageHover }" (click)="prev()">
+          <a *ngIf="hasManyItems" class="action prev" [ngClass]="{ hidden: !imageHover }" (click)="prev()">
             <mat-icon>keyboard_arrow_left</mat-icon>
           </a>
 
           <img
             class="image"
             (click)="imageClick($event)"
-            src="{{ image }}"
+            [src]="image"
             (swipeleft)="next()"
             (swiperight)="prev()">
 
-          <a *ngIf="fsGalleryService.model.length > 1" class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">
+          <a *ngIf="hasManyItems" class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </a>
         </div>
 
-        <div *ngIf="fsGalleryService.previewTemplate" class="description">
+        <div *ngIf="galleryService.previewTemplate" class="description">
           <ng-template
-            [ngTemplateOutlet]="fsGalleryService.previewTemplate"
+            [ngTemplateOutlet]="galleryService.previewTemplate"
             [ngTemplateOutletContext]="{ item: data }"
           ></ng-template>
         </div>

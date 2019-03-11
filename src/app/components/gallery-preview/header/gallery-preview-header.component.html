@@ -1,7 +1,7 @@
 <div class="header">
   <div class="actions left">
     <div class="action">
-      <span>{{ activeIndex + 1 }}/{{ model.length }}</span>
+      <span>{{ activeIndex + 1 }}/{{ (data$ | async).length }}</span>
     </div>
   </div>
   <div class="actions right">
