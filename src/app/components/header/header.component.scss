@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.status {
+  display: block;
+  font-size: 13px;
+  color: #999;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.fs-gallery-filter {
+  flex: 1 1 0;
+  box-sizing: border-box;
+}
+
+.zoom-control {
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep {
+  .fs-filter {
+    margin-bottom: 0 !important;
+  }
+}

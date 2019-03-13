@@ -1,24 +1,30 @@
+<fs-gallery-header
+  class="gallery-header"
+  [filterConfig]="config.filterConfig"
+  [zoom]="config.zoom"
+  [upload]="config.upload"
+></fs-gallery-header>
 <div
-  *ngIf="fsGalleryService.config.draggable"
+  *ngIf="dragEnabled"
   class="fs-gallery-thumbnails"
-  [dragula]="fsGalleryService.config.dragName"
-  [dragulaModel]="model"
-  (dragulaModelChange)="writeValue($event, true)">
+  [dragula]="galleryService.config.dragName"
+  [dragulaModel]="data$ | async"
+  (dragulaModelChange)="orderChange($event, true)">
   <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
 </div>
 
 <div
-  *ngIf="!fsGalleryService.config.draggable"
+  *ngIf="!dragEnabled"
   class="fs-gallery-thumbnails">
   <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
 </div>
 
 <ng-template #thumbnailsTemplate>
   <fs-gallery-thumbnail
+    *ngFor="let item of data$ | async"
     #fsGalleryThumbnail
-    *ngFor="let item of model"
     [data]="item"
-    [overwriteThumbnailTemplate]="fsGalleryService.config.overwriteThumbnailTemplate"
+    [overwriteThumbnailTemplate]="galleryService.config.overwriteThumbnailTemplate"
     (select)="openPreview($event)"
   >
   </fs-gallery-thumbnail>

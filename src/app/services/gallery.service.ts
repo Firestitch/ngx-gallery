@@ -1,62 +1,96 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
-import { indexOf, guid } from '@firestitch/common';
+import { indexOf } from '@firestitch/common';
 
+import { BehaviorSubject, Subject } from 'rxjs';
 import { get } from 'lodash-es';
 
-import { FsGalleryDataItem } from '../interfaces/gallery-data-item';
-import { FsGalleryConfig } from '../interfaces/gallery-config';
+import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
 
 import { FsGalleryPreviewDirective } from '../directives/gallery-preview.directive';
 import { FsGalleryThumbnailDirective } from '../directives/gallery-thumbnail.directive';
+import { GalleryConfig } from '../classes/gallery.config';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Injectable()
-export class FsGalleryService {
+export class FsGalleryService implements OnDestroy {
 
   public previewTemplate: FsGalleryPreviewDirective = null;
   public thumbnailTemplate: FsGalleryThumbnailDirective = null;
   public previewDirective: FsGalleryPreviewDirective = null;
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
 
-  private _model: FsGalleryDataItem[] = [];
+  public imageZoom = 187;
 
-  get model(): FsGalleryDataItem[] {
-    return this._model;
+  public dimentionsChange$ = new Subject<void>();
+
+  private filterQuery = {};
+
+  private _data$ = new BehaviorSubject<FsGalleryDataItem[]>([]);
+  private _destroy$ = new Subject<void>();
+  private _imageWidth: number = null;
+  private _imageHeight: number = null;
+  private _config: GalleryConfig = null;
+
+  constructor() { }
+
+  get data$() {
+    return this._data$;
   }
 
-  set model(value: FsGalleryDataItem[]) {
-    value = value || [];
-    this._model = value;
-  }
-
-  private _defaultConfig: FsGalleryConfig = {
-    indexField: 'id',
-    draggable: false,
-    dragName: null,
-    repeat: true,
-    showCarousel: true,
-    overwriteThumbnailTemplate: false,
-    thumbnail: {
-      styles: {}
-    }
-  };
-
-  private _config: FsGalleryConfig = null;
-
-  get config(): FsGalleryConfig {
+  get config(): GalleryConfig {
     return this._config;
   }
 
-  set config(value: FsGalleryConfig) {
-    this._config = Object.assign(this._defaultConfig, value);
+  set config(value: GalleryConfig) {
+    this._config = value;
+    this._config.filterInit = this.filterInit.bind(this);
+    this._config.filterChange = this.filterChange.bind(this);
 
-    if (this.config.draggable && !this.config.dragName) {
-      this.config.dragName = '' + guid();
+    this.loadData();
+  }
+
+  get imageWidth(): number {
+    return this._imageWidth;
+  }
+  get imageHeight(): number {
+    return this._imageHeight;
+  }
+
+  public ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
+  public loadData() {
+    const query = Object.assign({}, this.filterQuery);
+
+    if (this._config.fetch) {
+      this._config
+        .fetch(query)
+        .pipe(
+          takeUntil(this._destroy$),
+        )
+        .subscribe((data) => {
+          this.data$.next(data);
+        });
     }
   }
 
-  constructor() { }
+  public updateImageDims() {
+    this._imageWidth = this.imageZoom;
+    // 0.673 - scale koef.
+    this._imageHeight = this.imageZoom * 0.673;
+
+    this.dimentionsChange$.next();
+  }
+
+  public updateImageZoom(val: number) {
+    this.imageZoom = val;
+
+    this.updateImageDims();
+  }
 
   public getThumbnailImage(data: FsGalleryDataItem) {
     return get(data, this.thumbnailDirective.image, null);
@@ -67,7 +101,16 @@ export class FsGalleryService {
   }
 
   public getDataIndex(data: FsGalleryDataItem) {
-    return indexOf(this.model, { [this.config.indexField]: data[this.config.indexField] });
+    return indexOf(this.data$.getValue(), { [this.config.indexField]: data[this.config.indexField] });
   }
 
+  public filterInit(query) {
+    this.filterQuery = query;
+  }
+
+  public filterChange(query) {
+    this.filterQuery = query;
+
+    this.loadData();
+  }
 }

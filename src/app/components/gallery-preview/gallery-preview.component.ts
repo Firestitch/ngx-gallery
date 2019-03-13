@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryPreviewService } from '../../services/gallery-preview.service';
-import { FsGalleryDataItem } from '../../interfaces/gallery-data-item';
+import { FsGalleryDataItem } from '../../interfaces/gallery-data-item.interface';
 
 
 @Component({
@@ -16,39 +16,33 @@ import { FsGalleryDataItem } from '../../interfaces/gallery-data-item';
 export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   public data: FsGalleryDataItem = null;
-
   public image: string = null;
-
   public imageHover = false;
+
+  public hasManyItems = false;
 
   private _destroy$ = new Subject();
 
   constructor(
-    private fsGalleryPreviewService: FsGalleryPreviewService,
-    public fsGalleryService: FsGalleryService
+    public galleryService: FsGalleryService,
+    private galleryPreviewService: FsGalleryPreviewService,
   ) { }
 
   ngOnInit() {
-    this.fsGalleryPreviewService.data$
-      .pipe(
-        takeUntil(this._destroy$)
-      )
-      .subscribe((data: FsGalleryDataItem) => {
-        this.data = data;
-        this.image = this.fsGalleryService.getPreviewImage(this.data);
-      });
+    this._subscribeToGalleryData();
+    this._subscribeToPreviewData();
   }
 
   close($event) {
-    this.fsGalleryPreviewService.close();
+    this.galleryPreviewService.close();
   }
 
   prev() {
-    this.fsGalleryPreviewService.prev();
+    this.galleryPreviewService.prev();
   }
 
   next() {
-    this.fsGalleryPreviewService.next();
+    this.galleryPreviewService.next();
   }
 
   imageClick($event) {
@@ -66,7 +60,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   onKeydownHandler(event: KeyboardEvent) {
     switch (event.keyCode) {
       case 27:
-        this.fsGalleryPreviewService.close();
+        this.galleryPreviewService.close();
         break;
       case 37:
         this.prev();
@@ -80,6 +74,27 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  private _subscribeToGalleryData() {
+    this.galleryService.data$
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe((data: FsGalleryDataItem[]) => {
+        this.hasManyItems = data.length > 1;
+      });
+  }
+
+  private _subscribeToPreviewData() {
+    this.galleryPreviewService.data$
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe((data: FsGalleryDataItem) => {
+        this.data = data;
+        this.image = this.galleryService.getPreviewImage(this.data);
+      });
   }
 
 }

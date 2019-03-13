@@ -6,6 +6,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FsGalleryModule } from '@firestitch/gallery';
 import { FsExampleModule } from '@firestitch/example';
 import { FsMessageModule } from '@firestitch/message';
+import { FsFileModule } from '@firestitch/file';
+import { FsMenuModule } from '@firestitch/menu';
 
 import { DragulaModule } from 'ng2-dragula';
 import { ToastrModule } from 'ngx-toastr';
@@ -32,6 +34,8 @@ const routes: Routes = [
     FormsModule,
     DragulaModule.forRoot(),
     FsGalleryModule.forRoot(),
+    FsFileModule.forRoot(),
+    FsMenuModule,
     RouterModule.forRoot(routes),
     FsExampleModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),

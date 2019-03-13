@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, Injectable, Inject } from '@angular/core';
 
 import { FsGalleryPreviewComponent } from '../components/gallery-preview/gallery-preview.component';
-import { FsGalleryDataItem } from '../interfaces/gallery-data-item';
+import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
 import { FsGalleryPreviewService } from '../services/gallery-preview.service';
 
 

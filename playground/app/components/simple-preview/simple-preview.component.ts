@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { FsGalleryConfig } from '@firestitch/gallery';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -10,7 +11,15 @@ import { FsGalleryConfig } from '@firestitch/gallery';
 })
 export class SimplePreviewComponent {
 
-  public config: FsGalleryConfig = { draggable: false, overwriteThumbnailTemplate: true, showCarousel: false };
+  public config: FsGalleryConfig = {
+    draggable: false,
+    overwriteThumbnailTemplate: true,
+    showCarousel: false,
+    zoom: false,
+    fetch: (query) => {
+      return of(this.items);
+    }
+  };
 
   public items: object[] = [
     {

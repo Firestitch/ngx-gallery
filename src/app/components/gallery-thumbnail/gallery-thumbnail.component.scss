@@ -28,8 +28,17 @@
 
       &:not(.carousel) {
         &:hover {
+          .fs-gallery-thumbnail-actions {
+            display: block;
+          }
+
+          .description {
+            display: none;
+          }
+
           .fs-gallery-thumbnail-poster {
             background-color: rgba(0, 0, 0, 0.5);
+
             mat-icon {
               display: block;
             }
@@ -47,7 +56,9 @@
       }
 
       .fs-gallery-thumbnail-actions {
+        display: none;
         z-index: 10;
+
         .bottom-left {
           position: absolute;
           left: 0;
@@ -73,6 +84,45 @@
 
     .fs-gallery-thumbnail-custom {
       cursor: pointer;
+    }
+  }
+}
+
+.description {
+  display: flex;
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  right: 0;
+  left: 0;
+  box-sizing: border-box;
+  flex-direction: column;
+  .tags {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    padding: 2px 4px;
+    ::ng-deep {
+      .pill {
+        margin-right: 4px;
+      }
+    }
+  }
+  .name {
+    display: flex;
+    position: relative;
+    color: #ffffff;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.42);
+    padding: 10px 12px;
+
+    span {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

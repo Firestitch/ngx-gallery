@@ -1,0 +1,13 @@
+<button mat-icon-button (click)="zoomOut()" [disabled]="zoomOutDisabled">
+  <mat-icon>remove</mat-icon>
+</button>
+<mat-slider
+  [min]="min"
+  [max]="max"
+  [step]="step"
+  [value]="zoom"
+  (input)="updateImageZoom($event)">
+</mat-slider>
+<button mat-icon-button (click)="zoomIn()" [disabled]="zoomInDisabled">
+  <mat-icon>add</mat-icon>
+</button>

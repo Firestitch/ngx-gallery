@@ -1,14 +1,22 @@
 <div class="actions" fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="10px">
   <button mat-raised-button color="primary" (click)="switchOrder()">
-    {{ config.draggable ? 'Done' : 'Reorder' }}
+    {{ reorderEnabled ? 'Done' : 'Reorder' }}
   </button>
 </div>
 <fs-gallery
-  [(ngModel)]="items"
+  #gallery
   [config]="config"
   (reorderImages)="onReorderImages($event)">
   <ng-template fsGalleryThumbnail image="image.small" let-item="item">
     <a class="bottom-left"><mat-icon>settings</mat-icon></a>
+    <fs-menu class="top-right item-actions">
+      <ng-template fs-menu-item>
+        Item 1
+      </ng-template>
+      <ng-template fs-menu-item>
+        Item 2
+      </ng-template>
+    </fs-menu>
   </ng-template>
   <ng-template fsGalleryPreview image="image.large" let-item="item">
     <div>{{ item.description }}</div>

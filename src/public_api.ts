@@ -20,9 +20,9 @@ export { FsGalleryThumbnailDirective } from './app/directives/gallery-thumbnail.
 export { FsGalleryPreviewDirective } from './app/directives/gallery-preview.directive';
 
 // Interfaces
-export { FsGalleryDataItem } from './app/interfaces/gallery-data-item';
-export { FsGalleryConfig } from './app/interfaces/gallery-config';
-export { FsGalleryThumbnailConfig } from './app/interfaces/gallery-thumbnail-config';
+export { FsGalleryDataItem } from './app/interfaces/gallery-data-item.interface';
+export { FsGalleryConfig } from './app/interfaces/gallery-config.interface';
+export { FsGalleryThumbnailConfig } from './app/interfaces/gallery-thumbnail-config.interface';
 
 // Services
 export { FsGalleryPreviewFactory } from './app/services/gallery-preview-factory.service';
