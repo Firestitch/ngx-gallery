@@ -29,8 +29,15 @@ export class ExampleComponent {
     draggable: false,
     fetch: (query) => {
       console.log('fetch', query);
+      if (!!query.keyword) {
+        const filteredItems = this.items.filter((item: any) => {
+          return item.name.toLowerCase().includes(query.keyword.toLowerCase())
+        });
 
-      return of(this.items);
+        return of(filteredItems);
+      } else {
+        return of(this.items);
+      }
     },
     upload: (files) => {
       console.log('uploading...', files);
@@ -61,7 +68,7 @@ export class ExampleComponent {
   public items: object[] = [
     {
       id: 1,
-      name: 'Image 1',
+      name: 'Scheme',
       description: 'Image 1 description',
       image: {
         small: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -70,7 +77,7 @@ export class ExampleComponent {
     },
     {
       id: 2,
-      name: 'Image 2',
+      name: 'Station',
       description: 'Image 2 description',
       image: {
         small: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -79,7 +86,7 @@ export class ExampleComponent {
     },
     {
       id: 3,
-      name: 'Image 3',
+      name: 'Thunderstorm',
       description: 'Image 3 description',
       image: {
         small: `https://images.pexels.com/photos/371916/pexels-photo-371916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -88,7 +95,7 @@ export class ExampleComponent {
     },
     {
       id: 4,
-      name: 'Image 4',
+      name: 'Color Face',
       description: 'Image 4 description',
       image: {
         small: `https://images.pexels.com/photos/1209843/pexels-photo-1209843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -97,7 +104,7 @@ export class ExampleComponent {
     },
     {
       id: 5,
-      name: 'Image 5',
+      name: 'Lake',
       description: 'Image 5 description',
       image: {
         small: `https://images.pexels.com/photos/547119/pexels-photo-547119.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -106,7 +113,7 @@ export class ExampleComponent {
     },
     {
       id: 6,
-      name: 'Image 6',
+      name: 'Lamborghini',
       description: 'Image 6 description',
       image: {
         small: `https://images.pexels.com/photos/39501/lamborghini-brno-racing-car-automobiles-39501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
@@ -115,7 +122,7 @@ export class ExampleComponent {
     },
     {
       id: 7,
-      name: 'Image 7',
+      name: 'Giraffe',
       description: 'Image 7 description',
       image: {
         small: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
