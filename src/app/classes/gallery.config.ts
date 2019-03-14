@@ -1,5 +1,6 @@
-import { FsGalleryConfig } from '@firestitch/gallery';
 import { guid } from '@firestitch/common';
+
+import { FsGalleryConfig } from '../interfaces/gallery-config.interface';
 
 
 export class GalleryConfig {
