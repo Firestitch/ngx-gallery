@@ -77,7 +77,7 @@ export class ExampleComponent {
     },
     {
       id: 2,
-      name: 'Station',
+      name: 'Russian Nuclear Station in Pripyat',
       description: 'Image 2 description',
       image: {
         small: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
