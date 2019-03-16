@@ -12,23 +12,30 @@
 
     ::ng-deep {
       .fs-gallery-thumbnail {
-        margin-right: 5px;
+        margin-right: 9px;
         display: inline-block;
-        width: 100px !important;
-        height: 80px !important;
         cursor: pointer;
+
+        width: 76px !important;
+        height: 76px !important;
+
+        .description {
+          display: none;
+        }
 
         &.active {
           img {
             border: 2px solid #fff;
-            width: 96px;
-            height: 76px;
           }
         }
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          border: 2px solid transparent;
+          width: 76px !important;
+          height: 76px !important;
+
         }
       }
     }

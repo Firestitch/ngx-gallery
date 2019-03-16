@@ -41,13 +41,15 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.image = this.fsGalleryService.getThumbnailImage(this.data);
 
-    this.fsGalleryService.dimentionsChange$.subscribe(() => {
-      this.styles.width = this.fsGalleryService.imageWidth + 'px';
-      this.styles.height = this.fsGalleryService.imageHeight + 'px';
-    });
-
     if (this.carousel) {
       this.watchData();
+    } else {
+      this.fsGalleryService.dimentionsChange$.subscribe(() => {
+        this.styles.width = this.fsGalleryService.imageWidth + 'px';
+        this.styles.height = this.fsGalleryService.imageHeight + 'px';
+      });
+
+      this.fsGalleryService.updateImageDims();
     }
   }
 

@@ -2,12 +2,12 @@
   *ngIf="!overwriteThumbnailTemplate"
   class="fs-gallery-thumbnail"
   id="fs-gallery-thumbnail-{{ data[fsGalleryService.config.indexField] }}"
-  [ngStyle]="styles"
+  [style.width]="fsGalleryService.imageWidth + 'px'"
   [ngClass]="{ active: isActive, carousel: carousel }"
   (click)="onSelect()"
 >
   <div class="image">
-    <img [src]="image" alt="">
+    <img [src]="image" [ngStyle]="styles" alt="">
   </div>
   <div class="description">
     <div class="name" [matTooltip]="data.name" matTooltipPosition="above">
