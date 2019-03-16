@@ -14,7 +14,7 @@
       <span>{{ data.name }}</span>
     </div>
   </div>
-  <div *ngIf="!carousel && !fsGalleryService.config.draggable"
+  <div *ngIf="!carousel"
        class="fs-gallery-thumbnail-actions"
        (click)="preventEventPropagation($event)"
   >
@@ -23,6 +23,7 @@
       [ngTemplateOutletContext]="{ item: data }"
     ></ng-template>
   </div>
+  
 </div>
 
 <div
