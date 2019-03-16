@@ -10,7 +10,7 @@
     <img [src]="image" alt="">
   </div>
   <div class="description">
-    <div class="name">
+    <div class="name" [matTooltip]="data.name" matTooltipPosition="above">
       <span>{{ data.name }}</span>
     </div>
   </div>
@@ -23,7 +23,6 @@
       [ngTemplateOutletContext]="{ item: data }"
     ></ng-template>
   </div>
-  
 </div>
 
 <div

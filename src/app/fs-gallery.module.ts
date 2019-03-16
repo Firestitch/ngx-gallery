@@ -1,6 +1,11 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatIconModule, MatSliderModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatSliderModule,
+  MatTooltipModule
+} from '@angular/material';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 import { FsFilterModule } from '@firestitch/filter';
@@ -31,6 +36,7 @@ import { HammerConfig } from './classes/hammer-config';
     DragulaModule,
     MatSliderModule,
     MatButtonModule,
+    MatTooltipModule,
     FsFilterModule,
     FsFileModule,
   ],
