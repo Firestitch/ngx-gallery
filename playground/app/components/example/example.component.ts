@@ -26,7 +26,6 @@ export class ExampleComponent {
         query: 'keyword'
       }
     ],
-    draggable: false,
     fetch: (query) => {
       console.log('fetch', query);
       if (!!query.keyword) {
@@ -43,27 +42,7 @@ export class ExampleComponent {
       console.log('uploading...', files);
     }
   };
-
-/*
-  public config: FsGalleryConfig = {
-    fetch: () => {
-      return of();
-    },
-    filters: [
-      {
-        name: 'keyword',
-        type: ItemType.Text,
-        label: 'Search',
-        query: 'keyword'
-      }
-    ],
-    draggable: false,
-    upload: (files) => {
-      this.items.push(...);
-    }
-  };
-*/
-
+  
 
   public items: object[] = [
     {

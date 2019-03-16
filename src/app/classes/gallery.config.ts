@@ -5,7 +5,7 @@ import { FsGalleryConfig } from '../interfaces/gallery-config.interface';
 
 export class GalleryConfig {
   public indexField = 'id';
-  public draggable = false;
+  public draggable = true;
   public dragName = null;
   public repeat = true;
   public showCarousel = true;
@@ -29,7 +29,10 @@ export class GalleryConfig {
 
   private _initConfig(data) {
     this.indexField = data.indexField || this.indexField;
-    this.draggable = !!data.draggable;
+
+    if (data.draggable !== undefined) {
+      this.draggable = data.draggable;
+    }
     this.dragName = data.dragName;
 
     if (!this.dragName) {
