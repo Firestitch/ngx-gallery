@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { FsGalleryComponent, FsGalleryConfig } from '@firestitch/gallery';
+import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
 import { of } from 'rxjs';
@@ -18,6 +18,7 @@ export class ExampleComponent {
   public reorderEnabled = false;
 
   public config: FsGalleryConfig = {
+    allowedFiles: 'image/*, application/pdf, video/*',
     filters: [
       {
         name: 'keyword',
@@ -42,9 +43,9 @@ export class ExampleComponent {
       console.log('uploading...', files);
     }
   };
-  
 
-  public items: object[] = [
+
+  public items: FsGalleryItem[] = [
     {
       id: 1,
       name: 'Scheme',
@@ -107,6 +108,18 @@ export class ExampleComponent {
         small: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
         large: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       }
+    },
+    {
+      id: 8,
+      name: 'Document',
+      file: 'http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf',
+      description: 'PDF description',
+    },
+    {
+      id: 9,
+      name: 'Video',
+      file: 'http://techslides.com/demos/sample-videos/small.mp4',
+      description: 'Video description',
     }
   ];
 

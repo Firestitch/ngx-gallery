@@ -9,15 +9,16 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
-import { FsGalleryService } from '../../services/gallery.service';
-
-import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.directive';
-import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
-
-import { FsGalleryDataItem } from '../../interfaces/gallery-data-item.interface';
-import { GalleryConfig } from '../../classes/gallery.config';
 import { BehaviorSubject } from 'rxjs';
+
+import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
+
+import { FsGalleryService } from '../../services/gallery.service';
+import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.directive';
+
+import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
+import { GalleryConfig } from '../../classes/gallery.config';
+import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class FsGalleryComponent implements OnInit {
     return this._config;
   }
 
-  @Output() public reorderImages = new EventEmitter<FsGalleryDataItem[]>();
+  @Output() public reorderImages = new EventEmitter<FsGalleryItem[]>();
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
   public previewTemplate: FsGalleryPreviewDirective = null;
@@ -56,7 +57,7 @@ export class FsGalleryComponent implements OnInit {
   @ViewChild('fsGalleryThumbnail')
   public fsGalleryThumbnail: FsGalleryThumbnailComponent = null;
 
-  public data$: BehaviorSubject<FsGalleryDataItem[]>;
+  public data$: BehaviorSubject<FsGalleryItem[]>;
   public dragEnabled = true;
 
   constructor(
@@ -73,7 +74,7 @@ export class FsGalleryComponent implements OnInit {
     this.dragEnabled = this.galleryService.config.draggable;
   }
 
-  public orderChange(value: FsGalleryDataItem[], reorder = false): void {
+  public orderChange(value: FsGalleryItem[], reorder = false): void {
     this.data$.next(value);
 
     if (reorder) {
@@ -81,7 +82,7 @@ export class FsGalleryComponent implements OnInit {
     }
   }
 
-  public openPreview(data: FsGalleryDataItem) {
+  public openPreview(data: FsGalleryItem) {
     this.fsGalleryThumbnail.openPreview(data);
   }
 

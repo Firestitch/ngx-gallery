@@ -6,9 +6,29 @@
   [ngClass]="{ active: isActive, carousel: carousel }"
   (click)="onSelect()"
 >
-  <div class="image">
-    <img [src]="image" [ngStyle]="styles" alt="">
-  </div>
+
+  <ng-container [ngSwitch]="data.mime">
+    <ng-template [ngSwitchCase]="'image'">
+      <div class="image">
+        <img [src]="image" [ngStyle]="styles" alt="">
+      </div>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="'video'">
+      <div class="file-icon video" [ngStyle]="styles">
+        <div class="file-ext">{{data.extension}}</div>
+        <mat-icon>videocam</mat-icon>
+      </div>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="'application'">
+      <div class="file-icon application" [ngStyle]="styles">
+        <div class="file-ext">{{data.extension}}</div>
+        <mat-icon>insert_drive_file</mat-icon>
+      </div>
+    </ng-template>
+  </ng-container>
+
   <div class="description">
     <div class="name" [matTooltip]="data.name" matTooltipPosition="above">
       <span>{{ data.name }}</span>

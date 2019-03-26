@@ -5,6 +5,7 @@ import { FsGalleryConfig } from '../interfaces/gallery-config.interface';
 
 export class GalleryConfig {
   public indexField = 'id';
+  public allowedFiles: 'image/*';
   public draggable = true;
   public dragName = null;
   public repeat = true;
@@ -45,6 +46,10 @@ export class GalleryConfig {
 
     if (data.zoom !== undefined) {
       this.zoom = data.zoom;
+    }
+
+    if (data.allowedFiles) {
+      this.allowedFiles = data.allowedFiles;
     }
 
     if (data.thumbnail) {

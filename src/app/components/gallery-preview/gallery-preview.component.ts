@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryPreviewService } from '../../services/gallery-preview.service';
-import { FsGalleryDataItem } from '../../interfaces/gallery-data-item.interface';
+import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { FsGalleryDataItem } from '../../interfaces/gallery-data-item.interface'
 })
 export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
-  public data: FsGalleryDataItem = null;
+  public data: FsGalleryItem = null;
   public image: string = null;
   public imageHover = false;
 
@@ -81,7 +81,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this._destroy$)
       )
-      .subscribe((data: FsGalleryDataItem[]) => {
+      .subscribe((data: FsGalleryItem[]) => {
         this.hasManyItems = data.length > 1;
       });
   }
@@ -91,7 +91,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this._destroy$)
       )
-      .subscribe((data: FsGalleryDataItem) => {
+      .subscribe((data: FsGalleryItem) => {
         this.data = data;
         this.image = this.galleryService.getPreviewImage(this.data);
       });

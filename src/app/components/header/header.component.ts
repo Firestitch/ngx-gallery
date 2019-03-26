@@ -10,6 +10,7 @@ import { FsGalleryService } from '../../services/gallery.service';
 })
 export class FsGalleryHeaderComponent {
 
+  @Input() public allowedFiles;
   @Input() public filterConfig;
   @Input('upload') public uploadCallback;
   @Input('zoom') public zoomEnabled;

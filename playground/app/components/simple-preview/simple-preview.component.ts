@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { FsGalleryConfig } from '@firestitch/gallery';
 import { of } from 'rxjs';
+import { FsGalleryItem } from '../../../../src/app/interfaces/gallery-config.interface';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class SimplePreviewComponent {
     }
   };
 
-  public items: object[] = [
+  public items: FsGalleryItem[] = [
     {
       id: 1,
       description: 'Image 1 description',

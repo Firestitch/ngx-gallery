@@ -3,8 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { FsGalleryPreviewService } from '../../../services/gallery-preview.service';
 import { FsGalleryService } from '../../../services/gallery.service';
-
-import { FsGalleryDataItem } from '../../../interfaces/gallery-data-item.interface';
+import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
 
 
 @Component({
@@ -14,7 +13,7 @@ import { FsGalleryDataItem } from '../../../interfaces/gallery-data-item.interfa
 })
 export class FsGalleryPreviewCarouselComponent implements OnInit {
 
-  public data$: BehaviorSubject<FsGalleryDataItem[]>;
+  public data$: BehaviorSubject<FsGalleryItem[]>;
 
   constructor(
     private fsGalleryPreviewService: FsGalleryPreviewService,
@@ -25,7 +24,7 @@ export class FsGalleryPreviewCarouselComponent implements OnInit {
     this.data$ = this.fsGalleryService.data$;
   }
 
-  onSelect(data: FsGalleryDataItem) {
+  onSelect(data: FsGalleryItem) {
     this.fsGalleryPreviewService.setData(data);
   }
 

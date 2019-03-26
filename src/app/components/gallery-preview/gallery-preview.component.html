@@ -16,12 +16,31 @@
             <mat-icon>keyboard_arrow_left</mat-icon>
           </a>
 
-          <img
-            class="image"
-            (click)="imageClick($event)"
-            [src]="image"
-            (swipeleft)="next()"
-            (swiperight)="prev()">
+
+          <ng-container [ngSwitch]="data.mime">
+            <ng-template [ngSwitchCase]="'image'">
+              <img
+                class="image"
+                (click)="imageClick($event)"
+                [src]="image"
+                (swipeleft)="next()"
+                (swiperight)="prev()">
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="'video'">
+              <div class="file-icon video">
+                <div class="file-ext">{{data.extension}}</div>
+                <mat-icon>videocam</mat-icon>
+              </div>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="'application'">
+              <div class="file-icon application">
+                <div class="file-ext">{{data.extension}}</div>
+                <mat-icon>insert_drive_file</mat-icon>
+              </div>
+            </ng-template>
+          </ng-container>
 
           <a *ngIf="hasManyItems" class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">
             <mat-icon>keyboard_arrow_right</mat-icon>

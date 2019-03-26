@@ -3,10 +3,10 @@ import { Component, Input, Output, EventEmitter, ViewContainerRef, OnInit, OnDes
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { FsGalleryDataItem } from '../../interfaces/gallery-data-item.interface';
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryPreviewService } from '../../services/gallery-preview.service';
 import { FsGalleryPreviewFactory } from '../../services/gallery-preview-factory.service';
+import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 
 @Component({
   selector: 'fs-gallery-thumbnail',
@@ -15,11 +15,11 @@ import { FsGalleryPreviewFactory } from '../../services/gallery-preview-factory.
 })
 export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
 
-  @Input() public data: FsGalleryDataItem = null;
+  @Input() public data: FsGalleryItem = null;
   @Input() public carousel = false;
   @Input() public overwriteThumbnailTemplate = false;
 
-  @Output() public select = new EventEmitter<FsGalleryDataItem>();
+  @Output() public select = new EventEmitter<FsGalleryItem>();
 
   public image: string = null;
   public styles = {
@@ -69,7 +69,7 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
     this.select.emit(this.data);
   }
 
-  public openPreview(data: FsGalleryDataItem) {
+  public openPreview(data: FsGalleryItem) {
     this.fsGalleryPreviewFactory.setRootViewContainerRef(this.viewContainerRef);
     this.fsGalleryPreviewFactory.addDynamicComponent(data);
   }

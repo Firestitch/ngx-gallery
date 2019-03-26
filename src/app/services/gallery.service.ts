@@ -3,14 +3,14 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { indexOf } from '@firestitch/common';
 
 import { BehaviorSubject, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+
+
 import { get } from 'lodash-es';
-
-import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
-
 import { FsGalleryPreviewDirective } from '../directives/gallery-preview.directive';
 import { FsGalleryThumbnailDirective } from '../directives/gallery-thumbnail.directive';
 import { GalleryConfig } from '../classes/gallery.config';
-import { takeUntil } from 'rxjs/operators';
+import { FsGalleryItem } from '../interfaces/gallery-config.interface';
 
 
 @Injectable()
@@ -27,7 +27,7 @@ export class FsGalleryService implements OnDestroy {
 
   private filterQuery = {};
 
-  private _data$ = new BehaviorSubject<FsGalleryDataItem[]>([]);
+  private _data$ = new BehaviorSubject<FsGalleryItem[]>([]);
   private _destroy$ = new Subject<void>();
   private _imageWidth: number = null;
   private _imageHeight: number = null;
@@ -71,6 +71,25 @@ export class FsGalleryService implements OnDestroy {
         .fetch(query)
         .pipe(
           takeUntil(this._destroy$),
+          map((items: any) => {
+            return items.reduce((acc, item) => {
+              const newItem = Object.assign({}, item);
+
+              if (newItem.file) {
+                this.detectExtensionType(newItem, newItem.file);
+              } else {
+                const fileName = typeof newItem.image === 'string'
+                  ? newItem.image
+                  : newItem.image.small;
+
+                this.detectExtensionType(newItem, fileName);
+              }
+
+              acc.push(newItem);
+
+              return acc;
+            }, []);
+          }),
         )
         .subscribe((data) => {
           this.data$.next(data);
@@ -92,15 +111,15 @@ export class FsGalleryService implements OnDestroy {
     this.updateImageDims();
   }
 
-  public getThumbnailImage(data: FsGalleryDataItem) {
+  public getThumbnailImage(data: FsGalleryItem) {
     return get(data, this.thumbnailDirective.image, null);
   }
 
-  public getPreviewImage(data: FsGalleryDataItem) {
+  public getPreviewImage(data: FsGalleryItem) {
     return get(data, this.previewDirective.image, null);
   }
 
-  public getDataIndex(data: FsGalleryDataItem) {
+  public getDataIndex(data: FsGalleryItem) {
     return indexOf(this.data$.getValue(), { [this.config.indexField]: data[this.config.indexField] });
   }
 
@@ -112,5 +131,25 @@ export class FsGalleryService implements OnDestroy {
     this.filterQuery = query;
 
     this.loadData();
+  }
+
+  private detectExtensionType(item, fileName) {
+    const match = fileName.toLowerCase().match(/([^\.]+)$/);
+    item.extension = match ? match[1] : '';
+
+    const imageExtension = item.extension.match(/(jpe?g|png|gif|tiff?|bmp)/);
+    const videoExtension = item.extension.match(/(mov|avi|wmv|flv|3gp|mp4|mpg)/);
+
+    if (imageExtension) {
+      item.mime = 'image';
+      item.extension = imageExtension[0];
+    } else if (videoExtension) {
+      item.mime = 'video';
+      item.extension = videoExtension[0];
+    } else {
+      item.mime = 'application'
+    }
+
+    item.type = item.mime + '/' + item.extension;
   }
 }

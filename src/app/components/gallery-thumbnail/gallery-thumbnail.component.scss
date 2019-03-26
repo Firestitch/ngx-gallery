@@ -60,6 +60,14 @@
           max-height: 38px;
         }
 
+        .application-icon {
+          color: #962e9e;
+        }
+
+        .video-icon {
+          color: #006665;
+        }
+
         .bottom-left {
           position: absolute;
           left: 0;
@@ -131,4 +139,8 @@
   .description {
     display: none;
   }
+}
+
+.file-icon {
+  border: 1px solid #ccc;
 }

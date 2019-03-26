@@ -3,7 +3,9 @@
   .fs-gallery-preview-carousel {
     // Scroll doesn't work correctly with display: flex; and jsustify-content: center;
     position: absolute;
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     width: 100%;
     margin: 15px 0;
     white-space: nowrap;
@@ -24,18 +26,21 @@
         }
 
         &.active {
-          img {
+          img, .file-icon {
             border: 2px solid #fff;
           }
         }
         img {
-          width: 100%;
-          height: 100%;
           object-fit: cover;
           border: 2px solid transparent;
           width: 76px !important;
           height: 76px !important;
+        }
 
+        .file-icon {
+          width: 76px !important;
+          height: 76px !important;
+          border: 2px solid transparent;
         }
       }
     }

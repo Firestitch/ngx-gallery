@@ -14,7 +14,7 @@
   </fs-gallery-zoom-control>
   <fs-file *ngIf="uploadCallback"
            (select)="upload($event)"
-           accept="image/*"
+           [accept]="allowedFiles"
            multiple="true"
   >
     <button mat-raised-button color="primary">Upload</button>
