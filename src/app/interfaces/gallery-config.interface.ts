@@ -5,6 +5,10 @@ import { Observable } from 'rxjs';
 export interface FsGalleryConfig {
   allowedFiles?: string;
   indexField?: string;
+  fileField?: string;
+  imageField?: string;
+  thumbnailField?: string;
+  nameField?: string;
   repeat?: boolean;
   draggable?: boolean;
   filter?: any;
@@ -18,19 +22,6 @@ export interface FsGalleryConfig {
   thumbnail?: FsGalleryThumbnailConfig;
 }
 
-export type FsGalleryItem = FsGalleryItemData & (FsGalleryImageItem | FsGalleryFileItem);
-
-export interface FsGalleryItemData {
+export interface FsGalleryItem {
   [key: string]: any;
-}
-
-export interface FsGalleryImageItem {
-  image: {
-    small?: string;
-    large?: string;
-  } | string;
-}
-
-export interface FsGalleryFileItem {
-  file: string;
 }

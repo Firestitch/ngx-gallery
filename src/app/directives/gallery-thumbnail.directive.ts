@@ -1,10 +1,7 @@
-import { Directive, Input } from '@angular/core';
+import { Directive } from '@angular/core';
 
 
 @Directive({
   selector: '[fsGalleryThumbnail]'
 })
-export class FsGalleryThumbnailDirective {
-
-  @Input() public image: string = null;
-}
+export class FsGalleryThumbnailDirective {}

@@ -17,7 +17,7 @@
           </a>
 
 
-          <ng-container [ngSwitch]="data.mime">
+          <ng-container [ngSwitch]="data.galleryMime">
             <ng-template [ngSwitchCase]="'image'">
               <img
                 class="image"
@@ -29,17 +29,24 @@
 
             <ng-template [ngSwitchCase]="'video'">
               <div class="file-icon video">
-                <div class="file-ext">{{data.extension}}</div>
+                <div class="file-ext">{{data.galleryExtension}}</div>
                 <mat-icon>videocam</mat-icon>
               </div>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'application'">
               <div class="file-icon application">
-                <div class="file-ext">{{data.extension}}</div>
+                <div class="file-ext">{{data.galleryExtension}}</div>
                 <mat-icon>insert_drive_file</mat-icon>
               </div>
             </ng-template>
+
+            <ng-template ngSwitchDefault>
+              <div class="file-icon unknown">
+                <mat-icon>help</mat-icon>
+              </div>
+            </ng-template>
+
           </ng-container>
 
           <a *ngIf="hasManyItems" class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">

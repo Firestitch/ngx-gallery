@@ -7,7 +7,7 @@
   (click)="onSelect()"
 >
 
-  <ng-container [ngSwitch]="data.mime">
+  <ng-container [ngSwitch]="data.galleryMime">
     <ng-template [ngSwitchCase]="'image'">
       <div class="image">
         <img [src]="image" [ngStyle]="styles" alt="">
@@ -16,15 +16,21 @@
 
     <ng-template [ngSwitchCase]="'video'">
       <div class="file-icon video" [ngStyle]="styles">
-        <div class="file-ext">{{data.extension}}</div>
+        <div class="file-ext">{{data.galleryExtension}}</div>
         <mat-icon>videocam</mat-icon>
       </div>
     </ng-template>
 
     <ng-template [ngSwitchCase]="'application'">
       <div class="file-icon application" [ngStyle]="styles">
-        <div class="file-ext">{{data.extension}}</div>
+        <div class="file-ext">{{data.galleryExtension}}</div>
         <mat-icon>insert_drive_file</mat-icon>
+      </div>
+    </ng-template>
+
+    <ng-template ngSwitchDefault>
+      <div class="file-icon unknown" [ngStyle]="styles">
+        <mat-icon>help</mat-icon>
       </div>
     </ng-template>
   </ng-container>

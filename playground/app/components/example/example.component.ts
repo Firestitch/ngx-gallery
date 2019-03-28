@@ -19,6 +19,10 @@ export class ExampleComponent {
 
   public config: FsGalleryConfig = {
     allowedFiles: 'image/*, application/pdf, video/*',
+    fileField: 'file',
+    nameField: 'name',
+    imageField: 'image.large',
+    thumbnailField: 'image.small',
     filters: [
       {
         name: 'keyword',

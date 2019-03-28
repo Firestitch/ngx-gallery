@@ -2,24 +2,24 @@
   #gallery
   [config]="config"
   (reorderImages)="onReorderImages($event)">
-  <ng-template fsGalleryThumbnail image="image.small" let-item="item">
+  <ng-template fsGalleryThumbnail let-item="item">
     <a class="bottom-left"
-       [ngClass]="{'image-icon': item.mime === 'image'}"
-       *ngIf="item.mime === 'image'"
+       [ngClass]="{'image-icon': item.galleryMime === 'image'}"
+       *ngIf="item.galleryMime === 'image'"
     >
       <mat-icon>image</mat-icon>
     </a>
 
     <a class="bottom-left"
-       [ngClass]="{'application-icon': item.mime === 'application'}"
-       *ngIf="item.mime === 'application'"
+       [ngClass]="{'application-icon': item.galleryMime === 'application'}"
+       *ngIf="item.galleryMime === 'application'"
     >
       <mat-icon>insert_drive_file</mat-icon>
     </a>
 
     <a class="bottom-left"
-       [ngClass]="{'video-icon': item.mime === 'video'}"
-       *ngIf="item.mime === 'video'"
+       [ngClass]="{'video-icon': item.galleryMime === 'video'}"
+       *ngIf="item.galleryMime === 'video'"
     >
       <mat-icon>videocam</mat-icon>
     </a>
@@ -33,7 +33,7 @@
       </ng-template>
     </fs-menu>
   </ng-template>
-  <ng-template fsGalleryPreview image="image.large" let-item="item">
+  <ng-template fsGalleryPreview let-item="item">
     <div>{{ item.description }}</div>
   </ng-template>
 </fs-gallery>

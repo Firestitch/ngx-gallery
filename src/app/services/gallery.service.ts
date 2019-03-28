@@ -75,14 +75,12 @@ export class FsGalleryService implements OnDestroy {
             return items.reduce((acc, item) => {
               const newItem = Object.assign({}, item);
 
-              if (newItem.file) {
-                this.detectExtensionType(newItem, newItem.file);
-              } else {
-                const fileName = typeof newItem.image === 'string'
-                  ? newItem.image
-                  : newItem.image.small;
+              const link = this.getFileLink(newItem)
+                || this.getPreviewImage(newItem)
+                || this.getThumbnailImage(newItem);
 
-                this.detectExtensionType(newItem, fileName);
+              if (link) {
+                this.detectExtensionType(newItem, link);
               }
 
               acc.push(newItem);
@@ -112,11 +110,19 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public getThumbnailImage(data: FsGalleryItem) {
-    return get(data, this.thumbnailDirective.image, null);
+    return get(data, this.config.thumbnailField, null);
   }
 
   public getPreviewImage(data: FsGalleryItem) {
-    return get(data, this.previewDirective.image, null);
+    return get(data, this.config.imageField, null);
+  }
+
+  public getFileLink(data: FsGalleryItem) {
+    return get(data, this.config.fileField, null);
+  }
+
+  public getName(data: FsGalleryItem) {
+    return get(data, this.config.nameField, null);
   }
 
   public getDataIndex(data: FsGalleryItem) {
@@ -135,21 +141,21 @@ export class FsGalleryService implements OnDestroy {
 
   private detectExtensionType(item, fileName) {
     const match = fileName.toLowerCase().match(/([^\.]+)$/);
-    item.extension = match ? match[1] : '';
+    item.galleryExtension = match ? match[1] : '';
 
-    const imageExtension = item.extension.match(/(jpe?g|png|gif|tiff?|bmp)/);
-    const videoExtension = item.extension.match(/(mov|avi|wmv|flv|3gp|mp4|mpg)/);
+    const imageExtension = item.galleryExtension.match(/(jpe?g|png|gif|tiff?|bmp)/);
+    const videoExtension = item.galleryExtension.match(/(mov|avi|wmv|flv|3gp|mp4|mpg)/);
 
     if (imageExtension) {
-      item.mime = 'image';
-      item.extension = imageExtension[0];
+      item.galleryMime = 'image';
+      item.galleryExtension = imageExtension[0];
     } else if (videoExtension) {
-      item.mime = 'video';
-      item.extension = videoExtension[0];
+      item.galleryMime = 'video';
+      item.galleryExtension = videoExtension[0];
     } else {
-      item.mime = 'application'
+      item.galleryMime = 'application'
     }
 
-    item.type = item.mime + '/' + item.extension;
+    item.type = item.galleryMime + '/' + item.extension;
   }
 }

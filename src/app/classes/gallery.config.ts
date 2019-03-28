@@ -5,7 +5,11 @@ import { FsGalleryConfig } from '../interfaces/gallery-config.interface';
 
 export class GalleryConfig {
   public indexField = 'id';
-  public allowedFiles: 'image/*';
+  public allowedFiles = 'image/*';
+  public fileField: string;
+  public imageField: string;
+  public thumbnailField: string;
+  public nameField: string;
   public draggable = true;
   public dragName = null;
   public repeat = true;
@@ -55,6 +59,11 @@ export class GalleryConfig {
     if (data.thumbnail) {
       this.thumbnail = Object.assign({}, this.thumbnail, data.thumbnail);
     }
+
+    this.fileField = data.fileField;
+    this.imageField = data.imageField;
+    this.thumbnailField = data.thumbnailField;
+    this.nameField = data.nameField;
 
     if (data.upload) {
       this.upload = data.upload;
