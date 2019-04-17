@@ -54,12 +54,12 @@
           </a>
         </div>
 
-        <div *ngIf="galleryService.previewTemplate" class="description">
+        <ng-container *ngIf="galleryService.previewTemplate">
           <ng-template
             [ngTemplateOutlet]="galleryService.previewTemplate"
-            [ngTemplateOutletContext]="{ item: data }"
-          ></ng-template>
-        </div>
+            [ngTemplateOutletContext]="{ item: data }">
+          </ng-template>
+        </ng-container>
       </div>
 
       <!-- @TODO place for right sidenav -->

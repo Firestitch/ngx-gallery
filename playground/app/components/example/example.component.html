@@ -5,22 +5,19 @@
   <ng-template fsGalleryThumbnail let-item="item">
     <a class="bottom-left"
        [ngClass]="{'image-icon': item.galleryMime === 'image'}"
-       *ngIf="item.galleryMime === 'image'"
-    >
+       *ngIf="item.galleryMime === 'image'">
       <mat-icon>image</mat-icon>
     </a>
 
     <a class="bottom-left"
        [ngClass]="{'application-icon': item.galleryMime === 'application'}"
-       *ngIf="item.galleryMime === 'application'"
-    >
+       *ngIf="item.galleryMime === 'application'">
       <mat-icon>insert_drive_file</mat-icon>
     </a>
 
     <a class="bottom-left"
        [ngClass]="{'video-icon': item.galleryMime === 'video'}"
-       *ngIf="item.galleryMime === 'video'"
-    >
+       *ngIf="item.galleryMime === 'video'">
       <mat-icon>videocam</mat-icon>
     </a>
 
@@ -34,6 +31,6 @@
     </fs-menu>
   </ng-template>
   <ng-template fsGalleryPreview let-item="item">
-    <div>{{ item.description }}</div>
+    <div class="description">{{ item.description }}</div>
   </ng-template>
 </fs-gallery>

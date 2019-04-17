@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Renderer2, RendererFactory2 } from '@angular/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -14,11 +14,12 @@ export class FsGalleryPreviewService implements OnDestroy {
   public data$ = this._data.asObservable();
 
   private dataItem: FsGalleryDataItem = null;
-
+  private renderer: Renderer2;
   private _instance = null;
   private _destroy$ = new Subject();
 
-  constructor() {
+  constructor(private rendererFactory: RendererFactory2) {
+    this.renderer = rendererFactory.createRenderer(null, null);
     this.data$
       .pipe(
         takeUntil(this._destroy$)
@@ -33,6 +34,7 @@ export class FsGalleryPreviewService implements OnDestroy {
     }
 
     this._instance = value;
+    this.renderer.addClass(document.body, 'fs-gallery-preview-open');
   }
 
   get instance() {
@@ -82,7 +84,7 @@ export class FsGalleryPreviewService implements OnDestroy {
   }
 
   close() {
+    this.renderer.removeClass(document.body, 'fs-gallery-preview-open');
     this.instance.destroy();
   }
-
 }
