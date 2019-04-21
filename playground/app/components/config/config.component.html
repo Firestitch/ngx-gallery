@@ -1,0 +1,26 @@
+<div fsDrawerContent>
+
+  <h2>Configure</h2>
+
+  <div fxLayout="column">
+
+    <fs-label>Options</fs-label>
+    <mat-checkbox [(ngModel)]="config.toolbar">Toolbar</mat-checkbox>
+    <mat-checkbox [(ngModel)]="config.info" (ngModelChange)="infoChange($event)">Enable Info</mat-checkbox>
+
+    <div *ngIf="config.info">
+        <mat-checkbox [(ngModel)]="config.info.icon">Enable Info Icon</mat-checkbox>
+    </div>
+
+    <br>
+
+    <mat-form-field>
+      <input matInput placeholder="Image Width" type="number" [(ngModel)]="config.imageWidth" (ngModelChange)="imageChange()">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Image Height Scale" [(ngModel)]="config.imageHeightScale" (ngModelChange)="imageChange()">
+    </mat-form-field>
+  </div>
+
+</div>

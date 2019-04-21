@@ -4,7 +4,9 @@
   [filterConfig]="config.filterConfig"
   [zoom]="config.zoom"
   [upload]="config.upload"
-></fs-gallery-header>
+  *ngIf="config.toolbar!==false">
+</fs-gallery-header>
+
 <div
   *ngIf="dragEnabled"
   class="fs-gallery-thumbnails"
@@ -26,7 +28,6 @@
     #fsGalleryThumbnail
     [data]="item"
     [overwriteThumbnailTemplate]="galleryService.config.overwriteThumbnailTemplate"
-    (select)="openPreview($event)"
-  >
+    (select)="openPreview($event)">
   </fs-gallery-thumbnail>
 </ng-template>

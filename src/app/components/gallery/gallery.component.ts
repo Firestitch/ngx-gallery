@@ -75,6 +75,11 @@ export class FsGalleryComponent implements OnInit {
   }
 
   public orderChange(value: FsGalleryItem[], reorder = false): void {
+
+    if (this.config.reorderEnd) {
+      this.config.reorderEnd(this.data$.getValue());
+    }
+
     this.data$.next(value);
 
     if (reorder) {
@@ -83,7 +88,9 @@ export class FsGalleryComponent implements OnInit {
   }
 
   public openPreview(data: FsGalleryItem) {
-    this.fsGalleryThumbnail.openPreview(data);
+    if (data.galleryMime === 'image') {
+      this.fsGalleryThumbnail.openPreview(data);
+    }
   }
 
   public isDragEnabled() {

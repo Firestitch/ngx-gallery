@@ -4,6 +4,9 @@ import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem } from '@firestitch/
 import { ItemType } from '@firestitch/filter';
 
 import { of } from 'rxjs';
+import { FsDrawerService, FsDrawerAction } from '@firestitch/drawer';
+import { ConfigComponent } from '../config/config.component';
+import { clone } from 'lodash-es';
 
 
 @Component({
@@ -23,6 +26,28 @@ export class ExampleComponent {
     nameField: 'name',
     imageField: 'image.large',
     thumbnailField: 'image.small',
+    imageHeightScale: 0.674,
+    imageWidth: 200,
+    info: {
+      icon: true,
+      menu: {
+        actions: [
+          {
+            label: 'Info',
+            click: (item: FsGalleryItem) => {
+              console.log(item);
+            }
+          },
+          {
+            label: 'Delete',
+            click: (item: FsGalleryItem) => {
+              console.log(item);
+            }
+          }
+        ]
+      }
+    },
+    toolbar: true,
     filters: [
       {
         name: 'keyword',
@@ -31,6 +56,9 @@ export class ExampleComponent {
         query: 'keyword'
       }
     ],
+    reorderEnd: (data) => {
+      console.log(data);
+    },
     fetch: (query) => {
       console.log('fetch', query);
       if (!!query.keyword) {
@@ -47,6 +75,38 @@ export class ExampleComponent {
       console.log('uploading...', files);
     }
   };
+
+  constructor(public drawer: FsDrawerService) {}
+
+  public configure() {
+    const drawerRef = this.drawer.open(ConfigComponent, {
+      data: {
+        config: this.gallery.config,
+        defaultConfig: clone(this.gallery.config),
+        galleryService: this.gallery.galleryService
+      },
+      disableClose: false,
+      position: 'right',
+      width: 'auto',
+      resize: {
+        min: 200,
+        max: 99999,
+        //minSide: 100,
+        //maxSide: 300,
+      },
+      actions: [
+        {
+          icon: 'clear',
+          type: FsDrawerAction.Button,
+          close: true,
+          click: (event) => {
+            console.log('close clicked');
+          }
+        },
+      ]
+    });
+
+  }
 
 
   public items: FsGalleryItem[] = [
@@ -124,6 +184,12 @@ export class ExampleComponent {
       name: 'Video',
       file: 'http://techslides.com/demos/sample-videos/small.mp4',
       description: 'Video description',
+    },
+    {
+      id: 10,
+      custom: 'html',
+      name: 'Custom HTML',
+      description: '',
     }
   ];
 

@@ -6,62 +6,6 @@
     [hidden] {
       display: none !important;
     }
-
-    .file-icon {
-      display: flex;
-      position: relative;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-
-      &.video {
-        .file-ext {
-          font-size: 16px;
-          padding-top: 4px;
-          left: -5px;
-        }
-
-        mat-icon {
-          color: #006665;
-        }
-      }
-
-      &.application {
-        .file-ext {
-          font-size: 20px;
-          padding-top: 20px;
-        }
-
-        mat-icon {
-          color: #962e9e;
-        }
-      }
-
-      .file-ext {
-        font-weight: bold;
-        text-align: center;
-        text-transform: uppercase;
-        position: absolute;
-        width: 100%;
-        color: #fff;
-      }
-
-      mat-icon {
-        font-size: 70px;
-        width: 70px;
-        height: 70px;
-      }
-
-      .file-name {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding: 0 5px;
-        font-size: 12px;
-        text-align: center;
-        width: 100%;
-      }
-    }
   }
 
   .fs-gallery-thumbnails {
@@ -69,7 +13,7 @@
     flex-wrap: wrap;
     /deep/ .fs-gallery-thumbnail {
       // @TODO
-      margin: 0 6px 4px 0;
+      margin: 0 6px 6px 0;
     }
   }
 }

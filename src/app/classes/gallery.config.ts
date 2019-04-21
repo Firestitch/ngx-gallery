@@ -1,6 +1,6 @@
 import { guid } from '@firestitch/common';
 
-import { FsGalleryConfig } from '../interfaces/gallery-config.interface';
+import { FsGalleryConfig, FsGalleryInfoConfig } from '../interfaces/gallery-config.interface';
 
 
 export class GalleryConfig {
@@ -11,8 +11,13 @@ export class GalleryConfig {
   public thumbnailField: string;
   public nameField: string;
   public draggable = true;
+  public toolbar = true;
   public dragName = null;
+  public reorderEnd = null;
+  public imageWidth = 187;
+  public imageHeightScale = 0.673;
   public repeat = true;
+  public info: boolean | FsGalleryInfoConfig
   public showCarousel = true;
   public overwriteThumbnailTemplate: false;
   public thumbnail = {
@@ -27,7 +32,7 @@ export class GalleryConfig {
 
   public upload: (files: any) => void;
   public fetch;
-  
+
   constructor(data: FsGalleryConfig = {}) {
     this._initConfig(data);
   }
@@ -60,7 +65,12 @@ export class GalleryConfig {
       this.thumbnail = Object.assign({}, this.thumbnail, data.thumbnail);
     }
 
+    this.reorderEnd = data.reorderEnd;
+    this.imageWidth = data.imageWidth || this.imageWidth;
+    this.imageHeightScale = data.imageHeightScale || this.imageHeightScale;
     this.fileField = data.fileField;
+    this.info = data.info;
+    this.toolbar = data.toolbar !== false;
     this.imageField = data.imageField;
     this.thumbnailField = data.thumbnailField;
     this.nameField = data.nameField;

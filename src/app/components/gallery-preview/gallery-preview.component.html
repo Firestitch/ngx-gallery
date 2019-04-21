@@ -6,7 +6,6 @@
     <div class="panel">
 
       <div class="preview">
-
         <div
           class="image-wrap"
           (mouseenter)="imageHover = true"
@@ -16,8 +15,10 @@
             <mat-icon>keyboard_arrow_left</mat-icon>
           </a>
 
+          <div
+            [ngSwitch]="data.galleryMime"
+            [class]="'file file-' + data.galleryMime">
 
-          <ng-container [ngSwitch]="data.galleryMime">
             <ng-template [ngSwitchCase]="'image'">
               <img
                 class="image"
@@ -28,38 +29,29 @@
             </ng-template>
 
             <ng-template [ngSwitchCase]="'video'">
-              <div class="file-icon video">
-                <div class="file-ext">{{data.galleryExtension}}</div>
-                <mat-icon>videocam</mat-icon>
-              </div>
+              <div class="file-ext">{{data.galleryExtension}}</div>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'application'">
-              <div class="file-icon application">
-                <div class="file-ext">{{data.galleryExtension}}</div>
-                <mat-icon>insert_drive_file</mat-icon>
-              </div>
+              <div class="file-ext">{{data.galleryExtension}}</div>
             </ng-template>
 
             <ng-template ngSwitchDefault>
-              <div class="file-icon unknown">
-                <mat-icon>help</mat-icon>
-              </div>
+
             </ng-template>
 
-          </ng-container>
+            <ng-container *ngIf="galleryService.previewTemplate">
+              <ng-template
+                [ngTemplateOutlet]="galleryService.previewTemplate"
+                [ngTemplateOutletContext]="{ item: data }">
+              </ng-template>
+            </ng-container>
+          </div>
 
           <a *ngIf="hasManyItems" class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </a>
         </div>
-
-        <ng-container *ngIf="galleryService.previewTemplate">
-          <ng-template
-            [ngTemplateOutlet]="galleryService.previewTemplate"
-            [ngTemplateOutletContext]="{ item: data }">
-          </ng-template>
-        </ng-container>
       </div>
 
       <!-- @TODO place for right sidenav -->

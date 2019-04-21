@@ -4,6 +4,8 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
 import { takeUntil } from 'rxjs/operators';
+import { filter } from 'lodash-es';
+import { FsGalleryItem } from '../interfaces/gallery-config.interface';
 
 
 @Injectable()
@@ -55,32 +57,53 @@ export class FsGalleryPreviewService implements OnDestroy {
   }
 
   prev() {
-    const index = this.instance.instance.galleryService.getDataIndex(this.dataItem);
+
     const data = this.instance.instance.galleryService.data$.getValue();
-    const repeat = this.instance.instance.galleryService.config.repeat;
 
-    let prevIndex = index ? index - 1 : 0;
+    const images = filter(data, (item: FsGalleryItem) => {
+                      return item.galleryMime === 'image';
+                    });
 
-    if (repeat && index === 0) {
-      prevIndex = data.length - 1;
+    const index = images.indexOf(this.dataItem);
+
+    let prev = null;
+    if (index >= 0) {
+      const prevImages = filter(images, (item: FsGalleryItem, idx) => {
+        return idx < index;
+      });
+
+      prev = prevImages.pop();
     }
 
-    this.setData(data[prevIndex]);
+    if (!prev) {
+      prev = images.pop();
+    }
+
+    return this.setData(prev);
   }
 
   next() {
-    const index = this.instance.instance.galleryService.getDataIndex(this.dataItem);
+
     const data = this.instance.instance.galleryService.data$.getValue();
-    const repeat = this.instance.instance.galleryService.config.repeat;
 
-    const indexLast = data.length - 1;
-    let nextIndex = index < indexLast ? index + 1 : indexLast;
+    const images = filter(data, (item: FsGalleryItem) => {
+                      return item.galleryMime === 'image';
+                    });
 
-    if (repeat && index === indexLast) {
-      nextIndex = 0;
+    const index = images.indexOf(this.dataItem);
+
+    let next = null;
+    if (index >= 0) {
+      next = filter(images, (item: FsGalleryItem, idx) => {
+        return idx > index;
+      })[0];
     }
 
-    this.setData(data[nextIndex]);
+    if (!next) {
+      next = images[0];
+    }
+
+    return this.setData(next);
   }
 
   close() {

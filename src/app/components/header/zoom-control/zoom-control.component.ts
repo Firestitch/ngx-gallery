@@ -8,9 +8,10 @@ import { MatSliderChange } from '@angular/material';
   styleUrls: [ './zoom-control.component.scss' ]
 })
 export class FsGalleryZoomControlComponent {
-  @Input() public min = 100;
-  @Input() public max = 500;
-  @Input() public step = 1;
+
+  @Input() public min = -40;
+  @Input() public max = 300;
+  @Input() public step = 5;
   @Input() public zoom = 0;
 
   @Output() public change = new EventEmitter<number>();
@@ -22,7 +23,7 @@ export class FsGalleryZoomControlComponent {
 
   public updateImageZoom(event: MatSliderChange) {
     this.zoom = event.value;
-    this.change.next(this.zoom);
+    this.change.next(this.zoom / 100);
   }
 
   public zoomIn() {
@@ -35,7 +36,7 @@ export class FsGalleryZoomControlComponent {
 
     this.zoomOutDisabled = false;
 
-    this.change.next(this.zoom);
+    this.change.next(this.zoom / 100);
   }
 
   public zoomOut() {
@@ -48,6 +49,6 @@ export class FsGalleryZoomControlComponent {
 
     this.zoomInDisabled = false;
 
-    this.change.next(this.zoom);
+    this.change.next(this.zoom / 100);
   }
 }

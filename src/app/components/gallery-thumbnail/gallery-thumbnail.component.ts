@@ -18,7 +18,6 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
   @Input() public data: FsGalleryItem = null;
   @Input() public carousel = false;
   @Input() public overwriteThumbnailTemplate = false;
-
   @Output() public select = new EventEmitter<FsGalleryItem>();
 
   public image: string = null;
@@ -82,5 +81,9 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
   public preventEventPropagation(event) {
     event.stopPropagation();
     event.preventDefault();
+  }
+
+  public menuClick(event, action, data) {
+    action.click(data);
   }
 }

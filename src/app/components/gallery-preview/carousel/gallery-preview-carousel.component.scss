@@ -18,10 +18,10 @@
         display: inline-block;
         cursor: pointer;
 
-        width: 76px !important;
-        height: 76px !important;
+        width: 80px !important;
+        height: 80px !important;
 
-        .description {
+        .info {
           display: none;
         }
 
@@ -35,12 +35,6 @@
           border: 2px solid transparent;
           width: 76px !important;
           height: 76px !important;
-        }
-
-        .file-icon {
-          width: 76px !important;
-          height: 76px !important;
-          border: 2px solid transparent;
         }
       }
     }

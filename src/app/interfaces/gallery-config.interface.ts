@@ -10,13 +10,18 @@ export interface FsGalleryConfig {
   thumbnailField?: string;
   nameField?: string;
   repeat?: boolean;
+  toolbar?: boolean;
   draggable?: boolean;
   filter?: any;
   upload?: (query) => void;
   fetch?: (query) => Observable<FsGalleryItem[]> | FsGalleryItem[];
   filters?: any[];
   zoom?: boolean;
+  reorderEnd?(data: any): any,
   dragName?: string;
+  imageHeightScale?: number;
+  imageWidth?: number;
+  info?: boolean | FsGalleryInfoConfig;
   showCarousel?: boolean;
   overwriteThumbnailTemplate?: boolean;
   thumbnail?: FsGalleryThumbnailConfig;
@@ -24,4 +29,18 @@ export interface FsGalleryConfig {
 
 export interface FsGalleryItem {
   [key: string]: any;
+}
+
+export interface FsGalleryInfoConfig {
+  icon?: boolean;
+  menu?: FsGalleryInfoMenuConfig;
+}
+
+export interface FsGalleryInfoMenuConfig {
+  actions?: FsGalleryInfoMenuActionConfig[];
+}
+
+export interface FsGalleryInfoMenuActionConfig {
+  label?: string;
+  click?(item: FsGalleryItem): any
 }

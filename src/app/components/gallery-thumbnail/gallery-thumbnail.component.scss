@@ -4,7 +4,34 @@
     .fs-gallery-thumbnail {
       display: block;
       position: relative;
-      cursor: pointer;
+
+
+      .file {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        height: 100%;
+
+        &:not(.file-image) {
+          border: 1px solid #efefef;
+        }
+
+        .file-ext {
+          font-size: 20px;
+          text-transform: uppercase;
+        }
+
+        .file-name {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding: 0 5px;
+          font-size: 12px;
+          text-align: center;
+          width: 100%;
+        }
+      }
 
       .fs-gallery-thumbnail-poster {
         position: absolute;
@@ -23,34 +50,17 @@
         }
       }
 
-      &:not(.carousel) {
-        /*&:hover {
-          .fs-gallery-thumbnail-actions {
-            display: block;
-          }
+      .file-image {
 
-          .description {
-            display: none;
-          }
+        display: flex;
+        cursor: pointer;
 
-          .fs-gallery-thumbnail-poster {
-            background-color: rgba(0, 0, 0, 0.5);
-
-            mat-icon {
-              display: block;
-            }
-          }
-          img {
-            transform: scale3d(1.1, 1.1, 1.1);
-          }
-        }*/
-      }
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 4px;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 4px;
+        }
       }
 
       .fs-gallery-thumbnail-actions {
@@ -97,12 +107,24 @@
   }
 }
 
-.description {
+.info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   font-size: 12px;
   box-sizing: border-box;
+
+  .image-icon {
+    color: #d13333;
+  }
+
+  .video-icon {
+    color: #006665;
+  }
+
+  .application-icon {
+    color: #962E9E;
+  }
 
   .tags {
     display: flex;
@@ -118,12 +140,12 @@
   .name {
     display: flex;
     position: relative;
-    max-width: 60%;
+    min-width: 0;
     color: #000;
     align-items: center;
-    justify-content: center;
-    padding: 10px 12px;
+    padding: 8px 6px;
     box-sizing: border-box;
+    flex: 1;
 
     span {
       display: inline-block;
@@ -134,9 +156,16 @@
   }
 }
 
+::ng-deep fs-gallery-thumbnail.gu-mirror {
+  .info {
+    display: none;
+  }
+}
+
+
 
 .carousel {
-  .description {
+  .info {
     display: none;
   }
 }

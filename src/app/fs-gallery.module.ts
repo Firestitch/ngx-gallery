@@ -10,6 +10,7 @@ import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 import { FsFilterModule } from '@firestitch/filter';
 import { FsFileModule } from '@firestitch/file';
+import { FsMenuModule } from '@firestitch/menu';
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -39,6 +40,7 @@ import { HammerConfig } from './classes/hammer-config';
     MatTooltipModule,
     FsFilterModule,
     FsFileModule,
+    FsMenuModule
   ],
   exports: [
     FsGalleryComponent,

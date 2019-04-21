@@ -21,7 +21,7 @@ export class FsGalleryService implements OnDestroy {
   public previewDirective: FsGalleryPreviewDirective = null;
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
 
-  public imageZoom = 187;
+  public imageZoom = 0;
 
   public dimentionsChange$ = new Subject<void>();
 
@@ -96,16 +96,15 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public updateImageDims() {
-    this._imageWidth = this.imageZoom;
-    // 0.673 - scale koef.
-    this._imageHeight = this.imageZoom * 0.673;
+
+    this._imageWidth = this.config.imageWidth + (this.imageZoom * this.config.imageWidth);
+    this._imageHeight = (this._imageWidth * this.config.imageHeightScale);
 
     this.dimentionsChange$.next();
   }
 
   public updateImageZoom(val: number) {
     this.imageZoom = val;
-
     this.updateImageDims();
   }
 

@@ -74,6 +74,11 @@
             display: contents;
             position: relative;
             cursor: pointer;
+
+            .file {
+              display: contents;
+            }
+
             .image {
               display: flex;
               vertical-align: middle;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { filter } from 'lodash-es';
 
 import { FsGalleryPreviewService } from '../../../services/gallery-preview.service';
 import { FsGalleryService } from '../../../services/gallery.service';
@@ -13,7 +13,7 @@ import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
 })
 export class FsGalleryPreviewCarouselComponent implements OnInit {
 
-  public data$: BehaviorSubject<FsGalleryItem[]>;
+  public data$: FsGalleryItem[];
 
   constructor(
     private fsGalleryPreviewService: FsGalleryPreviewService,
@@ -21,7 +21,9 @@ export class FsGalleryPreviewCarouselComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.data$ = this.fsGalleryService.data$;
+    this.data$ = filter(this.fsGalleryService.data$.getValue(), item => {
+      return item.galleryMime === 'image';
+    });
   }
 
   onSelect(data: FsGalleryItem) {
