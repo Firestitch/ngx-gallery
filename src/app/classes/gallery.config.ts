@@ -17,7 +17,7 @@ export class GalleryConfig {
   public imageWidth = 187;
   public imageHeightScale = 0.673;
   public repeat = true;
-  public info: boolean | FsGalleryInfoConfig
+  public info: any;
   public showCarousel = true;
   public overwriteThumbnailTemplate: false;
   public thumbnail = {
