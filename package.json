@@ -49,7 +49,7 @@
     "@firestitch/common": "^7.0.0",
     "@firestitch/date": "^7.0.4",
     "@firestitch/datepicker": "^7.0.0",
-    "@firestitch/example": "^7.0.0",
+    "@firestitch/example": "^7.0.3",
     "@firestitch/file": "^7.0.2",
     "@firestitch/filter": "^7.0.3",
     "@firestitch/iframe": "^0.2.0",

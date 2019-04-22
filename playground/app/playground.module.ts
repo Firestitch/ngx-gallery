@@ -21,7 +21,7 @@ import {
   ExampleComponent,
   SimplePreviewComponent,
   ExamplesComponent,
-  ConfigComponent
+  ConfigureComponent
 } from './components';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 
@@ -48,14 +48,14 @@ const routes: Routes = [
     FsLabelModule
   ],
   entryComponents: [
-    ConfigComponent
+    ConfigureComponent
   ],
   declarations: [
     AppComponent,
     ExamplesComponent,
     ExampleComponent,
     SimplePreviewComponent,
-    ConfigComponent
+    ConfigureComponent
   ],
   providers: [
     {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}}

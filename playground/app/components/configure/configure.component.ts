@@ -3,15 +3,15 @@ import { DrawerRef, DRAWER_DATA, DrawerDataProxy } from '@firestitch/drawer';
 
 
 @Component({
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.scss']
+  templateUrl: './configure.component.html',
+  styleUrls: ['./configure.component.scss']
 })
-export class ConfigComponent {
+export class ConfigureComponent {
   public config;
   public defaultConfig;
   public galleryService;
 
-  constructor(public drawer: DrawerRef<ConfigComponent>,
+  constructor(public drawer: DrawerRef<ConfigureComponent>,
               @Inject(DRAWER_DATA) public data: DrawerDataProxy<any>) {
     this.config = data.config;
     this.defaultConfig = data.defaultConfig;

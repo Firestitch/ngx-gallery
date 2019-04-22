@@ -1,12 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
 import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
 import { of } from 'rxjs';
-import { FsDrawerService, FsDrawerAction } from '@firestitch/drawer';
-import { ConfigComponent } from '../config/config.component';
+import { ConfigureComponent } from '../configure/configure.component';
 import { clone } from 'lodash-es';
+import { FsExampleComponent } from '@firestitch/example';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { clone } from 'lodash-es';
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss']
 })
-export class ExampleComponent {
+export class ExampleComponent implements AfterViewInit {
 
   @ViewChild('gallery')
   public gallery: FsGalleryComponent;
@@ -76,38 +76,7 @@ export class ExampleComponent {
     }
   };
 
-  constructor(public drawer: FsDrawerService) {}
-
-  public configure() {
-    const drawerRef = this.drawer.open(ConfigComponent, {
-      data: {
-        config: this.gallery.config,
-        defaultConfig: clone(this.gallery.config),
-        galleryService: this.gallery.galleryService
-      },
-      disableClose: false,
-      position: 'right',
-      width: 'auto',
-      resize: {
-        min: 200,
-        max: 99999,
-        //minSide: 100,
-        //maxSide: 300,
-      },
-      actions: [
-        {
-          icon: 'clear',
-          type: FsDrawerAction.Button,
-          close: true,
-          click: (event) => {
-            console.log('close clicked');
-          }
-        },
-      ]
-    });
-
-  }
-
+  constructor(private example: FsExampleComponent) {}
 
   public items: FsGalleryItem[] = [
     {
@@ -192,6 +161,14 @@ export class ExampleComponent {
       description: '',
     }
   ];
+
+  ngAfterViewInit() {
+    this.example.setConfigureComponent(ConfigureComponent, {
+      config: this.gallery.config,
+      defaultConfig: clone(this.gallery.config),
+      galleryService: this.gallery.galleryService
+    });
+  }
 
   public switchOrder() {
 
