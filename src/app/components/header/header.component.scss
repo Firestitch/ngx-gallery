@@ -19,11 +19,13 @@
 .fs-gallery-filter {
   flex: 1 1 0;
   box-sizing: border-box;
+  margin-right: 10px;
 }
 
 .zoom-control {
   display: flex;
   align-items: center;
+  margin-right: 10px;
 }
 
 ::ng-deep {

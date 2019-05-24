@@ -4,19 +4,19 @@
     *ngIf="filterConfig"
     [filter]="filterConfig">
   </fs-filter>
+
   <fs-gallery-zoom-control
     *ngIf="zoomEnabled"
     class="zoom-control"
     [step]="1"
     [zoom]="zoom"
-    (change)="updateImageZoom($event)"
-  >
+    (change)="updateImageZoom($event)">
   </fs-gallery-zoom-control>
+
   <fs-file *ngIf="uploadCallback"
            (select)="upload($event)"
            [accept]="allowedFiles"
-           multiple="true"
-  >
+           multiple="true">
     <button mat-raised-button color="primary">Upload</button>
   </fs-file>
 </div>

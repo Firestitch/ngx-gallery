@@ -17,3 +17,11 @@
     }
   }
 }
+
+
+::ng-deep {
+  body.fs-gallery-preview-open::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}

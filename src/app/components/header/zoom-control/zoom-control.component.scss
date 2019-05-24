@@ -1,4 +1,8 @@
-:host {
-  display: flex;
-  align-items: center;
+
+::ng-deep {
+  @media (max-width: 800px) {
+    fs-gallery-zoom-control {
+      display: none !important;
+    }
+  }
 }
