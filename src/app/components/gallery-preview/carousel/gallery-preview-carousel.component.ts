@@ -1,8 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { filter } from 'lodash-es';
-
-import { FsGalleryPreviewService } from '../../../services/gallery-preview.service';
-import { FsGalleryService } from '../../../services/gallery.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
 
 
@@ -11,23 +7,19 @@ import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
   templateUrl: './gallery-preview-carousel.component.html',
   styleUrls: [ './gallery-preview-carousel.component.scss' ]
 })
-export class FsGalleryPreviewCarouselComponent implements OnInit {
+export class FsGalleryPreviewCarouselComponent {
 
-  public data$: FsGalleryItem[];
+  @Input()
+  public data: FsGalleryItem[];
 
-  constructor(
-    private fsGalleryPreviewService: FsGalleryPreviewService,
-    private fsGalleryService: FsGalleryService
-  ) { }
+  @Input()
+  public activeItem: FsGalleryItem[];
 
-  ngOnInit() {
-    this.data$ = filter(this.fsGalleryService.data$.getValue(), item => {
-      return item.galleryMime === 'image';
-    });
-  }
+  @Output()
+  public previewSelected = new EventEmitter<FsGalleryItem>();
 
-  onSelect(data: FsGalleryItem) {
-    this.fsGalleryPreviewService.setData(data);
+  public onSelect(data: FsGalleryItem) {
+    this.previewSelected.emit(data);
   }
 
 }

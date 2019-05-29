@@ -6,13 +6,14 @@ import {
   ViewChild,
   EventEmitter,
   TemplateRef,
-  OnInit,
+  OnInit, Injector,
 } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
 import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
 
+import { FsGalleryPreviewService } from '../../services/gallery-preview.service';
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.directive';
 
@@ -62,6 +63,8 @@ export class FsGalleryComponent implements OnInit {
 
   constructor(
     public galleryService: FsGalleryService,
+    private galleryPreviewService: FsGalleryPreviewService,
+    private _injector: Injector,
   ) { }
 
   public ngOnInit() {
@@ -89,7 +92,7 @@ export class FsGalleryComponent implements OnInit {
 
   public openPreview(data: FsGalleryItem) {
     if (data.galleryMime === 'image') {
-      this.fsGalleryThumbnail.openPreview(data);
+      this.galleryPreviewService.open(this._injector, data);
     }
   }
 

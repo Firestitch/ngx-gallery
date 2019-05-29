@@ -1,9 +1,10 @@
 <div class="fs-gallery-preview-carousel">
   <fs-gallery-thumbnail
-    *ngFor="let item of data$"
+    *ngFor="let item of data"
     [data]="item"
     (select)="onSelect($event)"
     [carousel]="true"
+    [activeItem]="activeItem"
   >
   </fs-gallery-thumbnail>
 </div>

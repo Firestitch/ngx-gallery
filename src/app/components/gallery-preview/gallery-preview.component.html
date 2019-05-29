@@ -1,7 +1,12 @@
-<div class="fs-gallery-preview-backdrop" (click)="close($event)"></div>
+<div class="fs-gallery-preview-backdrop" (click)="close()"></div>
 
 <div class="fs-gallery-preview">
-  <fs-gallery-preview-header></fs-gallery-preview-header>
+  <fs-gallery-preview-header
+    [totalItems]="totalImages"
+    [activeIndex]="activeImageIndex"
+    (close)="close()"
+  >
+  </fs-gallery-preview-header>
   <div class="wrap" [ngStyle]="{ 'padding-bottom': galleryService.config.showCarousel ? '114px' : '0' }">
     <div class="panel">
 
@@ -16,8 +21,8 @@
           </a>
 
           <div
-            [ngSwitch]="data.galleryMime"
-            [class]="'file file-' + data.galleryMime">
+            [ngSwitch]="activeItem.galleryMime"
+            [class]="'file file-' + activeItem.galleryMime">
 
             <ng-template [ngSwitchCase]="'image'">
               <img
@@ -29,11 +34,11 @@
             </ng-template>
 
             <ng-template [ngSwitchCase]="'video'">
-              <div class="file-ext">{{data.galleryExtension}}</div>
+              <div class="file-ext">{{activeItem.galleryExtension}}</div>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'application'">
-              <div class="file-ext">{{data.galleryExtension}}</div>
+              <div class="file-ext">{{activeItem.galleryExtension}}</div>
             </ng-template>
 
             <ng-template ngSwitchDefault>
@@ -43,7 +48,7 @@
             <ng-container *ngIf="galleryService.previewTemplate">
               <ng-template
                 [ngTemplateOutlet]="galleryService.previewTemplate"
-                [ngTemplateOutletContext]="{ item: data }">
+                [ngTemplateOutletContext]="{ item: activeItem }">
               </ng-template>
             </ng-container>
           </div>
@@ -57,6 +62,9 @@
       <!-- @TODO place for right sidenav -->
     </div>
 
-    <fs-gallery-preview-carousel></fs-gallery-preview-carousel>
+    <fs-gallery-preview-carousel [data]="availableImages"
+                                 [activeItem]="activeItem"
+                                 (previewSelected)="setActiveItem($event)">
+    </fs-gallery-preview-carousel>
   </div>
 </div>

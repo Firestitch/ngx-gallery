@@ -1,11 +1,9 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
-
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, HostListener, OnInit, OnDestroy, Inject, Renderer2 } from '@angular/core';
 
 import { FsGalleryService } from '../../services/gallery.service';
-import { FsGalleryPreviewService } from '../../services/gallery-preview.service';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
+import { PREVIEW_DATA } from '../../services/preview-data';
+import { FsGalleryPreviewRef } from '../../classes/gallery-preview-ref';
 
 
 @Component({
@@ -15,52 +13,21 @@ import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 })
 export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
-  public data: FsGalleryItem = null;
+  public totalImages = 0;
+  public activeImageIndex = 0;
+  public availableImages: FsGalleryItem[];
   public image: string = null;
   public imageHover = false;
 
   public hasManyItems = false;
 
-  private _destroy$ = new Subject();
-
-  constructor(
-    public galleryService: FsGalleryService,
-    private galleryPreviewService: FsGalleryPreviewService,
-  ) { }
-
-  ngOnInit() {
-    this._subscribeToGalleryData();
-    this._subscribeToPreviewData();
-  }
-
-  close($event) {
-    this.galleryPreviewService.close();
-  }
-
-  prev() {
-    this.galleryPreviewService.prev();
-  }
-
-  next() {
-    this.galleryPreviewService.next();
-  }
-
-  imageClick($event) {
-    const cursorX = $event.clientX;
-    const imageWidth = $event.target.width;
-    const windowWidth = $event.view.innerWidth;
-    if (cursorX <= (windowWidth / 2)) {
-      this.prev();
-    } else {
-      this.next();
-    }
-  }
+  public activeItem: FsGalleryItem;
 
   @HostListener('document:keydown', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
+  public onKeydownHandler(event: KeyboardEvent) {
     switch (event.keyCode) {
       case 27:
-        this.galleryPreviewService.close();
+        this.previewRef.close();
         break;
       case 37:
         this.prev();
@@ -71,30 +38,102 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this._destroy$.next();
-    this._destroy$.complete();
+  constructor(
+    public renderer: Renderer2,
+    public galleryService: FsGalleryService,
+    @Inject(PREVIEW_DATA) data: FsGalleryItem,
+    private previewRef: FsGalleryPreviewRef,
+  ) {
+    this._initAvailableImages();
+    this.setActiveItem(data);
   }
 
-  private _subscribeToGalleryData() {
-    this.galleryService.data$
-      .pipe(
-        takeUntil(this._destroy$)
-      )
-      .subscribe((data: FsGalleryItem[]) => {
-        this.hasManyItems = data.length > 1;
+  public ngOnInit() {
+    this.renderer.addClass(document.body, 'fs-gallery-preview-open');
+  }
+
+  public ngOnDestroy() {
+    this.renderer.removeClass(document.body, 'fs-gallery-preview-open');
+  }
+
+  public close() {
+    this.previewRef.close();
+  }
+
+  public prev() {
+
+    const data = this.galleryService.data$.getValue();
+
+    const images = data.filter((item: FsGalleryItem) => {
+      return item.galleryMime === 'image';
+    });
+
+    const index = images.indexOf(this.activeItem);
+
+    let prev = null;
+    if (index >= 0) {
+      const prevImages = images.filter((item: FsGalleryItem, idx) => {
+        return idx < index;
       });
+
+      prev = prevImages.pop();
+    }
+
+    if (!prev) {
+      prev = images.pop();
+    }
+
+    this.setActiveItem(prev);
   }
 
-  private _subscribeToPreviewData() {
-    this.galleryPreviewService.data$
-      .pipe(
-        takeUntil(this._destroy$)
-      )
-      .subscribe((data: FsGalleryItem) => {
-        this.data = data;
-        this.image = this.galleryService.getPreviewImage(this.data);
-      });
+  public next() {
+
+    const data = this.galleryService.data$.getValue();
+
+    const images = data.filter((item: FsGalleryItem) => {
+      return item.galleryMime === 'image';
+    });
+
+    const index = images.indexOf(this.activeItem);
+
+    let next = null;
+    if (index >= 0) {
+      next = images.filter((item: FsGalleryItem, idx) => {
+        return idx > index;
+      })[0];
+    }
+
+    if (!next) {
+      next = images[0];
+    }
+
+    this.setActiveItem(next);
   }
 
+  public imageClick($event) {
+    const cursorX = $event.clientX;
+    const imageWidth = $event.target.width;
+    const windowWidth = $event.view.innerWidth;
+    if (cursorX <= (windowWidth / 2)) {
+      this.prev();
+    } else {
+      this.next();
+    }
+  }
+
+  public setActiveItem(data: FsGalleryItem) {
+    this.activeItem = data;
+    this.image = this.galleryService.getPreviewImage(data);
+    this.activeImageIndex = this.availableImages.indexOf(data) + 1;
+  }
+
+  private _initAvailableImages() {
+    this.availableImages = this.galleryService.data$.getValue().filter((item: FsGalleryItem) => {
+      return item.galleryMime === 'image';
+    });
+
+    this.hasManyItems = this.availableImages.length > 1;
+
+    this.totalImages = this.availableImages.length;
+  };
 }

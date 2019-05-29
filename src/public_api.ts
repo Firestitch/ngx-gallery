@@ -28,6 +28,5 @@ export {
 export { FsGalleryThumbnailConfig } from './app/interfaces/gallery-thumbnail-config.interface';
 
 // Services
-export { FsGalleryPreviewFactory } from './app/services/gallery-preview-factory.service';
 export { FsGalleryPreviewService } from './app/services/gallery-preview.service';
 export { FsGalleryService } from './app/services/gallery.service';

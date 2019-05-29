@@ -1,10 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
-import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { FsGalleryPreviewService } from '../../../services/gallery-preview.service';
-import { FsGalleryService } from '../../../services/gallery.service';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
 
 
@@ -13,43 +7,19 @@ import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
   templateUrl: './gallery-preview-header.component.html',
   styleUrls: [ './gallery-preview-header.component.scss' ]
 })
-export class FsGalleryPreviewHeaderComponent implements OnInit, OnDestroy {
+export class FsGalleryPreviewHeaderComponent {
 
-  public data: FsGalleryItem = null;
-  public data$: BehaviorSubject<FsGalleryItem[]>;
+  @Input()
+  public totalItems = 0;
+
+  @Input()
   public activeIndex = 0;
 
-  private _destroy$ = new Subject();
+  @Output()
+  public close = new EventEmitter<void>();
 
-  constructor(
-    private galleryPreviewService: FsGalleryPreviewService,
-    private galleryService: FsGalleryService
-  ) { }
-
-  ngOnInit() {
-    this.data$ = this.galleryService.data$;
-    this._subscribeToPreviewData();
+  public closePreview() {
+    this.close.next();
   }
-
-  close() {
-    this.galleryPreviewService.close();
-  }
-
-  ngOnDestroy() {
-    this._destroy$.next();
-    this._destroy$.complete();
-  }
-
-  private _subscribeToPreviewData() {
-    this.galleryPreviewService.data$
-      .pipe(
-        takeUntil(this._destroy$)
-      )
-      .subscribe((response: FsGalleryItem) => {
-        this.data = response;
-        this.activeIndex = this.galleryService.getDataIndex(this.data);
-      });
-  }
-
 
 }

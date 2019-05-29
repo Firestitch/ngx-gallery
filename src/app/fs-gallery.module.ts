@@ -7,6 +7,7 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { FsFilterModule } from '@firestitch/filter';
 import { FsFileModule } from '@firestitch/file';
@@ -26,7 +27,6 @@ import { FsGalleryThumbnailDirective } from './directives/gallery-thumbnail.dire
 import { FsGalleryPreviewDirective } from './directives/gallery-preview.directive';
 import { FsGalleryPreviewService } from './services/gallery-preview.service';
 
-import { FsGalleryPreviewFactory } from './services/gallery-preview-factory.service';
 import { HammerConfig } from './classes/hammer-config';
 
 
@@ -34,6 +34,7 @@ import { HammerConfig } from './classes/hammer-config';
   imports: [
     CommonModule,
     MatIconModule,
+    OverlayModule,
     DragulaModule,
     MatSliderModule,
     MatButtonModule,
@@ -71,7 +72,6 @@ export class FsGalleryModule {
       ngModule: FsGalleryModule,
       providers: [
         FsGalleryPreviewService,
-        FsGalleryPreviewFactory,
         {
           provide: HAMMER_GESTURE_CONFIG,
           useClass: HammerConfig

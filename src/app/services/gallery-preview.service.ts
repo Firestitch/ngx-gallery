@@ -1,113 +1,53 @@
-import { Injectable, OnDestroy, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
+import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { FsGalleryPreviewComponent } from '../components/gallery-preview/gallery-preview.component';
 
 import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
-import { takeUntil } from 'rxjs/operators';
-import { filter } from 'lodash-es';
-import { FsGalleryItem } from '../interfaces/gallery-config.interface';
+import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
+import { PREVIEW_DATA } from './preview-data';
 
 
 @Injectable()
-export class FsGalleryPreviewService implements OnDestroy {
+export class FsGalleryPreviewService {
 
-  private _data: BehaviorSubject<FsGalleryDataItem> = new BehaviorSubject<FsGalleryDataItem>(null);
+  constructor(
+    private _overlay: Overlay,
+  ) {}
 
-  public data$ = this._data.asObservable();
+  public open(injector: Injector, data: FsGalleryDataItem) {
+    const overlayRef = this._createOverlay();
+    const previewRef = new FsGalleryPreviewRef(overlayRef);
 
-  private dataItem: FsGalleryDataItem = null;
-  private renderer: Renderer2;
-  private _instance = null;
-  private _destroy$ = new Subject();
-
-  constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = rendererFactory.createRenderer(null, null);
-    this.data$
-      .pipe(
-        takeUntil(this._destroy$)
-      )
-      .subscribe((data: FsGalleryDataItem) => this.dataItem = data);
+    return this.openPortalPreview(injector, overlayRef, previewRef, data);
   }
 
-  set instance(value) {
-
-    if (value && this._instance) {
-      this.close();
-    }
-
-    this._instance = value;
-    this.renderer.addClass(document.body, 'fs-gallery-preview-open');
+  private _createOverlay() {
+    const overlayConfig = new OverlayConfig();
+    return this._overlay.create(overlayConfig);
   }
 
-  get instance() {
-    return this._instance;
+  private openPortalPreview(
+    parentInjector: Injector,
+    overlayRef: OverlayRef,
+    previewRef: FsGalleryPreviewRef,
+    data: FsGalleryDataItem,
+  ) {
+    const injector = this._createInjector(parentInjector, previewRef, data);
+    const containerPortal = new ComponentPortal(FsGalleryPreviewComponent, undefined, injector);
+    const containerRef = overlayRef.attach<FsGalleryPreviewComponent>(containerPortal);
+
+    return containerRef.instance;
   }
 
-  get opened() {
-    return !!this.instance;
-  }
 
-  public ngOnDestroy() {
-    this._destroy$.next();
-    this._destroy$.complete();
-  }
+  private _createInjector(parentInjector, previewRef, data) {
+    const injectionTokens = new WeakMap<any, any>([
+      [FsGalleryPreviewRef, previewRef],
+      [PREVIEW_DATA, data]
+    ]);
 
-  setData(data: FsGalleryDataItem) {
-    this._data.next(data);
-  }
-
-  prev() {
-
-    const data = this.instance.instance.galleryService.data$.getValue();
-
-    const images = filter(data, (item: FsGalleryItem) => {
-                      return item.galleryMime === 'image';
-                    });
-
-    const index = images.indexOf(this.dataItem);
-
-    let prev = null;
-    if (index >= 0) {
-      const prevImages = filter(images, (item: FsGalleryItem, idx) => {
-        return idx < index;
-      });
-
-      prev = prevImages.pop();
-    }
-
-    if (!prev) {
-      prev = images.pop();
-    }
-
-    return this.setData(prev);
-  }
-
-  next() {
-
-    const data = this.instance.instance.galleryService.data$.getValue();
-
-    const images = filter(data, (item: FsGalleryItem) => {
-                      return item.galleryMime === 'image';
-                    });
-
-    const index = images.indexOf(this.dataItem);
-
-    let next = null;
-    if (index >= 0) {
-      next = filter(images, (item: FsGalleryItem, idx) => {
-        return idx > index;
-      })[0];
-    }
-
-    if (!next) {
-      next = images[0];
-    }
-
-    return this.setData(next);
-  }
-
-  close() {
-    this.renderer.removeClass(document.body, 'fs-gallery-preview-open');
-    this.instance.destroy();
+    return new PortalInjector(parentInjector, injectionTokens);
   }
 }

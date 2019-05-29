@@ -1,11 +1,11 @@
 <div class="header">
   <div class="actions left">
     <div class="action">
-      <span>{{ activeIndex + 1 }}/{{ (data$ | async).length }}</span>
+      <span>{{ activeIndex }}/{{ totalItems }}</span>
     </div>
   </div>
   <div class="actions right">
-    <a class="action" (click)="close()">
+    <a class="action" (click)="closePreview()">
       <mat-icon>close</mat-icon>
     </a>
   </div>
