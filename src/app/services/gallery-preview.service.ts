@@ -24,7 +24,10 @@ export class FsGalleryPreviewService {
   }
 
   private _createOverlay() {
-    const overlayConfig = new OverlayConfig();
+    const overlayConfig = new OverlayConfig({
+      height: '100%',
+      width: '100%'
+    });
     return this._overlay.create(overlayConfig);
   }
 

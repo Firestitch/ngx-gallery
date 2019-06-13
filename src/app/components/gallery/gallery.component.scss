@@ -25,3 +25,40 @@
     background: transparent;
   }
 }
+
+
+@media (max-width: 600px) {
+  :host {
+    .fs-gallery-thumbnails {
+
+      ::ng-deep {
+
+        fs-gallery-thumbnail {
+          width: 50%;
+
+          .fs-gallery-thumbnail {
+            width: auto !important;
+
+            .file {
+
+              width: auto !important;
+              height: 150px !important;
+
+              img {
+                width: 100% !important;
+                height: 150px !important;
+              }
+            }
+          }
+
+          fs-gallery-thumbnail:nth-child(even) {
+            .fs-gallery-thumbnail {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
