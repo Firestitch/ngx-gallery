@@ -6,10 +6,13 @@ import {
   ViewChild,
   EventEmitter,
   TemplateRef,
-  OnInit, Injector,
+  OnInit,
+  Injector,
+  OnDestroy,
 } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
 
@@ -28,9 +31,7 @@ import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
   styleUrls: [ './gallery.component.scss' ],
   providers: [ FsGalleryService ]
 })
-export class FsGalleryComponent implements OnInit {
-
-  private _config: GalleryConfig = null;
+export class FsGalleryComponent implements OnInit, OnDestroy {
 
   @Input() set config(value) {
     this._config = new GalleryConfig(value);
@@ -42,6 +43,8 @@ export class FsGalleryComponent implements OnInit {
   }
 
   @Output() public reorderImages = new EventEmitter<FsGalleryItem[]>();
+  @Output() public previewOpened = new EventEmitter<void>();
+  @Output() public previewClosed = new EventEmitter<void>();
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
   public previewTemplate: FsGalleryPreviewDirective = null;
@@ -61,6 +64,9 @@ export class FsGalleryComponent implements OnInit {
   public data$: BehaviorSubject<FsGalleryItem[]>;
   public dragEnabled = true;
 
+  private _config: GalleryConfig = null;
+  private _destroy$ = new Subject<void>();
+
   constructor(
     public galleryService: FsGalleryService,
     private galleryPreviewService: FsGalleryPreviewService,
@@ -75,6 +81,11 @@ export class FsGalleryComponent implements OnInit {
 
     this.data$ = this.galleryService.data$;
     this.dragEnabled = this.galleryService.config.draggable;
+  }
+
+  public ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   public orderChange(value: FsGalleryItem[], reorder = false): void {
@@ -92,7 +103,17 @@ export class FsGalleryComponent implements OnInit {
 
   public openPreview(data: FsGalleryItem) {
     if (data.galleryMime === 'image') {
-      this.galleryPreviewService.open(this._injector, data);
+      this.galleryPreviewService.open(this._injector, data)
+        .onClose
+        .pipe(
+          take(1),
+          takeUntil(this._destroy$)
+        )
+        .subscribe(() => {
+          this.previewClosed.emit();
+        });
+
+      this.previewOpened.emit();
     }
   }
 

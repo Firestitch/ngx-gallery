@@ -185,4 +185,12 @@ export class ExampleComponent implements AfterViewInit {
     console.log(data);
   }
 
+  public previewOpened() {
+    console.log('preview Opened');
+  }
+
+  public previewClosed() {
+    console.log('preview Closed');
+  }
+
 }

@@ -1,6 +1,8 @@
 <fs-gallery
   #gallery
-  [config]="config">
+  [config]="config"
+  (previewOpened)="previewOpened()"
+  (previewClosed)="previewClosed()">
   <ng-template fsGalleryThumbnail let-item="item">
     <div *ngIf="item.custom" class="custom">Custom<br>HTML</div>
   </ng-template>

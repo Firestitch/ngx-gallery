@@ -1,10 +1,20 @@
 import { OverlayRef } from '@angular/cdk/overlay';
+import { Subject } from 'rxjs';
 
 
 export class FsGalleryPreviewRef {
-  constructor(private overlayRef: OverlayRef) { }
 
-  close(): void {
-    this.overlayRef.dispose();
+  public onClose = new Subject();
+
+  constructor(private _overlayRef: OverlayRef) { }
+
+  public get overlayRef() {
+    return this._overlayRef;
+  }
+
+  public close(): void {
+    this.onClose.next();
+    this.onClose.complete();
+    this._overlayRef.dispose();
   }
 }

@@ -20,7 +20,9 @@ export class FsGalleryPreviewService {
     const overlayRef = this._createOverlay();
     const previewRef = new FsGalleryPreviewRef(overlayRef);
 
-    return this.openPortalPreview(injector, overlayRef, previewRef, data);
+    this.openPortalPreview(injector, overlayRef, previewRef, data);
+
+    return previewRef;
   }
 
   private _createOverlay() {
