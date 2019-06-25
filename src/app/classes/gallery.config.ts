@@ -1,6 +1,7 @@
 import { guid } from '@firestitch/common';
 
 import { FsGalleryConfig, FsGalleryInfoConfig } from '../interfaces/gallery-config.interface';
+import { GalleryLayout } from '../enums/gallery-layout-enum';
 
 
 export class GalleryConfig {
@@ -18,6 +19,7 @@ export class GalleryConfig {
   public imageHeightScale = 0.673;
   public repeat = true;
   public info: any;
+  public layout = GalleryLayout.Grid;
   public showCarousel = true;
   public overwriteThumbnailTemplate: false;
   public thumbnail = {
@@ -44,6 +46,10 @@ export class GalleryConfig {
       this.draggable = data.draggable;
     }
     this.dragName = data.dragName;
+
+    if (data.layout) {
+      this.layout = data.layout;
+    }
 
     if (!this.dragName) {
       this.dragName = '' + guid();

@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
+import { GalleryLayout } from '../../enums/gallery-layout-enum';
 
 @Component({
   selector: 'fs-gallery-thumbnail',
@@ -27,6 +28,7 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
   };
 
   public isActive = false;
+  public galleryLayout = GalleryLayout;
 
   private _destroy$ = new Subject();
 

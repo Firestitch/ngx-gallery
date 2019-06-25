@@ -30,3 +30,7 @@ export { FsGalleryThumbnailConfig } from './app/interfaces/gallery-thumbnail-con
 // Services
 export { FsGalleryPreviewService } from './app/services/gallery-preview.service';
 export { FsGalleryService } from './app/services/gallery.service';
+
+
+// Enums
+export { GalleryLayout } from './app/enums/gallery-layout-enum';

@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
-import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem } from '@firestitch/gallery';
+import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
 import { of } from 'rxjs';
@@ -28,6 +28,7 @@ export class ExampleComponent implements AfterViewInit {
     thumbnailField: 'image.small',
     imageHeightScale: 0.674,
     imageWidth: 200,
+    layout: GalleryLayout.Grid,
     info: {
       icon: true,
       menu: {

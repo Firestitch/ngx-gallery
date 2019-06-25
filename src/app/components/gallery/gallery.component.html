@@ -10,17 +10,16 @@
 
 <div
   *ngIf="dragEnabled"
-  class="fs-gallery-thumbnails"
+  [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
   [dragula]="galleryService.config.dragName"
   [dragulaModel]="data$ | async"
-  (dragulaModelChange)="orderChange($event, true)"
-  [ngClass]="'zoom-size-' + galleryService.imageZoomInteger">
+  (dragulaModelChange)="orderChange($event, true)">
   <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
 </div>
 
 <div
   *ngIf="!dragEnabled"
-  class="fs-gallery-thumbnails">
+  [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
   <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
 </div>
 

@@ -1,5 +1,6 @@
 import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
 import { Observable } from 'rxjs';
+import { GalleryLayout } from '../enums/gallery-layout-enum';
 
 
 export interface FsGalleryConfig {
@@ -12,6 +13,7 @@ export interface FsGalleryConfig {
   repeat?: boolean;
   toolbar?: boolean;
   draggable?: boolean;
+  layout?: GalleryLayout;
   filter?: any;
   upload?: (query) => void;
   fetch?: (query) => Observable<FsGalleryItem[]> | FsGalleryItem[];

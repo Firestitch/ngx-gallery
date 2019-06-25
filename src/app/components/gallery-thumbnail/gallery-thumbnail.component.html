@@ -2,9 +2,8 @@
   *ngIf="!overwriteThumbnailTemplate"
   class="fs-gallery-thumbnail"
   id="fs-gallery-thumbnail-{{ data[fsGalleryService.config.indexField] }}"
-
+  [style.width]="fsGalleryService.config.layout===galleryLayout.Grid ? '' : fsGalleryService.imageWidth + 'px'"
   [ngClass]="{ active: isActive, carousel: carousel }">
-
   <div
     [ngSwitch]="data.galleryMime"
     (click)="onSelect()"

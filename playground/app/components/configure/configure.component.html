@@ -9,7 +9,7 @@
     <mat-checkbox [(ngModel)]="config.info" (ngModelChange)="infoChange($event)">Enable Info</mat-checkbox>
 
     <div *ngIf="config.info">
-        <mat-checkbox [(ngModel)]="config.info.icon">Enable Info Icon</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.info.icon">Enable Info Icon</mat-checkbox>
     </div>
 
     <br>
@@ -20,6 +20,14 @@
 
     <mat-form-field>
       <input matInput placeholder="Image Height Scale" [(ngModel)]="config.imageHeightScale" (ngModelChange)="imageChange()">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select [(ngModel)]="config.layout" placeholder="Gallery Layout" name="layout">
+        <mat-option value="grid">Grid</mat-option>
+        <mat-option value="flow">Flow</mat-option>
+        <mat-option value="flow-nowrap">Flow No Wrap</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 
