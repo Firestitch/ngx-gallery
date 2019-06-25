@@ -4,6 +4,7 @@ import { indexOf } from '@firestitch/common';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { round } from 'lodash-es';
 
 
 import { get } from 'lodash-es';
@@ -22,6 +23,7 @@ export class FsGalleryService implements OnDestroy {
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
 
   public imageZoom = 0;
+  public imageZoomInteger = 0;
 
   public dimentionsChange$ = new Subject<void>();
 
@@ -105,6 +107,7 @@ export class FsGalleryService implements OnDestroy {
 
   public updateImageZoom(val: number) {
     this.imageZoom = val;
+    this.imageZoomInteger = round(val,0);
     this.updateImageDims();
   }
 

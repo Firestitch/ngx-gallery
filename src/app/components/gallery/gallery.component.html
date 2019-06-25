@@ -7,12 +7,14 @@
   *ngIf="config.toolbar!==false">
 </fs-gallery-header>
 
+
 <div
   *ngIf="dragEnabled"
   class="fs-gallery-thumbnails"
   [dragula]="galleryService.config.dragName"
   [dragulaModel]="data$ | async"
-  (dragulaModelChange)="orderChange($event, true)">
+  (dragulaModelChange)="orderChange($event, true)"
+  [ngClass]="'zoom-size-' + galleryService.imageZoomInteger">
   <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
 </div>
 

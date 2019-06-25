@@ -18,8 +18,9 @@
         display: inline-block;
         cursor: pointer;
 
-        width: 80px !important;
-        height: 80px !important;
+        .file {
+          height: auto !important;
+        }
 
         .info {
           display: none;
@@ -30,6 +31,7 @@
             border: 2px solid #fff;
           }
         }
+
         img {
           object-fit: cover;
           border: 2px solid transparent;

@@ -2,21 +2,18 @@
   *ngIf="!overwriteThumbnailTemplate"
   class="fs-gallery-thumbnail"
   id="fs-gallery-thumbnail-{{ data[fsGalleryService.config.indexField] }}"
-  [style.width]="fsGalleryService.imageWidth + 'px'"
+
   [ngClass]="{ active: isActive, carousel: carousel }">
 
   <div
     [ngSwitch]="data.galleryMime"
     (click)="onSelect()"
-    [style.height]="styles.height"
-    [style.width]="styles.width"
+    [style.height]="fsGalleryService.imageHeight + 'px'"
     [class]="'file file-' + data.galleryMime">
 
     <ng-template [ngSwitchCase]="'image'">
       <img
         [src]="image"
-        [style.height]="styles.height"
-        [style.width]="styles.width"
         alt="">
     </ng-template>
 
