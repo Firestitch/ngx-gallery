@@ -1,94 +1,28 @@
+
 <div
-  *ngIf="!overwriteThumbnailTemplate"
   class="fs-gallery-thumbnail"
-  id="fs-gallery-thumbnail-{{ data[fsGalleryService.config.indexField] }}"
-  [style.width]="fsGalleryService.config.layout===galleryLayout.Grid ? '' : fsGalleryService.imageWidth + 'px'"
-  [ngClass]="{ active: isActive, carousel: carousel }">
-  <div
-    [ngSwitch]="data.galleryMime"
-    (click)="onSelect()"
-    [style.height]="fsGalleryService.imageHeight + 'px'"
-    [class]="'file file-' + data.galleryMime">
+  id="fs-gallery-thumbnail-{{ data[galleryService.config.indexField] }}"
+  [style.width]="galleryService.config.layout===galleryLayout.Grid ? '' : galleryService.imageWidth + 'px'">
 
-    <ng-template [ngSwitchCase]="'image'">
-      <img
-        [src]="image"
-        alt="">
-    </ng-template>
-
-    <ng-template [ngSwitchCase]="'video'">
-
-        <div class="file-ext">{{data.galleryExtension}}</div>
-        <!-- <mat-icon>videocam</mat-icon> -->
-
-    </ng-template>
-
-    <ng-template [ngSwitchCase]="'application'">
-
-        <div class="file-ext">{{data.galleryExtension}}</div>
-        <!-- <mat-icon>insert_drive_file</mat-icon> -->
-
-    </ng-template>
-
-    <ng-template ngSwitchDefault>
-
-        <!-- <mat-icon>help</mat-icon> -->
-
-    </ng-template>
-
-    <div *ngIf="!carousel"
-      class="fs-gallery-thumbnail-actions"
-      (click)="preventEventPropagation($event)">
+    <ng-container
+      *ngIf="galleryService.thumbnailContainerDirective; else defaultThumbnailContainer">
       <ng-template
-        [ngTemplateOutlet]="fsGalleryService.thumbnailTemplate"
+        [ngTemplateOutlet]="galleryService.thumbnailContainerDirective"
         [ngTemplateOutletContext]="{ item: data }">
       </ng-template>
-    </div>
+    </ng-container>
 
-  </div>
+    <ng-template #defaultThumbnailContainer>
 
-  <div class="info" *ngIf="fsGalleryService.config.info!==false">
+      <fs-gallery-thumbnail-preview
+        [item]="data"
+        (select)="select.emit($event)">
+      </fs-gallery-thumbnail-preview>
 
-    <div *ngIf="fsGalleryService.config.info.icon!==false">
-      <a
-        [ngClass]="{'image-icon': data.galleryMime === 'image'}"
-        *ngIf="data.galleryMime === 'image'">
-        <mat-icon>image</mat-icon>
-      </a>
+      <fs-gallery-thumbnail-info
+        [item]="data">
+      </fs-gallery-thumbnail-info>
 
-      <a
-        [ngClass]="{'application-icon': data.galleryMime === 'application'}"
-        *ngIf="data.galleryMime === 'application'">
-        <mat-icon>insert_drive_file</mat-icon>
-      </a>
-
-      <a
-        [ngClass]="{'video-icon': data.galleryMime === 'video'}"
-        *ngIf="data.galleryMime === 'video'">
-        <mat-icon>videocam</mat-icon>
-      </a>
-    </div>
-
-    <div class="name" [matTooltip]="data.name" matTooltipPosition="above">
-      <span>{{ data.name }}</span>
-    </div>
-
-    <fs-menu *ngIf="fsGalleryService.config.info.menu">
-      <ng-template
-        fs-menu-item
-        (click)="menuClick($event, action, data)"
-        *ngFor="let action of fsGalleryService.config.info.menu.actions">
-        {{action.label}}
-      </ng-template>
-    </fs-menu>
-  </div>
-
-  <div
-    class="fs-gallery-thumbnail-custom"
-    *ngIf="overwriteThumbnailTemplate">
-    <ng-template
-      [ngTemplateOutlet]="fsGalleryService.thumbnailTemplate"
-      [ngTemplateOutletContext]="{ item: data }">
     </ng-template>
-  </div>
 </div>
+

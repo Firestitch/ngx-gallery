@@ -9,6 +9,7 @@ import {
   OnInit,
   Injector,
   OnDestroy,
+  HostBinding,
 } from '@angular/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -16,13 +17,14 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
 
-import { FsGalleryPreviewService } from '../../services/gallery-preview.service';
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.directive';
 
 import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
 import { GalleryConfig } from '../../classes/gallery.config';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
+import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-thumbnail-container.directive';
+import { DragulaService } from 'ng2-dragula';
 
 
 @Component({
@@ -42,10 +44,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
     return this._config;
   }
 
-  @Output() public reorderImages = new EventEmitter<FsGalleryItem[]>();
-  @Output() public previewOpened = new EventEmitter<void>();
-  @Output() public previewClosed = new EventEmitter<void>();
-
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
   public previewTemplate: FsGalleryPreviewDirective = null;
 
@@ -55,6 +53,9 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
   @ContentChild(FsGalleryThumbnailDirective, { read: TemplateRef })
   public thumbnailTemplate: FsGalleryThumbnailDirective = null;
 
+  @ContentChild(FsGalleryThumbnailContainerDirective, { read: TemplateRef })
+  public thumbnailContainerDirective: FsGalleryThumbnailContainerDirective = null;
+
   @ContentChild(FsGalleryThumbnailDirective)
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
 
@@ -62,25 +63,26 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
   public fsGalleryThumbnail: FsGalleryThumbnailComponent = null;
 
   public data$: BehaviorSubject<FsGalleryItem[]>;
-  public dragEnabled = true;
+  public reorderEnabled = true;
 
   private _config: GalleryConfig = null;
   private _destroy$ = new Subject<void>();
 
   constructor(
-    public galleryService: FsGalleryService,
-    private galleryPreviewService: FsGalleryPreviewService,
-    private _injector: Injector,
+    public galleryService: FsGalleryService
   ) { }
 
   public ngOnInit() {
     this.galleryService.previewTemplate = this.previewTemplate;
-    this.galleryService.thumbnailTemplate = this.thumbnailTemplate;
     this.galleryService.previewDirective = this.previewDirective;
+
     this.galleryService.thumbnailDirective = this.thumbnailDirective;
+    this.galleryService.thumbnailTemplate = this.thumbnailTemplate;
+
+    this.galleryService.thumbnailContainerDirective = this.thumbnailContainerDirective;
 
     this.data$ = this.galleryService.data$;
-    this.dragEnabled = this.galleryService.config.draggable;
+    this.reorderEnabled = this.galleryService.config.reorderable;
   }
 
   public ngOnDestroy() {
@@ -90,43 +92,30 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
 
   public orderChange(value: FsGalleryItem[], reorder = false): void {
 
-    if (this.config.reorderEnd) {
-      this.config.reorderEnd(this.data$.getValue());
-    }
-
     this.data$.next(value);
 
-    if (reorder) {
-      this.reorderImages.emit(this.data$.getValue());
+    if (this.config.reorderEnd) {
+      this.config.reorderEnd(value);
     }
   }
 
-  public openPreview(data: FsGalleryItem) {
-    if (data.galleryMime === 'image') {
-      this.galleryPreviewService.open(this._injector, data)
-        .onClose
-        .pipe(
-          take(1),
-          takeUntil(this._destroy$)
-        )
-        .subscribe(() => {
-          this.previewClosed.emit();
-        });
+  public openPreview(item: FsGalleryItem) {
+    this.galleryService.openPreview(item);
+  }
 
-      this.previewOpened.emit();
+  public isReorderEnabled() {
+    return this.reorderEnabled;
+  }
+
+  public enableReorder() {
+
+    if (this.galleryService.config.reorderable) {
+      this.reorderEnabled = true;
     }
   }
 
-  public isDragEnabled() {
-    return this.dragEnabled;
-  }
-
-  public enableDrag() {
-    this.dragEnabled = true;
-  }
-
-  public disableDrag() {
-    this.dragEnabled = false;
+  public disableReorder() {
+    this.reorderEnabled = false;
   }
 
   public refresh() {

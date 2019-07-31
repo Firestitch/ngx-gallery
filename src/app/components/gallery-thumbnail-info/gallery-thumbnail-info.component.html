@@ -1,0 +1,34 @@
+<div class="info" *ngIf="fsGalleryService.config.info!==false">
+  <div *ngIf="fsGalleryService.config.info.icon!==false" class="icon">
+    <a
+      [ngClass]="{'image-icon': item.galleryMime === 'image'}"
+      *ngIf="item.galleryMime === 'image'">
+      <mat-icon>image</mat-icon>
+    </a>
+
+    <a
+      [ngClass]="{'application-icon': item.galleryMime === 'application'}"
+      *ngIf="item.galleryMime === 'application'">
+      <mat-icon>insert_drive_file</mat-icon>
+    </a>
+
+    <a
+      [ngClass]="{'video-icon': item.galleryMime === 'video'}"
+      *ngIf="item.galleryMime === 'video'">
+      <mat-icon>videocam</mat-icon>
+    </a>
+  </div>
+
+  <div class="name" [matTooltip]="item.name" matTooltipPosition="above">
+    <span>{{ item.name }}</span>
+  </div>
+
+  <fs-menu *ngIf="fsGalleryService.config.info.menu">
+    <ng-template
+      fs-menu-item
+      (click)="menuClick($event, action, item)"
+      *ngFor="let action of fsGalleryService.config.info.menu.actions">
+      {{action.label}}
+    </ng-template>
+  </fs-menu>
+</div>

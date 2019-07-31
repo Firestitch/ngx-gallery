@@ -29,6 +29,7 @@ export class ExampleComponent implements AfterViewInit {
     imageHeightScale: 0.674,
     imageWidth: 200,
     layout: GalleryLayout.Grid,
+    toolbar: true,
     info: {
       icon: true,
       menu: {
@@ -44,11 +45,16 @@ export class ExampleComponent implements AfterViewInit {
             click: (item: FsGalleryItem) => {
               console.log(item);
             }
+          },
+          {
+            label: 'Download',
+            click: (item: FsGalleryItem) => {
+              window.open(item.image.large);
+            }
           }
         ]
       }
     },
-    toolbar: true,
     filters: [
       {
         name: 'keyword',
@@ -74,6 +80,12 @@ export class ExampleComponent implements AfterViewInit {
     },
     upload: (files) => {
       console.log('uploading...', files);
+    },
+    previewOpened: (data) => {
+      console.log('previewOpened', data);
+    },
+    previewClosed: (data) => {
+      console.log('previewClosed', data);
     }
   };
 
@@ -173,11 +185,11 @@ export class ExampleComponent implements AfterViewInit {
 
   public switchOrder() {
 
-    if (this.gallery.isDragEnabled()) {
-      this.gallery.disableDrag();
+    if (this.gallery.isReorderEnabled()) {
+      this.gallery.disableReorder();
       this.reorderEnabled = false;
     } else {
-      this.gallery.enableDrag();
+      this.gallery.enableReorder();
       this.reorderEnabled = true;
     }
   }

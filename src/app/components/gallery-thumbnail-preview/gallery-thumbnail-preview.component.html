@@ -1,0 +1,28 @@
+<div
+  [ngSwitch]="item.galleryMime"
+  (click)="click(item)"
+  [style.height]="fsGalleryService.imageHeight + 'px'"
+  [class]="'file file-' + item.galleryMime">
+
+  <ng-template [ngSwitchCase]="'image'">
+    <img
+      [src]="image"
+      alt="">
+  </ng-template>
+
+  <ng-template [ngSwitchCase]="'video'">
+      <div class="file-ext">{{item.galleryExtension}}</div>
+  </ng-template>
+
+  <ng-template [ngSwitchCase]="'application'">
+      <div class="file-ext">{{item.galleryExtension}}</div>
+  </ng-template>
+
+  <div *ngIf="!carousel"
+    (click)="preventEventPropagation($event)">
+    <ng-template
+      [ngTemplateOutlet]="fsGalleryService.thumbnailTemplate"
+      [ngTemplateOutletContext]="{ item: item }">
+    </ng-template>
+  </div>
+</div>

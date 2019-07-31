@@ -25,9 +25,12 @@ import { FsGalleryZoomControlComponent } from './components/header/zoom-control/
 import { FsGalleryThumbnailDirective } from './directives/gallery-thumbnail.directive';
 
 import { FsGalleryPreviewDirective } from './directives/gallery-preview.directive';
-import { FsGalleryPreviewService } from './services/gallery-preview.service';
 
 import { HammerConfig } from './classes/hammer-config';
+import { FsGalleryThumbnailInfoComponent } from './components/gallery-thumbnail-info/gallery-thumbnail-info.component';
+import { FsGalleryThumbnailContainerDirective } from './directives/gallery-thumbnail-container.directive';
+import { FsGalleryThumbnailPreviewComponent } from './components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
+import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-component.injector';
 
 
 @NgModule({
@@ -45,9 +48,11 @@ import { HammerConfig } from './classes/hammer-config';
   ],
   exports: [
     FsGalleryComponent,
-
+    FsGalleryThumbnailInfoComponent,
     FsGalleryThumbnailDirective,
-    FsGalleryPreviewDirective
+    FsGalleryPreviewDirective,
+    FsGalleryThumbnailContainerDirective,
+    FsGalleryThumbnailPreviewComponent
   ],
   entryComponents: [
     FsGalleryPreviewComponent
@@ -60,18 +65,22 @@ import { HammerConfig } from './classes/hammer-config';
     FsGalleryPreviewCarouselComponent,
     FsGalleryHeaderComponent,
     FsGalleryZoomControlComponent,
-
+    FsGalleryThumbnailInfoComponent,
     FsGalleryThumbnailDirective,
-    FsGalleryPreviewDirective
-  ],
-  providers: []
+    FsGalleryPreviewDirective,
+    FsGalleryThumbnailContainerDirective,
+    FsGalleryThumbnailPreviewComponent
+  ]
 })
 export class FsGalleryModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FsGalleryModule,
       providers: [
-        FsGalleryPreviewService,
+        {
+          provide: GalleryPreviewComponentInjector,
+          useValue: FsGalleryPreviewComponent
+        },
         {
           provide: HAMMER_GESTURE_CONFIG,
           useClass: HammerConfig

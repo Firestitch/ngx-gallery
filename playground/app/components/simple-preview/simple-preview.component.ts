@@ -14,7 +14,6 @@ export class SimplePreviewComponent {
 
   public config: FsGalleryConfig = {
     draggable: false,
-    overwriteThumbnailTemplate: true,
     showCarousel: false,
     zoom: false,
     fetch: (query) => {

@@ -1,0 +1,66 @@
+
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+  box-sizing: border-box;
+
+  .image-icon {
+    color: #d13333;
+  }
+
+  .video-icon {
+    color: #006665;
+  }
+
+  .application-icon {
+    color: #962E9E;
+  }
+
+  .tags {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    padding: 2px 4px;
+    ::ng-deep {
+      .pill {
+        margin-right: 4px;
+      }
+    }
+  }
+
+  .icon {
+    margin-right: 5px;
+  }
+
+  .name {
+    display: flex;
+    position: relative;
+    min-width: 0;
+    color: #000;
+    align-items: center;
+    padding: 8px 0;
+    box-sizing: border-box;
+    flex: 1;
+
+    span {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+::ng-deep fs-gallery-thumbnail.gu-mirror {
+  .info {
+    display: none;
+  }
+}
+
+.file-icon {
+  border: 1px solid #ccc;
+}
+
+

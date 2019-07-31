@@ -20,12 +20,13 @@ export interface FsGalleryConfig {
   filters?: any[];
   zoom?: boolean;
   reorderEnd?(data: any): any,
+  previewOpened?(item: FsGalleryItem): any,
+  previewClosed?(item: FsGalleryItem): any,
   dragName?: string;
   imageHeightScale?: number;
   imageWidth?: number;
   info?: boolean | FsGalleryInfoConfig;
   showCarousel?: boolean;
-  overwriteThumbnailTemplate?: boolean;
   thumbnail?: FsGalleryThumbnailConfig;
 }
 

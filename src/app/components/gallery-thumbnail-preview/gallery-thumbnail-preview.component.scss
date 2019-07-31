@@ -1,10 +1,6 @@
 :host {
 
   ::ng-deep {
-    .fs-gallery-thumbnail {
-      display: block;
-      position: relative;
-
 
       .file {
         display: flex;
@@ -105,4 +101,16 @@
       cursor: pointer;
     }
   }
-}
+
+
+// .carousel {
+//   .info {
+//     display: none;
+//   }
+// }
+
+// .file-icon {
+//   border: 1px solid #ccc;
+// }
+
+

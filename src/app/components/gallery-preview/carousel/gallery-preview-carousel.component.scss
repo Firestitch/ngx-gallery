@@ -1,6 +1,7 @@
 :host {
   width: 100%;
   .fs-gallery-preview-carousel {
+
     // Scroll doesn't work correctly with display: flex; and jsustify-content: center;
     position: absolute;
     display: flex;
@@ -13,7 +14,8 @@
     overflow-x: auto;
 
     ::ng-deep {
-      .fs-gallery-thumbnail {
+      fs-gallery-thumbnail-preview {
+
         margin-right: 9px;
         display: inline-block;
         cursor: pointer;

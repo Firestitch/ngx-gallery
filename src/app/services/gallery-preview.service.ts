@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injector, Injectable, Inject } from '@angular/core';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 
@@ -9,18 +9,19 @@ import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
 import { PREVIEW_DATA } from './preview-data';
 
 
-@Injectable()
 export class FsGalleryPreviewService {
 
   constructor(
     private _overlay: Overlay,
+    private _galleryPreviewComponent,
+    private _injector: Injector
   ) {}
 
-  public open(injector: Injector, data: FsGalleryDataItem) {
+  public open(data: FsGalleryDataItem) {
     const overlayRef = this._createOverlay();
     const previewRef = new FsGalleryPreviewRef(overlayRef);
 
-    this.openPortalPreview(injector, overlayRef, previewRef, data);
+    this.openPortalPreview(this._injector, overlayRef, previewRef, data);
 
     return previewRef;
   }
@@ -40,8 +41,8 @@ export class FsGalleryPreviewService {
     data: FsGalleryDataItem,
   ) {
     const injector = this._createInjector(parentInjector, previewRef, data);
-    const containerPortal = new ComponentPortal(FsGalleryPreviewComponent, undefined, injector);
-    const containerRef = overlayRef.attach<FsGalleryPreviewComponent>(containerPortal);
+    const containerPortal = new ComponentPortal(this._galleryPreviewComponent, undefined, injector);
+    const containerRef = overlayRef.attach<any>(containerPortal);
 
     return containerRef.instance;
   }
