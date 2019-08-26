@@ -1,11 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostBinding } from '@angular/core';
-
-import { Subject } from 'rxjs';
+import { Component, Input } from '@angular/core';
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { GalleryLayout } from '../../enums/gallery-layout-enum';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'fs-gallery-thumbnail',
@@ -15,11 +12,8 @@ import { takeUntil } from 'rxjs/operators';
 export class FsGalleryThumbnailComponent {
 
   @Input() public data: FsGalleryItem = null;
-  @Output() public select = new EventEmitter();
 
   public galleryLayout = GalleryLayout;
-
-  private _destroy$ = new Subject<void>();
 
   constructor(
     public galleryService: FsGalleryService,

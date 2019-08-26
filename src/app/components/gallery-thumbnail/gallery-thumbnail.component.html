@@ -1,4 +1,3 @@
-
 <div
   class="fs-gallery-thumbnail"
   id="fs-gallery-thumbnail-{{ data[galleryService.config.indexField] }}"
@@ -15,8 +14,7 @@
     <ng-template #defaultThumbnailContainer>
 
       <fs-gallery-thumbnail-preview
-        [item]="data"
-        (select)="select.emit($event)">
+        [item]="data">
       </fs-gallery-thumbnail-preview>
 
       <fs-gallery-thumbnail-info
