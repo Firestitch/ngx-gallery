@@ -1,4 +1,4 @@
-import { GestureConfig } from '@angular/material';
+import { GestureConfig } from '@angular/material/core';
 
 
 export class HammerConfig extends GestureConfig  {

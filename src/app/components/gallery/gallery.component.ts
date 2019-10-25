@@ -44,22 +44,22 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
     return this._config;
   }
 
-  @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
+  @ContentChild(FsGalleryPreviewDirective, { static: false, read: TemplateRef })
   public previewTemplate: FsGalleryPreviewDirective = null;
 
-  @ContentChild(FsGalleryPreviewDirective)
+  @ContentChild(FsGalleryPreviewDirective, { static: false })
   public previewDirective: FsGalleryPreviewDirective = null;
 
-  @ContentChild(FsGalleryThumbnailDirective, { read: TemplateRef })
+  @ContentChild(FsGalleryThumbnailDirective, { static: false, read: TemplateRef })
   public thumbnailTemplate: FsGalleryThumbnailDirective = null;
 
-  @ContentChild(FsGalleryThumbnailContainerDirective, { read: TemplateRef })
+  @ContentChild(FsGalleryThumbnailContainerDirective, { static: false, read: TemplateRef })
   public thumbnailContainerDirective: FsGalleryThumbnailContainerDirective = null;
 
-  @ContentChild(FsGalleryThumbnailDirective)
+  @ContentChild(FsGalleryThumbnailDirective, { static: false })
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
 
-  @ViewChild('fsGalleryThumbnail')
+  @ViewChild('fsGalleryThumbnail', { static: false })
   public fsGalleryThumbnail: FsGalleryThumbnailComponent = null;
 
   public data$: BehaviorSubject<FsGalleryItem[]>;

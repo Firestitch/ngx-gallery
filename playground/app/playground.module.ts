@@ -23,7 +23,7 @@ import {
   ExamplesComponent,
   ConfigureComponent
 } from './components';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
@@ -44,7 +44,7 @@ const routes: Routes = [
     FsExampleModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
     FsMessageModule.forRoot(),
-    FsDrawerModule.forRoot(),
+    FsDrawerModule,
     FsLabelModule
   ],
   entryComponents: [

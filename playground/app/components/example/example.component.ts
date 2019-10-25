@@ -16,7 +16,7 @@ import { FsExampleComponent } from '@firestitch/example';
 })
 export class ExampleComponent implements AfterViewInit {
 
-  @ViewChild('gallery')
+  @ViewChild('gallery', { static: true })
   public gallery: FsGalleryComponent;
   public reorderEnabled = false;
 
