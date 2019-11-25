@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
 
 
 @Component({

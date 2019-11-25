@@ -1,9 +1,11 @@
 <div class="header-content">
-  <fs-filter
-    class="fs-gallery-filter"
-    *ngIf="filterConfig"
-    [filter]="filterConfig">
-  </fs-filter>
+  <div class="filter">
+    <fs-filter
+      class="fs-gallery-filter"
+      *ngIf="filterConfig"
+      [filter]="filterConfig">
+    </fs-filter>
+  </div>
 
   <fs-gallery-zoom-control
     *ngIf="zoomEnabled"
@@ -21,6 +23,6 @@
   </fs-file>
 </div>
 
-<div class="status" *ngIf="filterConfig">
+<small class="status" *ngIf="filterConfig">
   Showing {{ (data$ | async).length }} results
-</div>
+</small>

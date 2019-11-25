@@ -1,19 +1,22 @@
 :host {
   display: block;
+  margin-bottom: 8px;
 }
 
 .header-content {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  .filter {
+    flex: 1;
+  }
 }
 
 .status {
   display: block;
-  font-size: 13px;
   color: #999;
-  font-weight: 400;
-  margin-bottom: 20px;
+  margin-top: -11px;
 }
 
 .fs-gallery-filter {

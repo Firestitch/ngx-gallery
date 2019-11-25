@@ -20,6 +20,7 @@ export interface FsGalleryConfig {
   filters?: any[];
   zoom?: boolean;
   reorderEnd?(data: any): any,
+  previewBeforeOpen?(item: FsGalleryItem): any,
   previewOpened?(item: FsGalleryItem): any,
   previewClosed?(item: FsGalleryItem): any,
   dragName?: string;

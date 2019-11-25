@@ -83,6 +83,12 @@ export class FsGalleryService implements OnDestroy {
     this._destroy$.complete();
   }
 
+  public beforeOpenPreview(item: FsGalleryItem) {
+    if (this.config.previewBeforeOpen) {
+      return this.config.previewBeforeOpen(item);
+    }
+  }
+
   public openPreview(item: FsGalleryItem) {
     if (item.galleryMime === 'image') {
       if (this.config.previewOpened) {

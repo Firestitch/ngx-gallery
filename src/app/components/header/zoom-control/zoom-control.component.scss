@@ -6,3 +6,17 @@
     }
   }
 }
+
+button {
+  height: 36px;
+  line-height: 36px;
+}
+
+:host ::ng-deep {
+  .mat-slider-horizontal {
+    height: auto;
+    .mat-slider-wrapper {
+      top: 7px;
+    }
+  }
+}

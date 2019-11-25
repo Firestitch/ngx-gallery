@@ -33,6 +33,7 @@ export class GalleryConfig {
   public previewClick: (item: FsGalleryItem) => {};
   public previewOpened: (item: FsGalleryItem) => {};
   public previewClosed: (item: FsGalleryItem) => {};
+  public previewBeforeOpen: (item: FsGalleryItem) => {};
 
   public upload: (files: any) => void;
   public fetch;
@@ -76,7 +77,7 @@ export class GalleryConfig {
     this.nameField = data.nameField;
     this.previewClosed = data.previewClosed;
     this.previewOpened = data.previewOpened;
-
+    this.previewBeforeOpen = data.previewBeforeOpen;
 
     if (data.upload) {
       this.upload = data.upload;

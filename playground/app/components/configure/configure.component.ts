@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { DrawerRef, DRAWER_DATA, DrawerDataProxy } from '@firestitch/drawer';
+import { ItemType } from '@firestitch/filter';
 
 
 @Component({

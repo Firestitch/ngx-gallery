@@ -30,6 +30,7 @@ export class ExampleComponent implements AfterViewInit {
     imageWidth: 200,
     layout: GalleryLayout.Grid,
     toolbar: true,
+    zoom: true,
     info: {
       icon: true,
       menu: {
@@ -86,6 +87,9 @@ export class ExampleComponent implements AfterViewInit {
     },
     previewClosed: (data) => {
       console.log('previewClosed', data);
+    },
+    previewBeforeOpen: (data) => {
+      console.log('previewBeforeOpen', data);
     }
   };
 

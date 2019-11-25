@@ -48,9 +48,15 @@ export class FsGalleryThumbnailPreviewComponent implements OnInit {
     if (this.fsGalleryService.config.previewClick) {
       this.fsGalleryService.config.previewClick(item);
     } else {
-      this.fsGalleryService.openPreview(item);
+
+      const result = this.fsGalleryService.beforeOpenPreview(item);
+
+      if (result !== false) {
+        this.fsGalleryService.openPreview(item);
+      }
     }
   }
+
   public preventEventPropagation(event) {
     event.stopPropagation();
     event.preventDefault();
