@@ -1,0 +1,38 @@
+<div class="group-header">
+  <div class="group-drag">
+    <mat-icon>view_module</mat-icon>
+  </div>
+  <div class="group-border left">
+  </div>
+  <div class="group-title" (click)="renameGroup()">
+    {{ group.name }} <span class="group-items-number">{{group.items.length}}</span>
+  </div>
+  <div class="group-border right">
+  </div>
+  <div class="group-actions">
+    <mat-icon *ngIf="!!galleryService.groupConfig.addGroup"
+              (click)="addGroup()"
+    >add_circle</mat-icon>
+
+    <mat-icon *ngIf="!group.locked && !!galleryService.groupConfig.groupDeleted"
+              (click)="deleteGroup()"
+    >delete</mat-icon>
+
+    <mat-icon (click)="group.toggleExpanded()">
+      <ng-container *ngIf="group.expanded$ | async; else collapse">
+        expand_less
+      </ng-container>
+      <ng-template #collapse>
+        expand_more
+      </ng-template>
+    </mat-icon>
+  </div>
+</div>
+
+<div *ngIf="group.expanded$ | async"
+     [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
+  <fs-gallery-thumbnail
+    *ngFor="let item of group.items"
+    [data]="item">
+  </fs-gallery-thumbnail>
+</div>

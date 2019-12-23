@@ -62,7 +62,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   public prev() {
 
-    const data = this.galleryService.data$.getValue();
+    const data = this.galleryService.data$.getValue() as FsGalleryItem[];
 
     const images = data.filter((item: FsGalleryItem) => {
       return item.galleryMime === 'image';
@@ -88,7 +88,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   public next() {
 
-    const data = this.galleryService.data$.getValue();
+    const data = this.galleryService.data$.getValue() as FsGalleryItem[];
 
     const images = data.filter((item: FsGalleryItem) => {
       return item.galleryMime === 'image';
@@ -128,9 +128,10 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   }
 
   private _initAvailableImages() {
-    this.availableImages = this.galleryService.data$.getValue().filter((item: FsGalleryItem) => {
-      return item.galleryMime === 'image';
-    });
+    this.availableImages = (this.galleryService.data$.getValue() as FsGalleryItem[])
+      .filter((item: FsGalleryItem) => {
+        return item.galleryMime === 'image';
+      });
 
     this.hasManyItems = this.availableImages.length > 1;
 

@@ -10,6 +10,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsFileModule } from '@firestitch/file';
 import { FsMenuModule } from '@firestitch/menu';
+import { FsPromptModule } from '@firestitch/prompt';
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -20,14 +21,16 @@ import { FsGalleryPreviewHeaderComponent } from './components/gallery-preview/he
 import { FsGalleryThumbnailComponent } from './components/gallery-thumbnail/gallery-thumbnail.component';
 import { FsGalleryHeaderComponent } from './components/header/header.component';
 import { FsGalleryZoomControlComponent } from './components/header/zoom-control/zoom-control.component';
-import { FsGalleryThumbnailDirective } from './directives/gallery-thumbnail.directive';
+import { FsGalleryThumbnailInfoComponent } from './components/gallery-thumbnail-info/gallery-thumbnail-info.component';
+import { FsGalleryThumbnailPreviewComponent } from './components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
+import { FsGalleryGroupComponent } from './components/group/group.component';
 
+import { FsGalleryThumbnailDirective } from './directives/gallery-thumbnail.directive';
 import { FsGalleryPreviewDirective } from './directives/gallery-preview.directive';
+import { FsGalleryThumbnailContainerDirective } from './directives/gallery-thumbnail-container.directive';
 
 import { HammerConfig } from './classes/hammer-config';
-import { FsGalleryThumbnailInfoComponent } from './components/gallery-thumbnail-info/gallery-thumbnail-info.component';
-import { FsGalleryThumbnailContainerDirective } from './directives/gallery-thumbnail-container.directive';
-import { FsGalleryThumbnailPreviewComponent } from './components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
+
 import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-component.injector';
 
 
@@ -42,7 +45,8 @@ import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-com
     MatTooltipModule,
     FsFilterModule,
     FsFileModule,
-    FsMenuModule
+    FsMenuModule,
+    FsPromptModule,
   ],
   exports: [
     FsGalleryComponent,
@@ -67,7 +71,8 @@ import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-com
     FsGalleryThumbnailDirective,
     FsGalleryPreviewDirective,
     FsGalleryThumbnailContainerDirective,
-    FsGalleryThumbnailPreviewComponent
+    FsGalleryThumbnailPreviewComponent,
+    FsGalleryGroupComponent,
   ]
 })
 export class FsGalleryModule {

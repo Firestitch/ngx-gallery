@@ -62,7 +62,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
   @ViewChild('fsGalleryThumbnail', { static: false })
   public fsGalleryThumbnail: FsGalleryThumbnailComponent = null;
 
-  public data$: BehaviorSubject<FsGalleryItem[]>;
+  public data$: BehaviorSubject<any>;
   public reorderEnabled = true;
 
   private _config: GalleryConfig = null;

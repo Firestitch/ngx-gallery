@@ -1,7 +1,10 @@
-import { guid } from '@firestitch/common';
-
-import { FsGalleryConfig, FsGalleryInfoConfig, FsGalleryItem } from '../interfaces/gallery-config.interface';
+import {
+  FsGalleryConfig,
+  FsGalleryGroupConfig,
+  FsGalleryItem,
+} from '../interfaces/gallery-config.interface';
 import { GalleryLayout } from '../enums/gallery-layout-enum';
+import { GalleryGroupConfig } from './group.config';
 
 
 export class GalleryConfig {
@@ -38,8 +41,19 @@ export class GalleryConfig {
   public upload: (files: any) => void;
   public fetch;
 
+  private _groupsMode = false;
+  private _group: GalleryGroupConfig;
+
   constructor(data: FsGalleryConfig = {}) {
     this._initConfig(data);
+  }
+
+  get group() {
+    return this._group;
+  }
+
+  get groupsMode() {
+    return this._groupsMode;
   }
 
   private _initConfig(data) {
@@ -97,6 +111,16 @@ export class GalleryConfig {
         },
         items: data.filters.slice(),
       }
+    }
+
+    this._initGroup(data.group);
+  }
+
+  private _initGroup(group: FsGalleryGroupConfig) {
+    this._groupsMode = !!group;
+
+    if (this.groupsMode) {
+      this._group = new GalleryGroupConfig(group);
     }
   }
 }

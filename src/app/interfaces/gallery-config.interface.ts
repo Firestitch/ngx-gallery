@@ -19,10 +19,11 @@ export interface FsGalleryConfig {
   fetch?: (query) => Observable<FsGalleryItem[]> | FsGalleryItem[];
   filters?: any[];
   zoom?: boolean;
-  reorderEnd?(data: any): any,
-  previewBeforeOpen?(item: FsGalleryItem): any,
-  previewOpened?(item: FsGalleryItem): any,
-  previewClosed?(item: FsGalleryItem): any,
+  group?: FsGalleryGroupConfig;
+  reorderEnd?(data: any): any;
+  previewBeforeOpen?(item: FsGalleryItem): any;
+  previewOpened?(item: FsGalleryItem): any;
+  previewClosed?(item: FsGalleryItem): any;
   dragName?: string;
   imageHeightScale?: number;
   imageWidth?: number;
@@ -47,4 +48,42 @@ export interface FsGalleryInfoMenuConfig {
 export interface FsGalleryInfoMenuActionConfig {
   label?: string;
   click?(item: FsGalleryItem): any
+}
+
+export interface FsGalleryGroupConfig {
+  groups: any[];
+  groupWith: FsGalleryGroupWithFn;
+  nameValue?: FsGalleryNameValueFn;
+  groupTrackBy?: FsGalleryGroupTrackByFn;
+  added?: FsGalleryGroupAddedFn;
+  changed?: FsGalleryGroupChangedFn;
+  deleted?: FsGalleryGroupDeletedFn;
+}
+
+export interface FsGalleryGroupWithFn {
+  (item: FsGalleryItem): string | number;
+}
+
+export interface FsGalleryNameValueFn {
+  (group: any): string;
+}
+
+export interface FsGalleryGroupTrackByFn {
+  (group: any): any;
+}
+
+export interface FsGalleryGroupTrackByFn {
+  (group: any): any;
+}
+
+export interface FsGalleryGroupDeletedFn {
+  (group: any, items: FsGalleryItem[]): Observable<any>;
+}
+
+export interface FsGalleryGroupChangedFn {
+  (group: any, items: FsGalleryItem[]): Observable<any>;
+}
+
+export interface FsGalleryGroupAddedFn {
+  (name: string): Observable<any>;
 }

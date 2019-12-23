@@ -7,25 +7,36 @@
   *ngIf="config.toolbar!==false">
 </fs-gallery-header>
 
-<div
-  *ngIf="reorderEnabled"
-  [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
-  [dragula]="galleryService.dragName"
-  [dragulaModel]="data$ | async"
-  (dragulaModelChange)="orderChange($event, true)">
-  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-</div>
+<!-- Groups mode -->
+<ng-container *ngIf="config.groupsMode; else notGroupsMode">
+  <fs-gallery-group *ngFor="let group of data$ | async"
+                    [group]="group">
+  </fs-gallery-group>
+</ng-container>
 
-<div
-  *ngIf="!reorderEnabled"
-  [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
-  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-</div>
 
-<ng-template #thumbnailsTemplate>
-  <fs-gallery-thumbnail
-    *ngFor="let item of data$ | async"
-    #fsGalleryThumbnail
-    [data]="item">
-  </fs-gallery-thumbnail>
+<!-- Simple gallery mode -->
+<ng-template #notGroupsMode>
+  <div
+    *ngIf="reorderEnabled"
+    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
+    [dragula]="galleryService.dragName"
+    [dragulaModel]="data$ | async"
+    (dragulaModelChange)="orderChange($event, true)">
+    <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
+  </div>
+
+  <div
+    *ngIf="!reorderEnabled"
+    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
+    <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
+  </div>
+
+  <ng-template #thumbnailsTemplate>
+    <fs-gallery-thumbnail
+      *ngFor="let item of data$ | async"
+      #fsGalleryThumbnail
+      [data]="item">
+    </fs-gallery-thumbnail>
+  </ng-template>
 </ng-template>

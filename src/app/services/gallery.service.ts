@@ -1,22 +1,23 @@
 import { Injectable, OnDestroy, Inject, Injector } from '@angular/core';
+import { Overlay } from '@angular/cdk/overlay';
 
 import { indexOf, guid } from '@firestitch/common';
 
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { map, takeUntil, take } from 'rxjs/operators';
-import { round } from 'lodash-es';
+import { round, get } from 'lodash-es';
+import { DragulaService } from 'ng2-dragula';
 
-
-import { get } from 'lodash-es';
 import { FsGalleryPreviewDirective } from '../directives/gallery-preview.directive';
 import { FsGalleryThumbnailDirective } from '../directives/gallery-thumbnail.directive';
 import { GalleryConfig } from '../classes/gallery.config';
 import { FsGalleryItem } from '../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../directives/gallery-thumbnail-container.directive';
 import { FsGalleryPreviewService } from './gallery-preview.service';
-import { Overlay } from '@angular/cdk/overlay';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
-import { DragulaService } from 'ng2-dragula';
+import { Group } from '../models/group';
+import { GalleryGroupConfig } from '../classes/group.config';
+import { GroupsStore } from '../classes/groups-store';
 
 
 @Injectable()
@@ -37,8 +38,10 @@ export class FsGalleryService implements OnDestroy {
   public reorderStart$: Observable<any>;
   public reorderEnd$: Observable<any>;
 
+  private _groupsStore: GroupsStore;
+
   private filterQuery = {};
-  private _data$ = new BehaviorSubject<FsGalleryItem[]>([]);
+  private _data$ = new BehaviorSubject<FsGalleryItem[] | Group>([]);
   private _destroy$ = new Subject<void>();
   private _imageWidth: number = null;
   private _imageHeight: number = null;
@@ -60,6 +63,14 @@ export class FsGalleryService implements OnDestroy {
     return this._data$;
   }
 
+  get groupsStore() {
+    return this._groupsStore;
+  }
+
+  get groupConfig(): GalleryGroupConfig {
+    return this._config.group;
+  }
+
   get config(): GalleryConfig {
     return this._config;
   }
@@ -68,6 +79,11 @@ export class FsGalleryService implements OnDestroy {
     this._config = value;
     this._config.filterInit = this.filterInit.bind(this);
     this._config.filterChange = this.filterChange.bind(this);
+
+    if (this._config.groupsMode) {
+      this._groupsStore = new GroupsStore();
+      this.updateDataGroups();
+    }
     this.loadData();
   }
 
@@ -136,7 +152,11 @@ export class FsGalleryService implements OnDestroy {
           }),
         )
         .subscribe((data) => {
-          this.data$.next(data);
+          if (this.config.groupsMode) {
+            this._groupResponse(data);
+          } else {
+            this.data$.next(data);
+          }
         });
     }
   }
@@ -151,7 +171,7 @@ export class FsGalleryService implements OnDestroy {
 
   public updateImageZoom(val: number) {
     this.imageZoom = val;
-    this.imageZoomInteger = round(val,0);
+    this.imageZoomInteger = round(val, 0);
     this.updateImageDims();
   }
 
@@ -185,6 +205,15 @@ export class FsGalleryService implements OnDestroy {
     this.loadData();
   }
 
+  public deleteGroup(group: Group) {
+    this._groupsStore.removeGroup(group);
+    this.updateDataGroups();
+  }
+
+  public updateDataGroups() {
+    this.data$.next(this._groupsStore.groups);
+  }
+
   private detectExtensionType(item, fileName) {
     const match = fileName.toLowerCase().match(/([^\.]+)$/);
     item.galleryExtension = match ? match[1] : '';
@@ -203,5 +232,37 @@ export class FsGalleryService implements OnDestroy {
     }
 
     item.type = item.galleryMime + '/' + item.extension;
+  }
+
+  private _groupResponse(data) {
+    this._groupsStore.clear();
+
+    const groupConfig = this.config.group;
+    const unorganizedGroup = new Group('Unorganized', 'unorganized', true);
+    this._groupsStore.addGroup(unorganizedGroup);
+
+    data.forEach((item) => {
+      const itemKeyId = groupConfig.groupWith(item);
+
+      const groupData = groupConfig.groups.find((group) => {
+        return groupConfig.groupTrackBy(group) === itemKeyId;
+      });
+
+      if (!groupData) {
+        unorganizedGroup.items.push(item);
+
+        return;
+      }
+
+      if (!this._groupsStore.groupExists(itemKeyId)) {
+        const groupName = groupConfig.nameValue(groupData) || String(itemKeyId);
+
+        this._groupsStore.addGroup(new Group(groupName, itemKeyId, false, groupData));
+      }
+
+      this._groupsStore.addItemForGroup(item, itemKeyId);
+    });
+
+    this.updateDataGroups();
   }
 }

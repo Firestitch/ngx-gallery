@@ -21,7 +21,8 @@ import {
   ExampleComponent,
   SimplePreviewComponent,
   ExamplesComponent,
-  ConfigureComponent
+  ConfigureComponent,
+  GroupsComponent,
 } from './components';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 
@@ -55,7 +56,8 @@ const routes: Routes = [
     ExamplesComponent,
     ExampleComponent,
     SimplePreviewComponent,
-    ConfigureComponent
+    ConfigureComponent,
+    GroupsComponent,
   ],
   providers: [
     {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}}
