@@ -10,13 +10,28 @@
 <!-- Groups mode -->
 <ng-container *ngIf="config.groupsMode; else notGroupsMode">
   <ng-container *ngIf="data$ | async as groups ">
+
+    <!--
+    If first group is Unorganized group then we must push it out of dragula container
+    to prevent it's drag
+    -->
+    <ng-container *ngIf="groups[0].locked">
+      <div class="wrapper fs-gallery-reorder-enabled">
+        <fs-gallery-group [group]="groups[0]"></fs-gallery-group>
+      </div>
+    </ng-container>
+
     <div class="wrapper fs-gallery-reorder-enabled"
-         dragula="GROUPS"
+         fsDragula="GROUPS"
+         [dragEnabled]="reorderEnabled"
          [dragulaModel]="groups"
          (dragulaModelChange)="orderChange($event, true)"
     >
-      <ng-container *ngFor="let group of groups">
-        <fs-gallery-group [ngClass]="{ 'drop-locked': group.locked }" [group]="group">
+      <ng-container *ngFor="let group of groups; let index=index">
+        <fs-gallery-group *ngIf="!(index === 0 && group.locked)"
+                          [ngClass]="{ 'drop-locked': group.locked }"
+                          [group]="group"
+        >
         </fs-gallery-group>
       </ng-container>
     </div>
@@ -27,25 +42,17 @@
 <!-- Simple gallery mode -->
 <ng-template #notGroupsMode>
   <div
-    *ngIf="reorderEnabled"
     [class]="'fs-gallery-reorder-enabled fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
-    [dragula]="galleryService.dragName"
+    [fsDragula]="galleryService.dragName"
+    [dragEnabled]="reorderEnabled"
     [dragulaModel]="data$ | async"
     (dragulaModelChange)="orderChange($event, true)">
-    <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-  </div>
 
-  <div
-    *ngIf="!reorderEnabled"
-    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
-    <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-  </div>
-
-  <ng-template #thumbnailsTemplate>
     <fs-gallery-thumbnail
       *ngFor="let item of data$ | async"
       #fsGalleryThumbnail
       [data]="item">
     </fs-gallery-thumbnail>
-  </ng-template>
+
+  </div>
 </ng-template>

@@ -31,7 +31,9 @@
 
 <div *ngIf="group.expanded$ | async"
      [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
-     dragula="ITEMS" [dragulaModel]="group.items"
+     fsDragula="ITEMS"
+     [dragEnabled]="galleryService.config?.reorderable"
+     [dragulaModel]="group.items"
 >
   <fs-gallery-thumbnail
     *ngFor="let item of group.items"

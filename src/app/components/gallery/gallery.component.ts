@@ -94,14 +94,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
         ) => {
           return handle.className === 'group-title'
         },
-        accepts: (
-          el,
-          target,
-          source,
-          sub
-        ) => {
-          return sub.className.indexOf('drop-locked') > -1;
-        },
         direction: 'vertical',
       });
 

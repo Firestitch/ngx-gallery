@@ -32,6 +32,7 @@ import { FsGalleryThumbnailContainerDirective } from './directives/gallery-thumb
 import { HammerConfig } from './classes/hammer-config';
 
 import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-component.injector';
+import { FsDragulaDirective } from './directives/dragula.directive';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-com
     FsGalleryThumbnailContainerDirective,
     FsGalleryThumbnailPreviewComponent,
     FsGalleryGroupComponent,
+    FsDragulaDirective,
   ]
 })
 export class FsGalleryModule {
