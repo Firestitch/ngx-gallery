@@ -69,7 +69,8 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
 
   constructor(
-    public galleryService: FsGalleryService
+    public galleryService: FsGalleryService,
+    private _dragula: DragulaService,
   ) { }
 
   public ngOnInit() {
@@ -83,6 +84,31 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
 
     this.data$ = this.galleryService.data$;
     this.reorderEnabled = this.galleryService.config.reorderable;
+
+    if (this.config.groupsMode) {
+      const group = this._dragula.createGroup('GROUPS', {
+        moves: (
+          el,
+          source,
+          handle
+        ) => {
+          return handle.className === 'group-title'
+        },
+        accepts: (
+          el,
+          target,
+          source,
+          sub
+        ) => {
+          return sub.className.indexOf('drop-locked') > -1;
+        },
+        direction: 'vertical',
+      });
+
+      console.log(group);
+
+      // group.drake.on()
+    }
   }
 
   public ngOnDestroy() {

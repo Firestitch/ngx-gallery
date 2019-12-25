@@ -30,7 +30,9 @@
 </div>
 
 <div *ngIf="group.expanded$ | async"
-     [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
+     [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
+     dragula="ITEMS" [dragulaModel]="group.items"
+>
   <fs-gallery-thumbnail
     *ngFor="let item of group.items"
     [data]="item">

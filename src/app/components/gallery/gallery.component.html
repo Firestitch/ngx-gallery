@@ -9,9 +9,18 @@
 
 <!-- Groups mode -->
 <ng-container *ngIf="config.groupsMode; else notGroupsMode">
-  <fs-gallery-group *ngFor="let group of data$ | async"
-                    [group]="group">
-  </fs-gallery-group>
+  <ng-container *ngIf="data$ | async as groups ">
+    <div class="wrapper fs-gallery-reorder-enabled"
+         dragula="GROUPS"
+         [dragulaModel]="groups"
+         (dragulaModelChange)="orderChange($event, true)"
+    >
+      <ng-container *ngFor="let group of groups">
+        <fs-gallery-group [ngClass]="{ 'drop-locked': group.locked }" [group]="group">
+        </fs-gallery-group>
+      </ng-container>
+    </div>
+  </ng-container>
 </ng-container>
 
 
@@ -19,7 +28,7 @@
 <ng-template #notGroupsMode>
   <div
     *ngIf="reorderEnabled"
-    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
+    [class]="'fs-gallery-reorder-enabled fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
     [dragula]="galleryService.dragName"
     [dragulaModel]="data$ | async"
     (dragulaModelChange)="orderChange($event, true)">
