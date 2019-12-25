@@ -20,7 +20,7 @@ export interface FsGalleryConfig {
   filters?: any[];
   zoom?: boolean;
   group?: FsGalleryGroupConfig;
-  reorderEnd?(data: any): any;
+  reorderEnd?(data: any, relGroup?: any): any;
   previewBeforeOpen?(item: FsGalleryItem): any;
   previewOpened?(item: FsGalleryItem): any;
   previewClosed?(item: FsGalleryItem): any;
@@ -58,6 +58,7 @@ export interface FsGalleryGroupConfig {
   added?: FsGalleryGroupAddedFn;
   changed?: FsGalleryGroupChangedFn;
   deleted?: FsGalleryGroupDeletedFn;
+  reorderEnd?: FsGalleryGroupReorderChangeFn;
 }
 
 export interface FsGalleryGroupWithFn {
@@ -86,4 +87,8 @@ export interface FsGalleryGroupChangedFn {
 
 export interface FsGalleryGroupAddedFn {
   (name: string): Observable<any>;
+}
+
+export interface FsGalleryGroupReorderChangeFn {
+  (groups: any);
 }

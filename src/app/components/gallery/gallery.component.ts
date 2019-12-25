@@ -108,14 +108,34 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
-  public orderChange(value: FsGalleryItem[], reorder = false): void {
+  public orderChange(value: FsGalleryItem[], relatedGroup): void {
+
+    if (!this.galleryService.groupConfig) {
+      this.data$.next(value);
+    }
+
+    if (this.config.reorderEnd) {
+      this.config.reorderEnd(value, relatedGroup);
+    }
+  }
+
+  public groupsOrderChange(value: FsGalleryItem[], reorder = false): void {
+// debugger
+//     const lockedIndex = value.findIndex((group) => group.locked);
+//
+//     if (lockedIndex > -1 && lockedIndex !== 0) {
+//       value = [value[lockedIndex], ...value.filter((val) => !val.locked)];
+//     }
 
     this.data$.next(value);
 
-    if (this.config.reorderEnd) {
-      this.config.reorderEnd(value);
+    if (this.config.group.groupsReorderEnd) {
+      const reorderEndData = value.filter((val) => !val.locked);
+
+      this.config.group.groupsReorderEnd(reorderEndData);
     }
   }
+
 
   public openPreview(item: FsGalleryItem) {
     this.galleryService.openPreview(item);

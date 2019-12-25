@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
 import { FsPrompt } from '@firestitch/prompt';
 
@@ -17,6 +17,8 @@ import { Group } from '../../models/group';
 export class FsGalleryGroupComponent implements OnDestroy {
 
   @Input() public group: Group = null;
+
+  @Output() public reorderChange = new EventEmitter<any[]>();
 
   private _destroy$ = new Subject<void>();
 
@@ -64,6 +66,10 @@ export class FsGalleryGroupComponent implements OnDestroy {
   }
 
   public renameGroup() {
+    if (this.group.locked) {
+      return;
+    }
+
     this._fsPrompt.input({
       label: 'Enter group name',
       title: 'Change group name',
@@ -109,5 +115,9 @@ export class FsGalleryGroupComponent implements OnDestroy {
 
         sub.unsubscribe();
       })
+  }
+
+  public reorderChanged(value) {
+    this.reorderChange.emit(value)
   }
 }

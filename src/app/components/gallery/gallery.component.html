@@ -16,21 +16,20 @@
     to prevent it's drag
     -->
     <ng-container *ngIf="groups[0].locked">
-      <div class="wrapper fs-gallery-reorder-enabled">
-        <fs-gallery-group [group]="groups[0]"></fs-gallery-group>
-      </div>
+      <fs-gallery-group [group]="groups[0]"></fs-gallery-group>
     </ng-container>
 
     <div class="wrapper fs-gallery-reorder-enabled"
          fsDragula="GROUPS"
-         [dragEnabled]="reorderEnabled"
+         [dragEnabled]="!!galleryService.groupConfig?.groupsReorderEnd"
          [dragulaModel]="groups"
-         (dragulaModelChange)="orderChange($event, true)"
+         (dragulaModelChange)="groupsOrderChange($event, true)"
     >
       <ng-container *ngFor="let group of groups; let index=index">
         <fs-gallery-group *ngIf="!(index === 0 && group.locked)"
                           [ngClass]="{ 'drop-locked': group.locked }"
                           [group]="group"
+                          (reorderChange)="orderChange($event, group.data)"
         >
         </fs-gallery-group>
       </ng-container>

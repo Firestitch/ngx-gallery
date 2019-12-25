@@ -34,6 +34,7 @@
      fsDragula="ITEMS"
      [dragEnabled]="galleryService.config?.reorderable"
      [dragulaModel]="group.items"
+     (dragulaModelChange)="reorderChanged($event)"
 >
   <fs-gallery-thumbnail
     *ngFor="let item of group.items"

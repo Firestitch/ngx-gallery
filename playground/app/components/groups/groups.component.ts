@@ -73,6 +73,9 @@ export class GroupsComponent implements AfterViewInit {
         console.log(group, items);
 
         return timer(2000);
+      },
+      reorderEnd: (groups) => {
+        console.log(groups);
       }
     },
     info: {
@@ -108,8 +111,8 @@ export class GroupsComponent implements AfterViewInit {
         query: 'keyword'
       }
     ],
-    reorderEnd: (data) => {
-      console.log(data);
+    reorderEnd: (data, relGroup) => {
+      console.log(data, relGroup);
     },
     fetch: (query) => {
       console.log('fetch', query);

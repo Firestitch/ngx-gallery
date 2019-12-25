@@ -3,6 +3,7 @@ import {
   FsGalleryGroupChangedFn,
   FsGalleryGroupConfig,
   FsGalleryGroupDeletedFn,
+  FsGalleryGroupReorderChangeFn,
   FsGalleryGroupTrackByFn,
   FsGalleryGroupWithFn,
   FsGalleryNameValueFn,
@@ -17,6 +18,7 @@ export class GalleryGroupConfig {
   public groupDeleted: FsGalleryGroupDeletedFn;
   public groupChanged: FsGalleryGroupChangedFn;
   public addGroup: FsGalleryGroupAddedFn;
+  public groupsReorderEnd: FsGalleryGroupReorderChangeFn;
 
   constructor(data: FsGalleryGroupConfig) {
     this._initGroup(data);
@@ -31,5 +33,6 @@ export class GalleryGroupConfig {
     this.groupDeleted = group.deleted;
     this.groupChanged = group.changed;
     this.addGroup = group.added;
+    this.groupsReorderEnd = group.reorderEnd;
   }
 }

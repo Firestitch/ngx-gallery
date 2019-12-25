@@ -17,7 +17,7 @@ export class GalleryConfig {
   public nameField: string;
   public toolbar = true;
   public reorderable = false;
-  public reorderEnd: (data: any) => {} = null;
+  public reorderEnd: (data: any, relGroup: any) => {} = null;
   public imageWidth = 187;
   public imageHeightScale = 0.673;
   public repeat = true;
