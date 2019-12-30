@@ -120,15 +120,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
   }
 
   public groupsOrderChange(value: FsGalleryItem[], reorder = false): void {
-// debugger
-//     const lockedIndex = value.findIndex((group) => group.locked);
-//
-//     if (lockedIndex > -1 && lockedIndex !== 0) {
-//       value = [value[lockedIndex], ...value.filter((val) => !val.locked)];
-//     }
-
-    this.data$.next(value);
-
     if (this.config.group.groupsReorderEnd) {
       const reorderEndData = value.filter((val) => !val.locked);
 
