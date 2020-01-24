@@ -1,19 +1,15 @@
 import {
   Component,
   Input,
-  Output,
   ContentChild,
   ViewChild,
-  EventEmitter,
   TemplateRef,
   OnInit,
-  Injector,
   OnDestroy,
-  HostBinding,
+  AfterContentInit,
 } from '@angular/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
 
 import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
 
@@ -24,7 +20,6 @@ import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.
 import { GalleryConfig } from '../../classes/gallery.config';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-thumbnail-container.directive';
-import { DragulaService } from 'ng2-dragula';
 
 
 @Component({
@@ -33,7 +28,7 @@ import { DragulaService } from 'ng2-dragula';
   styleUrls: [ './gallery.component.scss' ],
   providers: [ FsGalleryService ]
 })
-export class FsGalleryComponent implements OnInit, OnDestroy {
+export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @Input() set config(value) {
     this._config = new GalleryConfig(value);
@@ -73,6 +68,12 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
+    this.data$ = this.galleryService.data$;
+    this.reorderEnabled = this.galleryService.config.reorderable;
+  }
+
+  public ngAfterContentInit() {
+
     this.galleryService.previewTemplate = this.previewTemplate;
     this.galleryService.previewDirective = this.previewDirective;
 
@@ -80,9 +81,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy {
     this.galleryService.thumbnailTemplate = this.thumbnailTemplate;
 
     this.galleryService.thumbnailContainerDirective = this.thumbnailContainerDirective;
-
-    this.data$ = this.galleryService.data$;
-    this.reorderEnabled = this.galleryService.config.reorderable;
   }
 
   public ngOnDestroy() {

@@ -15,13 +15,19 @@ export class SimplePreviewComponent {
   public config: FsGalleryConfig = {
     draggable: false,
     showCarousel: false,
+    map: (data) => {
+      return {
+        url: data.image,
+        preview: data.image
+      }
+    },
     zoom: false,
     fetch: (query) => {
       return of(this.items);
     }
   };
 
-  public items: FsGalleryItem[] = [
+  public items: any[] = [
     {
       id: 1,
       description: 'Image 1 description',

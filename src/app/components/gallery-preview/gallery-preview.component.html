@@ -20,28 +20,24 @@
           </a>
 
           <div
-            [ngSwitch]="activeItem.galleryMime"
-            [class]="'file file-' + activeItem.galleryMime">
+            [ngSwitch]="activeItem.mime.type"
+            [class]="'file file-' + activeItem.mime.type">
 
             <ng-template [ngSwitchCase]="'image'">
               <img
                 class="image"
                 (click)="imageClick($event)"
-                [src]="image"
+                [src]="activeItem.url"
                 (swipeleft)="next()"
                 (swiperight)="prev()">
             </ng-template>
 
             <ng-template [ngSwitchCase]="'video'">
-              <div class="file-ext">{{activeItem.galleryExtension}}</div>
+              <div class="file-ext">{{activeItem.mime.subtype}}</div>
             </ng-template>
 
             <ng-template [ngSwitchCase]="'application'">
-              <div class="file-ext">{{activeItem.galleryExtension}}</div>
-            </ng-template>
-
-            <ng-template ngSwitchDefault>
-
+              <div class="file-ext">{{activeItem.mime.subtype}}</div>
             </ng-template>
 
             <ng-container *ngIf="galleryService.previewTemplate">

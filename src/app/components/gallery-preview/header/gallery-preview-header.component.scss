@@ -13,6 +13,8 @@
     flex-direction: row;
     flex: 1;
     box-sizing: border-box;
+    color: #fff;
+
     &::before {
       width: 100%;
       height: 100%;
@@ -30,12 +32,18 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+
       &.left {
         justify-content: flex-start;
       }
+
       &.right {
         justify-content: flex-end;
         flex-grow: inherit;
+      }
+
+      mat-icon {
+        color: #fff;
       }
     }
   }

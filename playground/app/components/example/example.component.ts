@@ -21,11 +21,15 @@ export class ExampleComponent implements AfterViewInit {
   public reorderEnabled = false;
 
   public config: FsGalleryConfig = {
-    allowedFiles: 'image/*, application/pdf, video/*',
-    fileField: 'file',
-    nameField: 'name',
-    imageField: 'image.large',
-    thumbnailField: 'image.small',
+    allow: 'image/*, application/pdf, video/*',
+    map: (data) => {
+      return {
+        name: data.name,
+        preview: data.image ? data.image.small : '',
+        url: data.image ? data.image.large : data.file,
+        index: data.id
+      };
+    },
     imageHeightScale: 0.674,
     imageWidth: 200,
     layout: GalleryLayout.Grid,
@@ -37,19 +41,19 @@ export class ExampleComponent implements AfterViewInit {
         actions: [
           {
             label: 'Info',
-            click: (item: FsGalleryItem) => {
+            click: (item: any) => {
               console.log(item);
             }
           },
           {
             label: 'Delete',
-            click: (item: FsGalleryItem) => {
+            click: (item: any) => {
               console.log(item);
             }
           },
           {
             label: 'Download',
-            click: (item: FsGalleryItem) => {
+            click: (item: any) => {
               window.open(item.image.large);
             }
           }
@@ -75,6 +79,7 @@ export class ExampleComponent implements AfterViewInit {
         });
 
         return of(filteredItems);
+
       } else {
         return of(this.items);
       }
@@ -95,7 +100,7 @@ export class ExampleComponent implements AfterViewInit {
 
   constructor(private example: FsExampleComponent) {}
 
-  public items: FsGalleryItem[] = [
+  public items: any[] = [
     {
       id: 1,
       name: 'Scheme',
@@ -170,6 +175,7 @@ export class ExampleComponent implements AfterViewInit {
       name: 'Video',
       file: 'http://techslides.com/demos/sample-videos/small.mp4',
       description: 'Video description',
+
     },
     {
       id: 10,

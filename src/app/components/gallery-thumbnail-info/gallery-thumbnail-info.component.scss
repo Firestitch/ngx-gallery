@@ -1,22 +1,9 @@
-
 .info {
   display: flex;
   flex-direction: row;
   align-items: center;
   font-size: 12px;
   box-sizing: border-box;
-
-  .image-icon {
-    color: #d13333;
-  }
-
-  .video-icon {
-    color: #006665;
-  }
-
-  .application-icon {
-    color: #962E9E;
-  }
 
   .tags {
     display: flex;

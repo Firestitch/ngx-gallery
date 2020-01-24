@@ -11,12 +11,14 @@ import { get } from 'lodash-es';
 import { FsGalleryPreviewDirective } from '../directives/gallery-preview.directive';
 import { FsGalleryThumbnailDirective } from '../directives/gallery-thumbnail.directive';
 import { GalleryConfig } from '../classes/gallery.config';
-import { FsGalleryItem } from '../interfaces/gallery-config.interface';
+import { FsGalleryItem, FsGalleryMapping } from '../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../directives/gallery-thumbnail-container.directive';
 import { FsGalleryPreviewService } from './gallery-preview.service';
 import { Overlay } from '@angular/cdk/overlay';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
 import { DragulaService } from 'ng2-dragula';
+import { MimeType } from '../enums';
+import { mime } from '../helpers/mime';
 
 
 @Injectable()
@@ -90,7 +92,7 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public openPreview(item: FsGalleryItem) {
-    if (item.galleryMime === 'image') {
+    if (item.mime.type === MimeType.Image) {
       if (this.config.previewOpened) {
         this.config.previewOpened(item);
       }
@@ -118,21 +120,19 @@ export class FsGalleryService implements OnDestroy {
         .pipe(
           takeUntil(this._destroy$),
           map((items: any) => {
-            return items.reduce((acc, item) => {
-              const newItem = Object.assign({}, item);
 
-              const link = this.getFileLink(newItem)
-                || this.getPreviewImage(newItem)
-                || this.getThumbnailImage(newItem);
+            return items.map(item => {
 
-              if (link) {
-                this.detectExtensionType(newItem, link);
+              const mapping: any = this.config.map(item);
+              mapping.data = item;
+              const link = mapping.preview || mapping.url;
+
+              if (!mapping.mime) {
+                mapping.mime = mime(link);
               }
 
-              acc.push(newItem);
-
-              return acc;
-            }, []);
+              return mapping;
+            });
           }),
         )
         .subscribe((data) => {
@@ -151,28 +151,8 @@ export class FsGalleryService implements OnDestroy {
 
   public updateImageZoom(val: number) {
     this.imageZoom = val;
-    this.imageZoomInteger = round(val,0);
+    this.imageZoomInteger = round(val, 0);
     this.updateImageDims();
-  }
-
-  public getThumbnailImage(data: FsGalleryItem) {
-    return get(data, this.config.thumbnailField, null);
-  }
-
-  public getPreviewImage(data: FsGalleryItem) {
-    return get(data, this.config.imageField, null);
-  }
-
-  public getFileLink(data: FsGalleryItem) {
-    return get(data, this.config.fileField, null);
-  }
-
-  public getName(data: FsGalleryItem) {
-    return get(data, this.config.nameField, null);
-  }
-
-  public getDataIndex(data: FsGalleryItem) {
-    return indexOf(this.data$.getValue(), { [this.config.indexField]: data[this.config.indexField] });
   }
 
   public filterInit(query) {
@@ -183,25 +163,5 @@ export class FsGalleryService implements OnDestroy {
     this.filterQuery = query;
 
     this.loadData();
-  }
-
-  private detectExtensionType(item, fileName) {
-    const match = fileName.toLowerCase().match(/([^\.]+)$/);
-    item.galleryExtension = match ? match[1] : '';
-
-    const imageExtension = item.galleryExtension.match(/(jpe?g|png|gif|tiff?|bmp)/);
-    const videoExtension = item.galleryExtension.match(/(mov|avi|wmv|flv|3gp|mp4|mpg)/);
-
-    if (imageExtension) {
-      item.galleryMime = 'image';
-      item.galleryExtension = imageExtension[0];
-    } else if (videoExtension) {
-      item.galleryMime = 'video';
-      item.galleryExtension = videoExtension[0];
-    } else {
-      item.galleryMime = 'application'
-    }
-
-    item.type = item.galleryMime + '/' + item.extension;
   }
 }

@@ -4,12 +4,8 @@ import { GalleryLayout } from '../enums/gallery-layout-enum';
 
 
 export interface FsGalleryConfig {
-  allowedFiles?: string;
-  indexField?: string;
-  fileField?: string;
-  imageField?: string;
-  thumbnailField?: string;
-  nameField?: string;
+  allow?: string;
+  map: (data: any) => FsGalleryMapping,
   repeat?: boolean;
   toolbar?: boolean;
   draggable?: boolean;
@@ -20,9 +16,9 @@ export interface FsGalleryConfig {
   filters?: any[];
   zoom?: boolean;
   reorderEnd?(data: any): any,
-  previewBeforeOpen?(item: FsGalleryItem): any,
-  previewOpened?(item: FsGalleryItem): any,
-  previewClosed?(item: FsGalleryItem): any,
+  previewBeforeOpen?(item: any): any,
+  previewOpened?(item: any): any,
+  previewClosed?(item: any): any,
   dragName?: string;
   imageHeightScale?: number;
   imageWidth?: number;
@@ -31,8 +27,16 @@ export interface FsGalleryConfig {
   thumbnail?: FsGalleryThumbnailConfig;
 }
 
-export interface FsGalleryItem {
-  [key: string]: any;
+export interface FsGalleryMapping {
+  name?: string,
+  preview?: string,
+  url?: string,
+  mime?: Mime,
+  index?: string
+}
+
+export interface FsGalleryItem extends FsGalleryMapping {
+  data: any
 }
 
 export interface FsGalleryInfoConfig {
@@ -47,4 +51,9 @@ export interface FsGalleryInfoMenuConfig {
 export interface FsGalleryInfoMenuActionConfig {
   label?: string;
   click?(item: FsGalleryItem): any
+}
+
+export interface Mime {
+  type: string,
+  subtype: string
 }

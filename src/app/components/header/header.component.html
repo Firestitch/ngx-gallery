@@ -17,7 +17,7 @@
 
   <fs-file *ngIf="uploadCallback"
            (select)="upload($event)"
-           [accept]="allowedFiles"
+           [accept]="allow"
            multiple="true">
     <button mat-raised-button color="primary">Upload</button>
   </fs-file>

@@ -2,8 +2,9 @@ import { Component, HostListener, OnInit, OnDestroy, Inject, Renderer2 } from '@
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
-import { PREVIEW_DATA } from '../../services/preview-data';
+import { PREVIEW_DATA } from '../../injectors/preview-data';
 import { FsGalleryPreviewRef } from '../../classes/gallery-preview-ref';
+import { MimeType } from '../../enums';
 
 
 @Component({
@@ -16,7 +17,6 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   public totalImages = 0;
   public activeImageIndex = 0;
   public availableImages: FsGalleryItem[];
-  public image: string = null;
   public imageHover = false;
 
   public hasManyItems = false;
@@ -65,7 +65,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     const data = this.galleryService.data$.getValue();
 
     const images = data.filter((item: FsGalleryItem) => {
-      return item.galleryMime === 'image';
+      return item.mime.type === MimeType.Image;
     });
 
     const index = images.indexOf(this.activeItem);
@@ -91,7 +91,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     const data = this.galleryService.data$.getValue();
 
     const images = data.filter((item: FsGalleryItem) => {
-      return item.galleryMime === 'image';
+      return item.mime.type === MimeType.Image;
     });
 
     const index = images.indexOf(this.activeItem);
@@ -112,7 +112,6 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   public imageClick($event) {
     const cursorX = $event.clientX;
-    const imageWidth = $event.target.width;
     const windowWidth = $event.view.innerWidth;
     if (cursorX <= (windowWidth / 2)) {
       this.prev();
@@ -123,13 +122,12 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   public setActiveItem(data: FsGalleryItem) {
     this.activeItem = data;
-    this.image = this.galleryService.getPreviewImage(data);
     this.activeImageIndex = this.availableImages.indexOf(data) + 1;
   }
 
   private _initAvailableImages() {
     this.availableImages = this.galleryService.data$.getValue().filter((item: FsGalleryItem) => {
-      return item.galleryMime === 'image';
+      return item.mime.type === MimeType.Image;
     });
 
     this.hasManyItems = this.availableImages.length > 1;

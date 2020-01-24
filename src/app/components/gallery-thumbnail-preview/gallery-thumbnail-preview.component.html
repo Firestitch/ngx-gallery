@@ -1,28 +1,40 @@
 <div
-  [ngSwitch]="item.galleryMime"
+  [ngSwitch]="item.mime.type"
   (click)="click(item)"
   [style.height]="fsGalleryService.imageHeight + 'px'"
-  [class]="'file file-' + item.galleryMime">
+  [class]="'file file-' + item.mime.type">
 
-  <ng-template [ngSwitchCase]="'image'">
+  <ng-template [ngSwitchCase]="MimeType.Image">
     <img
-      [src]="image"
+      [src]="item.preview"
       alt="">
   </ng-template>
 
-  <ng-template [ngSwitchCase]="'video'">
-      <div class="file-ext">{{item.galleryExtension}}</div>
+  <ng-template ngSwitchDefault>
+    <div class="file-icon">
+
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 384 512" style="enable-background:new 0 0 384 512;" xml:space="preserve">
+      <style type="text/css">
+        .st0{fill:#E2E5E7;}
+        .st1{fill:#B0B7BD;}
+        .st2{fill:#CAD1D8;}
+      </style>
+      <path class="st0" d="M32,0C14.4,0,0,14.4,0,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L256,0H32z"/>
+      <path class="st1" d="M288,128h96L256,0v96C256,113.6,270.4,128,288,128z"/>
+      <polygon class="st2" points="384,224 288,128 384,128 "/>
+      </svg>
+
+      <div class="file-ext">
+        <div [class]="item.mime.type + '-background'">{{item.mime.subtype}}</div>
+      </div>
+    </div>
   </ng-template>
 
-  <ng-template [ngSwitchCase]="'application'">
-      <div class="file-ext">{{item.galleryExtension}}</div>
-  </ng-template>
-
-  <div *ngIf="!carousel"
-    (click)="preventEventPropagation($event)">
+  <ng-container *ngIf="!carousel && fsGalleryService.thumbnailTemplate">
     <ng-template
       [ngTemplateOutlet]="fsGalleryService.thumbnailTemplate"
       [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
-  </div>
+  </ng-container>
 </div>

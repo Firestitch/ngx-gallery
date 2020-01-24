@@ -1,22 +1,22 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
+import { MimeType } from '../../enums';
+
 
 @Component({
   selector: 'fs-gallery-thumbnail-preview',
   templateUrl: './gallery-thumbnail-preview.component.html',
   styleUrls: [ './gallery-thumbnail-preview.component.scss' ]
 })
-export class FsGalleryThumbnailPreviewComponent implements OnInit {
+export class FsGalleryThumbnailPreviewComponent {
 
   @Input() public carousel = false;
   @Output() public select = new EventEmitter<FsGalleryItem>();
   @Input('item') set setItem(item: FsGalleryItem) {
 
     this.item = item;
-
-    this.image = this.fsGalleryService.getThumbnailImage(this.item);
 
     if (!this.carousel) {
       this.fsGalleryService.dimentionsChange$.subscribe(() => {
@@ -28,8 +28,8 @@ export class FsGalleryThumbnailPreviewComponent implements OnInit {
     }
   }
 
+  public MimeType = MimeType;
   public item;
-  public image: string = null;
   public styles = {
     width: null,
     height: null,
@@ -60,9 +60,5 @@ export class FsGalleryThumbnailPreviewComponent implements OnInit {
   public preventEventPropagation(event) {
     event.stopPropagation();
     event.preventDefault();
-  }
-
-  ngOnInit() {
-
   }
 }

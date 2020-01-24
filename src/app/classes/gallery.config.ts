@@ -1,17 +1,10 @@
-import { guid } from '@firestitch/common';
-
-import { FsGalleryConfig, FsGalleryInfoConfig, FsGalleryItem } from '../interfaces/gallery-config.interface';
+import { FsGalleryConfig, FsGalleryItem } from '../interfaces/gallery-config.interface';
 import { GalleryLayout } from '../enums/gallery-layout-enum';
 
 
 export class GalleryConfig {
 
-  public indexField = 'id';
-  public allowedFiles = 'image/*';
-  public fileField: string;
-  public imageField: string;
-  public thumbnailField: string;
-  public nameField: string;
+  public allow = 'image/*';
   public toolbar = true;
   public reorderable = false;
   public reorderEnd: (data: any) => {} = null;
@@ -34,16 +27,16 @@ export class GalleryConfig {
   public previewOpened: (item: FsGalleryItem) => {};
   public previewClosed: (item: FsGalleryItem) => {};
   public previewBeforeOpen: (item: FsGalleryItem) => {};
+  public map: (data: any) => {};
 
   public upload: (files: any) => void;
   public fetch;
 
-  constructor(data: FsGalleryConfig = {}) {
+  constructor(data: FsGalleryConfig) {
     this._initConfig(data);
   }
 
   private _initConfig(data) {
-    this.indexField = data.indexField || this.indexField;
 
     this.reorderable = !!data.reorderEnd;
 
@@ -58,8 +51,8 @@ export class GalleryConfig {
       this.zoom = data.zoom;
     }
 
-    if (data.allowedFiles) {
-      this.allowedFiles = data.allowedFiles;
+    if (data.allow) {
+      this.allow = data.allow;
     }
 
     if (data.thumbnail) {
@@ -70,11 +63,8 @@ export class GalleryConfig {
     this.reorderEnd = data.reorderEnd;
     this.imageWidth = data.imageWidth || this.imageWidth;
     this.imageHeightScale = data.imageHeightScale || this.imageHeightScale;
-    this.fileField = data.fileField;
     this.toolbar = data.toolbar !== false;
-    this.imageField = data.imageField;
-    this.thumbnailField = data.thumbnailField;
-    this.nameField = data.nameField;
+    this.map = data.map;
     this.previewClosed = data.previewClosed;
     this.previewOpened = data.previewOpened;
     this.previewBeforeOpen = data.previewBeforeOpen;

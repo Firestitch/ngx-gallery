@@ -1,12 +1,9 @@
-import { Injector, Injectable, Inject } from '@angular/core';
+import { Injector } from '@angular/core';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-
-import { FsGalleryPreviewComponent } from '../components/gallery-preview/gallery-preview.component';
-
 import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
 import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
-import { PREVIEW_DATA } from './preview-data';
+import { PREVIEW_DATA } from '../injectors/preview-data';
 
 
 export class FsGalleryPreviewService {
