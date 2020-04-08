@@ -19,6 +19,7 @@ export interface FsGalleryConfig {
   previewBeforeOpen?(item: any): any,
   previewOpened?(item: any): any,
   previewClosed?(item: any): any,
+  zoomChanged?(item: number): any,
   dragName?: string;
   imageHeightScale?: number;
   imageWidth?: number;

@@ -4,6 +4,10 @@
       class="fs-gallery-filter"
       *ngIf="filterConfig"
       [filter]="filterConfig">
+
+      <ng-template fsFilterStatusBar>
+        Showing {{ (data$ | async).length }} results
+      </ng-template>
     </fs-filter>
   </div>
 
@@ -22,7 +26,3 @@
     <button type="button" mat-raised-button color="primary">Upload</button>
   </fs-file>
 </div>
-
-<small class="status" *ngIf="filterConfig">
-  Showing {{ (data$ | async).length }} results
-</small>

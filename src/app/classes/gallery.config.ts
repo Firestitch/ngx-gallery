@@ -27,6 +27,7 @@ export class GalleryConfig {
   public previewOpened: (item: FsGalleryItem) => {};
   public previewClosed: (item: FsGalleryItem) => {};
   public previewBeforeOpen: (item: FsGalleryItem) => {};
+  public zoomChanged: (value: number) => {};
   public map: (data: any) => {};
 
   public upload: (files: any) => void;
@@ -68,6 +69,7 @@ export class GalleryConfig {
     this.previewClosed = data.previewClosed;
     this.previewOpened = data.previewOpened;
     this.previewBeforeOpen = data.previewBeforeOpen;
+    this.zoomChanged = data.zoomChanged;
 
     if (data.upload) {
       this.upload = data.upload;

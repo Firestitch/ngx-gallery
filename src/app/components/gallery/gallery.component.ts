@@ -7,6 +7,8 @@ import {
   OnInit,
   OnDestroy,
   AfterContentInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -29,6 +31,8 @@ import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-t
   providers: [ FsGalleryService ]
 })
 export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
+
+  @Output() zoomChanged = new EventEmitter();
 
   @Input() set config(value) {
     this._config = new GalleryConfig(value);

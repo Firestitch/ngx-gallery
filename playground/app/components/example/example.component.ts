@@ -16,7 +16,7 @@ import { FsExampleComponent } from '@firestitch/example';
 })
 export class ExampleComponent implements AfterViewInit {
 
-  @ViewChild('gallery', { static: true })
+  @ViewChild(FsGalleryComponent, { static: true })
   public gallery: FsGalleryComponent;
   public reorderEnabled = false;
 
@@ -95,6 +95,9 @@ export class ExampleComponent implements AfterViewInit {
     },
     previewBeforeOpen: (data) => {
       console.log('previewBeforeOpen', data);
+    },
+    zoomChanged: (value: number) => {
+      console.log('zoomChanged', value);
     }
   };
 

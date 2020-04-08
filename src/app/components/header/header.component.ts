@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { FsGalleryService } from '../../services/gallery.service';
 
@@ -19,7 +19,6 @@ export class FsGalleryHeaderComponent {
   public data$ = this.galleryService.data$;
 
   constructor(public galleryService: FsGalleryService) {}
-
 
   public updateImageZoom(value: number) {
     this.galleryService.updateImageZoom(value);

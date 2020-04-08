@@ -1,6 +1,4 @@
-<fs-gallery
-  #gallery
-  [config]="config">
+<fs-gallery [config]="config">
   <ng-template fsGalleryThumbnail let-item="item">
     <div *ngIf="item.data.custom" class="custom">Custom<br>HTML</div>
   </ng-template>

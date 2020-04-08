@@ -153,6 +153,10 @@ export class FsGalleryService implements OnDestroy {
     this.imageZoom = val;
     this.imageZoomInteger = round(val, 0);
     this.updateImageDims();
+
+    if (this.config.zoomChanged) {
+      this.config.zoomChanged(val);
+    }
   }
 
   public filterInit(query) {
