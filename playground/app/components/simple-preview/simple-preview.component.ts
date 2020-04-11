@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { FsGalleryConfig } from '@firestitch/gallery';
 import { of } from 'rxjs';
-import { FsGalleryItem } from '../../../../src/app/interfaces/gallery-config.interface';
 
 
 @Component({

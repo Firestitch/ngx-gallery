@@ -1,11 +1,13 @@
 <div class="fs-gallery-preview-backdrop" (click)="close()"></div>
 
 <div class="fs-gallery-preview">
+
   <fs-gallery-preview-header
     [totalItems]="totalImages"
     [activeIndex]="activeImageIndex"
     (close)="close()">
   </fs-gallery-preview-header>
+
   <div class="wrap">
     <div class="panel">
 
@@ -57,9 +59,11 @@
       <!-- @TODO place for right sidenav -->
     </div>
 
-    <fs-gallery-preview-carousel [data]="availableImages"
-                                 [activeItem]="activeItem"
-                                 (previewSelected)="setActiveItem($event)">
+    <fs-gallery-preview-carousel
+      *ngIf="galleryService.config.showCarousel"
+      [data]="availableImages"
+      [activeItem]="activeItem"
+      (previewSelected)="setActiveItem($event)">
     </fs-gallery-preview-carousel>
   </div>
 </div>

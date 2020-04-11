@@ -68,6 +68,7 @@ export class ExampleComponent implements AfterViewInit {
         query: 'keyword'
       }
     ],
+    //showCarousel: false,
     reorderEnd: (data) => {
       console.log(data);
     },
