@@ -6,7 +6,7 @@
       [filter]="filterConfig">
 
       <ng-template fsFilterStatusBar>
-        Showing {{ (data$ | async).length }} results
+        Showing {{ (data$ | async).length }} {{ (data$ | async).length === 1 ? 'result' : 'results'}}
       </ng-template>
     </fs-filter>
   </div>
