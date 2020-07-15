@@ -1,7 +1,7 @@
-import { GestureConfig } from '@angular/material/core';
+import { HammerGestureConfig } from '@angular/platform-browser';
 
 
-export class HammerConfig extends GestureConfig  {
+export class HammerConfig extends HammerGestureConfig  {
   overrides = <any>{
       swipe: { velocity: 0.4, threshold: 20 }
   }

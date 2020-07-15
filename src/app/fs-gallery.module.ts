@@ -71,7 +71,7 @@ import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-com
   ]
 })
 export class FsGalleryModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<FsGalleryModule> {
     return {
       ngModule: FsGalleryModule,
       providers: [
