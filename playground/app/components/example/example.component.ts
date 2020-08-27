@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
 import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout } from '@firestitch/gallery';
@@ -32,6 +33,7 @@ export class ExampleComponent implements AfterViewInit {
     },
     imageHeightScale: 0.674,
     imageWidth: 200,
+    //imageFit: 'contain',
     layout: GalleryLayout.Grid,
     toolbar: true,
     zoom: true,
@@ -66,6 +68,15 @@ export class ExampleComponent implements AfterViewInit {
         type: ItemType.Text,
         label: 'Search',
         query: 'keyword'
+      },
+
+      {
+        name: 'select',
+        type: ItemType.Select,
+        label: 'Select',
+        values: () => {
+          return [{ name: 'Name', value: 'value' }];
+        }
       }
     ],
     //showCarousel: false,

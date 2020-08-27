@@ -19,6 +19,23 @@
     (change)="updateImageZoom($event)">
   </fs-gallery-zoom-control>
 
+
+  <!-- <button
+    *ngIf="mode===GalleryMode.Grid"
+    type="button"
+    mat-raised-button
+    (click)="modeChange.emit(GalleryMode.List)">
+      <mat-icon>view_list</mat-icon>
+  </button>
+
+  <button
+    *ngIf="mode===GalleryMode.List"
+    type="button"
+    mat-raised-button
+    (click)="modeChange.emit(GalleryMode.Grid)">
+      <mat-icon>view_module</mat-icon>
+  </button> -->
+
   <fs-file *ngIf="uploadCallback"
            (select)="upload($event)"
            [accept]="allow"

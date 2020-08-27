@@ -33,7 +33,7 @@ export { FsGalleryService } from './app/services/gallery.service';
 
 
 // Enums
-export { GalleryLayout } from './app/enums/gallery-layout-enum';
+export { GalleryLayout } from './app/enums/gallery-layout.enum';
 
 // Helpers
 export * from './app/helpers';

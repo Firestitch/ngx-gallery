@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
-import { GalleryLayout } from '../../enums/gallery-layout-enum';
+import { GalleryLayout } from '../../enums';
 
 @Component({
   selector: 'fs-gallery-thumbnail',

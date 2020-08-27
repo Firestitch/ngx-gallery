@@ -1,13 +1,12 @@
 import { Injectable, OnDestroy, Inject, Injector } from '@angular/core';
 
-import { indexOf, guid } from '@firestitch/common';
+import { guid } from '@firestitch/common';
 
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { round } from 'lodash-es';
 
 
-import { get } from 'lodash-es';
 import { FsGalleryPreviewDirective } from '../directives/gallery-preview.directive';
 import { FsGalleryThumbnailDirective } from '../directives/gallery-thumbnail.directive';
 import { GalleryConfig } from '../classes/gallery.config';
@@ -34,6 +33,7 @@ export class FsGalleryService implements OnDestroy {
   public thumbnailContainerDirective: FsGalleryThumbnailContainerDirective = null;
 
   public imageZoom = 0;
+  public mode;
   public imageZoomInteger = 0;
   public dimentionsChange$ = new Subject<void>();
   public reorderStart$: Observable<any>;

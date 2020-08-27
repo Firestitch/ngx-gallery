@@ -1,5 +1,8 @@
+import { FilterConfig } from '@firestitch/filter';
+
+import { GalleryMode } from './../enums';
 import { FsGalleryConfig, FsGalleryItem } from '../interfaces/gallery-config.interface';
-import { GalleryLayout } from '../enums/gallery-layout-enum';
+import { GalleryLayout } from '../enums/gallery-layout.enum';
 
 
 export class GalleryConfig {
@@ -12,6 +15,7 @@ export class GalleryConfig {
   public imageHeightScale = 0.673;
   public repeat = true;
   public info: any;
+  public imageFit: 'cover' | 'contain' = 'cover';
   public layout = GalleryLayout.Grid;
   public showCarousel = true;
   public thumbnail = {
@@ -19,8 +23,9 @@ export class GalleryConfig {
   };
 
   public zoom = true;
+  public mode: GalleryMode = GalleryMode.Grid;
 
-  public filterConfig;
+  public filterConfig: FilterConfig;
   public filterInit = (query) => {};
   public filterChange = (query) => {};
   public previewClick: (item: FsGalleryItem) => {};
@@ -63,6 +68,7 @@ export class GalleryConfig {
     this.info = data.info === undefined ? {} : data.info;
     this.reorderEnd = data.reorderEnd;
     this.imageWidth = data.imageWidth || this.imageWidth;
+    this.imageFit = data.imageFit || this.imageFit;
     this.imageHeightScale = data.imageHeightScale || this.imageHeightScale;
     this.toolbar = data.toolbar !== false;
     this.map = data.map;

@@ -1,6 +1,6 @@
 import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
 import { Observable } from 'rxjs';
-import { GalleryLayout } from '../enums/gallery-layout-enum';
+import { GalleryLayout } from '../enums/gallery-layout.enum';
 
 
 export interface FsGalleryConfig {
@@ -22,6 +22,7 @@ export interface FsGalleryConfig {
   zoomChanged?(item: number): any,
   dragName?: string;
   imageHeightScale?: number;
+  imageFit?: 'cover' | 'contain';
   imageWidth?: number;
   info?: boolean | FsGalleryInfoConfig;
   showCarousel?: boolean;

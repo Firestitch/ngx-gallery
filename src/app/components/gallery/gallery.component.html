@@ -3,7 +3,9 @@
   [allow]="config.allow"
   [filterConfig]="config.filterConfig"
   [zoom]="config.zoom"
+  [mode]="config.mode"
   [upload]="config.upload"
+  (modeChange)="modeChange($event)"
   *ngIf="config.toolbar!==false">
 </fs-gallery-header>
 

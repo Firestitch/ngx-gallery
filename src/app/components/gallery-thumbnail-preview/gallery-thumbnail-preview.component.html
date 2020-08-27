@@ -1,12 +1,13 @@
 <div
   [ngSwitch]="item.mime.type"
   (click)="click(item)"
-  [style.height]="fsGalleryService.imageHeight + 'px'"
+  [style.height]="galleryService.imageHeight + 'px'"
   [class]="'file file-' + item.mime.type">
 
   <ng-template [ngSwitchCase]="MimeType.Image">
     <img
       [src]="item.preview"
+      [style.objectFit]="galleryService.config.imageFit"
       alt="">
   </ng-template>
 
@@ -31,9 +32,9 @@
     </div>
   </ng-template>
 
-  <ng-container *ngIf="!carousel && fsGalleryService.thumbnailTemplate">
+  <ng-container *ngIf="!carousel && galleryService.thumbnailTemplate">
     <ng-template
-      [ngTemplateOutlet]="fsGalleryService.thumbnailTemplate"
+      [ngTemplateOutlet]="galleryService.thumbnailTemplate"
       [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
   </ng-container>

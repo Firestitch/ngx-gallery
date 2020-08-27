@@ -22,7 +22,7 @@ import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.
 import { GalleryConfig } from '../../classes/gallery.config';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-thumbnail-container.directive';
-
+import { GalleryMode } from './../../enums';
 
 @Component({
   selector: 'fs-gallery',
@@ -122,5 +122,9 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public refresh() {
     this.galleryService.loadData();
+  }
+
+  public modeChange(mode: GalleryMode) {
+    this.galleryService.mode = mode;
   }
 }

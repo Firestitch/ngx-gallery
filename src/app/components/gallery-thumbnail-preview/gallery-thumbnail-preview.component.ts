@@ -19,12 +19,12 @@ export class FsGalleryThumbnailPreviewComponent {
     this.item = item;
 
     if (!this.carousel) {
-      this.fsGalleryService.dimentionsChange$.subscribe(() => {
-        this.styles.width = this.fsGalleryService.imageWidth + 'px';
-        this.styles.height = this.fsGalleryService.imageHeight + 'px';
+      this.galleryService.dimentionsChange$.subscribe(() => {
+        this.styles.width = this.galleryService.imageWidth + 'px';
+        this.styles.height = this.galleryService.imageHeight + 'px';
       });
 
-      this.fsGalleryService.updateImageDims();
+      this.galleryService.updateImageDims();
     }
   }
 
@@ -36,7 +36,7 @@ export class FsGalleryThumbnailPreviewComponent {
   };
 
   constructor(
-    public fsGalleryService: FsGalleryService,
+    public galleryService: FsGalleryService,
   ) { }
 
   public click(item) {
@@ -45,14 +45,14 @@ export class FsGalleryThumbnailPreviewComponent {
       return this.select.emit(this.item);
     }
 
-    if (this.fsGalleryService.config.previewClick) {
-      this.fsGalleryService.config.previewClick(item);
+    if (this.galleryService.config.previewClick) {
+      this.galleryService.config.previewClick(item);
     } else {
 
-      const result = this.fsGalleryService.beforeOpenPreview(item);
+      const result = this.galleryService.beforeOpenPreview(item);
 
       if (result !== false) {
-        this.fsGalleryService.openPreview(item);
+        this.galleryService.openPreview(item);
       }
     }
   }
