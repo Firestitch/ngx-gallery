@@ -1,6 +1,11 @@
 :host {
   display: block;
   margin-bottom: 5px;
+  ::ng-deep {
+    .fs-filter {
+      margin-bottom: 0 !important;
+    }
+  }
 }
 
 .header-content {
@@ -23,10 +28,4 @@
   display: flex;
   align-items: center;
   margin-right: 10px;
-}
-
-::ng-deep {
-  .fs-filter {
-    margin-bottom: 0 !important;
-  }
 }
