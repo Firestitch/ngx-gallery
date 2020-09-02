@@ -21,9 +21,6 @@ export interface FsGalleryConfig {
   previewClosed?(item: any): any,
   zoomChanged?(item: number): any,
   dragName?: string;
-  imageHeightScale?: number;
-  imageFit?: 'cover' | 'contain';
-  imageWidth?: number;
   info?: boolean | FsGalleryInfoConfig;
   showCarousel?: boolean;
   thumbnail?: FsGalleryThumbnailConfig;

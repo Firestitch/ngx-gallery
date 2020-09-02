@@ -5,10 +5,11 @@
   [class]="'file file-' + item.mime.type">
 
   <ng-template [ngSwitchCase]="MimeType.Image">
-    <img
-      [src]="item.preview"
-      [style.objectFit]="galleryService.config.imageFit"
-      alt="">
+    <div
+      class="image"
+      [style.backgroundSize]="galleryService.config.thumbnail.size"
+      [style.backgroundPosition]="galleryService.config.thumbnail.position"
+      [style.backgroundImage]="'url(' + item.preview + ')'"></div>
   </ng-template>
 
   <ng-template ngSwitchDefault>

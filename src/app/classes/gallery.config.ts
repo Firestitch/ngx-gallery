@@ -1,6 +1,7 @@
 import { FilterConfig } from '@firestitch/filter';
 
 import { GalleryMode } from './../enums';
+import { FsGalleryThumbnailConfig } from './../interfaces/gallery-thumbnail-config.interface';
 import { FsGalleryConfig, FsGalleryItem } from '../interfaces/gallery-config.interface';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
 
@@ -11,15 +12,16 @@ export class GalleryConfig {
   public toolbar = true;
   public reorderable = false;
   public reorderEnd: (data: any) => {} = null;
-  public imageWidth = 187;
-  public imageHeightScale = 0.673;
   public repeat = true;
   public info: any;
-  public imageFit: 'cover' | 'contain' = 'cover';
   public layout = GalleryLayout.Grid;
   public showCarousel = true;
-  public thumbnail = {
-    styles: {}
+  public thumbnail: FsGalleryThumbnailConfig = {
+    styles: {},
+    size: 'cover',
+    position: 'top center',
+    width: 187,
+    heightScale: 0.673,
   };
 
   public zoom = true;
@@ -62,14 +64,11 @@ export class GalleryConfig {
     }
 
     if (data.thumbnail) {
-      this.thumbnail = Object.assign({}, this.thumbnail, data.thumbnail);
+      this.thumbnail = { ...this.thumbnail, ...data.thumbnail };
     }
 
     this.info = data.info === undefined ? {} : data.info;
     this.reorderEnd = data.reorderEnd;
-    this.imageWidth = data.imageWidth || this.imageWidth;
-    this.imageFit = data.imageFit || this.imageFit;
-    this.imageHeightScale = data.imageHeightScale || this.imageHeightScale;
     this.toolbar = data.toolbar !== false;
     this.map = data.map;
     this.previewClosed = data.previewClosed;

@@ -10,7 +10,7 @@ import { round } from 'lodash-es';
 import { FsGalleryPreviewDirective } from '../directives/gallery-preview.directive';
 import { FsGalleryThumbnailDirective } from '../directives/gallery-thumbnail.directive';
 import { GalleryConfig } from '../classes/gallery.config';
-import { FsGalleryItem, FsGalleryMapping } from '../interfaces/gallery-config.interface';
+import { FsGalleryItem } from '../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../directives/gallery-thumbnail-container.directive';
 import { FsGalleryPreviewService } from './gallery-preview.service';
 import { Overlay } from '@angular/cdk/overlay';
@@ -46,10 +46,12 @@ export class FsGalleryService implements OnDestroy {
   private _imageHeight: number = null;
   private _config: GalleryConfig = null;
 
-  constructor(private _overlay: Overlay,
-              private _injector: Injector,
-              private _dragulaService: DragulaService,
-              @Inject(GalleryPreviewComponentInjector) private _galleryPreviewComponent) {
+  constructor(
+    private _overlay: Overlay,
+    private _injector: Injector,
+    private _dragulaService: DragulaService,
+    @Inject(GalleryPreviewComponentInjector) private _galleryPreviewComponent,
+  ) {
 
     this.dragName += guid();
 
@@ -143,8 +145,8 @@ export class FsGalleryService implements OnDestroy {
 
   public updateImageDims() {
 
-    this._imageWidth = this.config.imageWidth + (this.imageZoom * this.config.imageWidth);
-    this._imageHeight = (this._imageWidth * this.config.imageHeightScale);
+    this._imageWidth = this.config.thumbnail.width + (this.imageZoom * this.config.thumbnail.width);
+    this._imageHeight = (this._imageWidth * this.config.thumbnail.heightScale);
 
     this.dimentionsChange$.next();
   }

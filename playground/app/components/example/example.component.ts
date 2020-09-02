@@ -31,9 +31,10 @@ export class ExampleComponent implements AfterViewInit {
         index: data.id
       };
     },
-    imageHeightScale: 0.674,
-    imageWidth: 200,
-    //imageFit: 'contain',
+    thumbnail: {
+      heightScale: 0.674,
+      width: 200,
+    },
     layout: GalleryLayout.Grid,
     toolbar: true,
     zoom: true,
