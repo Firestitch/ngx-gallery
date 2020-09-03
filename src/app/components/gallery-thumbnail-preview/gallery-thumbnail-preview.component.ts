@@ -48,9 +48,7 @@ export class FsGalleryThumbnailPreviewComponent {
     if (this.galleryService.config.previewClick) {
       this.galleryService.config.previewClick(item);
     } else {
-
       const result = this.galleryService.beforeOpenPreview(item);
-
       if (result !== false) {
         this.galleryService.openPreview(item);
       }
@@ -60,5 +58,11 @@ export class FsGalleryThumbnailPreviewComponent {
   public preventEventPropagation(event) {
     event.stopPropagation();
     event.preventDefault();
+  }
+
+  public imageLoad(event, item): void {
+    if (event.target.height > event.target.width) {
+      item.portrait = true;
+    }
   }
 }

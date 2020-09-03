@@ -18,8 +18,6 @@ export class GalleryConfig {
   public showCarousel = true;
   public thumbnail: FsGalleryThumbnailConfig = {
     styles: {},
-    size: 'cover',
-    position: 'top center',
     width: 187,
     heightScale: 0.673,
   };

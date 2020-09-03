@@ -7,9 +7,12 @@
   <ng-template [ngSwitchCase]="MimeType.Image">
     <div
       class="image"
+      [ngClass]="{ portrait: item.portrait }"
       [style.backgroundSize]="galleryService.config.thumbnail.size"
       [style.backgroundPosition]="galleryService.config.thumbnail.position"
-      [style.backgroundImage]="'url(' + item.preview + ')'"></div>
+      [style.backgroundImage]="'url(' + item.preview + ')'">
+    </div>
+    <!-- <div class="image-load"><img [src]="item.preview" (load)="imageLoad($event,item)"></div> -->
   </ng-template>
 
   <ng-template ngSwitchDefault>

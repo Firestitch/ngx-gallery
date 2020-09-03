@@ -5,10 +5,10 @@
 
     <ng-container
       *ngIf="galleryService.thumbnailContainerDirective; else defaultThumbnailContainer">
-      <ng-template
-        [ngTemplateOutlet]="galleryService.thumbnailContainerDirective"
-        [ngTemplateOutletContext]="{ item: data }">
-      </ng-template>
+        <ng-template
+          [ngTemplateOutlet]="galleryService.thumbnailContainerDirective"
+          [ngTemplateOutletContext]="{ item: data }">
+        </ng-template>
     </ng-container>
 
     <ng-template #defaultThumbnailContainer>
@@ -17,9 +17,11 @@
         [item]="data">
       </fs-gallery-thumbnail-preview>
 
-      <fs-gallery-thumbnail-info
-        [item]="data">
-      </fs-gallery-thumbnail-info>
+      <div class="fs-gallery-thumbnail-content">
+        <fs-gallery-thumbnail-info
+          [item]="data">
+        </fs-gallery-thumbnail-info>
+      </div>
 
     </ng-template>
 </div>

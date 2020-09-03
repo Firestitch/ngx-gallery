@@ -22,4 +22,5 @@ export class FsGalleryThumbnailInfoComponent {
   public menuClick(event, action, data) {
     action.click(data.data);
   }
+
 }

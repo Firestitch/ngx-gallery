@@ -19,27 +19,28 @@
         margin-right: 9px;
         display: inline-block;
         cursor: pointer;
-        width: auto !important;
-
-        .file {
-          height: auto !important;
-        }
 
         .info {
           display: none;
         }
 
         &.active {
-          img, .file-icon {
+          .image, .file-icon {
             border: 2px solid #fff;
           }
         }
 
-        img {
-          object-fit: cover;
+        .file {
+          height: auto !important;
+        }
+
+        .image {
+          background-size: cover;
           border: 2px solid transparent;
+          border-radius: 5px;
           width: 76px !important;
           height: 76px !important;
+          background-position: center center;
         }
       }
     }

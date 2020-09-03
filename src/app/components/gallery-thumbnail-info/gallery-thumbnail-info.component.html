@@ -1,22 +1,13 @@
 <div class="info" *ngIf="fsGalleryService.config.info!==false">
-  <div *ngIf="fsGalleryService.config.info.icon!==false" class="icon">
-    <div
-      [ngClass]="{'image-color': item.mime.type === MimeType.Image }"
-      *ngIf="item.mime.type === MimeType.Image">
-      <mat-icon>image</mat-icon>
-    </div>
-
-    <div
-      [ngClass]="{'application-color': item.mime.type === MimeType.Application }"
-      *ngIf="item.mime.type === MimeType.Application">
-      <mat-icon>insert_drive_file</mat-icon>
-    </div>
-
-    <div
-      [ngClass]="{'video-color': item.mime.type === MimeType.Video }"
-      *ngIf="item.mime.type === MimeType.Video">
-      <mat-icon>videocam</mat-icon>
-    </div>
+  <div
+    *ngIf="fsGalleryService.config.info.icon!==false"
+    class="icon"
+    [ngClass]="{'image-color': item.mime.type === MimeType.Image,
+                'application-color': item.mime.type === MimeType.Application,
+                'video-color': item.mime.type === MimeType.Video }">
+    <mat-icon *ngIf="item.mime.type === MimeType.Image">image</mat-icon>
+    <mat-icon *ngIf="item.mime.type === MimeType.Application">insert_drive_file</mat-icon>
+    <mat-icon *ngIf="item.mime.type === MimeType.Video">videocam</mat-icon>
   </div>
 
   <div class="name" [matTooltip]="item.name" matTooltipPosition="above">

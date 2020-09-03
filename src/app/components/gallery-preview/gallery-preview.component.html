@@ -60,7 +60,6 @@
     </div>
 
     <fs-gallery-preview-carousel
-      *ngIf="galleryService.config.showCarousel"
       [data]="availableImages"
       [activeItem]="activeItem"
       (previewSelected)="setActiveItem($event)">

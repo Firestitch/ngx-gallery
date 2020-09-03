@@ -5,9 +5,11 @@
   <ng-template fsGalleryPreview let-item="item">
     <div class="description" *ngIf="item.description">{{ item.description }}</div>
   </ng-template>
-  <ng-template fsGalleryThumbnailContainer let-item="item">
+  <!-- <ng-template fsGalleryThumbnailContainer let-item="item">
     <fs-gallery-thumbnail-preview [item]="item"></fs-gallery-thumbnail-preview>
-    <fs-gallery-thumbnail-info [item]="item"></fs-gallery-thumbnail-info>
-    <div class="custom-footer">Uploaded on Jan 12</div>
-  </ng-template>
+    <div class="content">
+      <fs-gallery-thumbnail-info [item]="item"></fs-gallery-thumbnail-info>
+      <div class="custom-footer">Uploaded on Jan 12</div>
+    </div>
+  </ng-template> -->
 </fs-gallery>
