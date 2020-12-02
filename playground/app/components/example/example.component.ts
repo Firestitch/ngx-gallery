@@ -66,7 +66,7 @@ export class ExampleComponent implements AfterViewInit {
     filters: [
       {
         name: 'keyword',
-        type: ItemType.Text,
+        type: ItemType.Keyword,
         label: 'Search',
         query: 'keyword'
       },
