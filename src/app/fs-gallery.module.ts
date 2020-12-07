@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { OverlayModule } from '@angular/cdk/overlay';
 
+import { FsListModule } from '@firestitch/list';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsFileModule } from '@firestitch/file';
 import { FsMenuModule } from '@firestitch/menu';
@@ -29,6 +30,8 @@ import { FsGalleryThumbnailInfoComponent } from './components/gallery-thumbnail-
 import { FsGalleryThumbnailContainerDirective } from './directives/gallery-thumbnail-container.directive';
 import { FsGalleryThumbnailPreviewComponent } from './components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
 import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-component.injector';
+import { FsGalleryListViewComponent } from './components/list-view/list-view.component';
+import { FsGalleryFileIconComponent } from './components/gallery-file-icon/gallery-file-icon.component';
 
 
 @NgModule({
@@ -42,6 +45,7 @@ import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-com
     MatTooltipModule,
     FsFilterModule,
     FsFileModule,
+    FsListModule,
     FsMenuModule
   ],
   exports: [
@@ -67,7 +71,9 @@ import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-com
     FsGalleryThumbnailDirective,
     FsGalleryPreviewDirective,
     FsGalleryThumbnailContainerDirective,
-    FsGalleryThumbnailPreviewComponent
+    FsGalleryFileIconComponent,
+    FsGalleryThumbnailPreviewComponent,
+    FsGalleryListViewComponent,
   ]
 })
 export class FsGalleryModule {

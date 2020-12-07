@@ -1,4 +1,13 @@
-import { FilterConfig } from '@firestitch/filter';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { FsListComponent, FsListSelectionConfig } from '@firestitch/list';
+import {
+  ActionMode,
+  ActionType,
+  FilterConfig,
+  FsFilterAction,
+  IFilterConfigItem,
+} from '@firestitch/filter';
 
 import { GalleryMode } from './../enums';
 import { FsGalleryThumbnailConfig } from './../interfaces/gallery-thumbnail-config.interface';
@@ -24,6 +33,7 @@ export class GalleryConfig {
 
   public zoom = true;
   public mode: GalleryMode = GalleryMode.Grid;
+  public selection: FsListSelectionConfig;
 
   public filterConfig: FilterConfig;
   public filterInit = (query) => {};
@@ -38,11 +48,59 @@ export class GalleryConfig {
   public upload: (files: any) => void;
   public fetch;
 
+  private _viewMode$ = new BehaviorSubject<'gallery' | 'list'>('gallery');
+  private _sizeMode$ = new BehaviorSubject<'large' | 'medium' | 'small'>('medium');
+
+  private _listRef: FsListComponent;
+
   constructor(data: FsGalleryConfig) {
     this._initConfig(data);
   }
 
-  private _initConfig(data) {
+  public get viewMode$(): Observable<'gallery' | 'list'> {
+    return this._viewMode$.asObservable();
+  }
+
+  public get sizeMode$(): Observable<'large' | 'medium' | 'small'> {
+    return this._sizeMode$.asObservable();
+  }
+
+  public get viewMode(): 'gallery' | 'list' {
+    return this._viewMode$.getValue();
+  }
+
+  public get sizeMode(): 'large' | 'medium' | 'small' {
+    return this._sizeMode$.getValue();
+  }
+
+  private get _resizeActionIcon(): 'image' | 'photo_size_select_large' | 'photo_size_select_small' {
+    switch (this.sizeMode) {
+      case 'small': return 'photo_size_select_small';
+      case 'medium': return 'photo_size_select_large';
+      case 'large': return 'image';
+    }
+  }
+
+  private get _viewModeActionIcon(): 'view_module' | 'view_list' {
+    switch (this.viewMode) {
+      case 'gallery': return 'view_list';
+      case 'list': return 'view_module';
+    }
+  }
+
+  public setListRef(ref: FsListComponent) {
+    this._listRef = ref;
+  }
+
+  public setViewSize(size: 'small' | 'medium' | 'large') {
+    this._sizeMode$.next(size);
+  }
+
+  public setViewMode(mode: 'gallery' | 'list') {
+    this._viewMode$.next(mode);
+  }
+
+  private _initConfig(data: FsGalleryConfig) {
 
     this.reorderable = !!data.reorderEnd;
 
@@ -69,6 +127,7 @@ export class GalleryConfig {
     this.reorderEnd = data.reorderEnd;
     this.toolbar = data.toolbar !== false;
     this.map = data.map;
+    this.selection = data.selection;
     this.previewClosed = data.previewClosed;
     this.previewOpened = data.previewOpened;
     this.previewBeforeOpen = data.previewBeforeOpen;
@@ -83,15 +142,96 @@ export class GalleryConfig {
     }
 
     if (data.filters && Array.isArray(data.filters)) {
-      this.filterConfig = {
-        init: (query) => {
-          this.filterInit(query);
-        },
-        change: (query) => {
-          this.filterChange(query);
-        },
-        items: data.filters.slice(),
-      }
+      this.filterConfig = this._getFilterConfig(data.filters);
     }
   }
+
+  private _getFilterConfig(items: IFilterConfigItem[]): FilterConfig {
+    const config: FilterConfig = {
+      init: (query) => {
+        this.filterInit(query);
+      },
+      change: (query) => {
+        this.filterChange(query);
+      },
+      items: items.slice(),
+    };
+
+    if (this.upload) {
+      config.actions = this._getActionsConfig();
+    }
+
+    return config;
+  }
+
+  private _toggleViewMode(): void {
+    if (this.viewMode === 'gallery') {
+      this._viewMode$.next('list');
+    } else {
+      this._viewMode$.next('gallery');
+    }
+  }
+
+  private _getActionsConfig(): FsFilterAction[] {
+    return [
+      {
+        mode: ActionMode.Menu,
+        icon: this._resizeActionIcon,
+        type: ActionType.Raised,
+        primary: false,
+        items: [
+          {
+            label: 'Large',
+            icon: 'image',
+            click: () => {
+              this.setViewSize('large');
+              this._updateActions();
+            },
+          },
+          {
+            label: 'Medium',
+            icon: 'photo_size_select_large',
+            click: () => {
+              this.setViewSize('medium');
+              this._updateActions();
+            },
+          },
+          {
+            label: 'Small',
+            icon: 'photo_size_select_small',
+            click: () => {
+              this.setViewSize('small');
+              this._updateActions();
+            },
+          },
+        ],
+      },
+      {
+        mode: ActionMode.Button,
+        icon: this._viewModeActionIcon,
+        primary: false,
+        click: () => {
+          this._toggleViewMode();
+          this._updateActions();
+        },
+      },
+      {
+        mode: ActionMode.File,
+        label: 'Upload',
+        color: 'primary',
+        select: (file) => {
+          this.upload(file);
+        },
+        accept: this.allow,
+        multiple: true,
+      }
+    ];
+  }
+
+  private _updateActions(): void {
+    if (!this._listRef?.filterRef) { return }
+
+    this._listRef.filterRef.updateActions(this._getActionsConfig());
+  }
+
 }

@@ -1,0 +1,30 @@
+:host {
+  ::ng-deep {
+    .grid-mode {
+      .fs-list-table-container {
+        display: none;
+      }
+    }
+
+    .fs-list-col-selection {
+      width: 1%;
+    }
+  }
+}
+
+.icon {
+  width: 50px;
+
+  img {
+    border-radius: 5px;
+  }
+
+  fs-gallery-thumbnail-preview {
+    display: block;
+    height: 50px;
+  }
+}
+
+.name {
+  cursor: pointer;
+}

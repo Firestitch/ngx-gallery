@@ -1,28 +1,25 @@
-<fs-gallery-header
-  class="gallery-header"
-  [allow]="config.allow"
-  [filterConfig]="config.filterConfig"
-  [zoom]="config.zoom"
-  [mode]="config.mode"
-  [upload]="config.upload"
-  (modeChange)="modeChange($event)"
-  *ngIf="config.toolbar!==false">
-</fs-gallery-header>
+<fs-gallery-list-view
+  [listConfig]="galleryService.listConfig"
+  [galleryConfig]="config">
+</fs-gallery-list-view>
 
-<div
-  *ngIf="reorderEnabled"
-  [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
-  [dragula]="galleryService.dragName"
-  [dragulaModel]="data$ | async"
-  (dragulaModelChange)="orderChange($event, true)">
-  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-</div>
 
-<div
-  *ngIf="!reorderEnabled"
-  [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
-  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-</div>
+<ng-container *ngIf="(config.viewMode$ | async) === 'gallery'">
+  <div
+    *ngIf="reorderEnabled"
+    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
+    [dragula]="galleryService.dragName"
+    [dragulaModel]="data$ | async"
+    (dragulaModelChange)="orderChange($event, true)">
+    <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
+  </div>
+
+  <div
+    *ngIf="!reorderEnabled"
+    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
+    <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
+  </div>
+</ng-container>
 
 <ng-template #thumbnailsTemplate>
   <fs-gallery-thumbnail

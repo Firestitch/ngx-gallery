@@ -1,9 +1,10 @@
-import { Injectable, OnDestroy, Inject, Injector } from '@angular/core';
+import { Inject, Injectable, Injector, OnDestroy } from '@angular/core';
 
 import { guid } from '@firestitch/common';
+import { FsListConfig, ReorderStrategy } from '@firestitch/list';
 
-import { BehaviorSubject, Subject, Observable } from 'rxjs';
-import { map, takeUntil, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, take, takeUntil } from 'rxjs/operators';
 import { round } from 'lodash-es';
 
 
@@ -38,13 +39,16 @@ export class FsGalleryService implements OnDestroy {
   public dimentionsChange$ = new Subject<void>();
   public reorderStart$: Observable<any>;
   public reorderEnd$: Observable<any>;
+  public listConfig: FsListConfig;
 
   private filterQuery = {};
   private _data$ = new BehaviorSubject<FsGalleryItem[]>([]);
-  private _destroy$ = new Subject<void>();
   private _imageWidth: number = null;
   private _imageHeight: number = null;
   private _config: GalleryConfig = null;
+
+  private _configUpdated$ = new Subject<void>();
+  private _destroy$ = new Subject<void>();
 
   constructor(
     private _overlay: Overlay,
@@ -72,7 +76,9 @@ export class FsGalleryService implements OnDestroy {
     this._config = value;
     this._config.filterInit = this.filterInit.bind(this);
     this._config.filterChange = this.filterChange.bind(this);
-    this.loadData();
+    this._initListConfig();
+    this._configUpdated$.next();
+    this._listenSizeChange();
   }
 
   get imageWidth(): number {
@@ -83,6 +89,8 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public ngOnDestroy() {
+    this._configUpdated$.complete();
+
     this._destroy$.next();
     this._destroy$.complete();
   }
@@ -168,6 +176,80 @@ export class FsGalleryService implements OnDestroy {
   public filterChange(query) {
     this.filterQuery = query;
 
-    this.loadData();
+    // this.loadData();
+  }
+
+  private _initListConfig() {
+    this.listConfig = {
+      filters: this.config.filterConfig.items,
+      actions: this.config.filterConfig.actions,
+      rowActions: this.config.info?.menu?.actions,
+      paging: false,
+      selection: this.config.selection,
+      reorder: {
+        strategy: ReorderStrategy.Always,
+        done: (rows) => {
+          const rowsData = rows.map((row) => {
+            return row.data;
+          });
+
+          this.config.reorderEnd(rowsData);
+        }
+      },
+      fetch: (query) => {
+        return this.config.fetch(query)
+          .pipe(
+            map((items: unknown[]) => {
+
+              return items.map(item => {
+
+                const mapping: any = this.config.map(item);
+                mapping.data = item;
+                const link = mapping.preview || mapping.url;
+
+                if (!mapping.mime) {
+                  mapping.mime = mime(link);
+                }
+
+                return mapping;
+              });
+            }),
+            map((items: FsGalleryItem[]) => {
+              this.data$.next(items);
+
+              return {
+                data: items,
+                paging: {},
+              }
+            })
+          );
+      }
+    }
+  }
+
+  private _listenSizeChange() {
+    this._config.sizeMode$
+      .pipe(
+        takeUntil(this._configUpdated$),
+        takeUntil(this._destroy$),
+      )
+      .subscribe((size) => {
+        switch (size) {
+          case 'small': {
+            this.updateImageZoom(-0.4);
+          }
+            break;
+
+          case 'medium': {
+            this.updateImageZoom(1.3);
+          }
+            break;
+
+          case 'large': {
+            this.updateImageZoom(3);
+          }
+            break;
+        }
+      });
   }
 }

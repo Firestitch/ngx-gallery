@@ -1,6 +1,8 @@
 import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
 import { Observable } from 'rxjs';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
+import { IFilterConfigItem } from '@firestitch/filter';
+import { FsListSelectionConfig } from '@firestitch/list';
 
 
 export interface FsGalleryConfig {
@@ -13,7 +15,8 @@ export interface FsGalleryConfig {
   filter?: any;
   upload?: (query) => void;
   fetch?: (query) => Observable<FsGalleryItem[]> | FsGalleryItem[];
-  filters?: any[];
+  filters?: IFilterConfigItem[];
+  selection?: FsListSelectionConfig;
   zoom?: boolean;
   reorderEnd?(data: any): any,
   previewBeforeOpen?(item: any): any,

@@ -24,6 +24,7 @@ import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-thumbnail-container.directive';
 import { GalleryMode } from './../../enums';
 
+
 @Component({
   selector: 'fs-gallery',
   templateUrl: './gallery.component.html',

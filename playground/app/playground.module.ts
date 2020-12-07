@@ -24,6 +24,8 @@ import {
   ConfigureComponent
 } from './components';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+import { FsScrollModule } from '@firestitch/scroll';
+import { FsSelectionModule } from '@firestitch/selection';
 
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
@@ -44,6 +46,8 @@ const routes: Routes = [
     FsExampleModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
     FsMessageModule.forRoot(),
+    FsScrollModule.forRoot(),
+    FsSelectionModule.forRoot(),
     FsDrawerModule,
     FsLabelModule
   ],

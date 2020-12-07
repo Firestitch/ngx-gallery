@@ -1,4 +1,4 @@
-import { filter } from 'rxjs/operators';
+import { delay, filter } from 'rxjs/operators';
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
 import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout } from '@firestitch/gallery';
@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { ConfigureComponent } from '../configure/configure.component';
 import { clone } from 'lodash-es';
 import { FsExampleComponent } from '@firestitch/example';
+import { SelectionActionType } from '@firestitch/selection';
 
 
 @Component({
@@ -63,12 +64,62 @@ export class ExampleComponent implements AfterViewInit {
         ]
       }
     },
+    selection: {
+      selectAll: true,
+      actions: [
+        {
+          type: SelectionActionType.Action,
+          name: 'delete',
+          label: 'Delete'
+        },
+        {
+          type: SelectionActionType.Select,
+          label: 'Change Status To',
+          values: [
+            {
+              name: 'TODO',
+              value: '1'
+            },
+            {
+              name: 'Done',
+              value: '2'
+            }
+          ]
+        },
+      ],
+      actionSelected: (action) => {
+
+        console.log(action);
+
+        return of(true).pipe(
+          delay(2000),
+        )
+      },
+      allSelected: () => {
+      },
+      cancelled: () => {
+      },
+      selectionChanged: (data, allSelected, selectionRef) => {
+        if (data.find((row) => row.name === 'Object 1')) {
+          return of([
+            {
+              type: SelectionActionType.Action,
+              value: 'custom',
+              label: 'Custom Action'
+            },
+          ])
+        } else {
+          if (selectionRef) {
+            selectionRef.resetActions();
+          }
+        }
+      }
+    },
     filters: [
       {
         name: 'keyword',
         type: ItemType.Keyword,
-        label: 'Search',
-        query: 'keyword'
+        label: 'Search'
       },
 
       {
