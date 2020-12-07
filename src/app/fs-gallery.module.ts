@@ -19,8 +19,6 @@ import { FsGalleryPreviewComponent } from './components/gallery-preview/gallery-
 import { FsGalleryPreviewCarouselComponent } from './components/gallery-preview/carousel/gallery-preview-carousel.component';
 import { FsGalleryPreviewHeaderComponent } from './components/gallery-preview/header/gallery-preview-header.component';
 import { FsGalleryThumbnailComponent } from './components/gallery-thumbnail/gallery-thumbnail.component';
-import { FsGalleryHeaderComponent } from './components/header/header.component';
-import { FsGalleryZoomControlComponent } from './components/header/zoom-control/zoom-control.component';
 import { FsGalleryThumbnailDirective } from './directives/gallery-thumbnail.directive';
 
 import { FsGalleryPreviewDirective } from './directives/gallery-preview.directive';
@@ -65,8 +63,6 @@ import { FsGalleryFileIconComponent } from './components/gallery-file-icon/galle
     FsGalleryPreviewComponent,
     FsGalleryPreviewHeaderComponent,
     FsGalleryPreviewCarouselComponent,
-    FsGalleryHeaderComponent,
-    FsGalleryZoomControlComponent,
     FsGalleryThumbnailInfoComponent,
     FsGalleryThumbnailDirective,
     FsGalleryPreviewDirective,
