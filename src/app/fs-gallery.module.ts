@@ -54,9 +54,6 @@ import { FsGalleryFileIconComponent } from './components/gallery-file-icon/galle
     FsGalleryThumbnailContainerDirective,
     FsGalleryThumbnailPreviewComponent
   ],
-  entryComponents: [
-    FsGalleryPreviewComponent
-  ],
   declarations: [
     FsGalleryComponent,
     FsGalleryThumbnailComponent,

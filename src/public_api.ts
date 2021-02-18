@@ -14,6 +14,9 @@ export { FsGalleryPreviewComponent } from './app/components/gallery-preview/gall
 export { FsGalleryPreviewCarouselComponent } from './app/components/gallery-preview/carousel/gallery-preview-carousel.component';
 export { FsGalleryPreviewHeaderComponent } from './app/components/gallery-preview/header/gallery-preview-header.component';
 export { FsGalleryThumbnailComponent } from './app/components/gallery-thumbnail/gallery-thumbnail.component';
+export { FsGalleryThumbnailInfoComponent } from './app/components/gallery-thumbnail-info/gallery-thumbnail-info.component';
+export { FsGalleryThumbnailContainerDirective } from './app/directives/gallery-thumbnail-container.directive';
+export { FsGalleryThumbnailPreviewComponent } from './app/components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
 
 // Directives
 export { FsGalleryThumbnailDirective } from './app/directives/gallery-thumbnail.directive';
