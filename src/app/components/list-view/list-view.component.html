@@ -6,11 +6,14 @@
       <ng-template fs-list-cell let-row="row">
         <div class="icon">
           <ng-container *ngIf="row.mime.type === MimeType.Image else icon">
-            <img [src]="row.preview" alt="" width="50">
+            <img [src]="row.preview" alt="" [style.width]="imageWidth + 'px'">
           </ng-container>
 
           <ng-template #icon>
-            <fs-gallery-file-icon [type]="row.mime.type" [subtype]="row.mime.subtype"></fs-gallery-file-icon>
+            <fs-gallery-file-icon [type]="row.mime.type"
+                                  [subtype]="row.mime.subtype"
+                                  [style.width]="imageWidth + 'px'">
+            </fs-gallery-file-icon>
           </ng-template>
         </div>
       </ng-template>

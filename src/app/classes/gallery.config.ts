@@ -73,6 +73,14 @@ export class GalleryConfig {
     return this._sizeMode$.getValue();
   }
 
+  public get galleryViewMode(): boolean {
+    return this.viewMode === 'gallery';
+  }
+
+  public get listViewMode(): boolean {
+    return this.viewMode === 'list';
+  }
+
   private get _resizeActionIcon(): 'image' | 'photo_size_select_large' | 'photo_size_select_small' {
     switch (this.sizeMode) {
       case 'small': return 'photo_size_select_small';
@@ -98,6 +106,7 @@ export class GalleryConfig {
 
   public setViewMode(mode: 'gallery' | 'list') {
     this._viewMode$.next(mode);
+    this.setViewSize(this.sizeMode);
   }
 
   private _initConfig(data: FsGalleryConfig) {
@@ -166,9 +175,9 @@ export class GalleryConfig {
 
   private _toggleViewMode(): void {
     if (this.viewMode === 'gallery') {
-      this._viewMode$.next('list');
+      this.setViewMode('list');
     } else {
-      this._viewMode$.next('gallery');
+      this.setViewMode('gallery');
     }
   }
 

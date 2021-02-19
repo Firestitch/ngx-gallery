@@ -21,6 +21,9 @@ export class FsGalleryListViewComponent {
   @Input()
   public galleryConfig: GalleryConfig;
 
+  @Input()
+  public imageWidth: number;
+
   @ViewChild('list')
   set updateListRef(listRef) {
     this.galleryConfig.setListRef(listRef);

@@ -13,14 +13,15 @@
 }
 
 .icon {
-  width: 50px;
+  //width: 50px;
 
   img {
     border-radius: 5px;
   }
 
-  fs-gallery-thumbnail-preview {
-    display: block;
+  fs-gallery-file-icon {
+    display: flex;
+    justify-content: center;
     height: 50px;
   }
 }

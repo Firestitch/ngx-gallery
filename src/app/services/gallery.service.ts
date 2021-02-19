@@ -236,17 +236,23 @@ export class FsGalleryService implements OnDestroy {
       .subscribe((size) => {
         switch (size) {
           case 'small': {
-            this.updateImageZoom(-0.4);
+            this.config.galleryViewMode
+              ? this.updateImageZoom(-0.4)
+              : this.updateImageZoom(-0.7);
           }
             break;
 
           case 'medium': {
-            this.updateImageZoom(1.3);
+            this.config.galleryViewMode
+              ? this.updateImageZoom(1.3)
+              : this.updateImageZoom(-0.2);
           }
             break;
 
           case 'large': {
-            this.updateImageZoom(3);
+            this.config.galleryViewMode
+              ? this.updateImageZoom(3)
+              : this.updateImageZoom(0.3);
           }
             break;
         }
