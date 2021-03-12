@@ -52,7 +52,7 @@ export class GalleryConfig {
   public fetch;
 
   private _viewMode$ = new BehaviorSubject<'gallery' | 'list'>('gallery');
-  private _sizeMode$ = new BehaviorSubject<ViewSize>(ViewSize.Medium);
+  private _sizeMode$ = new BehaviorSubject<ViewSize>(ViewSize.Small);
 
   private _listRef: FsListComponent;
 

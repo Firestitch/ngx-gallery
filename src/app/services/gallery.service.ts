@@ -257,7 +257,7 @@ export class FsGalleryService implements OnDestroy {
         switch (size) {
           case ViewSize.Small: {
             this.config.galleryViewMode
-              ? this.updateImageZoom(-0.4)
+              ? this.updateImageZoom(-0.1)
               : this.updateImageZoom(-0.7);
           }
             break;
