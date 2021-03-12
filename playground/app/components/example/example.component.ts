@@ -1,7 +1,7 @@
 import { delay, filter } from 'rxjs/operators';
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
-import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout } from '@firestitch/gallery';
+import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, ViewSize } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
 import { of } from 'rxjs';
@@ -24,6 +24,8 @@ export class ExampleComponent implements AfterViewInit {
 
   public config: FsGalleryConfig = {
     allow: 'image/*, application/pdf, video/*',
+    sizeModeDefault: ViewSize.Small,
+    // persist: false,
     map: (data) => {
       return {
         name: data.name,

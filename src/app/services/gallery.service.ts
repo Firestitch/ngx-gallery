@@ -1,6 +1,8 @@
 import { Inject, Injectable, Injector, OnDestroy } from '@angular/core';
 
-import { guid } from '@firestitch/common';
+import { Location } from '@angular/common';
+
+import { guid, getNormalizedPath } from '@firestitch/common';
 import { FsListConfig, ReorderStrategy } from '@firestitch/list';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -19,6 +21,9 @@ import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-co
 import { DragulaService } from 'ng2-dragula';
 import { MimeType } from '../enums';
 import { mime } from '../helpers/mime';
+import { PersistanceController } from '../classes/persistance-controller';
+import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
+import { ViewSize } from '../enums/view-size.enum';
 
 
 @Injectable()
@@ -53,7 +58,9 @@ export class FsGalleryService implements OnDestroy {
   constructor(
     private _overlay: Overlay,
     private _injector: Injector,
+    private _location: Location,
     private _dragulaService: DragulaService,
+    private _persistanceController: PersistanceController,
     @Inject(GalleryPreviewComponentInjector) private _galleryPreviewComponent,
   ) {
 
@@ -78,6 +85,15 @@ export class FsGalleryService implements OnDestroy {
     this._config.filterChange = this.filterChange.bind(this);
     this._initListConfig();
     this._configUpdated$.next();
+
+    if (this._config.persist) {
+      this._restorePersistance(this._config.persist);
+    }
+
+    if (this._persistanceController.enabled) {
+      this._restoreViewSizeParams(this._persistanceController.getDataFromScope('viewSize'));
+    }
+
     this._listenSizeChange();
   }
 
@@ -234,22 +250,26 @@ export class FsGalleryService implements OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((size) => {
+        if (this._persistanceController.enabled) {
+          this._persistanceController.saveDataToScope('viewSize', size);
+        }
+
         switch (size) {
-          case 'small': {
+          case ViewSize.Small: {
             this.config.galleryViewMode
               ? this.updateImageZoom(-0.4)
               : this.updateImageZoom(-0.7);
           }
             break;
 
-          case 'medium': {
+          case ViewSize.Medium: {
             this.config.galleryViewMode
               ? this.updateImageZoom(1.3)
               : this.updateImageZoom(-0.2);
           }
             break;
 
-          case 'large': {
+          case ViewSize.Large: {
             this.config.galleryViewMode
               ? this.updateImageZoom(3)
               : this.updateImageZoom(0.3);
@@ -258,4 +278,16 @@ export class FsGalleryService implements OnDestroy {
         }
       });
   }
+
+  private _restorePersistance(persistConfig: FsGalleryPersistance): void {
+    const namespace = getNormalizedPath(this._location);
+    this._persistanceController.setConfig(persistConfig, namespace);
+  }
+
+  private _restoreViewSizeParams(value: ViewSize) {
+    if (value) {
+      this._config.setViewSize(value);
+    }
+  }
+
 }

@@ -1,8 +1,10 @@
 import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
 import { Observable } from 'rxjs';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
+import { ViewSize } from '../enums/view-size.enum';
 import { IFilterConfigItem } from '@firestitch/filter';
 import { FsListSelectionConfig } from '@firestitch/list';
+import { FsGalleryPersistance } from './gallery-persist-config.interface';
 
 
 export interface FsGalleryConfig {
@@ -27,6 +29,8 @@ export interface FsGalleryConfig {
   info?: boolean | FsGalleryInfoConfig;
   showCarousel?: boolean;
   thumbnail?: FsGalleryThumbnailConfig;
+  sizeModeDefault?: ViewSize;
+  persist?: FsGalleryPersistance;
 }
 
 export interface FsGalleryMapping {

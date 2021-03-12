@@ -20,6 +20,7 @@ import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.dire
 
 import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
 import { GalleryConfig } from '../../classes/gallery.config';
+import { PersistanceController } from '../../classes/persistance-controller';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-thumbnail-container.directive';
 import { GalleryMode } from './../../enums';
@@ -29,7 +30,7 @@ import { GalleryMode } from './../../enums';
   selector: 'fs-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: [ './gallery.component.scss' ],
-  providers: [ FsGalleryService ]
+  providers: [ FsGalleryService, PersistanceController ]
 })
 export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
@@ -69,7 +70,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   private _destroy$ = new Subject<void>();
 
   constructor(
-    public galleryService: FsGalleryService
+    public galleryService: FsGalleryService,
   ) { }
 
   public ngOnInit() {
@@ -128,4 +129,5 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   public modeChange(mode: GalleryMode) {
     this.galleryService.mode = mode;
   }
+
 }

@@ -13,6 +13,8 @@ import { GalleryMode } from './../enums';
 import { FsGalleryThumbnailConfig } from './../interfaces/gallery-thumbnail-config.interface';
 import { FsGalleryConfig, FsGalleryItem } from '../interfaces/gallery-config.interface';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
+import { ViewSize } from '../enums/view-size.enum';
+import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
 
 
 export class GalleryConfig {
@@ -30,6 +32,7 @@ export class GalleryConfig {
     width: 187,
     heightScale: 0.673,
   };
+  public persist: FsGalleryPersistance = true;
 
   public zoom = true;
   public mode: GalleryMode = GalleryMode.Grid;
@@ -49,7 +52,7 @@ export class GalleryConfig {
   public fetch;
 
   private _viewMode$ = new BehaviorSubject<'gallery' | 'list'>('gallery');
-  private _sizeMode$ = new BehaviorSubject<'large' | 'medium' | 'small'>('medium');
+  private _sizeMode$ = new BehaviorSubject<ViewSize>(ViewSize.Medium);
 
   private _listRef: FsListComponent;
 
@@ -61,7 +64,7 @@ export class GalleryConfig {
     return this._viewMode$.asObservable();
   }
 
-  public get sizeMode$(): Observable<'large' | 'medium' | 'small'> {
+  public get sizeMode$(): Observable<ViewSize> {
     return this._sizeMode$.asObservable();
   }
 
@@ -69,7 +72,7 @@ export class GalleryConfig {
     return this._viewMode$.getValue();
   }
 
-  public get sizeMode(): 'large' | 'medium' | 'small' {
+  public get sizeMode(): ViewSize {
     return this._sizeMode$.getValue();
   }
 
@@ -83,9 +86,9 @@ export class GalleryConfig {
 
   private get _resizeActionIcon(): 'image' | 'photo_size_select_large' | 'photo_size_select_small' {
     switch (this.sizeMode) {
-      case 'small': return 'photo_size_select_small';
-      case 'medium': return 'photo_size_select_large';
-      case 'large': return 'image';
+      case ViewSize.Small: return 'photo_size_select_small';
+      case ViewSize.Medium: return 'photo_size_select_large';
+      case ViewSize.Large: return 'image';
     }
   }
 
@@ -100,7 +103,7 @@ export class GalleryConfig {
     this._listRef = ref;
   }
 
-  public setViewSize(size: 'small' | 'medium' | 'large') {
+  public setViewSize(size: ViewSize) {
     this._sizeMode$.next(size);
   }
 
@@ -126,6 +129,14 @@ export class GalleryConfig {
 
     if (data.allow) {
       this.allow = data.allow;
+    }
+
+    if (data.sizeModeDefault) {
+      this.setViewSize(data.sizeModeDefault);
+    }
+
+    if (data.persist !== undefined) {
+      this.persist = data.persist;
     }
 
     if (data.thumbnail) {
@@ -193,7 +204,7 @@ export class GalleryConfig {
             label: 'Large',
             icon: 'image',
             click: () => {
-              this.setViewSize('large');
+              this.setViewSize(ViewSize.Large);
               this._updateActions();
             },
           },
@@ -201,7 +212,7 @@ export class GalleryConfig {
             label: 'Medium',
             icon: 'photo_size_select_large',
             click: () => {
-              this.setViewSize('medium');
+              this.setViewSize(ViewSize.Medium);
               this._updateActions();
             },
           },
@@ -209,7 +220,7 @@ export class GalleryConfig {
             label: 'Small',
             icon: 'photo_size_select_small',
             click: () => {
-              this.setViewSize('small');
+              this.setViewSize(ViewSize.Small);
               this._updateActions();
             },
           },
