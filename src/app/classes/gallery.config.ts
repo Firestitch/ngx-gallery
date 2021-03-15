@@ -84,6 +84,10 @@ export class GalleryConfig {
     return this.viewMode === 'list';
   }
 
+  public get listRef(): FsListComponent {
+    return this._listRef;
+  }
+
   private get _resizeActionIcon(): 'image' | 'photo_size_select_large' | 'photo_size_select_small' {
     switch (this.sizeMode) {
       case ViewSize.Small: return 'photo_size_select_small';

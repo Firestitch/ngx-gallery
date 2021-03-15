@@ -123,7 +123,11 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public refresh() {
-    this.galleryService.loadData();
+    if (this.config.galleryViewMode) {
+      this.galleryService.loadData();
+    } else if (this.config.listViewMode) {
+      this.config.listRef.reload();
+    }
   }
 
   public modeChange(mode: GalleryMode) {

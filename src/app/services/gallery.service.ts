@@ -198,6 +198,8 @@ export class FsGalleryService implements OnDestroy {
   private _initListConfig() {
     this.listConfig = {
       filters: this.config.filterConfig.items,
+      filterInit: this.filterInit.bind(this),
+      filterChange: this.filterChange.bind(this),
       actions: this.config.filterConfig.actions,
       rowActions: this.config.info?.menu?.actions,
       paging: false,
