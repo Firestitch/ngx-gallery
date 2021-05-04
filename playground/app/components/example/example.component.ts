@@ -24,6 +24,7 @@ export class ExampleComponent implements AfterViewInit {
 
   public config: FsGalleryConfig = {
     allow: 'image/*, application/pdf, video/*',
+    multiple: true,
     sizeModeDefault: ViewSize.Small,
     // persist: false,
     map: (data) => {

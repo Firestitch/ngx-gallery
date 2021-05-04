@@ -20,6 +20,7 @@ import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.inter
 export class GalleryConfig {
 
   public allow = 'image/*';
+  public multiple: boolean;
   public toolbar = true;
   public reorderable = false;
   public reorderEnd: (data: any) => {} = null;
@@ -147,6 +148,10 @@ export class GalleryConfig {
       this.thumbnail = { ...this.thumbnail, ...data.thumbnail };
     }
 
+    if (data.multiple !== undefined) {
+      this.multiple = data.multiple;
+    }
+
     this.info = data.info === undefined ? {} : data.info;
     this.reorderEnd = data.reorderEnd;
     this.toolbar = data.toolbar !== false;
@@ -247,7 +252,7 @@ export class GalleryConfig {
           this.upload(file);
         },
         accept: this.allow,
-        multiple: true,
+        multiple: this.multiple,
       }
     ];
   }

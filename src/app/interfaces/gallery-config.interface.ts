@@ -9,6 +9,7 @@ import { FsGalleryPersistance } from './gallery-persist-config.interface';
 
 export interface FsGalleryConfig {
   allow?: string;
+  multiple?: boolean;
   map: (data: any) => FsGalleryMapping,
   repeat?: boolean;
   toolbar?: boolean;
