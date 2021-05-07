@@ -170,12 +170,12 @@ export class GalleryConfig {
       this.fetch = data.fetch;
     }
 
-    if (data.filters && Array.isArray(data.filters)) {
-      this.filterConfig = this._getFilterConfig(data.filters);
-    }
+    this.filterConfig = this._getFilterConfig(data.filters);
   }
 
   private _getFilterConfig(items: IFilterConfigItem[]): FilterConfig {
+    items = items && Array.isArray(items) ? items : [];
+
     const config: FilterConfig = {
       init: (query) => {
         this.filterInit(query);
