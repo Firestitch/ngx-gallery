@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
 import { ViewSize } from '../enums/view-size.enum';
 import { IFilterConfigItem } from '@firestitch/filter';
-import { FsListSelectionConfig } from '@firestitch/list';
+import { FsListNoResultsConfig, FsListSelectionConfig } from '@firestitch/list';
 import { FsGalleryPersistance } from './gallery-persist-config.interface';
 
 
@@ -32,6 +32,7 @@ export interface FsGalleryConfig {
   thumbnail?: FsGalleryThumbnailConfig;
   sizeModeDefault?: ViewSize;
   persist?: FsGalleryPersistance;
+  noResults?: FsGalleryNoResultsConfig | false;
 }
 
 export interface FsGalleryMapping {
@@ -64,3 +65,5 @@ export interface Mime {
   type: string,
   subtype: string
 }
+
+export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }

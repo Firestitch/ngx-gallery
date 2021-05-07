@@ -1,14 +1,12 @@
 @import "./../../styles.scss";
 
 :host {
-
   ::ng-deep {
     [hidden] {
       display: none !important;
     }
   }
 }
-
 
 ::ng-deep {
   body.fs-gallery-preview-open::-webkit-scrollbar {
@@ -22,6 +20,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: -10px;
+
   &.layout-flow-nowrap {
     flex-wrap: nowrap;
   }
@@ -29,6 +29,7 @@
   ::ng-deep {
     fs-gallery-thumbnail .fs-gallery-thumbnail {
       margin-right: 10px;
+      margin-top: 10px;
     }
 
     fs-gallery-thumbnail:last-child {

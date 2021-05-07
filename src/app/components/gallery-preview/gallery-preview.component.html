@@ -1,6 +1,6 @@
 <div class="fs-gallery-preview-backdrop" (click)="close()"></div>
 
-<div class="fs-gallery-preview">
+<div class="fs-gallery-preview" [ngClass]="{ 'multiple': hasManyItems }">
 
   <fs-gallery-preview-header
     [totalItems]="totalImages"
@@ -60,6 +60,7 @@
     </div>
 
     <fs-gallery-preview-carousel
+      *ngIf="hasManyItems"
       [data]="availableImages"
       [activeItem]="activeItem"
       (previewSelected)="setActiveItem($event)">

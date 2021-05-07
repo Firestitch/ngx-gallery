@@ -3,7 +3,7 @@ import { Inject, Injectable, Injector, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { guid, getNormalizedPath } from '@firestitch/common';
-import { FsListConfig, ReorderStrategy } from '@firestitch/list';
+import { FsListConfig, FsListNoResultsConfig, ReorderStrategy } from '@firestitch/list';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
@@ -242,6 +242,10 @@ export class FsGalleryService implements OnDestroy {
             })
           );
       }
+    };
+
+    if (this.config.noResults !== undefined) {
+      this.listConfig.noResults = this.config.noResults as FsListNoResultsConfig;
     }
   }
 

@@ -27,6 +27,7 @@ export { FsGalleryDataItem } from './app/interfaces/gallery-data-item.interface'
 export {
   FsGalleryConfig,
   FsGalleryItem,
+  FsGalleryNoResultsConfig,
 } from './app/interfaces/gallery-config.interface';
 export { FsGalleryThumbnailConfig } from './app/interfaces/gallery-thumbnail-config.interface';
 

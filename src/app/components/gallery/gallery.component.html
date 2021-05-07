@@ -15,7 +15,7 @@
   </div>
 
   <div
-    *ngIf="!reorderEnabled"
+    *ngIf="!reorderEnabled && (data$ | async).length"
     [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
     <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
   </div>

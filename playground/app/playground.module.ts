@@ -26,6 +26,7 @@ import {
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsSelectionModule } from '@firestitch/selection';
+import { FsListModule } from '@firestitch/list';
 
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
@@ -49,7 +50,8 @@ const routes: Routes = [
     FsScrollModule.forRoot(),
     FsSelectionModule.forRoot(),
     FsDrawerModule,
-    FsLabelModule
+    FsLabelModule,
+    FsListModule.forRoot(),
   ],
   entryComponents: [
     ConfigureComponent

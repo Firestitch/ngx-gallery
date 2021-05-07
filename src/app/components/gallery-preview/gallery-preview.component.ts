@@ -149,8 +149,8 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
       return item.mime.type === MimeType.Image;
     });
 
+    this.hasManyItems = this.availableImages.length > 1;
     if (this.galleryService.config.showCarousel) {
-      this.hasManyItems = this.availableImages.length > 1;
       this.totalImages = this.availableImages.length;
     }
   }

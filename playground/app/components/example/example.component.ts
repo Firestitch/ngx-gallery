@@ -1,7 +1,7 @@
-import { delay, filter } from 'rxjs/operators';
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { delay } from 'rxjs/operators';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 
-import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, ViewSize } from '@firestitch/gallery';
+import { FsGalleryComponent, FsGalleryConfig, GalleryLayout, ViewSize } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
 import { of } from 'rxjs';

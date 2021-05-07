@@ -11,7 +11,7 @@ import {
 
 import { GalleryMode } from './../enums';
 import { FsGalleryThumbnailConfig } from './../interfaces/gallery-thumbnail-config.interface';
-import { FsGalleryConfig, FsGalleryItem } from '../interfaces/gallery-config.interface';
+import { FsGalleryConfig, FsGalleryItem, FsGalleryNoResultsConfig } from '../interfaces/gallery-config.interface';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
 import { ViewSize } from '../enums/view-size.enum';
 import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
@@ -28,12 +28,13 @@ export class GalleryConfig {
   public info: any;
   public layout = GalleryLayout.Grid;
   public showCarousel = true;
+  public noResults: FsGalleryNoResultsConfig | false;
+  public persist: FsGalleryPersistance = true;
   public thumbnail: FsGalleryThumbnailConfig = {
     styles: {},
     width: 187,
     heightScale: 0.673,
   };
-  public persist: FsGalleryPersistance = true;
 
   public zoom = true;
   public mode: GalleryMode = GalleryMode.Grid;
@@ -161,6 +162,7 @@ export class GalleryConfig {
     this.previewOpened = data.previewOpened;
     this.previewBeforeOpen = data.previewBeforeOpen;
     this.zoomChanged = data.zoomChanged;
+    this.noResults = data.noResults;
 
     if (data.upload) {
       this.upload = data.upload;
