@@ -1,3 +1,5 @@
+import { ThumbnailScale } from '../enums';
+
 export interface FsGalleryThumbnailConfig {
   styles?: {
     width?: string;
@@ -7,4 +9,5 @@ export interface FsGalleryThumbnailConfig {
   width?: number;
   size?: 'cover' | 'contain';
   position?: string;
+  scale?: ThumbnailScale;
 }

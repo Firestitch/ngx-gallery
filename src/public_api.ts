@@ -38,7 +38,7 @@ export { FsGalleryService } from './app/services/gallery.service';
 
 // Enums
 export { GalleryLayout } from './app/enums/gallery-layout.enum';
-export { ViewSize } from './app/enums/view-size.enum';
+export { ThumbnailScale } from './app/enums/thumbnail-scale.enum';
 
 // Helpers
 export * from './app/helpers';

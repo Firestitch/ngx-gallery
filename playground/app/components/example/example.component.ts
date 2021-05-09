@@ -1,7 +1,7 @@
 import { delay } from 'rxjs/operators';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 
-import { FsGalleryComponent, FsGalleryConfig, GalleryLayout, ViewSize } from '@firestitch/gallery';
+import { FsGalleryComponent, FsGalleryConfig, GalleryLayout, ThumbnailScale } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
 import { of } from 'rxjs';
@@ -25,7 +25,6 @@ export class ExampleComponent implements AfterViewInit {
   public config: FsGalleryConfig = {
     allow: 'image/*, application/pdf, video/*',
     multiple: true,
-    sizeModeDefault: ViewSize.Small,
     // persist: false,
     map: (data) => {
       return {
@@ -36,7 +35,7 @@ export class ExampleComponent implements AfterViewInit {
       };
     },
     thumbnail: {
-      heightScale: 0.674,
+      heightScale: 0.7,
       width: 200,
     },
     layout: GalleryLayout.Grid,

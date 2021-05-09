@@ -13,7 +13,7 @@ import { GalleryMode } from './../enums';
 import { FsGalleryThumbnailConfig } from './../interfaces/gallery-thumbnail-config.interface';
 import { FsGalleryConfig, FsGalleryItem, FsGalleryNoResultsConfig } from '../interfaces/gallery-config.interface';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
-import { ViewSize } from '../enums/view-size.enum';
+import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
 import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
 
 
@@ -34,6 +34,7 @@ export class GalleryConfig {
     styles: {},
     width: 187,
     heightScale: 0.673,
+    scale: ThumbnailScale.Medium,
   };
 
   public zoom = true;
@@ -54,7 +55,7 @@ export class GalleryConfig {
   public fetch;
 
   private _viewMode$ = new BehaviorSubject<'gallery' | 'list'>('gallery');
-  private _sizeMode$ = new BehaviorSubject<ViewSize>(ViewSize.Small);
+  private _thumbnailScale$ = new BehaviorSubject<ThumbnailScale>(ThumbnailScale.Small);
 
   private _listRef: FsListComponent;
 
@@ -66,16 +67,16 @@ export class GalleryConfig {
     return this._viewMode$.asObservable();
   }
 
-  public get sizeMode$(): Observable<ViewSize> {
-    return this._sizeMode$.asObservable();
+  public get thumbnailScale$(): Observable<ThumbnailScale> {
+    return this._thumbnailScale$.asObservable();
   }
 
   public get viewMode(): 'gallery' | 'list' {
     return this._viewMode$.getValue();
   }
 
-  public get sizeMode(): ViewSize {
-    return this._sizeMode$.getValue();
+  public get thumbnailScale(): ThumbnailScale {
+    return this._thumbnailScale$.getValue();
   }
 
   public get galleryViewMode(): boolean {
@@ -91,10 +92,10 @@ export class GalleryConfig {
   }
 
   private get _resizeActionIcon(): 'image' | 'photo_size_select_large' | 'photo_size_select_small' {
-    switch (this.sizeMode) {
-      case ViewSize.Small: return 'photo_size_select_small';
-      case ViewSize.Medium: return 'photo_size_select_large';
-      case ViewSize.Large: return 'image';
+    switch (this.thumbnailScale) {
+      case ThumbnailScale.Small: return 'photo_size_select_small';
+      case ThumbnailScale.Medium: return 'photo_size_select_large';
+      case ThumbnailScale.Large: return 'image';
     }
   }
 
@@ -109,13 +110,13 @@ export class GalleryConfig {
     this._listRef = ref;
   }
 
-  public setViewSize(size: ViewSize) {
-    this._sizeMode$.next(size);
+  public setThumbnailScale(size: ThumbnailScale) {
+    this._thumbnailScale$.next(size);
   }
 
   public setViewMode(mode: 'gallery' | 'list') {
     this._viewMode$.next(mode);
-    this.setViewSize(this.sizeMode);
+    this.setThumbnailScale(this.thumbnailScale);
   }
 
   private _initConfig(data: FsGalleryConfig) {
@@ -137,16 +138,16 @@ export class GalleryConfig {
       this.allow = data.allow;
     }
 
-    if (data.sizeModeDefault) {
-      this.setViewSize(data.sizeModeDefault);
-    }
-
     if (data.persist !== undefined) {
       this.persist = data.persist;
     }
 
     if (data.thumbnail) {
       this.thumbnail = { ...this.thumbnail, ...data.thumbnail };
+
+      if (data.thumbnail.scale) {
+        this.setThumbnailScale(data.thumbnail.scale);
+      }
     }
 
     if (data.multiple !== undefined) {
@@ -215,7 +216,7 @@ export class GalleryConfig {
             label: 'Large',
             icon: 'image',
             click: () => {
-              this.setViewSize(ViewSize.Large);
+              this.setThumbnailScale(ThumbnailScale.Large);
               this._updateActions();
             },
           },
@@ -223,7 +224,7 @@ export class GalleryConfig {
             label: 'Medium',
             icon: 'photo_size_select_large',
             click: () => {
-              this.setViewSize(ViewSize.Medium);
+              this.setThumbnailScale(ThumbnailScale.Medium);
               this._updateActions();
             },
           },
@@ -231,7 +232,7 @@ export class GalleryConfig {
             label: 'Small',
             icon: 'photo_size_select_small',
             click: () => {
-              this.setViewSize(ViewSize.Small);
+              this.setThumbnailScale(ThumbnailScale.Small);
               this._updateActions();
             },
           },

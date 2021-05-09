@@ -23,7 +23,7 @@ import { MimeType } from '../enums';
 import { mime } from '../helpers/mime';
 import { PersistanceController } from '../classes/persistance-controller';
 import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
-import { ViewSize } from '../enums/view-size.enum';
+import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
 
 
 @Injectable()
@@ -91,7 +91,7 @@ export class FsGalleryService implements OnDestroy {
     }
 
     if (this._persistanceController.enabled) {
-      this._restoreViewSizeParams(this._persistanceController.getDataFromScope('viewSize'));
+      this._restoreThumbnailScaleParams(this._persistanceController.getDataFromScope('thumbnailScale'));
     }
 
     this._listenSizeChange();
@@ -100,6 +100,7 @@ export class FsGalleryService implements OnDestroy {
   get imageWidth(): number {
     return this._imageWidth;
   }
+
   get imageHeight(): number {
     return this._imageHeight;
   }
@@ -168,7 +169,6 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public updateImageDims() {
-
     this._imageWidth = this.config.thumbnail.width + (this.imageZoom * this.config.thumbnail.width);
     this._imageHeight = (this._imageWidth * this.config.thumbnail.heightScale);
 
@@ -250,35 +250,42 @@ export class FsGalleryService implements OnDestroy {
   }
 
   private _listenSizeChange() {
-    this._config.sizeMode$
+    this._config.thumbnailScale$
       .pipe(
         takeUntil(this._configUpdated$),
         takeUntil(this._destroy$),
       )
       .subscribe((size) => {
         if (this._persistanceController.enabled) {
-          this._persistanceController.saveDataToScope('viewSize', size);
+          this._persistanceController.saveDataToScope('thumbnailScale', size);
         }
 
         switch (size) {
-          case ViewSize.Small: {
+          case ThumbnailScale.Small: {
             this.config.galleryViewMode
               ? this.updateImageZoom(-0.1)
               : this.updateImageZoom(-0.7);
           }
             break;
 
-          case ViewSize.Medium: {
+          case ThumbnailScale.Medium: {
             this.config.galleryViewMode
               ? this.updateImageZoom(1.3)
               : this.updateImageZoom(-0.2);
           }
             break;
 
-          case ViewSize.Large: {
+          case ThumbnailScale.Large: {
             this.config.galleryViewMode
               ? this.updateImageZoom(3)
               : this.updateImageZoom(0.3);
+          }
+            break;
+
+          case ThumbnailScale.None: {
+            this.config.galleryViewMode
+              ? this.updateImageZoom(0)
+              : this.updateImageZoom(0);
           }
             break;
         }
@@ -290,9 +297,9 @@ export class FsGalleryService implements OnDestroy {
     this._persistanceController.setConfig(persistConfig, namespace);
   }
 
-  private _restoreViewSizeParams(value: ViewSize) {
+  private _restoreThumbnailScaleParams(value: ThumbnailScale) {
     if (value) {
-      this._config.setViewSize(value);
+      this._config.setThumbnailScale(value);
     }
   }
 
