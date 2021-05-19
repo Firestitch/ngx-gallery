@@ -24,6 +24,7 @@ import { PersistanceController } from '../../classes/persistance-controller';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-thumbnail-container.directive';
 import { GalleryMode } from './../../enums';
+import { FsGalleryConfig } from '../../interfaces/gallery-config.interface';
 
 
 @Component({
@@ -36,13 +37,9 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @Output() zoomChanged = new EventEmitter();
 
-  @Input() set config(value) {
+  @Input() set config(value: FsGalleryConfig) {
     this._config = new GalleryConfig(value);
-    this.galleryService.config = this.config;
-  }
-
-  get config(): GalleryConfig {
-    return this._config;
+    this.galleryService.config = this._config;
   }
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
@@ -79,7 +76,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public ngAfterContentInit() {
-
     this.galleryService.previewTemplate = this.previewTemplate;
     this.galleryService.previewDirective = this.previewDirective;
 
@@ -98,8 +94,8 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
     this.data$.next(value);
 
-    if (this.config.reorderEnd) {
-      this.config.reorderEnd(value);
+    if (this._config.reorderEnd) {
+      this._config.reorderEnd(value);
     }
   }
 
@@ -123,10 +119,10 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public refresh() {
-    if (this.config.galleryViewMode) {
+    if (this._config.galleryViewMode) {
       this.galleryService.loadData();
-    } else if (this.config.listViewMode) {
-      this.config.listRef.reload();
+    } else if (this._config.listViewMode) {
+      this._config.listRef.reload();
     }
   }
 
