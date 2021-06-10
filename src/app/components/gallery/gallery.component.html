@@ -1,7 +1,7 @@
 <fs-gallery-list-view
   [listConfig]="galleryService.listConfig"
   [imageWidth]="galleryService.imageWidth"
-  [galleryConfig]="config">
+  [galleryConfig]="galleryService.config">
 </fs-gallery-list-view>
 
 <ng-container *ngIf="(galleryService.config.viewMode$ | async) === 'gallery'">

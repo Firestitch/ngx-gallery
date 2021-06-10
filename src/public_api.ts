@@ -21,6 +21,9 @@ export { FsGalleryThumbnailPreviewComponent } from './app/components/gallery-thu
 // Directives
 export { FsGalleryThumbnailDirective } from './app/directives/gallery-thumbnail.directive';
 export { FsGalleryPreviewDirective } from './app/directives/gallery-preview.directive';
+export { FsGalleryListColumnDirective } from './app/directives/column/column.directive';
+export { FsGalleryListCellDirective } from './app/directives/cell/cell.directive';
+export { FsGalleryListHeaderDirective } from './app/directives/header/header.directive';
 
 // Interfaces
 export { FsGalleryDataItem } from './app/interfaces/gallery-data-item.interface';

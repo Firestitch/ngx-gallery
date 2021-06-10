@@ -34,7 +34,7 @@ export class FsGalleryListViewComponent {
   constructor(private _galleryService: FsGalleryService) {
   }
 
-  public openPreview(item) {
+  public openPreview = (item) => {
     this._galleryService.openPreview(item);
   }
 }

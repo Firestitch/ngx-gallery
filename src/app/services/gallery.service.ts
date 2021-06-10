@@ -24,6 +24,7 @@ import { mime } from '../helpers/mime';
 import { PersistanceController } from '../classes/persistance-controller';
 import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
 import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
+import { FsGalleryListColumnDirective } from '../directives/column/column.directive';
 
 
 @Injectable()
@@ -193,6 +194,10 @@ export class FsGalleryService implements OnDestroy {
     this.filterQuery = query;
 
     // this.loadData();
+  }
+
+  public setListColumns(columns: FsGalleryListColumnDirective[]): void {
+    this.config.setListColumns(columns);
   }
 
   private _initListConfig() {

@@ -5,6 +5,12 @@
   <ng-template fsGalleryPreview let-item="item">
     <div class="description" *ngIf="item.description">{{ item.description }}</div>
   </ng-template>
+
+  <fs-gallery-list-column>
+    <ng-template fs-gallery-list-cell let-row let-openPreview="openPreview">
+      <a (click)="openPreview(row)" class="name">{{ row.name }}</a>
+    </ng-template>
+  </fs-gallery-list-column>
   <!-- <ng-template fsGalleryThumbnailContainer let-item="item">
     <fs-gallery-thumbnail-preview [item]="item"></fs-gallery-thumbnail-preview>
     <div class="content">

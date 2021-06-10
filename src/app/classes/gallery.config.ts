@@ -15,6 +15,7 @@ import { FsGalleryConfig, FsGalleryItem, FsGalleryNoResultsConfig } from '../int
 import { GalleryLayout } from '../enums/gallery-layout.enum';
 import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
 import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
+import { FsGalleryListColumnDirective } from '../directives/column/column.directive';
 
 
 export class GalleryConfig {
@@ -54,6 +55,7 @@ export class GalleryConfig {
   public upload: (files: any) => void;
   public fetch;
 
+  private _listColumns$ = new BehaviorSubject<FsGalleryListColumnDirective[]>([]);
   private _viewMode$ = new BehaviorSubject<'gallery' | 'list'>('gallery');
   private _thumbnailScale$ = new BehaviorSubject<ThumbnailScale>(ThumbnailScale.Small);
 
@@ -69,6 +71,10 @@ export class GalleryConfig {
 
   public get thumbnailScale$(): Observable<ThumbnailScale> {
     return this._thumbnailScale$.asObservable();
+  }
+
+  public get listColumns$(): Observable<FsGalleryListColumnDirective[]> {
+    return this._listColumns$;
   }
 
   public get viewMode(): 'gallery' | 'list' {
@@ -117,6 +123,10 @@ export class GalleryConfig {
   public setViewMode(mode: 'gallery' | 'list') {
     this._viewMode$.next(mode);
     this.setThumbnailScale(this.thumbnailScale);
+  }
+
+  public setListColumns(columns: FsGalleryListColumnDirective[]): void {
+    this._listColumns$.next(columns);
   }
 
   private _initConfig(data: FsGalleryConfig) {

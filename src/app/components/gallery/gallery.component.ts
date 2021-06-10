@@ -9,6 +9,8 @@ import {
   AfterContentInit,
   Output,
   EventEmitter,
+  ContentChildren,
+  QueryList,
 } from '@angular/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -25,6 +27,7 @@ import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-thumbnail-container.directive';
 import { GalleryMode } from './../../enums';
 import { FsGalleryConfig } from '../../interfaces/gallery-config.interface';
+import { FsGalleryListColumnDirective } from '../../directives/column/column.directive';
 
 
 @Component({
@@ -63,6 +66,9 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   public data$: BehaviorSubject<FsGalleryItem[]>;
   public reorderEnabled = true;
 
+  @ContentChildren(FsGalleryListColumnDirective)
+  private _listColumnDirectives: QueryList<FsGalleryListColumnDirective>;
+
   private _config: GalleryConfig = null;
   private _destroy$ = new Subject<void>();
 
@@ -83,6 +89,8 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
     this.galleryService.thumbnailTemplate = this.thumbnailTemplate;
 
     this.galleryService.thumbnailContainerDirective = this.thumbnailContainerDirective;
+
+    this.galleryService.setListColumns(this._listColumnDirectives.toArray());
   }
 
   public ngOnDestroy() {

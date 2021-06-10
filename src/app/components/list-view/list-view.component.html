@@ -19,10 +19,39 @@
       </ng-template>
     </fs-list-column>
 
-    <fs-list-column>
-      <ng-template fs-list-cell let-row="row">
-        <a (click)="openPreview(row)" class="name">{{ row.name }}</a>
-      </ng-template>
-    </fs-list-column>
+    <ng-container *ngFor="let col of galleryConfig.listColumns$ | async">
+      <fs-list-column
+        [align]="col.align"
+        [class]="col.className"
+        [customize]="col.customize"
+        [direction]="col.direction"
+        [name]="col.name"
+        [show]="col.show"
+        [sortable]="col.sortable"
+        [title]="col.title"
+        [width]="col.width">
+        <ng-container *ngIf="col.headerTemplate">
+          <ng-template fs-list-header
+                       let-row="row"
+                       [align]="col.headerConfigs?.align"
+                       [class]="col.headerConfigs?.styleClass"
+                       [colspan]="col.headerConfigs?.colspan">
+            <ng-container
+              *ngTemplateOutlet="col.headerTemplate; context: { $implicit: row, row: row }">
+            </ng-container>
+          </ng-template>
+        </ng-container>
+        <ng-template fs-list-cell
+                     let-row="row"
+                     [align]="col.cellConfigs.align"
+                     [class]="col.cellConfigs.styleClass"
+                     [colspan]="col.cellConfigs.colspan">
+          <ng-container
+            *ngTemplateOutlet="col.cellTemplate;
+            context: { $implicit: row, row: row, openPreview: openPreview }">
+          </ng-container>
+        </ng-template>
+      </fs-list-column>
+    </ng-container>
   </fs-list>
 </ng-container>

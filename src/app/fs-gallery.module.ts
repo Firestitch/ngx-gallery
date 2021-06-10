@@ -31,6 +31,10 @@ import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-com
 import { FsGalleryListViewComponent } from './components/list-view/list-view.component';
 import { FsGalleryFileIconComponent } from './components/gallery-file-icon/gallery-file-icon.component';
 
+import { FsGalleryListColumnDirective } from './directives/column/column.directive';
+import { FsGalleryListCellDirective } from './directives/cell/cell.directive';
+import { FsGalleryListHeaderDirective } from './directives/header/header.directive';
+
 
 @NgModule({
   imports: [
@@ -52,7 +56,10 @@ import { FsGalleryFileIconComponent } from './components/gallery-file-icon/galle
     FsGalleryThumbnailDirective,
     FsGalleryPreviewDirective,
     FsGalleryThumbnailContainerDirective,
-    FsGalleryThumbnailPreviewComponent
+    FsGalleryThumbnailPreviewComponent,
+    FsGalleryListColumnDirective,
+    FsGalleryListCellDirective,
+    FsGalleryListHeaderDirective,
   ],
   declarations: [
     FsGalleryComponent,
@@ -67,6 +74,9 @@ import { FsGalleryFileIconComponent } from './components/gallery-file-icon/galle
     FsGalleryFileIconComponent,
     FsGalleryThumbnailPreviewComponent,
     FsGalleryListViewComponent,
+    FsGalleryListColumnDirective,
+    FsGalleryListCellDirective,
+    FsGalleryListHeaderDirective,
   ]
 })
 export class FsGalleryModule {
