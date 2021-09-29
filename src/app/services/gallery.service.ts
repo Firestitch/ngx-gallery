@@ -147,26 +147,27 @@ export class FsGalleryService implements OnDestroy {
         .fetch(query)
         .pipe(
           takeUntil(this._destroy$),
-          map((items: any) => {
-
-            return items.map(item => {
-
-              const mapping: any = this.config.map(item);
-              mapping.data = item;
-              const link = mapping.preview || mapping.url;
-
-              if (!mapping.mime) {
-                mapping.mime = mime(link);
-              }
-
-              return mapping;
-            });
-          }),
+          map((items: any) => this.mapData(items)),
         )
         .subscribe((data) => {
           this.data$.next(data);
         });
     }
+  }
+
+  public mapData(items) {
+    return items.map((item) => {
+
+      const mapping: any = this.config.map(item);
+      mapping.data = item;
+      const link = mapping.preview || mapping.url;
+
+      if (!mapping.mime) {
+        mapping.mime = mime(link);
+      }
+
+      return mapping;
+    });
   }
 
   public updateImageDims() {
@@ -225,15 +226,9 @@ export class FsGalleryService implements OnDestroy {
             map((items: unknown[]) => {
 
               return items.map(item => {
-
                 const mapping: any = this.config.map(item);
                 mapping.data = item;
-                const link = mapping.preview || mapping.url;
-
-                if (!mapping.mime) {
-                  mapping.mime = mime(link);
-                }
-
+                mapping.mime = mime(mapping);
                 return mapping;
               });
             }),
