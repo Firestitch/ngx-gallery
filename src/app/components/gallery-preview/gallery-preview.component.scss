@@ -74,6 +74,8 @@
               vertical-align: middle;
               max-width: 100%;
               max-height: 100%;
+              // IOS hotfix
+              object-fit: contain;
 
               width: auto !important;
               height: auto !important;
