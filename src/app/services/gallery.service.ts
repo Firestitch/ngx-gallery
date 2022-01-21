@@ -6,7 +6,7 @@ import { guid, getNormalizedPath } from '@firestitch/common';
 import { FsListConfig, FsListNoResultsConfig, ReorderStrategy } from '@firestitch/list';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, map, take, takeUntil } from 'rxjs/operators';
 import { round } from 'lodash-es';
 
 
@@ -46,6 +46,12 @@ export class FsGalleryService implements OnDestroy {
   public reorderStart$: Observable<any>;
   public reorderEnd$: Observable<any>;
   public listConfig: FsListConfig;
+
+  private _activeFilters$ = new BehaviorSubject(0);
+  public activeFilters$ = this._activeFilters$
+    .pipe(
+      debounceTime(200),
+    )
 
   private filterQuery = {};
   private _data$ = new BehaviorSubject<FsGalleryItem[]>([]);
@@ -189,11 +195,12 @@ export class FsGalleryService implements OnDestroy {
 
   public filterInit(query) {
     this.filterQuery = query;
+    this._activeFilters$.next(Object.keys(query).length);
   }
 
   public filterChange(query) {
     this.filterQuery = query;
-
+    this._activeFilters$.next(Object.keys(query).length);
     // this.loadData();
   }
 
