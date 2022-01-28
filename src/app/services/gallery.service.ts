@@ -223,7 +223,7 @@ export class FsGalleryService implements OnDestroy {
           const rowsData = rows.map((row) => {
             return row.data;
           });
-
+          this.data$.next(rowsData);
           this.config.reorderEnd(rowsData);
         }
       },

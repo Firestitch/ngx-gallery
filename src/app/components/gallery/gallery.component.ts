@@ -28,6 +28,7 @@ import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-t
 import { GalleryMode } from './../../enums';
 import { FsGalleryConfig } from '../../interfaces/gallery-config.interface';
 import { FsGalleryListColumnDirective } from '../../directives/column/column.directive';
+import { FsGalleryListViewComponent } from '../list-view/list-view.component';
 
 
 @Component({
@@ -59,6 +60,9 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @ContentChild(FsGalleryThumbnailDirective)
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
+
+  @ContentChild(FsGalleryThumbnailDirective)
+  public fsGalleryListViewComponent: FsGalleryListViewComponent = null;
 
   @ViewChild('fsGalleryThumbnail')
   public fsGalleryThumbnail: FsGalleryThumbnailComponent = null;
@@ -99,8 +103,12 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public orderChange(value: FsGalleryItem[], reorder = false): void {
-
+    console.log('orderChange', this.galleryService.config.listRef);
     this.data$.next(value);
+
+    if (this.galleryService.config.listRef) {
+      // this.galleryService.config.listRef.reload();
+    }
 
     if (this._config.reorderEnd) {
       this._config.reorderEnd(value);

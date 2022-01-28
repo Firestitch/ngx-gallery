@@ -135,7 +135,7 @@ export class ExampleComponent implements AfterViewInit {
     ],
     //showCarousel: false,
     reorderEnd: (data) => {
-      console.log(data);
+      console.log('reorderEnd', data);
     },
     fetch: (query) => {
       console.log('fetch', query);
