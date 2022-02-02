@@ -166,10 +166,10 @@ export class FsGalleryService implements OnDestroy {
 
       const mapping: any = this.config.map(item);
       mapping.data = item;
-      const link = mapping.preview || mapping.url;
+      // const link = mapping.preview || mapping.url;
 
       if (!mapping.mime) {
-        mapping.mime = mime(link);
+        mapping.mime = mime(mapping);
       }
 
       return mapping;
