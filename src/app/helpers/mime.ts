@@ -3,11 +3,11 @@ import { toString } from 'lodash-es';
 export function mime(mapping) {
   let subtype = mapping.mime;
 
-  if(!subtype) {
+  if (!subtype) {
     const match = ('.'.concat(toString(mapping.url))).toLowerCase().match(/\.([a-z0-9]{3,4})(?=\?|$)/);
     subtype = match ? match[1] : '';
 
-    if(!subtype && mapping.name.indexOf('.') !== false) {
+    if (!subtype && mapping.name.indexOf('.') !== -1) {
       subtype = mapping.name.split('.').pop();
     }
   }
