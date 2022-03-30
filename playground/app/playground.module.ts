@@ -23,7 +23,7 @@ import {
   ExamplesComponent,
   ConfigureComponent
 } from './components';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsSelectionModule } from '@firestitch/selection';
 import { FsListModule } from '@firestitch/list';
@@ -43,12 +43,12 @@ const routes: Routes = [
     FsGalleryModule.forRoot(),
     FsFileModule.forRoot(),
     FsMenuModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     FsExampleModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
     FsMessageModule.forRoot(),
     FsScrollModule.forRoot(),
-    FsSelectionModule.forRoot(),
+    FsSelectionModule,
     FsDrawerModule,
     FsLabelModule,
     FsListModule.forRoot(),
@@ -64,7 +64,7 @@ const routes: Routes = [
     ConfigureComponent
   ],
   providers: [
-    {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}}
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {floatLabel: 'always'}}
   ]
 })
 export class PlaygroundModule {
