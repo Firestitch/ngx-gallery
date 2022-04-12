@@ -28,6 +28,7 @@ import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-t
 import { GalleryMode } from './../../enums';
 import { FsGalleryConfig } from '../../interfaces/gallery-config.interface';
 import { FsGalleryListColumnDirective } from '../../directives/column/column.directive';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -79,6 +80,13 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   public ngOnInit() {
     this.data$ = this.galleryService.data$;
     this.reorderEnabled = this.galleryService.config.reorderable;
+
+    this.galleryService.config.viewMode$
+    .pipe(
+      takeUntil(this._destroy$)
+    ).subscribe(() => {
+      this.refresh();
+    });
   }
 
   public ngAfterContentInit() {
@@ -115,7 +123,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public enableReorder() {
-
     if (this.galleryService.config.reorderable) {
       this.reorderEnabled = true;
     }

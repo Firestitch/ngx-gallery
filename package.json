@@ -2,7 +2,7 @@
   "name": "@firestitch/gallery",
   "title": "Gallery",
   "description": "@firestitch/gallery",
-  "version": "12.0.0",
+  "version": "12.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-gallery"
@@ -62,7 +62,7 @@
     "@firestitch/form": "^12.0.1",
     "@firestitch/iframe": "^12.0.0",
     "@firestitch/label": "^12.0.0",
-    "@firestitch/list": "^12.0.0",
+    "@firestitch/list": "^12.0.1",
     "@firestitch/mask": "^12.0.0",
     "@firestitch/menu": "^12.0.1",
     "@firestitch/message": "^12.0.0",

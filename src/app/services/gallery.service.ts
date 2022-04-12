@@ -227,6 +227,7 @@ export class FsGalleryService implements OnDestroy {
           this.config.reorderEnd(rowsData);
         }
       },
+      status: false,
       fetch: (query) => {
         return this.config.fetch(query)
           .pipe(
@@ -244,7 +245,7 @@ export class FsGalleryService implements OnDestroy {
 
               return {
                 data: items,
-                paging: {},
+                paging: { records: items.length },
               }
             })
           );
