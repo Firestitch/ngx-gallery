@@ -1,30 +1,15 @@
+<fs-filter [config]="galleryService.filterConfig"></fs-filter>
+
 <fs-gallery-list-view
+  *ngIf="(galleryService.config.viewMode$ | async) === GalleryMode.List"
   [listConfig]="galleryService.listConfig"
   [imageWidth]="galleryService.imageWidth"
   [galleryConfig]="galleryService.config">
 </fs-gallery-list-view>
 
-<ng-container *ngIf="(galleryService.config.viewMode$ | async) === 'gallery'">
-  <div
-    *ngIf="reorderEnabled && (this.galleryService.activeFilters$ | async) === 0"
-    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
-    [dragula]="galleryService.dragName"
-    [dragulaModel]="data$ | async"
-    (dragulaModelChange)="orderChange($event, true)">
-    <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-  </div>
-
-  <div
-    *ngIf="(!reorderEnabled || (this.galleryService.activeFilters$ | async) > 0) && (data$ | async).length"
-    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
-    <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-  </div>
-</ng-container>
-
-<ng-template #thumbnailsTemplate>
-  <fs-gallery-thumbnail
-    *ngFor="let item of data$ | async"
-    #fsGalleryThumbnail
-    [data]="item">
-  </fs-gallery-thumbnail>
-</ng-template>
+<fs-gallery-gallery-view
+  *ngIf="(galleryService.config.viewMode$ | async) === GalleryMode.Gallery"
+  [reorderEnabled]="reorderEnabled"
+  [data$]="data$"
+  (orderChange)="orderChange($event)">
+</fs-gallery-gallery-view>

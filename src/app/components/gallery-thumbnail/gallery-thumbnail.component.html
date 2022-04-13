@@ -4,9 +4,9 @@
   [style.width]="galleryService.config.layout===galleryLayout.Grid ? '' : galleryService.imageWidth + 'px'">
 
     <ng-container
-      *ngIf="galleryService.thumbnailContainerDirective; else defaultThumbnailContainer">
+      *ngIf="galleryService.thumbnailContainerTemplate; else defaultThumbnailContainer">
         <ng-template
-          [ngTemplateOutlet]="galleryService.thumbnailContainerDirective"
+          [ngTemplateOutlet]="galleryService.thumbnailContainerTemplate"
           [ngTemplateOutletContext]="{ item: data }">
         </ng-template>
     </ng-container>

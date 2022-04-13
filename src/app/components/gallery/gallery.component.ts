@@ -28,7 +28,6 @@ import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-t
 import { GalleryMode } from './../../enums';
 import { FsGalleryConfig } from '../../interfaces/gallery-config.interface';
 import { FsGalleryListColumnDirective } from '../../directives/column/column.directive';
-import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -47,16 +46,16 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
-  public previewTemplate: FsGalleryPreviewDirective = null;
+  public previewTemplate: TemplateRef<any> = null;
 
   @ContentChild(FsGalleryPreviewDirective)
   public previewDirective: FsGalleryPreviewDirective = null;
 
   @ContentChild(FsGalleryThumbnailDirective, { read: TemplateRef })
-  public thumbnailTemplate: FsGalleryThumbnailDirective = null;
+  public thumbnailTemplate: TemplateRef<any> = null;
 
   @ContentChild(FsGalleryThumbnailContainerDirective, { read: TemplateRef })
-  public thumbnailContainerDirective: FsGalleryThumbnailContainerDirective = null;
+  public thumbnailContainerTemplate: TemplateRef<any> = null;
 
   @ContentChild(FsGalleryThumbnailDirective)
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
@@ -66,6 +65,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public data$: BehaviorSubject<FsGalleryItem[]>;
   public reorderEnabled = true;
+  public GalleryMode = GalleryMode;
 
   @ContentChildren(FsGalleryListColumnDirective)
   private _listColumnDirectives: QueryList<FsGalleryListColumnDirective>;
@@ -80,13 +80,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   public ngOnInit() {
     this.data$ = this.galleryService.data$;
     this.reorderEnabled = this.galleryService.config.reorderable;
-
-    this.galleryService.config.viewMode$
-    .pipe(
-      takeUntil(this._destroy$)
-    ).subscribe(() => {
-      this.refresh();
-    });
   }
 
   public ngAfterContentInit() {
@@ -96,7 +89,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
     this.galleryService.thumbnailDirective = this.thumbnailDirective;
     this.galleryService.thumbnailTemplate = this.thumbnailTemplate;
 
-    this.galleryService.thumbnailContainerDirective = this.thumbnailContainerDirective;
+    this.galleryService.thumbnailContainerTemplate = this.thumbnailContainerTemplate;
 
     this.galleryService.setListColumns(this._listColumnDirectives.toArray());
   }
@@ -106,7 +99,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
     this._destroy$.complete();
   }
 
-  public orderChange(value: FsGalleryItem[], reorder = false): void {
+  public orderChange(value: FsGalleryItem[]): void {
     this.data$.next(value);
 
     if (this._config.reorderEnd) {
@@ -132,16 +125,8 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
     this.reorderEnabled = false;
   }
 
-  public refresh() {
-    if (this._config.galleryViewMode) {
-      this.galleryService.loadData();
-    } else if (this._config.listViewMode) {
-      this._config.listRef.reload();
-    }
-  }
-
-  public modeChange(mode: GalleryMode) {
-    this.galleryService.mode = mode;
+  public reload() {
+    this.galleryService.reload();
   }
 
 }

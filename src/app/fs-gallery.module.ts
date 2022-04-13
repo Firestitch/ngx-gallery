@@ -30,6 +30,7 @@ import { FsGalleryThumbnailPreviewComponent } from './components/gallery-thumbna
 import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-component.injector';
 import { FsGalleryListViewComponent } from './components/list-view/list-view.component';
 import { FsGalleryFileIconComponent } from './components/gallery-file-icon/gallery-file-icon.component';
+import { FsGalleryViewComponent } from './components/gallery-view/gallery-view.component';
 
 import { FsGalleryListColumnDirective } from './directives/column/column.directive';
 import { FsGalleryListCellDirective } from './directives/cell/cell.directive';
@@ -77,6 +78,7 @@ import { FsGalleryListHeaderDirective } from './directives/header/header.directi
     FsGalleryListColumnDirective,
     FsGalleryListCellDirective,
     FsGalleryListHeaderDirective,
+    FsGalleryViewComponent,
   ]
 })
 export class FsGalleryModule {

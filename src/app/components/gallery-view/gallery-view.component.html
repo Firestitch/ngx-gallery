@@ -1,0 +1,28 @@
+<div
+    *ngIf="reorderEnabled && (this.galleryService.activeFilters$ | async) === 0"
+    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
+    [dragula]="galleryService.dragName"
+    [dragulaModel]="data$ | async"
+    (dragulaModelChange)="orderChange.emit($event)">
+  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
+</div>
+
+<div
+    *ngIf="(!reorderEnabled || (this.galleryService.activeFilters$ | async) > 0) && (data$ | async).length"
+    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
+  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
+</div>
+
+<ng-template #thumbnailsTemplate>
+  <fs-gallery-thumbnail
+    *ngFor="let item of data$ | async"
+    #fsGalleryThumbnail
+    [data]="item">
+  </fs-gallery-thumbnail>
+</ng-template>
+
+<div
+    *ngIf="!(data$ | async).length"
+    class="no-results">
+  No Results Found
+</div>

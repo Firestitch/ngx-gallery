@@ -1,4 +1,4 @@
-import { Inject, Injectable, Injector, OnDestroy } from '@angular/core';
+import { Inject, Injectable, Injector, OnDestroy, TemplateRef } from '@angular/core';
 
 import { Location } from '@angular/common';
 
@@ -6,7 +6,7 @@ import { guid, getNormalizedPath } from '@firestitch/common';
 import { FsListConfig, FsListNoResultsConfig, ReorderStrategy } from '@firestitch/list';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { debounceTime, map, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, map, skip, take, takeUntil, tap } from 'rxjs/operators';
 import { round } from 'lodash-es';
 
 
@@ -14,7 +14,6 @@ import { FsGalleryPreviewDirective } from '../directives/gallery-preview.directi
 import { FsGalleryThumbnailDirective } from '../directives/gallery-thumbnail.directive';
 import { GalleryConfig } from '../classes/gallery.config';
 import { FsGalleryItem } from '../interfaces/gallery-config.interface';
-import { FsGalleryThumbnailContainerDirective } from '../directives/gallery-thumbnail-container.directive';
 import { FsGalleryPreviewService } from './gallery-preview.service';
 import { Overlay } from '@angular/cdk/overlay';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
@@ -25,6 +24,7 @@ import { PersistanceController } from '../classes/persistance-controller';
 import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
 import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
 import { FsGalleryListColumnDirective } from '../directives/column/column.directive';
+import { FilterConfig } from '@firestitch/filter';
 
 
 @Injectable()
@@ -34,18 +34,18 @@ export class FsGalleryService implements OnDestroy {
 
   public galleryPreviewService: FsGalleryPreviewService;
   public previewTemplate: FsGalleryPreviewDirective = null;
-  public thumbnailTemplate: FsGalleryThumbnailDirective = null;
+  public thumbnailTemplate: TemplateRef<any> = null;
   public previewDirective: FsGalleryPreviewDirective = null;
   public thumbnailDirective: FsGalleryThumbnailDirective = null;
-  public thumbnailContainerDirective: FsGalleryThumbnailContainerDirective = null;
+  public thumbnailContainerTemplate: TemplateRef<any> = null;
 
   public imageZoom = 0;
-  public mode;
   public imageZoomInteger = 0;
   public dimentionsChange$ = new Subject<void>();
   public reorderStart$: Observable<any>;
   public reorderEnd$: Observable<any>;
   public listConfig: FsListConfig;
+  public filterConfig: FilterConfig;
 
   private _activeFilters$ = new BehaviorSubject(0);
   public activeFilters$ = this._activeFilters$
@@ -53,7 +53,7 @@ export class FsGalleryService implements OnDestroy {
       debounceTime(200),
     )
 
-  private filterQuery = {};
+  private _filterQuery = {};
   private _data$ = new BehaviorSubject<FsGalleryItem[]>([]);
   private _imageWidth: number = null;
   private _imageHeight: number = null;
@@ -91,6 +91,7 @@ export class FsGalleryService implements OnDestroy {
     this._config.filterInit = this.filterInit.bind(this);
     this._config.filterChange = this.filterChange.bind(this);
     this._initListConfig();
+    this._initFilterConfig();
     this._configUpdated$.next();
 
     if (this._config.persist) {
@@ -102,6 +103,11 @@ export class FsGalleryService implements OnDestroy {
     }
 
     this._listenSizeChange();
+    this._listenUpload();
+
+    if(this.config.viewModeGallery) {
+      this.loadGallery();
+    }
   }
 
   get imageWidth(): number {
@@ -145,8 +151,10 @@ export class FsGalleryService implements OnDestroy {
     }
   }
 
-  public loadData() {
-    const query = Object.assign({}, this.filterQuery);
+  public loadGallery() {
+    const query = {
+      ...this._filterQuery,
+    };
 
     if (this._config.fetch) {
       this._config
@@ -161,12 +169,18 @@ export class FsGalleryService implements OnDestroy {
     }
   }
 
+  public reload() {
+    if(this._config.viewModeGallery) {
+      this.loadGallery();
+    } else if (this._config.viewModeList) {
+      this._config.listRef.reload();
+    }
+  }
+
   public mapData(items) {
     return items.map((item) => {
-
       const mapping: any = this.config.map(item);
       mapping.data = item;
-      // const link = mapping.preview || mapping.url;
 
       if (!mapping.mime) {
         mapping.mime = mime(mapping);
@@ -194,26 +208,35 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public filterInit(query) {
-    this.filterQuery = query;
+    this._filterQuery = query;
     this._activeFilters$.next(Object.keys(query).length);
   }
 
   public filterChange(query) {
-    this.filterQuery = query;
+    this._filterQuery = query;
     this._activeFilters$.next(Object.keys(query).length);
-    // this.loadData();
   }
 
   public setListColumns(columns: FsGalleryListColumnDirective[]): void {
     this.config.setListColumns(columns);
   }
+  private _initFilterConfig() {
+    this.filterConfig = {
+      items: this.config.filterConfig.items,
+      init: this.filterInit.bind(this),
+      change: (query) => {
+        this.filterChange(query);
+        this.reload();
+      },
+      actions: this.config.filterConfig.actions,
+      reload: () => {
+        this.reload();
+      },
+    };
+  }
 
   private _initListConfig() {
     this.listConfig = {
-      filters: this.config.filterConfig.items,
-      filterInit: this.filterInit.bind(this),
-      filterChange: this.filterChange.bind(this),
-      actions: this.config.filterConfig.actions,
       rowActions: this.config.info?.menu?.actions,
       paging: false,
       selection: this.config.selection,
@@ -223,6 +246,7 @@ export class FsGalleryService implements OnDestroy {
           const rowsData = rows.map((row) => {
             return row.data;
           });
+          
           this.data$.next(rowsData);
           this.config.reorderEnd(rowsData);
         }
@@ -232,7 +256,6 @@ export class FsGalleryService implements OnDestroy {
         return this.config.fetch(query)
           .pipe(
             map((items: unknown[]) => {
-
               return items.map(item => {
                 const mapping: any = this.config.map(item);
                 mapping.data = item;
@@ -240,14 +263,13 @@ export class FsGalleryService implements OnDestroy {
                 return mapping;
               });
             }),
-            map((items: FsGalleryItem[]) => {
-              this.data$.next(items);
-
+            map((items: FsGalleryItem[]) => { 
+              this.data$.next(items);          
               return {
                 data: items,
                 paging: { records: items.length },
               }
-            })
+            }),
           );
       }
     };
@@ -257,6 +279,16 @@ export class FsGalleryService implements OnDestroy {
     }
   }
 
+  private _listenUpload(): void {
+    this.config.upload$
+    .pipe(
+      takeUntil(this._destroy$),
+    )
+    .subscribe(() => {
+      this.reload();
+    });
+  }
+  
   private _listenSizeChange() {
     this._config.thumbnailScale$
       .pipe(
@@ -270,28 +302,28 @@ export class FsGalleryService implements OnDestroy {
 
         switch (size) {
           case ThumbnailScale.Small: {
-            this.config.galleryViewMode
+            this.config.viewModeGallery
               ? this.updateImageZoom(-0.1)
               : this.updateImageZoom(-0.7);
           }
             break;
 
           case ThumbnailScale.Medium: {
-            this.config.galleryViewMode
+            this.config.viewModeGallery
               ? this.updateImageZoom(1.3)
               : this.updateImageZoom(-0.2);
           }
             break;
 
           case ThumbnailScale.Large: {
-            this.config.galleryViewMode
+            this.config.viewModeGallery
               ? this.updateImageZoom(3)
               : this.updateImageZoom(0.3);
           }
             break;
 
           case ThumbnailScale.None: {
-            this.config.galleryViewMode
+            this.config.viewModeGallery
               ? this.updateImageZoom(0)
               : this.updateImageZoom(0);
           }

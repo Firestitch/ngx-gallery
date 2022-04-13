@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
-import { FsListConfig } from '@firestitch/list';
+import { FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { GalleryConfig } from '../../classes/gallery.config';
-import { MimeType } from '../../enums';
+import { GalleryMode, MimeType } from '../../enums';
 import { FsGalleryService } from '../../services/gallery.service';
+
 
 @Component({
   selector: 'fs-gallery-list-view',
@@ -24,14 +25,17 @@ export class FsGalleryListViewComponent {
   @Input()
   public imageWidth: number;
 
-  @ViewChild('list')
+  @ViewChild(FsListComponent)
   set updateListRef(listRef) {
     this.galleryConfig.setListRef(listRef);
   }
 
   public MimeType = MimeType;
+  public GalleryMode = GalleryMode;
 
-  constructor(private _galleryService: FsGalleryService) {
+  constructor(
+    private _galleryService: FsGalleryService,
+  ) {
   }
 
   public openPreview = (item) => {

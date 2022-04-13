@@ -1,4 +1,4 @@
 export enum GalleryMode {
-  Grid = 'grid',
+  Gallery = 'gallery',
   List = 'list',
 }

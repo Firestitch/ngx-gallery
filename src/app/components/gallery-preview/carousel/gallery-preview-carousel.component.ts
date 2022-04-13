@@ -13,7 +13,7 @@ export class FsGalleryPreviewCarouselComponent {
   public data: FsGalleryItem[];
 
   @Input()
-  public activeItem: FsGalleryItem[];
+  public activeItem: FsGalleryItem;
 
   @Output()
   public previewSelected = new EventEmitter<FsGalleryItem>();

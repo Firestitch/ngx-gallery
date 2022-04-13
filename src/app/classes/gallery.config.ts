@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FsListComponent, FsListSelectionConfig } from '@firestitch/list';
 import {
@@ -39,7 +39,7 @@ export class GalleryConfig {
   };
 
   public zoom = true;
-  public mode: GalleryMode = GalleryMode.Grid;
+  public mode: GalleryMode = GalleryMode.Gallery;
   public selection: FsListSelectionConfig;
 
   public filterConfig: FilterConfig;
@@ -52,11 +52,12 @@ export class GalleryConfig {
   public zoomChanged: (value: number) => {};
   public map: (data: any) => {};
 
-  public upload: (files: any) => void;
+  public upload: (files: any) => Observable<any>;
   public fetch;
 
   private _listColumns$ = new BehaviorSubject<FsGalleryListColumnDirective[]>([]);
-  private _viewMode$ = new BehaviorSubject<'gallery' | 'list'>('gallery');
+  private _viewMode$ = new BehaviorSubject<GalleryMode>(GalleryMode.Gallery);
+  private _upload$ = new Subject<any>();
   private _thumbnailScale$ = new BehaviorSubject<ThumbnailScale>(ThumbnailScale.Small);
 
   private _listRef: FsListComponent;
@@ -65,8 +66,12 @@ export class GalleryConfig {
     this._initConfig(data);
   }
 
-  public get viewMode$(): Observable<'gallery' | 'list'> {
+  public get viewMode$(): Observable<GalleryMode> {
     return this._viewMode$.asObservable();
+  }
+
+  public get upload$(): Observable<any> {
+    return this._upload$.asObservable();
   }
 
   public get thumbnailScale$(): Observable<ThumbnailScale> {
@@ -77,7 +82,7 @@ export class GalleryConfig {
     return this._listColumns$;
   }
 
-  public get viewMode(): 'gallery' | 'list' {
+  public get viewMode(): GalleryMode {
     return this._viewMode$.getValue();
   }
 
@@ -85,12 +90,12 @@ export class GalleryConfig {
     return this._thumbnailScale$.getValue();
   }
 
-  public get galleryViewMode(): boolean {
-    return this.viewMode === 'gallery';
+  public get viewModeGallery(): boolean {
+    return this.viewMode === GalleryMode.Gallery;
   }
 
-  public get listViewMode(): boolean {
-    return this.viewMode === 'list';
+  public get viewModeList(): boolean {
+    return this.viewMode === GalleryMode.List;
   }
 
   public get listRef(): FsListComponent {
@@ -107,8 +112,8 @@ export class GalleryConfig {
 
   private get _viewModeActionIcon(): 'view_module' | 'view_list' {
     switch (this.viewMode) {
-      case 'gallery': return 'view_list';
-      case 'list': return 'view_module';
+      case GalleryMode.Gallery: return 'view_list';
+      case GalleryMode.List: return 'view_module';
     }
   }
 
@@ -116,11 +121,17 @@ export class GalleryConfig {
     this._listRef = ref;
   }
 
+  public reload(): void {
+    if (this._listRef?.filterRef) {
+      this._listRef.reload();
+    }
+  }
+
   public setThumbnailScale(size: ThumbnailScale) {
     this._thumbnailScale$.next(size);
   }
 
-  public setViewMode(mode: 'gallery' | 'list') {
+  public setViewMode(mode: GalleryMode) {
     this._viewMode$.next(mode);
     this.setThumbnailScale(this.thumbnailScale);
   }
@@ -199,18 +210,16 @@ export class GalleryConfig {
       items: items.slice(),
     };
 
-    if (this.upload) {
-      config.actions = this._getActionsConfig();
-    }
+    config.actions = this._getActionsConfig();
 
     return config;
   }
 
   private _toggleViewMode(): void {
-    if (this.viewMode === 'gallery') {
-      this.setViewMode('list');
+    if (this.viewMode === GalleryMode.Gallery) {
+      this.setViewMode(GalleryMode.List);
     } else {
-      this.setViewMode('gallery');
+      this.setViewMode(GalleryMode.Gallery);
     }
   }
 
@@ -262,7 +271,13 @@ export class GalleryConfig {
         label: 'Upload',
         color: 'primary',
         select: (file) => {
-          this.upload(file);
+          this.upload(file)
+          .subscribe(() => {
+            this._upload$.next();
+          });
+        },
+        show: () => {
+          return !!this.upload;
         },
         accept: this.allow,
         multiple: this.multiple,

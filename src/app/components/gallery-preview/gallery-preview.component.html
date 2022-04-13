@@ -42,12 +42,12 @@
               <div class="file-ext">{{activeItem.mime.subtype}}</div>
             </ng-template>
 
-            <ng-container *ngIf="galleryService.previewTemplate">
-              <ng-template
+            <!-- <ng-container *ngIf="galleryService.previewTemplate">
+              <ng-container
                 [ngTemplateOutlet]="galleryService.previewTemplate"
                 [ngTemplateOutletContext]="{ item: activeItem }">
-              </ng-template>
-            </ng-container>
+              </ng-container>
+            </ng-container> -->
           </div>
 
           <a *ngIf="hasManyItems" class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">

@@ -16,7 +16,7 @@ export interface FsGalleryConfig {
   draggable?: boolean;
   layout?: GalleryLayout;
   filter?: any;
-  upload?: (query) => void;
+  upload?: (query) => Observable<any>;
   fetch?: (query) => Observable<FsGalleryItem[]> | FsGalleryItem[];
   filters?: IFilterConfigItem[];
   selection?: FsListSelectionConfig;
