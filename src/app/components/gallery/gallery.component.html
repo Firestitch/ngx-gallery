@@ -1,14 +1,17 @@
-<fs-filter [config]="galleryService.filterConfig"></fs-filter>
+<fs-filter 
+  [ngClass]="{ 'has-filter': galleryService.filterConfig.actions.length || galleryService.filterConfig.items.length }"
+  [config]="galleryService.filterConfig">
+</fs-filter>
 
 <fs-gallery-list-view
-  *ngIf="(galleryService.config.viewMode$ | async) === GalleryMode.List"
+  *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.List"
   [listConfig]="galleryService.listConfig"
   [imageWidth]="galleryService.imageWidth"
   [galleryConfig]="galleryService.config">
 </fs-gallery-list-view>
 
 <fs-gallery-gallery-view
-  *ngIf="(galleryService.config.viewMode$ | async) === GalleryMode.Gallery"
+  *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.Gallery"
   [reorderEnabled]="reorderEnabled"
   [data$]="data$"
   (orderChange)="orderChange($event)">

@@ -1,6 +1,6 @@
 <ng-container *ngIf="listConfig">
   <fs-list [config]="listConfig"
-           [ngClass]="{ 'grid-mode': (galleryConfig.viewMode$ | async) === GalleryMode.Gallery }"
+           [ngClass]="{ 'grid-mode': (galleryConfig.viewMode$ | async) === GalleryView.Gallery }"
            #list>
     <fs-list-column width="1%">
       <ng-template fs-list-cell let-row="row">

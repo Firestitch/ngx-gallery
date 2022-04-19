@@ -22,8 +22,8 @@ export class ExampleComponent implements AfterViewInit, OnInit {
   public gallery: FsGalleryComponent;
 
   public reorderEnabled = false;
-  public items = [];
-  //public items = this.getDefaultItems();
+  //public items = [];
+  public items = this.getDefaultItems();
   public config: FsGalleryConfig;
 
   constructor(
@@ -32,6 +32,9 @@ export class ExampleComponent implements AfterViewInit, OnInit {
 
   public ngOnInit(): void {
     this.config = {
+      // showChangeSize: false,
+      // showChangeView: false,
+      //showCarousel: false,
       allow: 'image/*, application/pdf, video/*',
       multiple: true,
       map: (data) => {
@@ -39,7 +42,7 @@ export class ExampleComponent implements AfterViewInit, OnInit {
           name: data.name,
           preview: data.image ? data.image.small : '',
           url: data.image ? data.image.large : data.file,
-          index: data.id
+          index: Number(data.id)
         };
       },
       thumbnail: {
@@ -140,7 +143,6 @@ export class ExampleComponent implements AfterViewInit, OnInit {
           }
         }
       ],
-      //showCarousel: false,
       reorderEnd: (data) => {
         console.log('reorderEnd', data);
       },

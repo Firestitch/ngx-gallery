@@ -15,6 +15,8 @@ export interface FsGalleryConfig {
   toolbar?: boolean;
   draggable?: boolean;
   layout?: GalleryLayout;
+  showChangeSize?: boolean;
+  showChangeView?: boolean;
   filter?: any;
   upload?: (query) => Observable<any>;
   fetch?: (query) => Observable<FsGalleryItem[]> | FsGalleryItem[];
@@ -39,7 +41,7 @@ export interface FsGalleryMapping {
   preview?: string,
   url?: string,
   mime?: Mime,
-  index?: string
+  index?: number
 }
 
 export interface FsGalleryItem extends FsGalleryMapping {

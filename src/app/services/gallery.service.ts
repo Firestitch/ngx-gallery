@@ -183,7 +183,7 @@ export class FsGalleryService implements OnDestroy {
       mapping.data = item;
 
       if (!mapping.mime) {
-        mapping.mime = mime(mapping);
+        mapping.mime = mime(mapping.name, mapping.url);
       }
 
       return mapping;
@@ -259,7 +259,7 @@ export class FsGalleryService implements OnDestroy {
               return items.map(item => {
                 const mapping: any = this.config.map(item);
                 mapping.data = item;
-                mapping.mime = mime(mapping);
+                mapping.mime = mime(mapping.name, mapping.url);
                 return mapping;
               });
             }),

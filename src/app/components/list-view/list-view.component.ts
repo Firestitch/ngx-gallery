@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/c
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { GalleryConfig } from '../../classes/gallery.config';
-import { GalleryMode, MimeType } from '../../enums';
+import { GalleryView, MimeType } from '../../enums';
 import { FsGalleryService } from '../../services/gallery.service';
 
 
@@ -31,7 +31,7 @@ export class FsGalleryListViewComponent {
   }
 
   public MimeType = MimeType;
-  public GalleryMode = GalleryMode;
+  public GalleryView = GalleryView;
 
   constructor(
     private _galleryService: FsGalleryService,

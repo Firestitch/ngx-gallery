@@ -25,7 +25,7 @@ import { GalleryConfig } from '../../classes/gallery.config';
 import { PersistanceController } from '../../classes/persistance-controller';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryThumbnailContainerDirective } from '../../directives/gallery-thumbnail-container.directive';
-import { GalleryMode } from './../../enums';
+import { GalleryView } from './../../enums';
 import { FsGalleryConfig } from '../../interfaces/gallery-config.interface';
 import { FsGalleryListColumnDirective } from '../../directives/column/column.directive';
 
@@ -65,7 +65,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public data$: BehaviorSubject<FsGalleryItem[]>;
   public reorderEnabled = true;
-  public GalleryMode = GalleryMode;
+  public GalleryView = GalleryView;
 
   @ContentChildren(FsGalleryListColumnDirective)
   private _listColumnDirectives: QueryList<FsGalleryListColumnDirective>;

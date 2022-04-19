@@ -12,7 +12,7 @@
     <polygon class="st2" points="384,224 288,128 384,128 "/>
       </svg>
 
-  <div class="file-ext">
+  <div class="file-ext" *ngIf="subtype">
     <div [class]="type + '-background'">{{ subtype }}</div>
   </div>
 </div>
