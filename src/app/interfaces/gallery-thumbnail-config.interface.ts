@@ -1,4 +1,4 @@
-import { ThumbnailScale } from '../enums';
+import { GalleryThumbnailSize, ThumbnailScale } from '../enums';
 
 export interface FsGalleryThumbnailConfig {
   styles?: {
@@ -7,7 +7,8 @@ export interface FsGalleryThumbnailConfig {
   },
   heightScale?: number;
   width?: number;
-  size?: 'cover' | 'contain';
+  height?: number;
+  size?: GalleryThumbnailSize;
   position?: string;
   scale?: ThumbnailScale;
 }

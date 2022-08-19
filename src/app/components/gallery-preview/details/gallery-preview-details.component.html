@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="header">
+    <div mat-dialog-title>Details</div>
+    <button 
+        mat-icon-button 
+        type="button"         
+        (click)="detailsToggled.emit()"
+        class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="content">
+    <ng-container *ngIf="galleryService.detailsTemplate; else template">
+      <ng-template [ngTemplateOutlet]="galleryService.detailsTemplate"
+        [ngTemplateOutletContext]="{ item: item, template: template }">
+      </ng-template>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #template>
+  <fs-label-field>
+    <fs-label>File</fs-label>
+    {{item.name}}
+    <div 
+        class="small"
+        *ngIf="image">
+      {{image.width}} x {{image.height}}
+    </div>
+  </fs-label-field>
+</ng-template>

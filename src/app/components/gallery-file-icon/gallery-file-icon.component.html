@@ -1,18 +1,24 @@
-<div class="file-icon">
+<div 
+    class="file-icon"
+    [style.width]="width ? width + 'px' : null">
+  <ng-container *ngIf="item.folder">
+    <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 40">
+      <path fill="#FFA000" d="M40,12H22l-4-4H8c-2.2,0-4,1.8-4,4v8h40v-4C44,13.8,42.2,12,40,12z" />
+      <path fill="#FFCA28" d="M40,12H8c-2.2,0-4,1.8-4,4v20c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V16C44,13.8,42.2,12,40,12z" />
+    </svg>
+  </ng-container>
+  <ng-container *ngIf="!item.folder">
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+      y="0px" viewBox="0 0 309.267 309.267" style="enable-background:new 0 0 309.267 309.267;" xml:space="preserve">
+      <g>
+        <path [attr.fill]="color" d="M38.658,0h164.23l87.049,86.711v203.227c0,10.679-8.659,19.329-19.329,19.329H38.658
+        c-10.67,0-19.329-8.65-19.329-19.329V19.329C19.329,8.65,27.989,0,38.658,0z" />
+        <path [attr.fill]="darkColor" d="M289.658,86.981h-67.372c-10.67,0-19.329-8.659-19.329-19.329V0.193L289.658,86.981z" />
+      </g>
+    </svg>
+  </ng-container> 
 
-  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-       viewBox="0 0 384 512" style="enable-background:new 0 0 384 512;" xml:space="preserve">
-      <style type="text/css">
-        .st0{fill:#E2E5E7;}
-        .st1{fill:#B0B7BD;}
-        .st2{fill:#CAD1D8;}
-      </style>
-    <path class="st0" d="M32,0C14.4,0,0,14.4,0,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L256,0H32z"/>
-    <path class="st1" d="M288,128h96L256,0v96C256,113.6,270.4,128,288,128z"/>
-    <polygon class="st2" points="384,224 288,128 384,128 "/>
-      </svg>
-
-  <div class="file-ext" *ngIf="subtype">
-    <div [class]="type + '-background'">{{ subtype }}</div>
+  <div class="file-ext" *ngIf="item.mime.extension">
+    {{ item.mime.extension }}
   </div>
 </div>

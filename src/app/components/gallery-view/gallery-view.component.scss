@@ -12,9 +12,14 @@
   }
 
   ::ng-deep {
-    fs-gallery-thumbnail .fs-gallery-thumbnail {
-      margin-right: 10px;
-      margin-top: 10px;
+    fs-gallery-thumbnail {
+      display: flex;
+      align-items: stretch;
+
+      .fs-gallery-thumbnail {
+        margin-right: 10px;
+        margin-top: 10px;
+      }
     }
 
     fs-gallery-thumbnail:last-child {

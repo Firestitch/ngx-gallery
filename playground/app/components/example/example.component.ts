@@ -1,14 +1,15 @@
 import { delay } from 'rxjs/operators';
 import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 
-import { FsGalleryComponent, FsGalleryConfig, GalleryLayout, ThumbnailScale } from '@firestitch/gallery';
+import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType, ThumbnailScale } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ConfigureComponent } from '../configure/configure.component';
 import { clone } from 'lodash-es';
 import { FsExampleComponent } from '@firestitch/example';
 import { SelectionActionType } from '@firestitch/selection';
+import { GalleryThumbnailSize } from 'src/app/enums';
 
 
 @Component({
@@ -24,33 +25,27 @@ export class ExampleComponent implements AfterViewInit, OnInit {
   public reorderEnabled = false;
   //public items = [];
   public items = this.getDefaultItems();
-  public config: FsGalleryConfig;
+  public galleryConfig: FsGalleryConfig;
 
   constructor(
     private example: FsExampleComponent
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
-    this.config = {
+    this.galleryConfig = {
       // showChangeSize: false,
       // showChangeView: false,
-      //showCarousel: false,
+      // showCarousel: false,
       allow: 'image/*, application/pdf, video/*',
       multiple: true,
-      map: (data) => {
-        return {
-          name: data.name,
-          preview: data.image ? data.image.small : '',
-          url: data.image ? data.image.large : data.file,
-          index: Number(data.id)
-        };
-      },
       thumbnail: {
-        heightScale: 0.7,
-        width: 200,
+        height: 200,
+        size: GalleryThumbnailSize.Contain,
       },
-      layout: GalleryLayout.Grid,
-      toolbar: true,
+      details: {
+        autoOpen: true,
+      },
+      layout: GalleryLayout.Flow,
       zoom: true,
       info: {
         icon: true,
@@ -77,6 +72,15 @@ export class ExampleComponent implements AfterViewInit, OnInit {
           ]
         }
       },
+      actions: [
+        {
+          label: 'Export',
+          primary: false,
+          click: () => {
+            console.log('Export');
+          },
+        }
+      ],
       selection: {
         selectAll: true,
         actions: [
@@ -102,7 +106,7 @@ export class ExampleComponent implements AfterViewInit, OnInit {
         ],
         actionSelected: (action) => {
           console.log(action);
-  
+
           return of(true).pipe(
             delay(2000),
           )
@@ -133,7 +137,7 @@ export class ExampleComponent implements AfterViewInit, OnInit {
           type: ItemType.Keyword,
           label: 'Search'
         },
-  
+
         {
           name: 'select',
           type: ItemType.Select,
@@ -146,33 +150,56 @@ export class ExampleComponent implements AfterViewInit, OnInit {
       reorderEnd: (data) => {
         console.log('reorderEnd', data);
       },
-      fetch: (query) => {
+      fetch: (query, item: FsGalleryItem): Observable<FsGalleryItem[]> => {
         console.log('fetch', query);
         let items = this.items;
+
+        if (item) {
+          items = item.items;
+        }
+
         if (!!query.keyword) {
           items = items.filter((item: any) => {
-              return item.name.toLowerCase().includes(query.keyword.toLowerCase())
-            });
+            return item.name.toLowerCase().includes(query.keyword.toLowerCase())
+          });
         }
 
         return of(items)
-        .pipe(
-          delay(200),
-        );
+          .pipe(
+            delay(200),
+          );
       },
       upload: (files) => {
         console.log('uploading...', files);
         this.items.push({
-          id: 1,
+          data: {
+            id: 1,
+            description: 'Image 1 description',
+          },
           name: 'Scheme',
-          description: 'Image 1 description',
-          image: {
-            small: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-            large: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-          }
+          preview: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+          url: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
         });
 
         return of(true);
+      },
+      previewActions: [
+        {
+          icon: 'delete_outline',
+          click: () => {
+            console.log('Delete Click');
+          }
+        }
+      ],
+      previewMenu: {
+        items: [
+          {
+            label: 'Settings',
+            click: () => {
+              console.log('Delete Click');
+            }
+          }
+        ]
       },
       previewOpened: (data) => {
         console.log('previewOpened', data);
@@ -186,7 +213,7 @@ export class ExampleComponent implements AfterViewInit, OnInit {
       zoomChanged: (value: number) => {
         console.log('zoomChanged', value);
       }
-    };    
+    };
   }
 
   public ngAfterViewInit() {
@@ -219,89 +246,109 @@ export class ExampleComponent implements AfterViewInit, OnInit {
     console.log('preview Closed');
   }
 
-  public getDefaultItems(): any[] {
+  public getDefaultItems(): FsGalleryItem[] {
     return [
       {
-        id: 1,
+        data: {
+          id: 1,
+          description: 'Image 1 description',
+        },
         name: 'Scheme',
-        description: 'Image 1 description',
-        image: {
-          small: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-          large: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-        }
+        preview: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        url: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       },
       {
-        id: 2,
+        data: {
+          id: 2,
+          description: 'Image 2 description',
+        },
         name: 'Russian Nuclear Station in Pripyat',
-        description: 'Image 2 description',
-        image: {
-          small: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-          large: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-        }
+        preview: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        url: `https://images.pexels.com/photos/55830/power-plant-control-room-electric-old-55830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       },
       {
-        id: 3,
+        data: {
+          id: 3,
+          description: 'Image 3 description',
+        },
         name: 'Thunderstorm',
-        description: 'Image 3 description',
-        image: {
-          small: `https://images.pexels.com/photos/371916/pexels-photo-371916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-          large: `https://images.pexels.com/photos/371916/pexels-photo-371916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-        }
+        preview: `https://images.pexels.com/photos/371916/pexels-photo-371916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        url: `https://images.pexels.com/photos/371916/pexels-photo-371916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       },
       {
-        id: 4,
+        data: {
+          id: 4,
+          description: 'Image 4 description',
+        },
         name: 'Color Face',
-        description: 'Image 4 description',
-        image: {
-          small: `https://images.pexels.com/photos/1209843/pexels-photo-1209843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-          large: `https://images.pexels.com/photos/1209843/pexels-photo-1209843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-        }
+        preview: `https://images.pexels.com/photos/1209843/pexels-photo-1209843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        url: `https://images.pexels.com/photos/1209843/pexels-photo-1209843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       },
       {
-        id: 5,
+        data: {
+          id: 5,
+          description: 'Image 5 description',
+        },
         name: 'Lake',
-        description: 'Image 5 description',
-        image: {
-          small: `https://images.pexels.com/photos/547119/pexels-photo-547119.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-          large: `https://images.pexels.com/photos/547119/pexels-photo-547119.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-        }
+        preview: `https://images.pexels.com/photos/547119/pexels-photo-547119.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        url: `https://images.pexels.com/photos/547119/pexels-photo-547119.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       },
       {
-        id: 6,
+        data: {
+          id: 6,
+          description: 'Image 6 description',
+        },
         name: 'Lamborghini',
-        description: 'Image 6 description',
-        image: {
-          small: `https://images.pexels.com/photos/39501/lamborghini-brno-racing-car-automobiles-39501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-          large: `https://images.pexels.com/photos/39501/lamborghini-brno-racing-car-automobiles-39501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-        }
+        preview: `https://images.pexels.com/photos/39501/lamborghini-brno-racing-car-automobiles-39501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        url: `https://images.pexels.com/photos/39501/lamborghini-brno-racing-car-automobiles-39501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       },
       {
-        id: 7,
+        data: {
+          id: 7,
+          description: 'Image 7 description',
+        },
         name: 'Giraffe',
-        description: 'Image 7 description',
-        image: {
-          small: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-          large: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-        }
+        preview: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+        url: `https://images.pexels.com/photos/1210642/pexels-photo-1210642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
       },
       {
-        id: 8,
+        data: {
+          id: 8,
+          description: 'PDF description',
+        },
         name: 'Document',
-        file: 'http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf',
-        description: 'PDF description',
+        url: 'http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf',
       },
       {
-        id: 9,
+        data: {
+          id: 9,
+          description: 'Video description',
+        },
         name: 'Video',
-        file: 'http://techslides.com/demos/sample-videos/small.mp4',
-        description: 'Video description',
-
+        url: 'http://techslides.com/demos/sample-videos/small.mp4',
       },
       {
-        id: 10,
-        custom: 'html',
-        name: 'Custom HTML',
-        description: '',
+        data: {
+          id: 10,
+          custom: 'html',
+          description: '',
+        },
+        name: 'Custom Name',
+      },
+      {
+        data: {
+          id: 11,
+          description: '',
+        },
+        name: 'Folder A',
+        folder: true,
+        items: [
+          {
+            name: 'Huangpu Qu, Shanghai Shi, China',
+            preview: 'https://images.pexels.com/photos/169647/pexels-photo-169647.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            url: 'https://images.pexels.com/photos/169647/pexels-photo-169647.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+          }
+        ]
       }
     ];
   }

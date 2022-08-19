@@ -1,12 +1,39 @@
 <div class="header">
   <div class="actions left">
-    <div class="action" *ngIf="totalItems>1">
-      <span>{{ activeIndex }}/{{ totalItems }}</span>
-    </div>
-  </div>
-  <div class="actions right">
-    <button mat-icon-button type="button" class="action" (click)="closePreview()">
-      <mat-icon>close</mat-icon>
+    <button 
+        mat-icon-button 
+        type="button" 
+        class="action" 
+        (click)="previewClosed.emit()">
+      <mat-icon>arrow_back</mat-icon>
     </button>
+  </div>
+  <div class="actions right">   
+    <button 
+        *ngFor="let previewAction of galleryService.config.previewActions"
+        mat-icon-button 
+        type="button" 
+        class="action" 
+        (click)="previewAction.click()">
+      <mat-icon>{{previewAction.icon}}</mat-icon>
+    </button>
+    <button 
+        *ngIf="galleryService.config.details"
+        mat-icon-button 
+        type="button" 
+        class="action" 
+        (click)="detailsToggled.emit()">
+      <mat-icon>info_outline</mat-icon>
+    </button>
+    <ng-container *ngIf="galleryService.config.previewMenu">
+      <fs-menu>
+        <ng-template 
+            fs-menu-item 
+            (click)="menuItem.click()"
+            *ngFor="let menuItem of galleryService.config.previewMenu.items">
+          {{menuItem.label}}
+        </ng-template>
+      </fs-menu>
+    </ng-container>
   </div>
 </div>

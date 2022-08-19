@@ -1,10 +1,33 @@
 :host ::ng-deep {
   .fs-filter {
     margin: 0;
+
+    fs-filter-action-button {
+      button.size, .view-mode {
+        min-width: 36px;
+        padding: 0;
+      }
+    }
   }
 }
 
 .has-filter {
   margin-bottom: 20px;
   display: block;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  color: #717171;
+  margin-bottom: 15px;
+  user-select: none;
+
+  mat-icon {
+    margin: 0 5px;
+  }
+
+  a {
+    color: inherit;
+  }
 }

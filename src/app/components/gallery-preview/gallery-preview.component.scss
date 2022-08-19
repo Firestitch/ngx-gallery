@@ -1,135 +1,135 @@
 @import "../../styles.scss";
 
-:host {
+.fs-gallery-preview-backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  outline: none;
+  overflow: visible;
 
-  .fs-gallery-preview-backdrop {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 2000;
-    outline: none;
-    overflow: visible;
+  background: $preview-gradient;
 
-    background: $preview-gradient;
+  &[hidden] { display: none !important; }
+}
 
-    &[hidden] { display: none !important; }
+.fs-gallery-preview {
+  z-index: 3000;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  top: 0;
+  left: 0;
+
+  .preview {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 0;
+
+    .image {
+      display: flex;
+      vertical-align: middle;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+
+      width: auto !important;
+      height: auto !important;
+    }
   }
 
-  .fs-gallery-preview {
-    z-index: 3000;
-    display: flex;
+  .prev-overlay,
+  .next-overlay {
     position: absolute;
-    width: 100%;
-    bottom: 0;
     top: 0;
-    left: 0;
+    width: 50%;
+    height: 100%;
+    user-select: none;
 
-    .wrap {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 100%;
+    &.prev-overlay {
+      left: 0;
 
-      .panel {
-        display: flex;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-
-        .preview {
-          height: 100%;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-
-          .action {
-            display: flex;
-            align-items: center;
-            z-index: 1;
-            &.hidden {
-              display: none;
-            }
-            &.prev {
-              margin-right: -30px;
-            }
-            &.next {
-              margin-left: -30px;
-            }
-          }
-
-          .image-wrap {
-            display: contents;
-            position: relative;
-
-            .file {
-              display: contents;
-            }
-
-            .image {
-              display: flex;
-              vertical-align: middle;
-              max-width: 100%;
-              max-height: 100%;
-              // IOS hotfix
-              object-fit: contain;
-
-              width: auto !important;
-              height: auto !important;
-            }
-          }
-        }
+      mat-icon {
+        position: absolute;
+        left: 50px;
+        top: 50%;
       }
     }
-  }
 
-  &.carousel .fs-gallery-preview.multiple {
-    .wrap {
-      padding-bottom: 110px;
+    &.next-overlay {
+      right: 0;
+      
+      mat-icon {
+        position: absolute;
+        right: 50px;
+        top: 50%;
+      }
     }
 
+    &:hover {
+      mat-icon {
+        visibility: visible;
+      }
+    }
+
+    mat-icon {
+      transform: scale(3);
+      color: #fff;
+      visibility: hidden;
+    }
+  }
+}
+
+// Global style (preview, header)
+:host {
+  &.carousel .fs-gallery-preview.multiple {
     .image-wrap {
       cursor: pointer;
     }
   }
 
-  // Global style (preview, header)
-  :host {
-    ::ng-deep {
-      .action {
-        cursor: pointer;
-        color: #fff;
-        opacity: 1;
+  ::ng-deep {
+    .mat-drawer {     
+      &:not(.mat-drawer-opened, .ng-animating) {
+        right: unset;
+        left: 0;
+      }
+    }
 
-        span {
-          font-size: 14px;
-          width: 22px;
-          height: 22px;
-        }
-        mat-icon {
-          font-size: 30px;
-          width: 30px;
-          height: 30px;
-        }
+    .mat-drawer-container {
+      background-color: transparent;
+      width: 100%;
+
+      .mat-drawer-backdrop {
+        background-color: transparent;
+      }
+
+      .mat-drawer-content {
+        display: flex;
+        flex-direction: column;
       }
     }
   }
 }
 
-@media (max-width: 600px)  {
-  .fs-gallery-preview {
-    .wrap {
-      padding: 0 0 114px 0 !important;
-      .panel {
-        .preview {
-          .action {
-            display: none !important;
-          }
-        }
-      }
-    }
-  }
-}
+
+// @media (max-width: 600px)  {
+//   .fs-gallery-preview {
+//     .wrap {
+//       .panel {
+//         .preview {
+//           .action {
+//             display: none !important;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

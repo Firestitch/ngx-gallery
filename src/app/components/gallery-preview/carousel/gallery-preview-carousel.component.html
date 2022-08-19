@@ -1,9 +1,11 @@
 <div class="fs-gallery-preview-carousel">
-  <fs-gallery-thumbnail-preview
-    *ngFor="let item of data"
-    [item]="item"
-    (select)="onSelect($event)"
-    [carousel]="true"
-    [ngClass]="{ active: activeItem===item }">
-  </fs-gallery-thumbnail-preview>
+  <ng-container
+      *ngFor="let item of items">
+    <a 
+        (click)="itemClick(item)"
+        [attr.data-item]="item.preview"
+        [ngClass]="{ active: activeItem === item }">
+      <img [src]="item.preview">
+    </a>
+  </ng-container>
 </div>

@@ -9,9 +9,7 @@ import { FsGalleryService } from '../../services/gallery.service';
 @Component({
   selector: 'fs-gallery-list-view',
   templateUrl: './list-view.component.html',
-  styleUrls: [
-    './list-view.component.scss',
-  ],
+  styleUrls: ['./list-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsGalleryListViewComponent {
@@ -24,11 +22,6 @@ export class FsGalleryListViewComponent {
 
   @Input()
   public imageWidth: number;
-
-  @ViewChild(FsListComponent)
-  set updateListRef(listRef) {
-    this.galleryConfig.setListRef(listRef);
-  }
 
   public MimeType = MimeType;
   public GalleryView = GalleryView;

@@ -1,27 +1,36 @@
+import { MimeType } from '../enums';
+import { mimeColor } from './mime-color';
 
-export function mime(name: string, url: string) {
-  name = String(name);
-  url = String(url);
 
-  let subtype = null;
-  const nameMatch = url.match(/\.([^\.]{3,4})$/);
-  if(nameMatch) {
-    subtype = nameMatch[1];
-  }
-  
-  const urlMatch = url.match(/\.([^\.]{3,4})(?=\?|$)/);
-  if(urlMatch) {
-    subtype = urlMatch[1];
-  }
-
-  let type = 'application';
-  if(subtype) {
-    if (subtype.match(/(jpe?g|png|gif|tiff?|bmp)/i)) {
-      type = 'image';
-    } else if (subtype.match(/(mov|avi|wmv|flv|3gp|mp4|mpg)/i)) {
-      type = 'video';
+export function mime(name: string, url: string, extension: string, folder: boolean): { type: MimeType, extension: string, color: string } {
+  if (!extension) {
+    const urlMatch = String(url).match(/\.([^\.]{3,4})(?=\?|$)/);
+    if (urlMatch) {
+      extension = urlMatch[1];
     }
   }
 
-  return { type, subtype };
+  if (!extension) {
+    const nameMatch = String(name).match(/\.([^\.]{3,4})$/);
+    if (nameMatch) {
+      extension = nameMatch[1];
+    }
+  }
+
+  let type = null;
+  if (extension) {
+    if (extension.match(/(jpe?g|png|gif|tiff?|bmp)/i)) {
+      type = MimeType.Image;
+    } else if (extension.match(/(mov|avi|wmv|flv|3gp|mp4|mpg)/i)) {
+      type = MimeType.Video;
+    } else if (extension.match(/(mp3)/i)) {
+      type = MimeType.Audio;
+    } else {
+      type = MimeType.Application;
+    }
+  }
+
+  const color = mimeColor(extension, folder);
+
+  return { type, extension, color };
 }

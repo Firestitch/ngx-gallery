@@ -1,69 +1,59 @@
-<div class="fs-gallery-preview-backdrop" (click)="close()"></div>
-
 <div class="fs-gallery-preview" [ngClass]="{ 'multiple': hasManyItems }">
+  <mat-drawer-container   
+      class="example-container">
+    <mat-drawer 
+        (openedStart)="drawerShow = true"
+        (closedStart)="drawerShow = false"
+        [mode]="drawerMode" 
+        [ngClass]="{ show: drawerShow }"
+        [opened]="drawer.opened && !!galleryConfig.details" 
+        [position]="'end'">
+      <fs-gallery-preview-details  
+        [item]="activeItem"      
+        [image]="activeImage"
+        (detailsToggled)="detailsToggled()">
+      </fs-gallery-preview-details>
+    </mat-drawer>
+    <mat-drawer-content>   
+      <fs-gallery-preview-header 
+        (previewClosed)="close()"
+        (detailsToggled)="detailsToggled()">
+      </fs-gallery-preview-header>
 
-  <fs-gallery-preview-header
-    [totalItems]="totalImages"
-    [activeIndex]="activeImageIndex"
-    (close)="close()">
-  </fs-gallery-preview-header>
-
-  <div class="wrap">
-    <div class="panel">
-
-      <div class="preview">
-        <div
-          class="image-wrap"
-          (mouseenter)="imageHover = true"
-          (mouseleave) ="imageHover = false">
-
-          <a *ngIf="hasManyItems" class="action prev" [ngClass]="{ hidden: !imageHover }" (click)="prev()">
-            <mat-icon>keyboard_arrow_left</mat-icon>
-          </a>
-
-          <div
-            [ngSwitch]="activeItem.mime.type"
-            [class]="'file file-' + activeItem.mime.type">
-
-            <ng-template [ngSwitchCase]="'image'">
-              <img
-                class="image"
-                (click)="imageClick($event)"
-                [src]="activeItem.url"
-                (swipeleft)="next()"
-                (swiperight)="prev()">
-            </ng-template>
-
-            <ng-template [ngSwitchCase]="'video'">
-              <div class="file-ext">{{activeItem.mime.subtype}}</div>
-            </ng-template>
-
-            <ng-template [ngSwitchCase]="'application'">
-              <div class="file-ext">{{activeItem.mime.subtype}}</div>
-            </ng-template>
-
-            <!-- <ng-container *ngIf="galleryService.previewTemplate">
-              <ng-container
-                [ngTemplateOutlet]="galleryService.previewTemplate"
-                [ngTemplateOutletContext]="{ item: activeItem }">
-              </ng-container>
-            </ng-container> -->
-          </div>
-
-          <a *ngIf="hasManyItems" class="action next" [ngClass]="{ hidden: !imageHover }" (click)="next()">
-            <mat-icon>keyboard_arrow_right</mat-icon>
-          </a>
-        </div>
+      <div class="preview" [class]="'file file-' + activeItem.mime.type">
+        <ng-container [ngSwitch]="activeItem.mime.type">
+          <ng-template [ngSwitchCase]="MimeType.Image">
+            <img class="image" 
+              (load)="imageLoad($event)"
+              [src]="activeItem.url" 
+              (swipeleft)="nextItem()"
+              (swiperight)="prevItem()">
+          </ng-template>
+  
+          <ng-template [ngSwitchCase]="MimeType.Video">
+            <div class="file-ext">{{activeItem.mime.extension}}</div>
+          </ng-template>
+  
+          <ng-template [ngSwitchCase]="MimeType.Application">
+            <div class="file-ext">{{activeItem.mime.extension}}</div>
+          </ng-template>
+        </ng-container>
+        <a class="prev-overlay" *ngIf="hasPrevItem" (click)="prevItem()">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </a>
+        <a class="next-overlay" *ngIf="hasNextItem" (click)="nextItem()">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </a>
       </div>
+      
+      <fs-gallery-preview-carousel 
+        *ngIf="hasManyItems" 
+        [items]="availableImages" 
+        [activeItem]="activeItem"
+        (activeItemChanged)="setActiveItem($event)">
+      </fs-gallery-preview-carousel>
 
-      <!-- @TODO place for right sidenav -->
-    </div>
-
-    <fs-gallery-preview-carousel
-      *ngIf="hasManyItems"
-      [data]="availableImages"
-      [activeItem]="activeItem"
-      (previewSelected)="setActiveItem($event)">
-    </fs-gallery-preview-carousel>
-  </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
 </div>
+<div class="fs-gallery-preview-backdrop"></div>

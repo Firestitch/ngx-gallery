@@ -3,6 +3,20 @@
   [config]="galleryService.filterConfig">
 </fs-filter>
 
+<ng-container *ngIf="galleryService.navItems.length">
+  <div class="nav">
+    <a (click)="navClick(null)">
+      <mat-icon>home</mat-icon>
+    </a>
+    <ng-container *ngFor="let item of galleryService.navItems">
+      <mat-icon class="chevron">chevron_right</mat-icon>
+      <a (click)="navClick(item)">
+        {{item.name}}
+      </a>
+    </ng-container>
+  </div>
+</ng-container>
+
 <fs-gallery-list-view
   *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.List"
   [listConfig]="galleryService.listConfig"

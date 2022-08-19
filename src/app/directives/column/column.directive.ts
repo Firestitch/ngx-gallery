@@ -16,6 +16,7 @@ import { FsGalleryCellConfig } from '../../interfaces/gallery-cellconfig.interfa
   selector: 'fs-gallery-list-column',
 })
 export class FsGalleryListColumnDirective {
+  
   @Input() public title: string;
   @Input() public name: string;
   @Input() public show = true;

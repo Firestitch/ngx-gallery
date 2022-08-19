@@ -1,35 +1,26 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { FsGalleryService } from '../../services/gallery.service';
-import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
-import { MimeType } from '../../enums';
+import { FsGalleryService } from '../../services';
+import { FsGalleryItem } from '../../interfaces';
+import { GalleryThumbnailSize, MimeType } from '../../enums';
 
 
 @Component({
   selector: 'fs-gallery-thumbnail-preview',
   templateUrl: './gallery-thumbnail-preview.component.html',
-  styleUrls: [ './gallery-thumbnail-preview.component.scss' ]
+  styleUrls: ['./gallery-thumbnail-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsGalleryThumbnailPreviewComponent {
 
-  @Input() public carousel = false;
+  @Input() public item: FsGalleryItem;
+  @Input() public imageHeight: number;
+  @Input() public imageWidth: number;
+
   @Output() public select = new EventEmitter<FsGalleryItem>();
-  @Input('item') set setItem(item: FsGalleryItem) {
-
-    this.item = item;
-
-    if (!this.carousel) {
-      this.galleryService.dimentionsChange$.subscribe(() => {
-        this.styles.width = this.galleryService.imageWidth + 'px';
-        this.styles.height = this.galleryService.imageHeight + 'px';
-      });
-
-      this.galleryService.updateImageDims();
-    }
-  }
 
   public MimeType = MimeType;
-  public item;
+  public GalleryThumbnailSize = GalleryThumbnailSize;
   public styles = {
     width: null,
     height: null,
@@ -39,30 +30,23 @@ export class FsGalleryThumbnailPreviewComponent {
     public galleryService: FsGalleryService,
   ) { }
 
-  public click(item) {
-
+  public click(item: FsGalleryItem) {
     if (this.select.observers.length) {
       return this.select.emit(this.item);
     }
 
-    if (this.galleryService.config.previewClick) {
-      this.galleryService.config.previewClick(item);
+    if (item.folder) {
+      this.galleryService.openItem(item);
     } else {
-      const result = this.galleryService.beforeOpenPreview(item);
-      if (result !== false) {
-        this.galleryService.openPreview(item);
+      if (this.galleryService.config.previewClick) {
+        this.galleryService.config.previewClick(item);
+      } else {
+        const result = this.galleryService.beforeOpenPreview(item);
+        if (result !== false) {
+          this.galleryService.openPreview(item);
+        }
       }
     }
   }
 
-  public preventEventPropagation(event) {
-    event.stopPropagation();
-    event.preventDefault();
-  }
-
-  public imageLoad(event, item): void {
-    if (event.target.height > event.target.width) {
-      item.portrait = true;
-    }
-  }
 }

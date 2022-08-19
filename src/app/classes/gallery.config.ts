@@ -1,20 +1,21 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-import { FsListComponent, FsListSelectionConfig } from '@firestitch/list';
+import { FsListSelectionConfig } from '@firestitch/list';
 import {
   ActionMode,
   ActionType,
+  FilterComponent,
   FilterConfig,
   FsFilterAction,
   IFilterConfigItem,
 } from '@firestitch/filter';
 
 import { GalleryView } from './../enums';
-import { FsGalleryThumbnailConfig } from './../interfaces/gallery-thumbnail-config.interface';
-import { FsGalleryConfig, FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig } from '../interfaces/gallery-config.interface';
-import { GalleryLayout } from '../enums/gallery-layout.enum';
-import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
-import { FsGalleryPersistance } from '../interfaces/gallery-persist-config.interface';
+import {
+  FsGalleryConfig, FsGalleryThumbnailConfig, FsGalleryConfigFetch, FsGalleryPersistance,
+  FsGalleryDetailsConfig, FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig, FsGalleryPreviewAction, FsGalleryPreviewMenu
+} from '../interfaces';
+import { ThumbnailScale, GalleryLayout } from '../enums';
 import { FsGalleryListColumnDirective } from '../directives/column/column.directive';
 
 
@@ -31,12 +32,10 @@ export class GalleryConfig {
   public info: any;
   public layout = GalleryLayout.Grid;
   public showCarousel = true;
-  public noResults: FsGalleryNoResultsConfig | false;
+  public noResults: FsGalleryNoResultsConfig | boolean;
   public persist: FsGalleryPersistance = true;
+  public details: FsGalleryDetailsConfig;
   public thumbnail: FsGalleryThumbnailConfig = {
-    styles: {},
-    width: 187,
-    heightScale: 0.673,
     scale: ThumbnailScale.Medium,
   };
 
@@ -45,24 +44,25 @@ export class GalleryConfig {
   public selection: FsListSelectionConfig;
 
   public filterConfig: FilterConfig;
-  public filterInit = (query) => {};
-  public filterChange = (query) => {};
+  public filterInit = (query) => { };
+  public filterChange = (query) => { };
   public previewClick: (item: FsGalleryItem) => {};
   public previewOpened: (item: FsGalleryItem) => {};
   public previewClosed: (item: FsGalleryItem) => {};
   public previewBeforeOpen: (item: FsGalleryItem) => {};
   public zoomChanged: (value: number) => {};
   public map: (data: any) => FsGalleryMapping;
-
   public upload: (files: any) => Observable<any>;
-  public fetch;
+  public fetch: FsGalleryConfigFetch;
+  public actions: FsFilterAction[];
+  public previewActions: FsGalleryPreviewAction[];
+  public previewMenu: FsGalleryPreviewMenu;
 
   private _listColumns$ = new BehaviorSubject<FsGalleryListColumnDirective[]>([]);
   private _viewMode$ = new BehaviorSubject<GalleryView>(GalleryView.Gallery);
   private _upload$ = new Subject<any>();
   private _thumbnailScale$ = new BehaviorSubject<ThumbnailScale>(ThumbnailScale.Small);
-
-  private _listRef: FsListComponent;
+  private _filterRef: FilterComponent;
 
   constructor(data: FsGalleryConfig) {
     this._initConfig(data);
@@ -100,37 +100,37 @@ export class GalleryConfig {
     return this.viewMode === GalleryView.List;
   }
 
-  public get listRef(): FsListComponent {
-    return this._listRef;
+  public get filterRef(): FilterComponent {
+    return this._filterRef;
   }
 
   private get _resizeActionIcon(): 'image' | 'photo_size_select_large' | 'photo_size_select_small' {
     switch (this.thumbnailScale) {
-      case ThumbnailScale.Small: 
+      case ThumbnailScale.Small:
         return 'photo_size_select_small';
-      case ThumbnailScale.Medium: 
+      case ThumbnailScale.Medium:
         return 'photo_size_select_large';
-      case ThumbnailScale.Large: 
+      case ThumbnailScale.Large:
         return 'image';
     }
   }
 
   private get _viewModeActionIcon(): 'view_module' | 'view_list' {
     switch (this.viewMode) {
-      case GalleryView.Gallery: 
+      case GalleryView.Gallery:
         return 'view_list';
-      case GalleryView.List: 
+      case GalleryView.List:
         return 'view_module';
     }
   }
 
-  public setListRef(ref: FsListComponent) {
-    this._listRef = ref;
+  public setFitlerRef(ref: FilterComponent) {
+    this._filterRef = ref;
   }
 
   public reload(): void {
-    if (this._listRef?.filterRef) {
-      this._listRef.reload();
+    if (this._filterRef) {
+      this._filterRef.reload();
     }
   }
 
@@ -172,7 +172,10 @@ export class GalleryConfig {
     }
 
     if (data.thumbnail) {
-      this.thumbnail = { ...this.thumbnail, ...data.thumbnail };
+      this.thumbnail = {
+        ...this.thumbnail,
+        ...data.thumbnail,
+      };
 
       if (data.thumbnail.scale) {
         this.setThumbnailScale(data.thumbnail.scale);
@@ -183,9 +186,15 @@ export class GalleryConfig {
       this.multiple = data.multiple;
     }
 
+    if (data.details !== false) {
+      this.details = {
+        autoOpen: false,
+        ...data.details as FsGalleryDetailsConfig,
+      };
+    }
+
     this.info = data.info === undefined ? {} : data.info;
     this.reorderEnd = data.reorderEnd;
-    this.toolbar = data.toolbar !== false;
     this.map = data.map;
     this.selection = data.selection;
     this.previewClosed = data.previewClosed;
@@ -193,14 +202,11 @@ export class GalleryConfig {
     this.previewBeforeOpen = data.previewBeforeOpen;
     this.zoomChanged = data.zoomChanged;
     this.noResults = data.noResults;
-
-    if (data.upload) {
-      this.upload = data.upload;
-    }
-
-    if (data.fetch) {
-      this.fetch = data.fetch;
-    }
+    this.fetch = data.fetch;
+    this.upload = data.upload;
+    this.actions = data.actions;
+    this.previewActions = data.previewActions;
+    this.previewMenu = data.previewMenu;
 
     this.filterConfig = this._getFilterConfig(data.filters);
   }
@@ -218,7 +224,7 @@ export class GalleryConfig {
       items: items.slice(),
     };
 
-    config.actions = this._getActionsConfig();
+    config.actions = this._getActionsConfig(this.actions);
 
     return config;
   }
@@ -231,15 +237,17 @@ export class GalleryConfig {
     }
   }
 
-  private _getActionsConfig(): FsFilterAction[] {
+  private _getActionsConfig(actions: FsFilterAction[]): FsFilterAction[] {
+    actions = actions && Array.isArray(actions) ? actions : [];
     const filterActions: FsFilterAction[] = [];
 
-    if(this.showChangeSize) {
+    if (this.showChangeSize) {
       filterActions.push(
         {
           mode: ActionMode.Menu,
           icon: this._resizeActionIcon,
           type: ActionType.Raised,
+          className: 'size',
           primary: false,
           items: [
             {
@@ -271,11 +279,12 @@ export class GalleryConfig {
       );
     }
 
-    if(this.showChangeView) {
+    if (this.showChangeView) {
       filterActions.push(
         {
           mode: ActionMode.Button,
           icon: this._viewModeActionIcon,
+          className: 'view-mode',
           primary: false,
           click: () => {
             this._toggleViewMode();
@@ -284,29 +293,35 @@ export class GalleryConfig {
         });
     }
 
-    if(this.upload) {
+    filterActions.push(
+      ...actions,
+    );
+
+    if (this.upload) {
       filterActions.push({
         mode: ActionMode.File,
         label: 'Upload',
         color: 'primary',
         select: (file) => {
           this.upload(file)
-          .subscribe(() => {
-            this._upload$.next();
-          });
+            .subscribe(() => {
+              this._upload$.next();
+            });
         },
         accept: this.allow,
         multiple: this.multiple,
       });
-    } 
+    }
 
     return filterActions;
   }
 
   private _updateActions(): void {
-    if (!this._listRef?.filterRef) { return }
+    if (!this.filterRef) {
+      return
+    }
 
-    this._listRef.filterRef.updateActions(this._getActionsConfig());
+    this.filterRef.updateActions(this._getActionsConfig(this.actions));
   }
 
 }

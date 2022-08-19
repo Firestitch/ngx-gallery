@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -16,7 +17,8 @@ import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 @Component({
   selector: 'fs-gallery-gallery-view',
   templateUrl: './gallery-view.component.html',
-  styleUrls: [ './gallery-view.component.scss' ]
+  styleUrls: ['./gallery-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsGalleryViewComponent {
 
@@ -29,7 +31,7 @@ export class FsGalleryViewComponent {
   @Input()
   public galleryConfig: GalleryConfig;
 
-  @Output() 
+  @Output()
   public orderChange = new EventEmitter<FsGalleryItem[]>();
 
   constructor(

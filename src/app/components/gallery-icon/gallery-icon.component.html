@@ -1,0 +1,10 @@
+<mat-icon [style.color]="item.mime.color">
+  <ng-container [ngSwitch]="item.mime.type">
+    <ng-container *ngSwitchCase="MimeType.Image">image</ng-container>
+    <ng-container *ngSwitchCase="MimeType.Application">insert_drive_file</ng-container>
+    <ng-container *ngSwitchCase="MimeType.Video">videocam</ng-container>
+    <ng-container *ngSwitchDefault>
+      <ng-container *ngIf="item.folder">folder</ng-container>
+    </ng-container>
+  </ng-container>
+</mat-icon>

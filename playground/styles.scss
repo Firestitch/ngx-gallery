@@ -7,8 +7,11 @@
 @import "~@firestitch/filter/styles";
 @import "~@firestitch/skeleton/styles";
 @import "~@firestitch/chip/styles";
+@import "~@firestitch/chip/styles";
+@import "~@firestitch/selection/styles";
 @import "../src/app/styles";
 
 @include fs-drawer(mat.$blue-palette);
+@include fs-selection(mat.$blue-palette);
 @include fs-file(mat.$blue-palette);
 

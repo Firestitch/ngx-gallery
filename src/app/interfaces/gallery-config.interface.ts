@@ -1,51 +1,66 @@
 import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
 import { Observable } from 'rxjs';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
-import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
-import { IFilterConfigItem } from '@firestitch/filter';
+import { FsFilterAction, IFilterConfigItem } from '@firestitch/filter';
 import { FsListNoResultsConfig, FsListSelectionConfig } from '@firestitch/list';
 import { FsGalleryPersistance } from './gallery-persist-config.interface';
+import { MimeType } from '../enums';
 
 
 export interface FsGalleryConfig {
   allow?: string;
   multiple?: boolean;
-  map: (data: any) => FsGalleryMapping,
+  map?: (data: any) => FsGalleryMapping,
   repeat?: boolean;
-  toolbar?: boolean;
   draggable?: boolean;
   layout?: GalleryLayout;
   showChangeSize?: boolean;
   showChangeView?: boolean;
   filter?: any;
   upload?: (query) => Observable<any>;
-  fetch?: (query) => Observable<FsGalleryItem[]> | FsGalleryItem[];
+  fetch?: FsGalleryConfigFetch;
   filters?: IFilterConfigItem[];
+  actions?: FsFilterAction[];
   selection?: FsListSelectionConfig;
   zoom?: boolean;
   reorderEnd?(data: any): any,
   previewBeforeOpen?(item: any): any,
   previewOpened?(item: any): any,
   previewClosed?(item: any): any,
+  previewActions?: FsGalleryPreviewAction[],
+  previewMenu?: FsGalleryPreviewMenu,
   zoomChanged?(item: number): any,
   dragName?: string;
   info?: boolean | FsGalleryInfoConfig;
   showCarousel?: boolean;
   thumbnail?: FsGalleryThumbnailConfig;
   persist?: FsGalleryPersistance;
-  noResults?: FsGalleryNoResultsConfig | false;
+  noResults?: FsGalleryNoResultsConfig | boolean;
+  details?: FsGalleryDetailsConfig | boolean;
 }
 
 export interface FsGalleryMapping {
   name?: string,
   preview?: string,
+  previewMedium?: string,
+  previewLarge?: string,
   url?: string,
-  mime?: Mime,
-  index?: number
+  extension?: string,
+  folder?: boolean,
 }
 
 export interface FsGalleryItem extends FsGalleryMapping {
-  data: any
+  data?: any,
+  items?: FsGalleryItem[],
+  mime?: Mime,
+  index?: number,
+  contains?: FsGalleryItemContains,
+}
+
+export interface FsGalleryItemContains {
+  folders?: number;
+  files?: number;
+  mimeTypes?: { [mimeType in MimeType]?: number };
 }
 
 export interface FsGalleryInfoConfig {
@@ -57,14 +72,35 @@ export interface FsGalleryInfoMenuConfig {
   actions?: FsGalleryInfoMenuActionConfig[];
 }
 
+export interface FsGalleryDetailsConfig {
+  autoOpen?: boolean,
+}
+
 export interface FsGalleryInfoMenuActionConfig {
   label?: string;
   click?(item: FsGalleryItem): any
 }
 
 export interface Mime {
-  type: string,
-  subtype: string
+  type: MimeType,
+  extension?: string,
+  color?: string,
+}
+
+export interface FsGalleryPreviewAction {
+  icon: string,
+  click?: () => void,
+}
+
+export interface FsGalleryPreviewMenu {
+  items: FsGalleryPreviewMenuItem[],
+}
+
+export interface FsGalleryPreviewMenuItem {
+  label: string,
+  click?: () => void,
 }
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }
+
+export type FsGalleryConfigFetch = (query, item: FsGalleryItem) => Observable<FsGalleryItem[]>; 

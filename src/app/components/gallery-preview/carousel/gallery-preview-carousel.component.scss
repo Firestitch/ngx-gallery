@@ -1,48 +1,32 @@
 :host {
-  width: 100%;
-  .fs-gallery-preview-carousel {
+  display: flex;
+  justify-content: center;
+}
 
-    // Scroll doesn't work correctly with display: flex; and jsustify-content: center;
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    margin: 15px 0;
-    white-space: nowrap;
-    text-align: center;
-    overflow-x: auto;
+.fs-gallery-preview-carousel {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  overflow-x: auto;
+  user-select: none;
 
-    ::ng-deep {
-      fs-gallery-thumbnail-preview {
+  img {
+    border-radius: 3px;
+    height: 100px;
+    display: block;
+  }
 
-        margin-right: 9px;
-        display: inline-block;
-        cursor: pointer;
+  a {
+    border-radius: 4px;
+    border: 2px solid transparent;
+    margin: 10px;
 
-        .info {
-          display: none;
-        }
+    &.active {
+      border-color: #fff;
+    }
 
-        &.active {
-          .image, .file-icon {
-            border: 2px solid #fff;
-          }
-        }
-
-        .file {
-          height: auto !important;
-        }
-
-        .image {
-          background-size: cover;
-          border: 2px solid transparent;
-          border-radius: 5px;
-          width: 76px !important;
-          height: 76px !important;
-          background-position: center center;
-        }
-      }
+    + a {
+      margin-left: 0;
     }
   }
 }

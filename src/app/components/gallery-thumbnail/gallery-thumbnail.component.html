@@ -1,28 +1,31 @@
 <div
-  class="fs-gallery-thumbnail"
-  id="fs-gallery-thumbnail-{{ data.index }}"
-  [style.width]="galleryService.config.layout===galleryLayout.Grid ? '' : galleryService.imageWidth + 'px'">
-
-    <ng-container
-      *ngIf="galleryService.thumbnailContainerTemplate; else defaultThumbnailContainer">
-        <ng-template
-          [ngTemplateOutlet]="galleryService.thumbnailContainerTemplate"
-          [ngTemplateOutletContext]="{ item: data }">
-        </ng-template>
-    </ng-container>
-
-    <ng-template #defaultThumbnailContainer>
-
-      <fs-gallery-thumbnail-preview
-        [item]="data">
-      </fs-gallery-thumbnail-preview>
-
-      <div class="fs-gallery-thumbnail-content">
-        <fs-gallery-thumbnail-info
-          [item]="data">
-        </fs-gallery-thumbnail-info>
-      </div>
-
-    </ng-template>
+    class="fs-gallery-thumbnail"
+    [ngClass]="{ 
+      'layout-grid': galleryService.config.layout === galleryLayout.Grid,
+      'layout-flow': galleryService.config.layout === galleryLayout.Flow,
+      'has-info': galleryService.config.info !== false
+    }"
+    id="fs-gallery-thumbnail-{{ data.index }}"
+    [style.width]="galleryService.config.layout===galleryLayout.Grid ? '' : (galleryService.imageWidth ? galleryService.imageWidth + 'px' : null)">
+  <ng-container
+    *ngIf="galleryService.thumbnailTemplate; else template">
+      <ng-template
+        [ngTemplateOutlet]="galleryService.thumbnailTemplate"
+        [ngTemplateOutletContext]="{ item: data, template: template }">
+      </ng-template>
+  </ng-container>
 </div>
+
+<ng-template #template>
+  <fs-gallery-thumbnail-preview  
+    [imageHeight]="galleryService.imageHeight" 
+    [imageWidth]="galleryService.config.layout===galleryLayout.Grid ? null : (galleryService.imageWidth ? galleryService.imageWidth : null)"
+    [item]="data">
+  </fs-gallery-thumbnail-preview>
+
+  <fs-gallery-thumbnail-info 
+    *ngIf="galleryService.config.info!==false"
+    [item]="data">
+  </fs-gallery-thumbnail-info>
+</ng-template>
 

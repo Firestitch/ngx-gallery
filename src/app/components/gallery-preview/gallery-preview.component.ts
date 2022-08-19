@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy, Inject, Renderer2, HostBinding } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, Inject, Renderer2, HostBinding, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
@@ -8,25 +8,23 @@ import { MimeType } from '../../enums';
 import { Router, NavigationStart } from '@angular/router';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { MatDrawer } from '@angular/material/sidenav';
+import { GalleryConfig } from '../../classes';
 
 
 @Component({
   selector: 'fs-gallery-preview',
   templateUrl: './gallery-preview.component.html',
-  styleUrls: [ './gallery-preview.component.scss' ]
+  styleUrls: ['./gallery-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
-  public totalImages = 0;
-  public activeImageIndex = 0;
-  public availableImages: FsGalleryItem[];
-  public imageHover = false;
-  public hasManyItems = false;
-  public activeItem: FsGalleryItem;
+  @ViewChild(MatDrawer, { static: true })
+  public drawer: MatDrawer;
 
-  private _destroy$ = new Subject();
-
-  @HostBinding('class.carousel') classCarousel = false;
+  @HostBinding('class.carousel') public classCarousel = false;
 
   @HostListener('document:keydown', ['$event'])
   public onKeydownHandler(event: KeyboardEvent) {
@@ -35,38 +33,80 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
         this._previewRef.close();
         break;
       case 37:
-        this.prev();
+        this.prevItem();
         break;
       case 39:
-        this.next();
+        this.nextItem();
         break;
     }
   }
 
+  public availableImages: FsGalleryItem[];
+  public imageHover = false;
+  public MimeType = MimeType;
+  public hasManyItems = false;
+  public drawerShow = true;
+  public activeItem: FsGalleryItem;
+  public activeImage: { height: number, width: number };
+  public drawerMode: any = 'side';
+  public activeImageIndex = 0;
+
+  private _destroy$ = new Subject();
+
   constructor(
+    @Inject(PREVIEW_DATA) private _item: FsGalleryItem,
+    public galleryService: FsGalleryService,
     public renderer: Renderer2,
     private _router: Router,
-    public galleryService: FsGalleryService,
-    @Inject(PREVIEW_DATA) private _data: FsGalleryItem,
     private _previewRef: FsGalleryPreviewRef,
-  ) {
-    this._initAvailableImages();
-    this.setActiveItem(_data);
-    this.classCarousel = galleryService.config.showCarousel;
-  }
+    private _breakpointObserver: BreakpointObserver,
+    private _cdRef: ChangeDetectorRef,
+    private _el: ElementRef,
+  ) { }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
+    this._initAvailableImages();
+    this.setActiveItem(this._item);
+    this.classCarousel = this.galleryConfig.showCarousel;
+    this.drawer.opened = this.galleryConfig.details.autoOpen;
 
     this._router.events
-    .pipe(
-      takeUntil(this._destroy$),
-      filter(event => event instanceof NavigationStart)
-    )
-    .subscribe((event: NavigationStart) => {
-      this._previewRef.close();
-    });
+      .pipe(
+        takeUntil(this._destroy$),
+        filter(event => event instanceof NavigationStart)
+      )
+      .subscribe((event: NavigationStart) => {
+        this._previewRef.close();
+      });
+
+    this._breakpointObserver
+      .observe(['(min-width: 800px)'])
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this.drawerMode = 'side';
+        } else {
+          this.drawerMode = 'over';
+        }
+
+        this._cdRef.markForCheck();
+      });
 
     this.renderer.addClass(document.body, 'fs-gallery-preview-open');
+  }
+
+  public get galleryConfig(): GalleryConfig {
+    return this.galleryService.config;
+  }
+
+  public get hasPrevItem(): boolean {
+    return this.activeImageIndex > 0;
+  }
+
+  public get hasNextItem(): boolean {
+    return this.activeImageIndex < (this.availableImages.length - 1);
   }
 
   public ngOnDestroy() {
@@ -79,80 +119,48 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     this._previewRef.close();
   }
 
-  public prev() {
+  public detailsToggled() {
+    this.drawer.opened = !this.drawer.opened;
+  }
 
-    const data = this.galleryService.data$.getValue();
+  public imageLoad(event) {
+    this.activeImage = {
+      height: event.target.naturalHeight,
+      width: event.target.naturalWidth,
+    };
+  }
 
-    const images = data.filter((item: FsGalleryItem) => {
-      return item.mime.type === MimeType.Image;
+  public prevItem() {
+    const item = this.availableImages[this.activeImageIndex - 1];
+    if (item) {
+      this.setActiveItem(item);
+    }
+  }
+
+  public nextItem() {
+    const item = this.availableImages[this.activeImageIndex + 1];
+    if (item) {
+      this.setActiveItem(item);
+    }
+  }
+
+  public setActiveItem(item: FsGalleryItem) {
+    this.activeItem = item;
+    this.activeImageIndex = this.availableImages.indexOf(item);
+
+    setTimeout(() => {
+      const el = this._el.nativeElement.querySelector(`fs-gallery-preview-carousel [data-item='${item.preview}']`);
+      el?.scrollIntoView({ block: 'center', inline: 'center' });
     });
-
-    const index = images.indexOf(this.activeItem);
-
-    let prev = null;
-    if (index >= 0) {
-      const prevImages = images.filter((item: FsGalleryItem, idx) => {
-        return idx < index;
-      });
-
-      prev = prevImages.pop();
-    }
-
-    if (!prev) {
-      prev = images.pop();
-    }
-
-    this.setActiveItem(prev);
-  }
-
-  public next() {
-
-    const data = this.galleryService.data$.getValue();
-
-    const images = data.filter((item: FsGalleryItem) => {
-      return item.mime.type === MimeType.Image;
-    });
-
-    const index = images.indexOf(this.activeItem);
-
-    let next = null;
-    if (index >= 0) {
-      next = images.filter((item: FsGalleryItem, idx) => {
-        return idx > index;
-      })[0];
-    }
-
-    if (!next) {
-      next = images[0];
-    }
-
-    this.setActiveItem(next);
-  }
-
-  public imageClick($event) {
-    const cursorX = $event.clientX;
-    const windowWidth = $event.view.innerWidth;
-    if (cursorX <= (windowWidth / 2)) {
-      this.prev();
-    } else {
-      this.next();
-    }
-  }
-
-  public setActiveItem(data: FsGalleryItem) {
-    this.activeItem = data;
-    this.activeImageIndex = this.availableImages.indexOf(data) + 1;
   }
 
   private _initAvailableImages() {
-    this.availableImages = this.galleryService.data$.getValue().filter((item: FsGalleryItem) => {
-      return item.mime.type === MimeType.Image;
-    });
+    this.availableImages = this.galleryService.data$.getValue()
+      .filter((item: FsGalleryItem) => {
+        return item.mime.type === MimeType.Image;
+      });
 
     this.hasManyItems = this.availableImages.length > 1;
-    if (this.galleryService.config.showCarousel) {
-      this.totalImages = this.availableImages.length;
-    }
   }
 
 }

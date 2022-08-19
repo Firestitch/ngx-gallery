@@ -15,8 +15,13 @@ export { FsGalleryPreviewCarouselComponent } from './app/components/gallery-prev
 export { FsGalleryPreviewHeaderComponent } from './app/components/gallery-preview/header/gallery-preview-header.component';
 export { FsGalleryThumbnailComponent } from './app/components/gallery-thumbnail/gallery-thumbnail.component';
 export { FsGalleryThumbnailInfoComponent } from './app/components/gallery-thumbnail-info/gallery-thumbnail-info.component';
-export { FsGalleryThumbnailContainerDirective } from './app/directives/gallery-thumbnail-container.directive';
 export { FsGalleryThumbnailPreviewComponent } from './app/components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
+export {
+  FsGalleryThumbnailInfoDescriptionComponent,
+  FsGalleryIconComponent,
+  FsGalleryFileIconComponent,
+} from './app/components';
+
 
 // Directives
 export { FsGalleryThumbnailDirective } from './app/directives/gallery-thumbnail.directive';
@@ -24,6 +29,8 @@ export { FsGalleryPreviewDirective } from './app/directives/gallery-preview.dire
 export { FsGalleryListColumnDirective } from './app/directives/column/column.directive';
 export { FsGalleryListCellDirective } from './app/directives/cell/cell.directive';
 export { FsGalleryListHeaderDirective } from './app/directives/header/header.directive';
+export { FsGalleryThumbnailPreviewDirective } from './app/directives/gallery-thumbnail-preview.directive';
+export { FsGalleryPreviewDetailsDirective } from './app/directives';
 
 // Interfaces
 export { FsGalleryDataItem } from './app/interfaces/gallery-data-item.interface';
@@ -35,13 +42,10 @@ export {
 export { FsGalleryThumbnailConfig } from './app/interfaces/gallery-thumbnail-config.interface';
 
 // Services
-export { FsGalleryPreviewService } from './app/services/gallery-preview.service';
-export { FsGalleryService } from './app/services/gallery.service';
-
+export { FsGalleryPreviewService, FsGalleryService } from './app/services';
 
 // Enums
-export { GalleryLayout } from './app/enums/gallery-layout.enum';
-export { ThumbnailScale } from './app/enums/thumbnail-scale.enum';
+export { GalleryLayout, MimeType, ThumbnailScale, GalleryThumbnailSize } from './app/enums';
 
 // Helpers
 export * from './app/helpers';

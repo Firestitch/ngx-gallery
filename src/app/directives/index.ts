@@ -1,0 +1,1 @@
+export * from './gallery-preview-details.directive';

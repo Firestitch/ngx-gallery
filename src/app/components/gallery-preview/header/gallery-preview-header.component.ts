@@ -1,24 +1,21 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { FsGalleryService } from '../../../services';
 
 
 @Component({
   selector: 'fs-gallery-preview-header',
   templateUrl: './gallery-preview-header.component.html',
-  styleUrls: [ './gallery-preview-header.component.scss' ]
+  styleUrls: ['./gallery-preview-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsGalleryPreviewHeaderComponent {
 
-  @Input()
-  public totalItems = 0;
+  @Output() public previewClosed = new EventEmitter<void>();
+  @Output() public detailsToggled = new EventEmitter<void>();
 
-  @Input()
-  public activeIndex = 0;
+  constructor(
+    public galleryService: FsGalleryService,
+  ) { }
 
-  @Output()
-  public close = new EventEmitter<void>();
-
-  public closePreview() {
-    this.close.next();
-  }
 
 }

@@ -25,7 +25,7 @@ import { FsGalleryPreviewDirective } from './directives/gallery-preview.directiv
 
 import { HammerConfig } from './classes/hammer-config';
 import { FsGalleryThumbnailInfoComponent } from './components/gallery-thumbnail-info/gallery-thumbnail-info.component';
-import { FsGalleryThumbnailContainerDirective } from './directives/gallery-thumbnail-container.directive';
+import { FsGalleryThumbnailPreviewDirective } from './directives/gallery-thumbnail-preview.directive';
 import { FsGalleryThumbnailPreviewComponent } from './components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
 import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-component.injector';
 import { FsGalleryListViewComponent } from './components/list-view/list-view.component';
@@ -35,32 +35,32 @@ import { FsGalleryViewComponent } from './components/gallery-view/gallery-view.c
 import { FsGalleryListColumnDirective } from './directives/column/column.directive';
 import { FsGalleryListCellDirective } from './directives/cell/cell.directive';
 import { FsGalleryListHeaderDirective } from './directives/header/header.directive';
+import { FsGalleryIconComponent, FsGalleryPreviewDetailsComponent, FsGalleryThumbnailInfoDescriptionComponent } from './components';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FsLabelModule } from '@firestitch/label';
+import { FsGalleryPreviewDetailsDirective } from './directives';
 
 
 @NgModule({
   imports: [
     CommonModule,
+
     MatIconModule,
-    OverlayModule,
-    DragulaModule,
     MatSliderModule,
     MatButtonModule,
+    MatDialogModule,
     MatTooltipModule,
+    MatSidenavModule,
+
     FsFilterModule,
     FsFileModule,
     FsListModule,
-    FsMenuModule
-  ],
-  exports: [
-    FsGalleryComponent,
-    FsGalleryThumbnailInfoComponent,
-    FsGalleryThumbnailDirective,
-    FsGalleryPreviewDirective,
-    FsGalleryThumbnailContainerDirective,
-    FsGalleryThumbnailPreviewComponent,
-    FsGalleryListColumnDirective,
-    FsGalleryListCellDirective,
-    FsGalleryListHeaderDirective,
+    FsMenuModule,
+    FsLabelModule,
+
+    OverlayModule,
+    DragulaModule,
   ],
   declarations: [
     FsGalleryComponent,
@@ -71,7 +71,7 @@ import { FsGalleryListHeaderDirective } from './directives/header/header.directi
     FsGalleryThumbnailInfoComponent,
     FsGalleryThumbnailDirective,
     FsGalleryPreviewDirective,
-    FsGalleryThumbnailContainerDirective,
+    FsGalleryThumbnailPreviewDirective,
     FsGalleryFileIconComponent,
     FsGalleryThumbnailPreviewComponent,
     FsGalleryListViewComponent,
@@ -79,7 +79,26 @@ import { FsGalleryListHeaderDirective } from './directives/header/header.directi
     FsGalleryListCellDirective,
     FsGalleryListHeaderDirective,
     FsGalleryViewComponent,
-  ]
+    FsGalleryThumbnailInfoDescriptionComponent,
+    FsGalleryIconComponent,
+    FsGalleryPreviewDetailsComponent,
+    FsGalleryPreviewDetailsDirective,
+  ],
+  exports: [
+    FsGalleryComponent,
+    FsGalleryThumbnailInfoComponent,
+    FsGalleryThumbnailDirective,
+    FsGalleryPreviewDirective,
+    FsGalleryThumbnailPreviewDirective,
+    FsGalleryThumbnailPreviewComponent,
+    FsGalleryListColumnDirective,
+    FsGalleryListCellDirective,
+    FsGalleryListHeaderDirective,
+    FsGalleryThumbnailInfoDescriptionComponent,
+    FsGalleryIconComponent,
+    FsGalleryFileIconComponent,
+    FsGalleryPreviewDetailsDirective,
+  ],
 })
 export class FsGalleryModule {
   static forRoot(): ModuleWithProviders<FsGalleryModule> {

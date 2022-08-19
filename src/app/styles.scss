@@ -9,26 +9,6 @@ $header-gradient:   radial-gradient(circle at 27.78% 27.6%, #637073, transparent
                     radial-gradient(circle at 81.74% 26.23%, #a789a0, transparent 67%),
                     radial-gradient(circle at 50% 50%, #ffffff, #ffffff 100%);
 
-.image-color {
-  color: #d13333;
-}
-
-.video-color {
-  color: #006665;
-}
-
-.application-color {
-  color: #962E9E;
-}
-
-.image-background {
-  background: #d13333;
-}
-
-.video-background {
-  background: #006665;
-}
-
-.application-background {
-  background: #962E9E;
+.fs-gallery-preview-open {
+  overflow: hidden;
 }
