@@ -207,7 +207,6 @@ export class GalleryConfig {
     this.actions = data.actions;
     this.previewActions = data.previewActions;
     this.previewMenu = data.previewMenu;
-
     this.filterConfig = this._getFilterConfig(data.filters);
   }
 

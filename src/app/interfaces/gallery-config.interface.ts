@@ -103,4 +103,4 @@ export interface FsGalleryPreviewMenuItem {
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }
 
-export type FsGalleryConfigFetch = (query, item: FsGalleryItem) => Observable<FsGalleryItem[]>; 
+export type FsGalleryConfigFetch = (query?: any, item?: FsGalleryItem) => Observable<FsGalleryItem[]>; 

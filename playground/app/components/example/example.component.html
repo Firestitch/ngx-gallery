@@ -1,6 +1,7 @@
 <fs-gallery [config]="galleryConfig">
   <ng-template fsGalleryThumbnailPreview let-item="item" let-template="template">
-    <ng-template [ngTemplateOutlet]="template"
+    <ng-template 
+      [ngTemplateOutlet]="template"
       [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
     <div 
