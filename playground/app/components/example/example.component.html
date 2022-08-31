@@ -17,7 +17,9 @@
     </ng-template>
   </ng-template>
   <ng-template fsGalleryPreviewDetails let-item="item" let-template="template">
-    <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ item: item }">
+    <ng-template 
+      [ngTemplateOutlet]="template" 
+      [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
   </ng-template>
   <ng-template fsGalleryPreview let-item="item">

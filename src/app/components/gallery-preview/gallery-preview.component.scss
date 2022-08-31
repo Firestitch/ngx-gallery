@@ -32,6 +32,7 @@
     align-items: center;
     position: relative;
     min-height: 0;
+    user-select: none;
 
     .image {
       display: flex;

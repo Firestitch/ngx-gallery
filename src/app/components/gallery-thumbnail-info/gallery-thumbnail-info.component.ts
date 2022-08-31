@@ -10,9 +10,10 @@ import { MimeType } from '../../enums';
   styleUrls: ['./gallery-thumbnail-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryThumbnailInfoComponent {
+export class FsGalleryThumbnailInfoComponent implements OnInit {
 
-  @Input() public item: FsGalleryItem = null;
+  @Input() public item: FsGalleryItem;
+  @Input() public showIcon;
 
   public MimeType = MimeType;
 
@@ -20,8 +21,14 @@ export class FsGalleryThumbnailInfoComponent {
     public fsGalleryService: FsGalleryService,
   ) { }
 
+  public ngOnInit(): void {
+    if (typeof this.showIcon !== 'boolean') {
+      this.showIcon = this.fsGalleryService.config.info.icon !== false;
+    }
+  }
+
   public menuClick(event, action, data) {
-    action.click(data.data);
+    action.click(data);
   }
 
 }

@@ -11,7 +11,12 @@
     *ngIf="galleryService.thumbnailTemplate; else template">
       <ng-template
         [ngTemplateOutlet]="galleryService.thumbnailTemplate"
-        [ngTemplateOutletContext]="{ item: data, template: template }">
+        [ngTemplateOutletContext]="{ 
+          item: data, 
+          template: template, 
+          previewTemplate: previewTemplate,
+          infoTemplate: infoTemplate
+        }">
       </ng-template>
   </ng-container>
 </div>
@@ -23,6 +28,26 @@
     [item]="data">
   </fs-gallery-thumbnail-preview>
 
+  <fs-gallery-thumbnail-info 
+    *ngIf="galleryService.config.info!==false"
+    [item]="data">
+  </fs-gallery-thumbnail-info>
+</ng-template>
+
+<ng-template #template>
+  <ng-container *ngTemplateOutlet="previewTemplate"></ng-container>
+  <ng-container *ngTemplateOutlet="infoTemplate"></ng-container>
+</ng-template>
+
+<ng-template #previewTemplate>
+  <fs-gallery-thumbnail-preview  
+    [imageHeight]="galleryService.imageHeight" 
+    [imageWidth]="galleryService.config.layout===galleryLayout.Grid ? null : (galleryService.imageWidth ? galleryService.imageWidth : null)"
+    [item]="data">
+  </fs-gallery-thumbnail-preview>
+</ng-template>
+
+<ng-template #infoTemplate>
   <fs-gallery-thumbnail-info 
     *ngIf="galleryService.config.info!==false"
     [item]="data">

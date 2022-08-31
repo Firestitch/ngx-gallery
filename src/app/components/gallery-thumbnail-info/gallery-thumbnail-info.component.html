@@ -1,6 +1,6 @@
 <div class="info">
   <div
-      *ngIf="item.mime.type && fsGalleryService.config.info.icon!==false"
+      *ngIf="item.mime.type && showIcon"
       class="icon">
     <fs-gallery-icon [item]="item"></fs-gallery-icon>
   </div>
