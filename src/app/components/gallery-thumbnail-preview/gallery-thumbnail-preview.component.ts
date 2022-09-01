@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { FsGalleryService } from '../../services';
-import { FsGalleryItem } from '../../interfaces';
+import { FsGalleryConfig, FsGalleryItem } from '../../interfaces';
 import { GalleryThumbnailSize, MimeType } from '../../enums';
 
 
@@ -31,6 +31,10 @@ export class FsGalleryThumbnailPreviewComponent {
   ) { }
 
   public click(item: FsGalleryItem) {
+    if (this.galleryService.config.preview === false) {
+      return;
+    }
+
     if (this.select.observers.length) {
       return this.select.emit(this.item);
     }
@@ -47,6 +51,10 @@ export class FsGalleryThumbnailPreviewComponent {
         }
       }
     }
+  }
+
+  public get config(): FsGalleryConfig {
+    return this.galleryService.config;
   }
 
 }

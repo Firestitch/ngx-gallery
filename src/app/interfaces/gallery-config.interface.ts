@@ -29,6 +29,7 @@ export interface FsGalleryConfig {
   previewClosed?(item: any): any,
   previewActions?: FsGalleryPreviewAction[],
   previewMenu?: FsGalleryPreviewMenu,
+  preview?: boolean,
   zoomChanged?(item: number): any,
   dragName?: string;
   info?: boolean | FsGalleryInfoConfig;

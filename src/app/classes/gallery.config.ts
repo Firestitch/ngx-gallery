@@ -13,7 +13,8 @@ import {
 import { GalleryView } from './../enums';
 import {
   FsGalleryConfig, FsGalleryThumbnailConfig, FsGalleryConfigFetch, FsGalleryPersistance,
-  FsGalleryDetailsConfig, FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig, FsGalleryPreviewAction, FsGalleryPreviewMenu
+  FsGalleryDetailsConfig, FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig,
+  FsGalleryPreviewAction, FsGalleryPreviewMenu
 } from '../interfaces';
 import { ThumbnailScale, GalleryLayout } from '../enums';
 import { FsGalleryListColumnDirective } from '../directives/column/column.directive';
@@ -57,6 +58,7 @@ export class GalleryConfig {
   public actions: FsFilterAction[];
   public previewActions: FsGalleryPreviewAction[];
   public previewMenu: FsGalleryPreviewMenu;
+  public preview: boolean;
 
   private _listColumns$ = new BehaviorSubject<FsGalleryListColumnDirective[]>([]);
   private _viewMode$ = new BehaviorSubject<GalleryView>(GalleryView.Gallery);
@@ -207,6 +209,7 @@ export class GalleryConfig {
     this.actions = data.actions;
     this.previewActions = data.previewActions;
     this.previewMenu = data.previewMenu;
+    this.preview = data.preview ?? true;
     this.filterConfig = this._getFilterConfig(data.filters);
   }
 

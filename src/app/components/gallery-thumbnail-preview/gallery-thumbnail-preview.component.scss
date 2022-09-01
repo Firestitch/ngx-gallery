@@ -14,8 +14,11 @@
     width: 100%;
   }
 
-  &.file-folder {
-    cursor: pointer;
+  &.previewable {
+    &.file-image,
+    &.file-folder {
+      cursor: pointer;
+    }
   }
     
   &.file-video,
@@ -27,7 +30,6 @@
 
   &.file-image {
     display: block;
-    cursor: pointer;
 
     .image-cover,
     .image-contain {
