@@ -1,27 +1,27 @@
 import { Inject, Injectable, Injector, OnDestroy, TemplateRef } from '@angular/core';
 
+import { Overlay } from '@angular/cdk/overlay';
 import { Location } from '@angular/common';
 
 import { guid, getNormalizedPath } from '@firestitch/common';
+import { FilterConfig } from '@firestitch/filter';
 import { FsListConfig, FsListNoResultsConfig, ReorderStrategy } from '@firestitch/list';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, map, take, takeUntil } from 'rxjs/operators';
 import { round } from 'lodash-es';
+import { DragulaService } from 'ng2-dragula';
 
 import { GalleryConfig } from '../classes/gallery.config';
 import { FsGalleryItem, FsGalleryPersistance } from '../interfaces';
 import { FsGalleryPreviewService } from './gallery-preview.service';
-import { Overlay } from '@angular/cdk/overlay';
-import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
-import { DragulaService } from 'ng2-dragula';
 import { MimeType } from '../enums';
 import { mime } from '../helpers/mime';
 import { PersistanceController } from '../classes/persistance-controller';
 import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
 import { FsGalleryListColumnDirective } from '../directives/column/column.directive';
-import { FilterConfig } from '@firestitch/filter';
 import { mimeColor } from '../helpers';
+import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
 
 
 @Injectable()
@@ -53,6 +53,7 @@ export class FsGalleryService implements OnDestroy {
   private _imageWidth: number = null;
   private _imageHeight: number = null;
   private _config: GalleryConfig = null;
+  public previewComponent;
 
   private _configUpdated$ = new Subject<void>();
   private _destroy$ = new Subject<void>();
@@ -65,10 +66,8 @@ export class FsGalleryService implements OnDestroy {
     private _dragulaService: DragulaService,
     private _persistanceController: PersistanceController,
   ) {
-
     this.dragName += guid();
-
-    this.galleryPreviewService = new FsGalleryPreviewService(_overlay, _galleryPreviewComponent, _injector);
+    this.galleryPreviewService = new FsGalleryPreviewService(_overlay, this._galleryPreviewComponent, _injector);
     this.reorderStart$ = this._dragulaService.drag(this.dragName);
     this.reorderEnd$ = this._dragulaService.dragend(this.dragName);
   }
@@ -118,12 +117,18 @@ export class FsGalleryService implements OnDestroy {
 
     this._destroy$.next();
     this._destroy$.complete();
+
+    this.galleryPreviewService.destroy();
   }
 
   public beforeOpenPreview(item: FsGalleryItem) {
     if (this.config.previewBeforeOpen) {
       return this.config.previewBeforeOpen(item);
     }
+  }
+
+  public closePreview() {
+    this.galleryPreviewService.close()
   }
 
   public openPreview(item: FsGalleryItem) {

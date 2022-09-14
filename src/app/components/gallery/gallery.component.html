@@ -1,5 +1,7 @@
 <fs-filter 
-  [ngClass]="{ 'has-filter': galleryService.filterConfig.actions.length || galleryService.filterConfig.items.length }"
+  [ngClass]="{ 
+    'has-filter': galleryService.filterConfig.actions.length || galleryService.filterConfig.items.length 
+  }"
   [config]="galleryService.filterConfig">
 </fs-filter>
 
@@ -19,7 +21,6 @@
 
 <fs-gallery-list-view
   *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.List"
-  [listConfig]="galleryService.listConfig"
   [imageWidth]="galleryService.imageWidth"
   [galleryConfig]="galleryService.config">
 </fs-gallery-list-view>

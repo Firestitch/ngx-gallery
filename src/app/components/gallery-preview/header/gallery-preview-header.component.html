@@ -14,7 +14,7 @@
         mat-icon-button 
         type="button" 
         class="action" 
-        (click)="previewAction.click()">
+        (click)="previewAction.click(item)">
       <mat-icon>{{previewAction.icon}}</mat-icon>
     </button>
     <button 
@@ -29,8 +29,8 @@
       <fs-menu>
         <ng-template 
             fs-menu-item 
-            (click)="menuItem.click()"
-            *ngFor="let menuItem of galleryService.config.previewMenu.items">
+            *ngFor="let menuItem of galleryService.config.previewMenu.items"
+            (click)="menuItem.click(item)">
           {{menuItem.label}}
         </ng-template>
       </fs-menu>

@@ -1,5 +1,7 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FsGalleryService } from '../../../services';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
+
+import { FsGalleryItem } from '../../../interfaces';
+import { FsGalleryService } from '../../../services/gallery.service';
 
 
 @Component({
@@ -10,12 +12,10 @@ import { FsGalleryService } from '../../../services';
 })
 export class FsGalleryPreviewHeaderComponent {
 
+  @Input() public item: FsGalleryItem;
+  @Input() public galleryService: FsGalleryService;
+
   @Output() public previewClosed = new EventEmitter<void>();
   @Output() public detailsToggled = new EventEmitter<void>();
-
-  constructor(
-    public galleryService: FsGalleryService,
-  ) { }
-
 
 }

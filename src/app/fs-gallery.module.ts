@@ -27,7 +27,6 @@ import { HammerConfig } from './classes/hammer-config';
 import { FsGalleryThumbnailInfoComponent } from './components/gallery-thumbnail-info/gallery-thumbnail-info.component';
 import { FsGalleryThumbnailPreviewDirective } from './directives/gallery-thumbnail-preview.directive';
 import { FsGalleryThumbnailPreviewComponent } from './components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
-import { GalleryPreviewComponentInjector } from './injectors/gallery-preview-component.injector';
 import { FsGalleryListViewComponent } from './components/list-view/list-view.component';
 import { FsGalleryFileIconComponent } from './components/gallery-file-icon/gallery-file-icon.component';
 import { FsGalleryViewComponent } from './components/gallery-view/gallery-view.component';
@@ -105,10 +104,6 @@ export class FsGalleryModule {
     return {
       ngModule: FsGalleryModule,
       providers: [
-        {
-          provide: GalleryPreviewComponentInjector,
-          useValue: FsGalleryPreviewComponent
-        },
         {
           provide: HAMMER_GESTURE_CONFIG,
           useClass: HammerConfig

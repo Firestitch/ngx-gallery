@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
-import { FsListComponent, FsListConfig } from '@firestitch/list';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FsListConfig } from '@firestitch/list';
 
 import { GalleryConfig } from '../../classes/gallery.config';
 import { GalleryView, MimeType } from '../../enums';
@@ -14,7 +14,6 @@ import { FsGalleryService } from '../../services/gallery.service';
 })
 export class FsGalleryListViewComponent {
 
-  @Input()
   public listConfig: FsListConfig;
 
   @Input()
@@ -29,6 +28,7 @@ export class FsGalleryListViewComponent {
   constructor(
     private _galleryService: FsGalleryService,
   ) {
+    this.listConfig = this._galleryService.listConfig;
   }
 
   public openPreview = (item) => {

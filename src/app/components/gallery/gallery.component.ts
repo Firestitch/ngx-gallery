@@ -27,13 +27,22 @@ import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.dire
 import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
 import { FsGalleryListColumnDirective } from '../../directives/column/column.directive';
 import { FsGalleryPreviewDetailsDirective } from '../../directives';
+import { FsGalleryPreviewComponent } from '../gallery-preview';
+import { GalleryPreviewComponentInjector } from '../../injectors';
 
 
 @Component({
   selector: 'fs-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss'],
-  providers: [FsGalleryService, PersistanceController],
+  providers: [
+    FsGalleryService,
+    PersistanceController,
+    {
+      provide: GalleryPreviewComponentInjector,
+      useValue: FsGalleryPreviewComponent
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {

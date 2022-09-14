@@ -1,15 +1,16 @@
-import { delay } from 'rxjs/operators';
-import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { delay, takeUntil } from 'rxjs/operators';
+import { Component, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 
 import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType, ThumbnailScale } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { ConfigureComponent } from '../configure/configure.component';
 import { clone } from 'lodash-es';
 import { FsExampleComponent } from '@firestitch/example';
 import { SelectionActionType } from '@firestitch/selection';
 import { GalleryThumbnailSize } from 'src/app/enums';
+import { FsPrompt } from '@firestitch/prompt';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { GalleryThumbnailSize } from 'src/app/enums';
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss']
 })
-export class ExampleComponent implements AfterViewInit, OnInit {
+export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChild(FsGalleryComponent, { static: true })
   public gallery: FsGalleryComponent;
@@ -26,9 +27,13 @@ export class ExampleComponent implements AfterViewInit, OnInit {
   //public items = [];
   public items = this.getDefaultItems();
   public galleryConfig: FsGalleryConfig;
+  public MimeType = MimeType;
+
+  private _destroy$ = new Subject();
 
   constructor(
-    private example: FsExampleComponent
+    private example: FsExampleComponent,
+    private _prompt: FsPrompt,
   ) { }
 
   public ngOnInit(): void {
@@ -166,7 +171,7 @@ export class ExampleComponent implements AfterViewInit, OnInit {
 
         return of(items)
           .pipe(
-            delay(200),
+            delay(100),
           );
       },
       upload: (files) => {
@@ -186,8 +191,24 @@ export class ExampleComponent implements AfterViewInit, OnInit {
       previewActions: [
         {
           icon: 'delete_outline',
-          click: () => {
+          click: (item: FsGalleryItem) => {
             console.log('Delete Click');
+            this._prompt.confirm({
+              title: 'Delete File',
+              template: 'Are you sure you would like the the file?',
+            })
+              .pipe(
+                takeUntil(this._destroy$),
+              )
+              .subscribe(() => {
+                this.items = this.items
+                  .filter((_item) => {
+                    return _item.data.id !== item.data.id;
+                  });
+
+                this.gallery.reload();
+                this.gallery.galleryService.closePreview();
+              });
           }
         }
       ],
@@ -195,8 +216,8 @@ export class ExampleComponent implements AfterViewInit, OnInit {
         items: [
           {
             label: 'Settings',
-            click: () => {
-              console.log('Delete Click');
+            click: (item: FsGalleryItem) => {
+              console.log('Settings Click');
             }
           }
         ]
@@ -352,4 +373,10 @@ export class ExampleComponent implements AfterViewInit, OnInit {
       }
     ];
   }
+
+  public ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
 }

@@ -27,7 +27,12 @@
   </ng-template>
   <fs-gallery-list-column>
     <ng-template fsGalleryListCell let-row let-openPreview="openPreview">
-      <a (click)="openPreview(row)" class="name">{{ row.name }}</a>
+      <ng-container *ngIf="row.mime.type === MimeType.Image; else folder">
+        <a (click)="openPreview(row)" class="name">{{ row.name }}</a>
+      </ng-container>
+      <ng-template #folder>
+        {{row.name}}
+      </ng-template>
     </ng-template>
   </fs-gallery-list-column>
 </fs-gallery>

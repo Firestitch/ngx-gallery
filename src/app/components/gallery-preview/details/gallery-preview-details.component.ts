@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
 
 import { FsGalleryItem } from '../../../interfaces';
-import { FsGalleryService } from '../../../services';
+import { FsGalleryService } from '../../../services/gallery.service';
 
 
 @Component({
@@ -13,12 +13,9 @@ import { FsGalleryService } from '../../../services';
 export class FsGalleryPreviewDetailsComponent {
 
   @Input() public item: FsGalleryItem;
+  @Input() public galleryService: FsGalleryService;
   @Input() public image: { height: number, width: number };
 
   @Output() public detailsToggled = new EventEmitter<void>();
-
-  constructor(
-    public galleryService: FsGalleryService,
-  ) { }
 
 }

@@ -90,7 +90,7 @@ export interface Mime {
 
 export interface FsGalleryPreviewAction {
   icon: string,
-  click?: () => void,
+  click?: (item: FsGalleryItem) => void,
 }
 
 export interface FsGalleryPreviewMenu {
@@ -99,7 +99,7 @@ export interface FsGalleryPreviewMenu {
 
 export interface FsGalleryPreviewMenuItem {
   label: string,
-  click?: () => void,
+  click?: (item: FsGalleryItem) => void,
 }
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }

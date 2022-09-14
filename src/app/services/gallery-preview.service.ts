@@ -1,16 +1,21 @@
 import { Injector } from '@angular/core';
-import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { ComponentPortal } from '@angular/cdk/portal';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
 import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
 import { PREVIEW_DATA } from '../injectors/preview-data';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 export class FsGalleryPreviewService {
 
   private _router: Router;
   private _route: ActivatedRoute;
+  private _previewRef: FsGalleryPreviewRef;
+  private _destroy$ = new Subject();
 
   constructor(
     private _overlay: Overlay,
@@ -23,17 +28,34 @@ export class FsGalleryPreviewService {
 
   public open(data: FsGalleryDataItem) {
     const overlayRef = this._createOverlay();
-    const previewRef = new FsGalleryPreviewRef(overlayRef);
+    this._previewRef = new FsGalleryPreviewRef(overlayRef);
 
-    this._openPortalPreview(this._injector, overlayRef, previewRef, data);
+    this._openPortalPreview(this._injector, overlayRef, this._previewRef, data);
 
     this._router.navigate([], {
       relativeTo: this._route,
       queryParams: { galleryPreview: true },
       queryParamsHandling: 'merge',
-    }).then(() => {});
+    }).then();
 
-    return previewRef;
+    this._previewRef.onClose
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this._previewRef = null;
+      });
+
+    return this._previewRef;
+  }
+
+  public close() {
+    this._previewRef?.close();
+  }
+
+  public destroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   private _createOverlay() {
@@ -45,14 +67,17 @@ export class FsGalleryPreviewService {
     const overlayRef = this._overlay.create(overlayConfig);
 
     overlayRef.detachments()
-    .subscribe(() => {
-      this._router.navigate([], {
-        relativeTo: this._route,
-        queryParams: { galleryPreview: null },
-        queryParamsHandling: 'merge',
-      }).then(() => {});
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this._router.navigate([], {
+          relativeTo: this._route,
+          queryParams: { galleryPreview: null },
+          queryParamsHandling: 'merge',
+        }).then(() => { });
 
-    });
+      });
 
     return overlayRef;
   }
@@ -75,12 +100,13 @@ export class FsGalleryPreviewService {
     return containerRef.instance;
   }
 
-  private _createInjector(parentInjector, previewRef, data) {
-    const injectionTokens = new WeakMap<any, any>([
-      [FsGalleryPreviewRef, previewRef],
-      [PREVIEW_DATA, data]
-    ]);
-
-    return new PortalInjector(parentInjector, injectionTokens);
+  private _createInjector(parentInjector: Injector, previewRef: FsGalleryPreviewRef, data: FsGalleryDataItem) {
+    return Injector.create({
+      parent: parentInjector,
+      providers: [
+        { provide: FsGalleryPreviewRef, useValue: previewRef },
+        { provide: PREVIEW_DATA, useValue: data }
+      ]
+    });
   }
 }

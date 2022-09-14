@@ -9,13 +9,16 @@
         [opened]="drawer.opened && !!galleryConfig.details" 
         [position]="'end'">
       <fs-gallery-preview-details  
-        [item]="activeItem"      
+        [item]="activeItem"    
+        [galleryService]="galleryService"  
         [image]="activeImage"
         (detailsToggled)="detailsToggled()">
       </fs-gallery-preview-details>
     </mat-drawer>
     <mat-drawer-content>   
-      <fs-gallery-preview-header 
+      <fs-gallery-preview-header
+        [galleryService]="galleryService"
+        [item]="activeItem"
         (previewClosed)="close()"
         (detailsToggled)="detailsToggled()">
       </fs-gallery-preview-header>

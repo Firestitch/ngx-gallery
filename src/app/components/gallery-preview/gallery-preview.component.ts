@@ -1,20 +1,21 @@
 import { Component, HostListener, OnInit, OnDestroy, Inject, Renderer2, HostBinding, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
+
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { MatDrawer } from '@angular/material/sidenav';
+
+import { takeUntil, filter } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { PREVIEW_DATA } from '../../injectors/preview-data';
 import { FsGalleryPreviewRef } from '../../classes/gallery-preview-ref';
 import { MimeType } from '../../enums';
-import { Router, NavigationStart } from '@angular/router';
-import { takeUntil, filter } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { MatDrawer } from '@angular/material/sidenav';
 import { GalleryConfig } from '../../classes';
 
 
 @Component({
-  selector: 'fs-gallery-preview',
   templateUrl: './gallery-preview.component.html',
   styleUrls: ['./gallery-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
