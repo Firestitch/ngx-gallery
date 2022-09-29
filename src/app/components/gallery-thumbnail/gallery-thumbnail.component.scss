@@ -1,9 +1,16 @@
+:host {
+  // Dragula width hack
+  width: auto !important;
+}
+
 .fs-gallery-thumbnail {
   display: block;
   position: relative;
   border-radius: 4px;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #f0f0f0;
   box-sizing: content-box;
+  justify-content: center;
+  background-color: #fff;
 
   &.layout-grid {
     height: 100%;

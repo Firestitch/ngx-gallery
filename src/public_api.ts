@@ -17,7 +17,6 @@ export { FsGalleryThumbnailComponent } from './app/components/gallery-thumbnail/
 export { FsGalleryThumbnailInfoComponent } from './app/components/gallery-thumbnail-info/gallery-thumbnail-info.component';
 export { FsGalleryThumbnailPreviewComponent } from './app/components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
 export {
-  FsGalleryThumbnailInfoDescriptionComponent,
   FsGalleryIconComponent,
   FsGalleryFileIconComponent,
 } from './app/components';

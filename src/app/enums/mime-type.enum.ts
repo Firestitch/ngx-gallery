@@ -3,4 +3,5 @@ export enum MimeType {
   Video = 'video',
   Audio = 'audio',
   Application = 'application',
+  Folder = 'folder',
 }

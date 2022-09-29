@@ -47,6 +47,11 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
         height: 200,
         size: GalleryThumbnailSize.Contain,
       },
+      // thumbnail: {
+      //   width: 200,
+      //   heightScale: 1.5,
+      //   size: GalleryThumbnailSize.Cover,
+      // },
       details: {
         autoOpen: true,
       },

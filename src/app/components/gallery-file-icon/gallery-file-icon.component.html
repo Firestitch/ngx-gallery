@@ -2,10 +2,21 @@
     class="file-icon"
     [style.width]="width ? width + 'px' : null">
   <ng-container *ngIf="item.folder">
-    <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 40">
-      <path fill="#FFA000" d="M40,12H22l-4-4H8c-2.2,0-4,1.8-4,4v8h40v-4C44,13.8,42.2,12,40,12z" />
-      <path fill="#FFCA28" d="M40,12H8c-2.2,0-4,1.8-4,4v20c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V16C44,13.8,42.2,12,40,12z" />
-    </svg>
+    <div class="folder-container">
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 40 32" style="enable-background:new 0 0 40 32;" xml:space="preserve">
+        <style type="text/css">
+          .st0{fill:#FFA000;}
+          .st1{fill:#FFCA28;}
+        </style>
+        <path class="st0" d="M36,4H18l-4-4H4C1.8,0,0,1.8,0,4v8h40V8C40,5.8,38.2,4,36,4z"/>
+        <path class="st1" d="M36,4H4C1.8,4,0,5.8,0,8v20c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V8C40,5.8,38.2,4,36,4z"/>
+      </svg>
+   
+      <fs-gallery-folder-icon-info
+        [item]="item">
+      </fs-gallery-folder-icon-info>
+    </div>
   </ng-container>
   <ng-container *ngIf="!item.folder">
     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -18,7 +29,7 @@
     </svg>
   </ng-container> 
 
-  <div class="file-ext" *ngIf="item.mime.extension">
+  <div class="file-ext" *ngIf="item.mime.extension" [style.fontSize]="fontSize + 'px'">
     {{ item.mime.extension }}
   </div>
 </div>

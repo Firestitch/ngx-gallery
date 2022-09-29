@@ -34,7 +34,7 @@ import { FsGalleryViewComponent } from './components/gallery-view/gallery-view.c
 import { FsGalleryListColumnDirective } from './directives/column/column.directive';
 import { FsGalleryListCellDirective } from './directives/cell/cell.directive';
 import { FsGalleryListHeaderDirective } from './directives/header/header.directive';
-import { FsGalleryIconComponent, FsGalleryPreviewDetailsComponent, FsGalleryThumbnailInfoDescriptionComponent } from './components';
+import { FsGalleryFolderIconInfoComponent, FsGalleryIconComponent, FsGalleryPreviewDetailsComponent } from './components';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FsLabelModule } from '@firestitch/label';
@@ -78,10 +78,10 @@ import { FsGalleryPreviewDetailsDirective } from './directives';
     FsGalleryListCellDirective,
     FsGalleryListHeaderDirective,
     FsGalleryViewComponent,
-    FsGalleryThumbnailInfoDescriptionComponent,
     FsGalleryIconComponent,
     FsGalleryPreviewDetailsComponent,
     FsGalleryPreviewDetailsDirective,
+    FsGalleryFolderIconInfoComponent,
   ],
   exports: [
     FsGalleryComponent,
@@ -93,7 +93,6 @@ import { FsGalleryPreviewDetailsDirective } from './directives';
     FsGalleryListColumnDirective,
     FsGalleryListCellDirective,
     FsGalleryListHeaderDirective,
-    FsGalleryThumbnailInfoDescriptionComponent,
     FsGalleryIconComponent,
     FsGalleryFileIconComponent,
     FsGalleryPreviewDetailsDirective,

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FsGalleryItem, Mime } from '../../interfaces';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FsGalleryItem } from '../../interfaces';
 import { MimeType } from '../../enums';
 
 
@@ -9,18 +9,25 @@ import { MimeType } from '../../enums';
   styleUrls: ['./gallery-file-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryFileIconComponent implements OnInit {
+export class FsGalleryFileIconComponent implements OnChanges {
+
+  @Input() public item: FsGalleryItem;
+  @Input() public width = 80;
 
   public MimeType = MimeType;
   public darkColor;
+  public color: string;
+  public fontSize
 
-  @Input() public item: FsGalleryItem;
-  @Input() public color: string;
-  @Input() public width = 100;
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.item) {
+      this.color = this.item.mime.color || '#cccccc';
+      this.darkColor = this.hue(this.color, -50);
+    }
 
-  public ngOnInit(): void {
-    this.color = this.item.mime.color || '#cccccc';
-    this.darkColor = this.hue(this.color, -50);
+    if (changes.width) {
+      this.fontSize = this.width * .2;
+    }
   }
 
   public hue(col, amt) {

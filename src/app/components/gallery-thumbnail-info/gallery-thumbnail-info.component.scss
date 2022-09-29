@@ -48,6 +48,10 @@
       font-size: 80%;
     }
   }
+
+  fs-gallery-icon {
+    display: flex;
+  }
 }
 
 ::ng-deep fs-gallery-thumbnail.gu-mirror {
