@@ -52,7 +52,7 @@ export class FsGalleryService implements OnDestroy {
   private _data$ = new BehaviorSubject<FsGalleryItem[]>([]);
   private _imageWidth: number = null;
   private _imageHeight: number = null;
-  private _config: GalleryConfig = null;
+  private _config: GalleryConfig = new GalleryConfig({});
   public previewComponent;
 
   private _configUpdated$ = new Subject<void>();
@@ -81,7 +81,7 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public set config(value: GalleryConfig) {
-    this._config = value;
+    this._config = value || new GalleryConfig({});
     this._config.filterInit = this.filterInit.bind(this);
     this._config.filterChange = this.filterChange.bind(this);
     this._initListConfig();
