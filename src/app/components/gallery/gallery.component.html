@@ -1,8 +1,9 @@
-<fs-filter 
-  [ngClass]="{ 
-    'has-filter': galleryService.filterConfig.actions.length || galleryService.filterConfig.items.length 
+<fs-filter
+  [ngClass]="{
+    'has-filter': galleryService.filterConfig.actions.length || galleryService.filterConfig.items.length
   }"
-  [config]="galleryService.filterConfig">
+  [config]="galleryService.filterConfig"
+  (ready)="filterReady()">
 </fs-filter>
 
 <ng-container *ngIf="galleryService.navItems.length">

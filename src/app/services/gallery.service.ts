@@ -7,8 +7,8 @@ import { guid, getNormalizedPath } from '@firestitch/common';
 import { FilterConfig } from '@firestitch/filter';
 import { FsListConfig, FsListNoResultsConfig, ReorderStrategy } from '@firestitch/list';
 
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { debounceTime, map, take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { round } from 'lodash-es';
 import { DragulaService } from 'ng2-dragula';
 
@@ -42,6 +42,9 @@ export class FsGalleryService implements OnDestroy {
   public filterConfig: FilterConfig;
   public navItems: FsGalleryItem[] = [];
 
+  public filtersReady$ = new Subject<void>();
+
+  private _fetch$ = new Subject<void>();
   private _activeFilters$ = new BehaviorSubject(0);
   public activeFilters$ = this._activeFilters$
     .pipe(
@@ -96,6 +99,7 @@ export class FsGalleryService implements OnDestroy {
       this._restoreThumbnailScaleParams(this._persistanceController.getDataFromScope('thumbnailScale'));
     }
 
+    this._listenFetch();
     this._listenSizeChange();
     this._listenUpload();
 
@@ -157,22 +161,7 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public loadGallery() {
-    const query = {
-      ...this._filterQuery,
-    };
-
-    const item = this.navItems[this.navItems.length - 1];
-
-    if (this._config.fetch) {
-      this._config.fetch(query, item)
-        .pipe(
-          takeUntil(this._destroy$),
-          map((items: any) => this.mapData(items)),
-        )
-        .subscribe((data) => {
-          this.data$.next(data);
-        });
-    }
+    this._fetch$.next();
   }
 
   public reload() {
@@ -330,6 +319,36 @@ export class FsGalleryService implements OnDestroy {
     if (this.config.noResults !== undefined) {
       this.listConfig.noResults = this.config.noResults as FsListNoResultsConfig;
     }
+  }
+
+  private _listenFetch(): void {
+    let fetch$ = this._fetch$.asObservable();
+
+    // Should wait until saved filters not loaded
+    combineLatest([fetch$, this.filtersReady$])
+      .pipe(
+        map(() => {
+          const query = {
+            ...this._filterQuery,
+          };
+
+          return query;
+        }),
+        switchMap((query) => {
+          if (this._config.fetch) {
+            const item = this.navItems[this.navItems.length - 1];
+
+            return this._config.fetch(query, item)
+          } else {
+            return of([]);
+          }
+        }),
+        map((items: any) => this.mapData(items)),
+        takeUntil(this._destroy$),
+      )
+      .subscribe((data: FsGalleryItem[]) => {
+        this.data$.next(data);
+      });
   }
 
   private _listenUpload(): void {

@@ -134,4 +134,8 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
     this.galleryService.reload();
   }
 
+  public filterReady() {
+    this.galleryService.filtersReady$.next();
+  }
+
 }
