@@ -1,5 +1,5 @@
 <div
-    *ngIf="reorderEnabled && (this.galleryService.activeFilters$ | async) === 0"
+    *ngIf="reorderEnabled"
     [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
     [dragula]="galleryService.dragName"
     [dragulaModel]="data$ | async"
@@ -8,7 +8,7 @@
 </div>
 
 <div
-    *ngIf="(!reorderEnabled || (this.galleryService.activeFilters$ | async) > 0) && (data$ | async).length"
+    *ngIf="!reorderEnabled && (data$ | async).length"
     [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
   <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
 </div>
