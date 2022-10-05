@@ -222,13 +222,6 @@ export class FsGalleryService implements OnDestroy {
         }
 
         return item;
-      })
-      .sort((a: FsGalleryItem, b: FsGalleryItem) => {
-        if (a.folder) {
-          return -1;
-        }
-
-        return 0;
       });
   }
 

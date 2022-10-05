@@ -1,5 +1,9 @@
 @import "./../../styles.scss";
 
+:host {
+  display: block;
+}
+
 .fs-gallery-thumbnails.layout-flow,
 .fs-gallery-thumbnails.layout-flow-nowrap {
   display: flex;
