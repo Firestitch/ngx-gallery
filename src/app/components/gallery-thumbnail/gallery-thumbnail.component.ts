@@ -17,6 +17,9 @@ import { GalleryLayout } from '../../enums';
 export class FsGalleryThumbnailComponent implements OnInit {
 
   @Input() public data: FsGalleryItem = null;
+  @Input() public index;
+  @Input() public first;
+  @Input() public last;
 
   public galleryLayout = GalleryLayout;
 

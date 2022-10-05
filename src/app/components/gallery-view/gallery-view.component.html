@@ -15,8 +15,11 @@
 
 <ng-template #thumbnailsTemplate>
   <fs-gallery-thumbnail
-    *ngFor="let item of data$ | async"
+    *ngFor="let item of data$ | async; let index = index; let first = first; let last = last"
     #fsGalleryThumbnail
+    [index]="index"
+    [first]="first"
+    [last]="last"
     [data]="item">
   </fs-gallery-thumbnail>
 </ng-template>
