@@ -24,6 +24,7 @@ export interface FsGalleryConfig {
   selection?: FsListSelectionConfig;
   zoom?: boolean;
   reorderEnd?(data: any): any,
+  reorderStart?(event: { item: FsGalleryItem; el: any; source: any, handle: any, sibling: any }): boolean,
   previewBeforeOpen?(item: FsGalleryItem): Observable<FsGalleryItem>,
   previewOpened?(item: FsGalleryItem): any,
   previewClosed?(item: FsGalleryItem): any,

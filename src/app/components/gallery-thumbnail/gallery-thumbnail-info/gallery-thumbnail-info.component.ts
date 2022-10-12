@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
-import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
-import { FsGalleryService } from '../../services/gallery.service';
-import { MimeType } from '../../enums';
+import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
+import { FsGalleryService } from '../../../services/gallery.service';
+import { MimeType } from '../../../enums';
 
 @Component({
   selector: 'fs-gallery-thumbnail-info',

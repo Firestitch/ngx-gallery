@@ -10,6 +10,11 @@
       Custom
     </div>
   </ng-template>
+  <ng-template fsGalleryNav let-template="template">
+    <ng-template 
+      [ngTemplateOutlet]="template">
+    </ng-template>
+  </ng-template>
   <ng-template fsGalleryThumbnail let-item="item" let-template="template">
     <ng-template 
       [ngTemplateOutlet]="template" 

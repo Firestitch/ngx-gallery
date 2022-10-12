@@ -160,6 +160,10 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       reorderEnd: (data) => {
         console.log('reorderEnd', data);
       },
+      reorderStart: ({ item, el, source, handle, sibling }) => {
+        console.log('reorderStart', item, el, source, handle, sibling);
+        return true;
+      },
       fetch: (query, item: FsGalleryItem): Observable<FsGalleryItem[]> => {
         console.log('fetch', query);
         let items = this.items;

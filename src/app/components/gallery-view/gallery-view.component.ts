@@ -36,7 +36,6 @@ export class FsGalleryViewComponent {
 
   constructor(
     public galleryService: FsGalleryService,
-  ) {
-  }
+  ) { }
 
 }

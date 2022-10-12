@@ -25,8 +25,8 @@ import { FsGalleryItem, FsGalleryConfig } from '../../interfaces';
 import { FsGalleryThumbnailPreviewDirective } from '../../directives/gallery-thumbnail-preview.directive';
 import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.directive';
 import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
-import { FsGalleryListColumnDirective } from '../../directives/column/column.directive';
-import { FsGalleryPreviewDetailsDirective } from '../../directives';
+import { FsGalleryListColumnDirective } from '../../directives/column.directive';
+import { FsGalleryNavDirective, FsGalleryPreviewDetailsDirective } from '../../directives';
 import { FsGalleryPreviewComponent } from '../gallery-preview';
 import { GalleryPreviewComponentInjector } from '../../injectors';
 
@@ -57,6 +57,9 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
   public previewTemplate: TemplateRef<any> = null;
 
+  @ContentChild(FsGalleryNavDirective, { read: TemplateRef })
+  public navTemplate: TemplateRef<any> = null;
+
   @ContentChild(FsGalleryPreviewDetailsDirective, { read: TemplateRef })
   public detailsTemplate: TemplateRef<any> = null;
 
@@ -84,7 +87,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   ) { }
 
   public ngOnInit() {
-    this.galleryService.config.setFitlerRef(this.filter);
+    this.galleryService.setFilter(this.filter);
     this.data$ = this.galleryService.data$;
     this.reorderEnabled = this.galleryService.config.reorderable;
   }

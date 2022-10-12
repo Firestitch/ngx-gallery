@@ -24,21 +24,22 @@ import { FsGalleryThumbnailDirective } from './directives/gallery-thumbnail.dire
 import { FsGalleryPreviewDirective } from './directives/gallery-preview.directive';
 
 import { HammerConfig } from './classes/hammer-config';
-import { FsGalleryThumbnailInfoComponent } from './components/gallery-thumbnail-info/gallery-thumbnail-info.component';
 import { FsGalleryThumbnailPreviewDirective } from './directives/gallery-thumbnail-preview.directive';
-import { FsGalleryThumbnailPreviewComponent } from './components/gallery-thumbnail-preview/gallery-thumbnail-preview.component';
 import { FsGalleryListViewComponent } from './components/list-view/list-view.component';
 import { FsGalleryFileIconComponent } from './components/gallery-file-icon/gallery-file-icon.component';
 import { FsGalleryViewComponent } from './components/gallery-view/gallery-view.component';
 
-import { FsGalleryListColumnDirective } from './directives/column/column.directive';
-import { FsGalleryListCellDirective } from './directives/cell/cell.directive';
-import { FsGalleryListHeaderDirective } from './directives/header/header.directive';
-import { FsGalleryFolderIconInfoComponent, FsGalleryIconComponent, FsGalleryPreviewDetailsComponent } from './components';
+import { FsGalleryListColumnDirective } from './directives/column.directive';
+import { FsGalleryListCellDirective } from './directives/cell.directive';
+import { FsGalleryListHeaderDirective } from './directives/header.directive';
+import {
+  FsGalleryFolderIconInfoComponent, FsGalleryIconComponent, FsGalleryNavComponent,
+  FsGalleryPreviewDetailsComponent, FsGalleryThumbnailInfoComponent, FsGalleryThumbnailPreviewComponent
+} from './components';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FsLabelModule } from '@firestitch/label';
-import { FsGalleryPreviewDetailsDirective } from './directives';
+import { FsGalleryNavDirective, FsGalleryPreviewDetailsDirective } from './directives';
 
 
 @NgModule({
@@ -82,6 +83,8 @@ import { FsGalleryPreviewDetailsDirective } from './directives';
     FsGalleryPreviewDetailsComponent,
     FsGalleryPreviewDetailsDirective,
     FsGalleryFolderIconInfoComponent,
+    FsGalleryNavComponent,
+    FsGalleryNavDirective,
   ],
   exports: [
     FsGalleryComponent,
@@ -96,6 +99,8 @@ import { FsGalleryPreviewDetailsDirective } from './directives';
     FsGalleryIconComponent,
     FsGalleryFileIconComponent,
     FsGalleryPreviewDetailsDirective,
+    FsGalleryNavComponent,
+    FsGalleryNavDirective,
   ],
 })
 export class FsGalleryModule {

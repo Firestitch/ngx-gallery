@@ -1,24 +1,16 @@
 <fs-filter
-  [ngClass]="{
-    'has-filter': galleryService.filterConfig.actions.length || galleryService.filterConfig.items.length
-  }"
+  [ngClass]="{ 'has-filter': galleryService.filterConfig.actions.length || galleryService.filterConfig.items.length }"
   [config]="galleryService.filterConfig"
   (ready)="filterReady()">
 </fs-filter>
 
-<ng-container *ngIf="galleryService.navItems.length">
-  <div class="nav">
-    <a (click)="navClick(null)">
-      <mat-icon>home</mat-icon>
-    </a>
-    <ng-container *ngFor="let item of galleryService.navItems">
-      <mat-icon class="chevron">chevron_right</mat-icon>
-      <a (click)="navClick(item)">
-        {{item.name}}
-      </a>
-    </ng-container>
-  </div>
+<ng-container *ngIf="navTemplate; else nav">
+  <ng-template [ngTemplateOutlet]="navTemplate" [ngTemplateOutletContext]="{ template: nav }"></ng-template>
 </ng-container>
+
+<ng-template #nav>
+  <fs-gallery-nav></fs-gallery-nav>
+</ng-template>
 
 <fs-gallery-list-view
   *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.List"

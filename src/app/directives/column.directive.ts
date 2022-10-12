@@ -6,17 +6,17 @@ import {
 } from '@angular/core';
 
 // Directives
-import { FsGalleryListHeaderDirective } from '../header/header.directive';
-import { FsGalleryListCellDirective } from '../cell/cell.directive';
+import { FsGalleryListHeaderDirective } from './header.directive';
+import { FsGalleryListCellDirective } from './cell.directive';
 
-import { FsGalleryCellConfig } from '../../interfaces/gallery-cellconfig.interface';
+import { FsGalleryCellConfig } from '../interfaces/gallery-cellconfig.interface';
 
 
 @Directive({
   selector: 'fs-gallery-list-column',
 })
 export class FsGalleryListColumnDirective {
-  
+
   @Input() public title: string;
   @Input() public name: string;
   @Input() public show = true;

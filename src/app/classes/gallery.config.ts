@@ -17,7 +17,7 @@ import {
   FsGalleryPreviewAction, FsGalleryPreviewMenu
 } from '../interfaces';
 import { ThumbnailScale, GalleryLayout } from '../enums';
-import { FsGalleryListColumnDirective } from '../directives/column/column.directive';
+import { FsGalleryListColumnDirective } from '../directives/column.directive';
 
 
 export class GalleryConfig {
@@ -29,6 +29,7 @@ export class GalleryConfig {
   public toolbar = true;
   public reorderable = false;
   public reorderEnd: (data: any) => {} = null;
+  public reorderStart: (event: { item: FsGalleryItem; el: any; source: any, handle: any, sibling: any }) => boolean = null;
   public repeat = true;
   public info: any;
   public layout = GalleryLayout.Grid;
@@ -61,10 +62,10 @@ export class GalleryConfig {
   public preview: boolean;
 
   private _listColumns$ = new BehaviorSubject<FsGalleryListColumnDirective[]>([]);
+  private _updateActions$ = new Subject<FsFilterAction[]>();
   private _viewMode$ = new BehaviorSubject<GalleryView>(GalleryView.Gallery);
   private _upload$ = new Subject<any>();
   private _thumbnailScale$ = new BehaviorSubject<ThumbnailScale>(ThumbnailScale.Small);
-  private _filterRef: FilterComponent;
 
   constructor(data: FsGalleryConfig) {
     this._initConfig(data);
@@ -72,6 +73,10 @@ export class GalleryConfig {
 
   public get viewMode$(): Observable<GalleryView> {
     return this._viewMode$.asObservable();
+  }
+
+  public get updateActions$(): Observable<FsFilterAction[]> {
+    return this._updateActions$.asObservable();
   }
 
   public get upload$(): Observable<any> {
@@ -102,10 +107,6 @@ export class GalleryConfig {
     return this.viewMode === GalleryView.List;
   }
 
-  public get filterRef(): FilterComponent {
-    return this._filterRef;
-  }
-
   private get _resizeActionIcon(): 'image' | 'photo_size_select_large' | 'photo_size_select_small' {
     switch (this.thumbnailScale) {
       case ThumbnailScale.Small:
@@ -123,16 +124,6 @@ export class GalleryConfig {
         return 'view_list';
       case GalleryView.List:
         return 'view_module';
-    }
-  }
-
-  public setFitlerRef(ref: FilterComponent) {
-    this._filterRef = ref;
-  }
-
-  public reload(): void {
-    if (this._filterRef) {
-      this._filterRef.reload();
     }
   }
 
@@ -197,6 +188,7 @@ export class GalleryConfig {
 
     this.info = data.info === undefined ? {} : data.info;
     this.reorderEnd = data.reorderEnd;
+    this.reorderStart = data.reorderStart;
     this.map = data.map;
     this.selection = data.selection;
     this.previewClosed = data.previewClosed;
@@ -319,11 +311,7 @@ export class GalleryConfig {
   }
 
   private _updateActions(): void {
-    if (!this.filterRef) {
-      return
-    }
-
-    this.filterRef.updateActions(this._getActionsConfig(this.actions));
+    this._updateActions$.next(this._getActionsConfig(this.actions));
   }
 
 }

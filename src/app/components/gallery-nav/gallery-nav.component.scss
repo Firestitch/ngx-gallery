@@ -1,0 +1,15 @@
+.nav {
+  display: flex;
+  align-items: center;
+  color: #717171;
+  margin-bottom: 15px;
+  user-select: none;
+
+  mat-icon {
+    margin: 0 5px;
+  }
+
+  a {
+    color: inherit;
+  }
+}

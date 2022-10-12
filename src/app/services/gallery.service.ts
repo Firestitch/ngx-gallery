@@ -4,7 +4,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { Location } from '@angular/common';
 
 import { guid, getNormalizedPath } from '@firestitch/common';
-import { FilterConfig } from '@firestitch/filter';
+import { FilterComponent, FilterConfig } from '@firestitch/filter';
 import { FsListConfig, FsListNoResultsConfig, ReorderStrategy } from '@firestitch/list';
 
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
@@ -19,7 +19,7 @@ import { MimeType } from '../enums';
 import { mime } from '../helpers/mime';
 import { PersistanceController } from '../classes/persistance-controller';
 import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
-import { FsGalleryListColumnDirective } from '../directives/column/column.directive';
+import { FsGalleryListColumnDirective } from '../directives/column.directive';
 import { mimeColor } from '../helpers';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
 
@@ -41,22 +41,17 @@ export class FsGalleryService implements OnDestroy {
   public listConfig: FsListConfig;
   public filterConfig: FilterConfig;
   public navItems: FsGalleryItem[] = [];
-
+  public previewComponent;
   public filtersReady$ = new Subject<void>();
 
   private _fetch$ = new Subject<void>();
   private _activeFilters$ = new BehaviorSubject(0);
-  public activeFilters$ = this._activeFilters$
-    .pipe(
-      debounceTime(200),
-    )
-
   private _filterQuery = {};
   private _data$ = new BehaviorSubject<FsGalleryItem[]>([]);
   private _imageWidth: number = null;
   private _imageHeight: number = null;
   private _config: GalleryConfig = new GalleryConfig({});
-  public previewComponent;
+  private _filter: FilterComponent;
 
   private _configUpdated$ = new Subject<void>();
   private _destroy$ = new Subject<void>();
@@ -79,14 +74,30 @@ export class FsGalleryService implements OnDestroy {
     return this._data$;
   }
 
+  public get activeFilters$() {
+    return this._activeFilters$
+      .pipe(
+        debounceTime(200),
+      );
+  }
+
   public get config(): GalleryConfig {
     return this._config;
+  }
+
+  public get filter(): FilterComponent {
+    return this._filter;
+  }
+
+  public setFilter(filter: FilterComponent) {
+    this._filter = filter;
   }
 
   public set config(value: GalleryConfig) {
     this._config = value || new GalleryConfig({});
     this._config.filterInit = this.filterInit.bind(this);
     this._config.filterChange = this.filterChange.bind(this);
+
     this._initListConfig();
     this._initFilterConfig();
     this._configUpdated$.next();
@@ -106,6 +117,19 @@ export class FsGalleryService implements OnDestroy {
     if (this.config.viewModeGallery) {
       this.loadGallery();
     }
+
+
+    if (this.config.reorderStart) {
+      this._dragulaService.createGroup(this.dragName, {
+        moves: (el, source, handle, sibling) => {
+          const group = this._dragulaService.find(this.dragName);
+          const index = Array.from(source.childNodes).indexOf(el);
+          const item: FsGalleryItem = group.drake.models[0][index];
+
+          return this.config.reorderStart({ item, el, source, handle, sibling });
+        }
+      });
+    }
   }
 
   public get imageWidth(): number {
@@ -114,6 +138,10 @@ export class FsGalleryService implements OnDestroy {
 
   public get imageHeight(): number {
     return this._imageHeight;
+  }
+
+  public get fetch$(): Observable<void> {
+    return this._fetch$.asObservable();
   }
 
   public ngOnDestroy(): void {
@@ -166,7 +194,7 @@ export class FsGalleryService implements OnDestroy {
     if (this._config.viewModeGallery) {
       this.loadGallery();
     } else if (this._config.viewModeList) {
-      this._config.filterRef.reload();
+      this.filter.reload();
     }
   }
 
@@ -272,6 +300,14 @@ export class FsGalleryService implements OnDestroy {
         this.reload();
       },
     };
+
+    this.config.updateActions$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe((filterActions) => {
+        this.filter.updateActions(filterActions);
+      });
   }
 
   private _initListConfig(): void {
@@ -313,10 +349,8 @@ export class FsGalleryService implements OnDestroy {
   }
 
   private _listenFetch(): void {
-    let fetch$ = this._fetch$.asObservable();
-
     // Should wait until saved filters not loaded
-    combineLatest([fetch$, this.filtersReady$])
+    combineLatest([this.fetch$, this.filtersReady$])
       .pipe(
         map(() => {
           const query = {
@@ -338,7 +372,7 @@ export class FsGalleryService implements OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((data: FsGalleryItem[]) => {
-        this.data$.next(data);
+        this._data$.next(data);
       });
   }
 
