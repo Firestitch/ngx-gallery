@@ -30,6 +30,12 @@ export class FsGalleryThumbnailComponent implements OnInit {
     private _cdRef: ChangeDetectorRef,
   ) { }
 
+  public get hasInfo(): boolean {
+    return (this.galleryService.config.info?.menu && this.galleryService.config.info?.menu.actions?.length) ||
+      this.galleryService.config.info?.name ||
+      this.galleryService.config.info?.icon;
+  }
+
   public ngOnInit(): void {
     this.galleryService.config.thumbnailScale$
       .pipe(

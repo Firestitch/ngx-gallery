@@ -3,7 +3,7 @@
     [ngClass]="{ 
       'layout-grid': galleryService.config.layout === galleryLayout.Grid,
       'layout-flow': galleryService.config.layout === galleryLayout.Flow,
-      'has-info': galleryService.config.info !== false
+      'has-info': hasInfo
     }"
     id="fs-gallery-thumbnail-{{ data.index }}"
     [style.width]="galleryService.config.layout===galleryLayout.Grid ? '' : (galleryService.imageWidth ? galleryService.imageWidth + 'px' : null)">
@@ -32,7 +32,7 @@
   </fs-gallery-thumbnail-preview>
 
   <fs-gallery-thumbnail-info 
-    *ngIf="galleryService.config.info!==false"
+    *ngIf="hasInfo"
     [item]="data">
   </fs-gallery-thumbnail-info>
 </ng-template>

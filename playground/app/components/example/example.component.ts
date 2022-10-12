@@ -58,7 +58,6 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       layout: GalleryLayout.Flow,
       zoom: true,
       info: {
-        icon: true,
         menu: {
           actions: [
             {

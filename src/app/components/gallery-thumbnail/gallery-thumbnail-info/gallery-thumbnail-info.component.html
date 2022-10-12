@@ -5,7 +5,10 @@
     <fs-gallery-icon [item]="item"></fs-gallery-icon>
   </div>
 
-  <div class="name" [matTooltip]="item.name" matTooltipPosition="above">
+  <div class="name" 
+      *ngIf="fsGalleryService.config.info.name"
+      [matTooltip]="item.name" 
+      [matTooltipClass]="'gallery-thumbnail-tooltip'">
     <div>{{ item.name }}</div>
   </div>
 

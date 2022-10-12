@@ -187,6 +187,12 @@ export class GalleryConfig {
     }
 
     this.info = data.info === undefined ? {} : data.info;
+
+    if (this.info) {
+      this.info.icon = this.info.icon ?? true;
+      this.info.name = this.info.name ?? true;
+    }
+
     this.reorderEnd = data.reorderEnd;
     this.reorderStart = data.reorderStart;
     this.map = data.map;

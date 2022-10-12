@@ -2,6 +2,12 @@
   overflow: hidden;
 }
 
+::ng-deep {
+  .gallery-thumbnail-tooltip {
+    margin-top: -4px !important;
+  }
+}
+
 .info {
   display: flex;
   flex-direction: row;

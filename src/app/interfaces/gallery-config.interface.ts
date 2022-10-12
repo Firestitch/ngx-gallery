@@ -67,6 +67,7 @@ export interface FsGalleryItemContains {
 
 export interface FsGalleryInfoConfig {
   icon?: boolean;
+  name?: boolean;
   menu?: FsGalleryInfoMenuConfig;
 }
 
