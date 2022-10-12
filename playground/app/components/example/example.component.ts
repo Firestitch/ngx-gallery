@@ -44,12 +44,12 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       allow: 'image/*, application/pdf, video/*',
       multiple: true,
       thumbnail: {
-        height: 200,
+        height: 180,
         size: GalleryThumbnailSize.Contain,
       },
       // thumbnail: {
-      //   width: 200,
-      //   heightScale: 1.5,
+      //   width: 250,
+      //   heightScale: .5,
       //   size: GalleryThumbnailSize.Cover,
       // },
       details: {
@@ -233,8 +233,10 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       previewClosed: (data) => {
         console.log('previewClosed', data);
       },
-      previewBeforeOpen: (data) => {
+      previewBeforeOpen: (data: FsGalleryItem) => {
         console.log('previewBeforeOpen', data);
+
+        return of(data);
       },
       zoomChanged: (value: number) => {
         console.log('zoomChanged', value);

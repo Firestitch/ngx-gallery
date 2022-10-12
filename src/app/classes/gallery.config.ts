@@ -50,7 +50,7 @@ export class GalleryConfig {
   public previewClick: (item: FsGalleryItem) => {};
   public previewOpened: (item: FsGalleryItem) => {};
   public previewClosed: (item: FsGalleryItem) => {};
-  public previewBeforeOpen: (item: FsGalleryItem) => {};
+  public previewBeforeOpen: (item: FsGalleryItem) => Observable<any>;
   public zoomChanged: (value: number) => {};
   public map: (data: any) => FsGalleryMapping;
   public upload: (files: any) => Observable<any>;

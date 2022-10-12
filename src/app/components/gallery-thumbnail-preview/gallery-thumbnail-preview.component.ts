@@ -1,8 +1,10 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 
 import { FsGalleryService } from '../../services';
 import { FsGalleryConfig, FsGalleryItem } from '../../interfaces';
 import { GalleryThumbnailSize, MimeType } from '../../enums';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -11,13 +13,11 @@ import { GalleryThumbnailSize, MimeType } from '../../enums';
   styleUrls: ['./gallery-thumbnail-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryThumbnailPreviewComponent implements OnChanges {
+export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy {
 
   @Input() public item: FsGalleryItem;
   @Input() public imageHeight: number;
   @Input() public imageWidth: number;
-
-  @Output() public select = new EventEmitter<FsGalleryItem>();
 
   public MimeType = MimeType;
   public iconWidth = 80;
@@ -26,6 +26,8 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges {
     width: null,
     height: null,
   };
+
+  private _destroy$ = new Subject();
 
   constructor(
     public galleryService: FsGalleryService,
@@ -44,23 +46,21 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges {
   }
 
   public click(item: FsGalleryItem) {
-    if (this.galleryService.config.preview === false) {
-      return;
-    }
-
-    if (this.select.observers.length) {
-      return this.select.emit(this.item);
-    }
-
     if (item.folder) {
       this.galleryService.openItem(item);
     } else {
-      if (this.galleryService.config.previewClick) {
-        this.galleryService.config.previewClick(item);
-      } else {
-        const result = this.galleryService.beforeOpenPreview(item);
-        if (result !== false) {
-          this.galleryService.openPreview(item);
+      if (this.galleryService.config.preview) {
+        this.galleryService.beforeOpenPreview(item)
+          .pipe(
+            filter((item) => !!item),
+            takeUntil(this._destroy$),
+          )
+          .subscribe((item) => {
+            this.galleryService.openPreview(item);
+          });
+
+        if (this.galleryService.config.previewClick) {
+          this.galleryService.config.previewClick(item);
         }
       }
     }
@@ -70,4 +70,8 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges {
     return this.galleryService.config;
   }
 
+  public ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
 }

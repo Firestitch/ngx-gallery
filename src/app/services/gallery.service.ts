@@ -125,10 +125,10 @@ export class FsGalleryService implements OnDestroy {
     this.galleryPreviewService.destroy();
   }
 
-  public beforeOpenPreview(item: FsGalleryItem) {
-    if (this.config.previewBeforeOpen) {
-      return this.config.previewBeforeOpen(item);
-    }
+  public beforeOpenPreview(item: FsGalleryItem): Observable<any> {
+    return this.config.previewBeforeOpen ?
+      this.config.previewBeforeOpen(item)
+      : of(item);
   }
 
   public closePreview() {
@@ -136,23 +136,21 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public openPreview(item: FsGalleryItem) {
-    if (item.mime.type === MimeType.Image) {
-      if (this.config.previewOpened) {
-        this.config.previewOpened(item);
-      }
-
-      this.galleryPreviewService.open(item)
-        .onClose
-        .pipe(
-          take(1),
-          takeUntil(this._destroy$)
-        )
-        .subscribe(() => {
-          if (this.config.previewClosed) {
-            this.config.previewClosed(item);
-          }
-        });
+    if (this.config.previewOpened) {
+      this.config.previewOpened(item);
     }
+
+    this.galleryPreviewService.open(item)
+      .onClose
+      .pipe(
+        take(1),
+        takeUntil(this._destroy$)
+      )
+      .subscribe(() => {
+        if (this.config.previewClosed) {
+          this.config.previewClosed(item);
+        }
+      });
   }
 
   public openItem(item: FsGalleryItem) {

@@ -33,14 +33,14 @@
               (swiperight)="prevItem()">
           </ng-template>
   
-          <ng-template [ngSwitchCase]="MimeType.Video">
-            <div class="file-ext">{{activeItem.mime.extension}}</div>
-          </ng-template>
-  
-          <ng-template [ngSwitchCase]="MimeType.Application">
-            <div class="file-ext">{{activeItem.mime.extension}}</div>
+          <ng-template ngSwitchDefault>
+              <fs-gallery-file-icon 
+              [width]="150"
+              [item]="activeItem">
+            </fs-gallery-file-icon>
           </ng-template>
         </ng-container>
+        
         <a class="prev-overlay" *ngIf="hasPrevItem" (click)="prevItem()">
           <mat-icon>keyboard_arrow_left</mat-icon>
         </a>

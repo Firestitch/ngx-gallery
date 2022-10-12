@@ -1,5 +1,6 @@
 <div 
     class="file-icon"
+    [style.height]="height ? height + 'px' : null"
     [style.width]="width ? width + 'px' : null">
   <ng-container *ngIf="item.folder">
     <div class="folder-container">

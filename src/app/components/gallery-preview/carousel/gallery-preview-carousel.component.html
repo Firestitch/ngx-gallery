@@ -1,11 +1,23 @@
 <div class="fs-gallery-preview-carousel">
   <ng-container
-      *ngFor="let item of items">
+      *ngFor="let item of items; let index = index;">
     <a 
         (click)="itemClick(item)"
-        [attr.data-item]="item.preview"
+        [attr.data-index]="index"
         [ngClass]="{ active: activeItem === item }">
-      <img [src]="item.preview">
+      <ng-container [ngSwitch]="item.mime.type">
+        <ng-template [ngSwitchCase]="MimeType.Image">
+          <img [src]="item.preview">
+        </ng-template>
+      
+        <ng-template ngSwitchDefault>
+          <fs-gallery-file-icon 
+            [height]="100"
+            [width]="null"
+            [item]="item">
+          </fs-gallery-file-icon>
+        </ng-template>
+      </ng-container>
     </a>
   </ng-container>
 </div>

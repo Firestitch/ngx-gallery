@@ -5,7 +5,7 @@
 .info {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
   font-size: 90%;
   box-sizing: border-box;
   padding: 0 7px;
@@ -30,14 +30,17 @@
 
   .name {
     display: flex;
-    flex-direction: column;
     position: relative;
     min-width: 0;
     color: #000;
     box-sizing: border-box;
     flex: 1;
+    align-items: center;
 
     div {
+      position: absolute;
+      width: 100%;
+      align-items: center;
       display: inline-block;
       white-space: nowrap;
       overflow: hidden;

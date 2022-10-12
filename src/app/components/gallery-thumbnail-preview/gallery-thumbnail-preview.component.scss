@@ -15,16 +15,10 @@
   }
 
   &.previewable {
-    &.file-image,
-    &.file-folder {
-      cursor: pointer;
-    }
+    cursor: pointer;
   }
     
-  &.file-video,
-  &.file-folder,
-  &.file-application,
-  &.file-audio {
+  &:not(.file-image) {
     min-width: 150px;
   }
 

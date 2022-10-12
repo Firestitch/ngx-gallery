@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { MimeType } from '../../../enums';
 import { FsGalleryItem } from '../../../interfaces';
 
 
@@ -13,6 +15,8 @@ export class FsGalleryPreviewCarouselComponent {
   @Input() public items: FsGalleryItem[];
   @Input() public activeItem: FsGalleryItem;
   @Output() public activeItemChanged = new EventEmitter<FsGalleryItem>();
+
+  public MimeType = MimeType;
 
   public itemClick(item) {
     this.activeItem = item;

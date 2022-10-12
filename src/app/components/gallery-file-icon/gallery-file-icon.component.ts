@@ -13,6 +13,7 @@ export class FsGalleryFileIconComponent implements OnChanges {
 
   @Input() public item: FsGalleryItem;
   @Input() public width = 80;
+  @Input() public height;
 
   public MimeType = MimeType;
   public darkColor;
@@ -27,6 +28,10 @@ export class FsGalleryFileIconComponent implements OnChanges {
 
     if (changes.width) {
       this.fontSize = this.width * .2;
+    }
+
+    if (changes.height) {
+      this.fontSize = this.height * .15;
     }
   }
 

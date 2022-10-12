@@ -150,7 +150,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     this.activeImageIndex = this.availableImages.indexOf(item);
 
     setTimeout(() => {
-      const el = this._el.nativeElement.querySelector(`fs-gallery-preview-carousel [data-item='${item.preview}']`);
+      const el = this._el.nativeElement.querySelector(`fs-gallery-preview-carousel [data-index='${this.activeImageIndex}']`);
       el?.scrollIntoView({ block: 'center', inline: 'center' });
     });
   }
@@ -158,8 +158,9 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   private _initAvailableImages() {
     this.availableImages = this.galleryService.data$.getValue()
       .filter((item: FsGalleryItem) => {
-        return item.mime.type === MimeType.Image;
+        return !item.folder;
       });
+
 
     this.hasManyItems = this.availableImages.length > 1;
   }
