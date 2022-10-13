@@ -1,6 +1,7 @@
 :host ::ng-deep {
   .fs-filter {
-    margin: 0;
+    margin-bottom: 20px;
+    display: none;
 
     fs-filter-action-button {
       button.size, .view-mode {
@@ -12,6 +13,5 @@
 }
 
 .has-filter {
-  margin-bottom: 20px;
   display: block;
 }

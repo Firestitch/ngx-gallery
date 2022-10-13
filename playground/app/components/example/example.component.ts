@@ -38,8 +38,8 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.galleryConfig = {
-      // showChangeSize: false,
-      // showChangeView: false,
+      showChangeSize: false,
+      showChangeView: false,
       // showCarousel: false,
       allow: 'image/*, application/pdf, video/*',
       multiple: true,
@@ -88,6 +88,9 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
           click: () => {
             console.log('Export');
           },
+          show: () => {
+            return false;
+          }
         }
       ],
       selection: {
@@ -144,7 +147,7 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
         {
           name: 'keyword',
           type: ItemType.Keyword,
-          label: 'Search'
+          label: 'Search',
         },
 
         {
@@ -153,7 +156,7 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
           label: 'Select',
           values: () => {
             return [{ name: 'Name', value: 'value' }];
-          }
+          },
         }
       ],
       reorderEnd: (data) => {

@@ -1,5 +1,5 @@
 <fs-filter
-  [ngClass]="{ 'has-filter': galleryService.filterConfig.actions.length || galleryService.filterConfig.items.length }"
+  [ngClass]="{ 'has-filter': hasFilter }"
   [config]="galleryService.filterConfig"
   (ready)="filterReady()">
 </fs-filter>
