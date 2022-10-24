@@ -16,7 +16,7 @@
     <ng-template
         fs-menu-item
         (click)="menuClick($event, action, item)"
-        *ngFor="let action of fsGalleryService.config.info.menu.actions">
+        *ngFor="let action of actions">
       {{action.label}}
     </ng-template>
   </fs-menu>

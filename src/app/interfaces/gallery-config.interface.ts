@@ -80,8 +80,9 @@ export interface FsGalleryDetailsConfig {
 }
 
 export interface FsGalleryInfoMenuActionConfig {
-  label?: string;
-  click?(item: FsGalleryItem): any
+  label?: ((item: FsGalleryItem) => string) | string;
+  click?(item: FsGalleryItem): any;
+  show?: (item: FsGalleryItem) => boolean;
 }
 
 export interface Mime {

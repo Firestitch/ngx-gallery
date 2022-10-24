@@ -34,6 +34,11 @@ export {
   FsGalleryNoResultsConfig,
   FsGalleryDataItem,
   FsGalleryThumbnailConfig,
+  FsGalleryInfoMenuActionConfig,
+  FsGalleryInfoMenuConfig,
+  FsGalleryPreviewAction,
+  FsGalleryPreviewMenu,
+  FsGalleryPreviewMenuItem,
 } from './app/interfaces';
 
 export { FsGalleryPreviewService, FsGalleryService } from './app/services';

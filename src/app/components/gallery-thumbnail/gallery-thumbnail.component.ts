@@ -31,7 +31,7 @@ export class FsGalleryThumbnailComponent implements OnInit {
   ) { }
 
   public get hasInfo(): boolean {
-    return (this.galleryService.config.info?.menu && this.galleryService.config.info?.menu.actions?.length) ||
+    return (!!this.galleryService.config.info?.menu && !!this.galleryService.config.info?.menu.actions?.length) ||
       this.galleryService.config.info?.name ||
       this.galleryService.config.info?.icon;
   }

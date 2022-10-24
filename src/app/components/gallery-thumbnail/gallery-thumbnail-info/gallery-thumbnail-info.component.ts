@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
-import { FsGalleryItem } from '../../../interfaces/gallery-config.interface';
-import { FsGalleryService } from '../../../services/gallery.service';
+import { FsGalleryItem } from '../../../interfaces';
+import { FsGalleryService } from '../../../services';
 import { MimeType } from '../../../enums';
+
 
 @Component({
   selector: 'fs-gallery-thumbnail-info',
@@ -16,6 +17,7 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
   @Input() public showIcon;
 
   public MimeType = MimeType;
+  public actions = [];
 
   constructor(
     public fsGalleryService: FsGalleryService,
@@ -25,6 +27,20 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
     if (typeof this.showIcon !== 'boolean') {
       this.showIcon = this.fsGalleryService.config.info.icon !== false;
     }
+
+    this.actions = this.fsGalleryService.config.info.menu.actions
+      .filter((action) => {
+        return !action.show || action.show(this.item);
+      })
+      .map((action) => {
+        const label = action.label instanceof Function ?
+          action.label(this.item) : action.label;
+
+        return {
+          ...action,
+          label,
+        };
+      });
   }
 
   public menuClick(event, action, data) {

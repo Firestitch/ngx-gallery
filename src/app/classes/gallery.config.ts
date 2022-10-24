@@ -14,7 +14,7 @@ import { GalleryView } from './../enums';
 import {
   FsGalleryConfig, FsGalleryThumbnailConfig, FsGalleryConfigFetch, FsGalleryPersistance,
   FsGalleryDetailsConfig, FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig,
-  FsGalleryPreviewAction, FsGalleryPreviewMenu
+  FsGalleryPreviewAction, FsGalleryPreviewMenu, FsGalleryInfoConfig
 } from '../interfaces';
 import { ThumbnailScale, GalleryLayout } from '../enums';
 import { FsGalleryListColumnDirective } from '../directives/column.directive';
@@ -31,7 +31,11 @@ export class GalleryConfig {
   public reorderEnd: (data: any) => {} = null;
   public reorderStart: (event: { item: FsGalleryItem; el: any; source: any, handle: any, sibling: any }) => boolean = null;
   public repeat = true;
-  public info: any;
+  public info: FsGalleryInfoConfig = {
+    icon: false,
+    name: false,
+    menu: null,
+  };
   public layout = GalleryLayout.Grid;
   public showCarousel = true;
   public noResults: FsGalleryNoResultsConfig | boolean;
@@ -186,11 +190,11 @@ export class GalleryConfig {
       };
     }
 
-    this.info = data.info === undefined ? {} : data.info;
-
-    if (this.info) {
-      this.info.icon = this.info.icon ?? true;
-      this.info.name = this.info.name ?? true;
+    if (data.info !== false) {
+      const info: any = data.info || {};
+      this.info.icon = info.icon ?? true;
+      this.info.name = info.name ?? true;
+      this.info.menu = info.menu ?? null;
     }
 
     this.reorderEnd = data.reorderEnd;
