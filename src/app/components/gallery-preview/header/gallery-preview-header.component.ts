@@ -1,7 +1,7 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
 
-import { FsGalleryItem } from '../../../interfaces';
-import { FsGalleryService } from '../../../services/gallery.service';
+import { FsGalleryItem, FsGalleryPreviewAction } from '../../../interfaces';
+import { FsGalleryService } from '../../../services';
 
 
 @Component({
@@ -10,12 +10,22 @@ import { FsGalleryService } from '../../../services/gallery.service';
   styleUrls: ['./gallery-preview-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryPreviewHeaderComponent {
+export class FsGalleryPreviewHeaderComponent implements OnInit {
 
   @Input() public item: FsGalleryItem;
   @Input() public galleryService: FsGalleryService;
 
   @Output() public previewClosed = new EventEmitter<void>();
   @Output() public detailsToggled = new EventEmitter<void>();
+
+  public previewActions = [];
+
+  public ngOnInit(): void {
+    this.previewActions = this.galleryService.config.previewActions
+      .filter((preveiwAction: FsGalleryPreviewAction) => {
+        return !preveiwAction.show || preveiwAction.show(this.item);
+      });
+
+  }
 
 }

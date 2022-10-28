@@ -204,6 +204,9 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       previewActions: [
         {
           icon: 'delete_outline',
+          show: (item: FsGalleryItem) => {
+            return true;
+          },
           click: (item: FsGalleryItem) => {
             console.log('Delete Click');
             this._prompt.confirm({

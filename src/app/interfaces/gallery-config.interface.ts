@@ -94,6 +94,7 @@ export interface Mime {
 export interface FsGalleryPreviewAction {
   icon: string,
   click?: (item: FsGalleryItem) => void,
+  show?: (item: FsGalleryItem) => boolean,
 }
 
 export interface FsGalleryPreviewMenu {
