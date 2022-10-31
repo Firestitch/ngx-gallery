@@ -81,7 +81,7 @@ export interface FsGalleryDetailsConfig {
 
 export interface FsGalleryInfoMenuActionConfig {
   label?: ((item: FsGalleryItem) => string) | string;
-  click?(item: FsGalleryItem): any;
+  click?(item: FsGalleryItem): void;
   show?: (item: FsGalleryItem) => boolean;
 }
 
@@ -102,8 +102,9 @@ export interface FsGalleryPreviewMenu {
 }
 
 export interface FsGalleryPreviewMenuItem {
-  label: string,
+  label?: ((item: FsGalleryItem) => string) | string;
   click?: (item: FsGalleryItem) => void,
+  show?: (item: FsGalleryItem) => boolean,
 }
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }

@@ -235,6 +235,11 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
             click: (item: FsGalleryItem) => {
               console.log('Settings Click');
             }
+          },
+          {
+            label: (item) => {
+              return 'Delete';
+            },
           }
         ]
       },

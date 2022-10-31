@@ -28,19 +28,21 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
       this.showIcon = this.fsGalleryService.config.info.icon !== false;
     }
 
-    this.actions = this.fsGalleryService.config.info.menu.actions
-      .filter((action) => {
-        return !action.show || action.show(this.item);
-      })
-      .map((action) => {
-        const label = action.label instanceof Function ?
-          action.label(this.item) : action.label;
+    if (this.fsGalleryService.config.info.menu) {
+      this.actions = this.fsGalleryService.config.info.menu.actions
+        .filter((action) => {
+          return !action.show || action.show(this.item);
+        })
+        .map((action) => {
+          const label = action.label instanceof Function ?
+            action.label(this.item) : action.label;
 
-        return {
-          ...action,
-          label,
-        };
-      });
+          return {
+            ...action,
+            label,
+          };
+        });
+    }
   }
 
   public menuClick(event, action, data) {

@@ -209,7 +209,7 @@ export class GalleryConfig {
     this.fetch = data.fetch;
     this.upload = data.upload;
     this.actions = data.actions;
-    this.previewActions = data.previewActions;
+    this.previewActions = data.previewActions || [];
     this.previewMenu = data.previewMenu;
     this.preview = data.preview ?? true;
     this.filterConfig = this._getFilterConfig(data.filters);

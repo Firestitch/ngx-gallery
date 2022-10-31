@@ -25,11 +25,11 @@
         (click)="detailsToggled.emit()">
       <mat-icon>info_outline</mat-icon>
     </button>
-    <ng-container *ngIf="galleryService.config.previewMenu">
+    <ng-container *ngIf="previewMenuItems.length">
       <fs-menu>
         <ng-template 
             fs-menu-item 
-            *ngFor="let menuItem of galleryService.config.previewMenu.items"
+            *ngFor="let menuItem of previewMenuItems"
             (click)="menuItem.click(item)">
           {{menuItem.label}}
         </ng-template>

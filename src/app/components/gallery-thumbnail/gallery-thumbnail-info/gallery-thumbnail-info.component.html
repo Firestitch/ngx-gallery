@@ -12,7 +12,7 @@
     <div>{{ item.name }}</div>
   </div>
 
-  <fs-menu *ngIf="fsGalleryService.config.info.menu">
+  <fs-menu *ngIf="actions.length">
     <ng-template
         fs-menu-item
         (click)="menuClick($event, action, item)"
