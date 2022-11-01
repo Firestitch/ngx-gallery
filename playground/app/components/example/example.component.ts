@@ -39,7 +39,7 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
   public ngOnInit(): void {
     this.galleryConfig = {
       showChangeSize: false,
-      showChangeView: false,
+      showChangeView: true,
       // showCarousel: false,
       allow: 'image/*, application/pdf, video/*',
       multiple: true,

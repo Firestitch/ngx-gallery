@@ -1,13 +1,6 @@
 <div class="container">
   <div class="header">
     <div mat-dialog-title>Details</div>
-    <button 
-        mat-icon-button 
-        type="button"         
-        (click)="detailsToggled.emit()"
-        class="close">
-      <mat-icon>close</mat-icon>
-    </button>
   </div>
   <div class="content">
     <ng-container *ngIf="galleryService.detailsTemplate; else template">

@@ -16,6 +16,4 @@ export class FsGalleryPreviewDetailsComponent {
   @Input() public galleryService: FsGalleryService;
   @Input() public image: { height: number, width: number };
 
-  @Output() public detailsToggled = new EventEmitter<void>();
-
 }
