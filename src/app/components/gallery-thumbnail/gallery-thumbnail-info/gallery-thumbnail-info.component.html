@@ -1,23 +1,25 @@
-<div class="info">
-  <div
-      *ngIf="item.mime.type && showIcon"
-      class="icon">
-    <fs-gallery-icon [item]="item"></fs-gallery-icon>
-  </div>
+<ng-container *ngIf="showIcon || galleryService.config.info.name || !!actions.length">
+  <div class="info">
+    <div
+        *ngIf="item.mime.type && showIcon"
+        class="icon">
+      <fs-gallery-icon [item]="item"></fs-gallery-icon>
+    </div>
 
-  <div class="name" 
-      *ngIf="fsGalleryService.config.info.name"
-      [matTooltip]="item.name" 
-      [matTooltipClass]="'gallery-thumbnail-tooltip'">
-    <div>{{ item.name }}</div>
-  </div>
+    <div class="name" 
+        *ngIf="galleryService.config.info.name"
+        [matTooltip]="item.name" 
+        [matTooltipClass]="'gallery-thumbnail-tooltip'">
+      <div>{{ item.name }}</div>
+    </div>
 
-  <fs-menu *ngIf="actions.length">
-    <ng-template
-        fs-menu-item
-        (click)="menuClick($event, action, item)"
-        *ngFor="let action of actions">
-      {{action.label}}
-    </ng-template>
-  </fs-menu>
-</div>
+    <fs-menu *ngIf="actions.length">
+      <ng-template
+          fs-menu-item
+          (click)="menuClick($event, action, item)"
+          *ngFor="let action of actions">
+        {{action.label}}
+      </ng-template>
+    </fs-menu>
+  </div>
+</ng-container>

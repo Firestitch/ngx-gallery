@@ -5,14 +5,14 @@
       'layout-flow': galleryService.config.layout === galleryLayout.Flow,
       'has-info': hasInfo
     }"
-    id="fs-gallery-thumbnail-{{ data.index }}"
+    id="fs-gallery-thumbnail-{{ item.index }}"
     [style.width]="galleryService.config.layout===galleryLayout.Grid ? '' : (galleryService.imageWidth ? galleryService.imageWidth + 'px' : null)">
   <ng-container
     *ngIf="galleryService.thumbnailTemplate; else template">
       <ng-template
         [ngTemplateOutlet]="galleryService.thumbnailTemplate"
         [ngTemplateOutletContext]="{ 
-          item: data, 
+          item: item, 
           template: template, 
           previewTemplate: previewTemplate,
           infoTemplate: infoTemplate,
@@ -28,12 +28,12 @@
   <fs-gallery-thumbnail-preview  
     [imageHeight]="galleryService.imageHeight" 
     [imageWidth]="galleryService.config.layout===galleryLayout.Grid ? null : (galleryService.imageWidth ? galleryService.imageWidth : null)"
-    [item]="data">
+    [item]="item">
   </fs-gallery-thumbnail-preview>
 
   <fs-gallery-thumbnail-info 
-    *ngIf="hasInfo"
-    [item]="data">
+    [item]="item"
+    [actions]="infoMenuActions">
   </fs-gallery-thumbnail-info>
 </ng-template>
 
@@ -46,14 +46,14 @@
   <fs-gallery-thumbnail-preview  
     [imageHeight]="galleryService.imageHeight" 
     [imageWidth]="galleryService.config.layout===galleryLayout.Grid ? null : (galleryService.imageWidth ? galleryService.imageWidth : null)"
-    [item]="data">
+    [item]="item">
   </fs-gallery-thumbnail-preview>
 </ng-template>
 
 <ng-template #infoTemplate>
   <fs-gallery-thumbnail-info 
     *ngIf="galleryService.config.info!==false"
-    [item]="data">
+    [item]="item">
   </fs-gallery-thumbnail-info>
 </ng-template>
 

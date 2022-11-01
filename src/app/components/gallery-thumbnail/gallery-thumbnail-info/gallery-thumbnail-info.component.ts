@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { FsGalleryItem } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
@@ -14,34 +14,25 @@ import { MimeType } from '../../../enums';
 export class FsGalleryThumbnailInfoComponent implements OnInit {
 
   @Input() public item: FsGalleryItem;
+  @Input() public hasInfo = false;
   @Input() public showIcon;
+  @Input() public actions
+
+  @Output() public hasInfoChange = new EventEmitter();
 
   public MimeType = MimeType;
-  public actions = [];
 
   constructor(
-    public fsGalleryService: FsGalleryService,
+    public galleryService: FsGalleryService,
   ) { }
 
   public ngOnInit(): void {
-    if (typeof this.showIcon !== 'boolean') {
-      this.showIcon = this.fsGalleryService.config.info.icon !== false;
+    if (this.showIcon === undefined) {
+      this.showIcon = this.galleryService.config.info.icon !== false;
     }
 
-    if (this.fsGalleryService.config.info.menu) {
-      this.actions = this.fsGalleryService.config.info.menu.actions
-        .filter((action) => {
-          return !action.show || action.show(this.item);
-        })
-        .map((action) => {
-          const label = action.label instanceof Function ?
-            action.label(this.item) : action.label;
-
-          return {
-            ...action,
-            label,
-          };
-        });
+    if (this.actions === undefined) {
+      this.actions = this.galleryService.getInfoMenuItemActions(this.item);
     }
   }
 

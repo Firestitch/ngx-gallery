@@ -16,12 +16,14 @@ import { GalleryLayout } from '../../enums';
 })
 export class FsGalleryThumbnailComponent implements OnInit {
 
-  @Input() public data: FsGalleryItem = null;
+  @Input() public item: FsGalleryItem = null;
   @Input() public index;
   @Input() public first;
   @Input() public last;
 
   public galleryLayout = GalleryLayout;
+  public hasInfo = false;
+  public infoMenuActions = [];
 
   private _destroy$ = new Subject();
 
@@ -29,12 +31,6 @@ export class FsGalleryThumbnailComponent implements OnInit {
     public galleryService: FsGalleryService,
     private _cdRef: ChangeDetectorRef,
   ) { }
-
-  public get hasInfo(): boolean {
-    return (!!this.galleryService.config.info?.menu && !!this.galleryService.config.info?.menu.actions?.length) ||
-      this.galleryService.config.info?.name ||
-      this.galleryService.config.info?.icon;
-  }
 
   public ngOnInit(): void {
     this.galleryService.config.thumbnailScale$
@@ -44,6 +40,9 @@ export class FsGalleryThumbnailComponent implements OnInit {
       .subscribe(() => {
         this._cdRef.markForCheck();
       });
+
+    this.infoMenuActions = this.galleryService.getInfoMenuItemActions(this.item);
+    this.hasInfo = !!this.infoMenuActions.length || this.galleryService.config.info?.icon || this.galleryService.config.info?.name;
   }
 
   public ngOnDestroy(): void {

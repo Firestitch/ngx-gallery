@@ -58,6 +58,8 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       layout: GalleryLayout.Flow,
       zoom: true,
       info: {
+        name: true,
+        icon: true,
         menu: {
           actions: [
             {
@@ -66,19 +68,20 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
               },
               click: (item: any) => {
                 console.log(item);
-              }
+              },
             },
             {
               label: 'Delete',
               click: (item: any) => {
                 console.log(item);
-              }
+              },
             },
             {
               label: 'Download',
               click: (item: any) => {
                 window.open(item.image.large);
-              }
+              },
+              show: () => { return true },
             }
           ]
         }
