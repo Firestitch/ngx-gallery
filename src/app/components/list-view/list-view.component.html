@@ -1,5 +1,5 @@
 <ng-container *ngIf="listConfig">
-  <fs-list 
+  <fs-list
       [config]="listConfig"
       [ngClass]="{ 'grid-mode': (galleryConfig.viewMode$ | async) === GalleryView.Gallery }"
       #list>
@@ -10,7 +10,7 @@
             <img [src]="row.preview" alt="" [style.width]="'100px'">
           </ng-container>
           <ng-template #icon>
-            <fs-gallery-file-icon 
+            <fs-gallery-file-icon
               [item]="row"
               [width]="50">
             </fs-gallery-file-icon>
@@ -53,5 +53,11 @@
         </ng-template>
       </fs-list-column>
     </ng-container>
+
+    <ng-template fs-list-empty-state>
+      <div class="fs-gallery-no-results">
+        <ng-template [ngTemplateOutlet]="emptyStateTemplate"></ng-template>
+      </div>
+    </ng-template>
   </fs-list>
 </ng-container>

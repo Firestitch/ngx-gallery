@@ -1,29 +1,34 @@
 <fs-gallery [config]="galleryConfig">
   <ng-template fsGalleryThumbnailPreview let-item="item" let-template="template">
-    <ng-template 
+    <ng-template
       [ngTemplateOutlet]="template"
       [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
-    <div 
-        *ngIf="item.data?.custom" 
+    <div
+        *ngIf="item.data?.custom"
         class="custom">
       Custom
     </div>
   </ng-template>
+
+  <ng-template fsGalleryEmptyState>
+    Custom No Results Message
+  </ng-template>
+
   <ng-template fsGalleryNav let-template="template">
-    <ng-template 
+    <ng-template
       [ngTemplateOutlet]="template">
     </ng-template>
   </ng-template>
   <ng-template fsGalleryThumbnail let-item="item" let-template="template">
-    <ng-template 
-      [ngTemplateOutlet]="template" 
+    <ng-template
+      [ngTemplateOutlet]="template"
       [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
   </ng-template>
   <ng-template fsGalleryPreviewDetails let-item="item" let-template="template">
-    <ng-template 
-      [ngTemplateOutlet]="template" 
+    <ng-template
+      [ngTemplateOutlet]="template"
       [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
   </ng-template>

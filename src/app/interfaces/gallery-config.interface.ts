@@ -18,6 +18,7 @@ export interface FsGalleryConfig {
   showChangeView?: boolean;
   filter?: any;
   upload?: (query) => Observable<any>;
+  emptyState?: FsGalleryEmptyStateConfig;
   fetch?: FsGalleryConfigFetch;
   filters?: IFilterConfigItem[];
   actions?: FsFilterAction[];
@@ -109,4 +110,10 @@ export interface FsGalleryPreviewMenuItem {
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }
 
-export type FsGalleryConfigFetch = (query?: any, item?: FsGalleryItem) => Observable<FsGalleryItem[]>; 
+export type FsGalleryConfigFetch = (query?: any, item?: FsGalleryItem) => Observable<FsGalleryItem[]>;
+
+export interface FsGalleryEmptyStateConfig {
+  validate: FsGalleryStateValidationFn;
+}
+
+export type FsGalleryStateValidationFn = (filters: any, items: unknown[]) => boolean;

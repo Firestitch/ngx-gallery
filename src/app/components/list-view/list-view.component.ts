@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
 import { FsListConfig } from '@firestitch/list';
 
 import { GalleryConfig } from '../../classes/gallery.config';
@@ -29,6 +29,10 @@ export class FsGalleryListViewComponent {
     private _galleryService: FsGalleryService,
   ) {
     this.listConfig = this._galleryService.listConfig;
+  }
+
+  public get emptyStateTemplate(): TemplateRef<any> {
+    return this._galleryService.emptyStateTemplate;
   }
 
   public openPreview = (item) => {

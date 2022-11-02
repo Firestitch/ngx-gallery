@@ -31,6 +31,7 @@ export class FsGalleryService implements OnDestroy {
   public galleryPreviewService: FsGalleryPreviewService;
   public previewTemplate: TemplateRef<any>;
   public thumbnailPreviewTemplate: TemplateRef<any>;
+  public emptyStateTemplate: TemplateRef<any>;
   public thumbnailTemplate: TemplateRef<any>;
   public detailsTemplate: TemplateRef<any>;
   public imageZoom = 0;
@@ -41,7 +42,7 @@ export class FsGalleryService implements OnDestroy {
   public listConfig: FsListConfig;
   public filterConfig: FilterConfig;
   public navItems: FsGalleryItem[] = [];
-  public previewComponent;
+  public emptyStateEnabled = false;
   public filtersReady$ = new Subject<void>();
 
   private _fetch$ = new Subject<void>();
@@ -335,6 +336,7 @@ export class FsGalleryService implements OnDestroy {
       rowActions: this.config.info?.menu?.actions,
       paging: false,
       selection: this.config.selection,
+      emptyState: this.config.emptyState,
       reorder: {
         strategy: ReorderStrategy.Always,
         done: (rows) => {
@@ -356,6 +358,8 @@ export class FsGalleryService implements OnDestroy {
             map((items: FsGalleryItem[]) => {
               this.data$.next(items);
 
+              this._updateEmptyState(query, items);
+
               return {
                 data: items,
                 paging: { records: items.length },
@@ -375,11 +379,11 @@ export class FsGalleryService implements OnDestroy {
     combineLatest([this.fetch$, this.filtersReady$])
       .pipe(
         map(() => {
-          const query = {
-            ...this._filterQuery,
-          };
+          // const query = {
+          //   ...this._filterQuery,
+          // };
 
-          return query;
+          return this._filterQuery;
         }),
         switchMap((query) => {
           if (this._config.fetch) {
@@ -394,6 +398,8 @@ export class FsGalleryService implements OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((data: FsGalleryItem[]) => {
+        this._updateEmptyState(this._filterQuery, data);
+
         this._data$.next(data);
       });
   }
@@ -459,6 +465,12 @@ export class FsGalleryService implements OnDestroy {
   private _restoreThumbnailScaleParams(value: ThumbnailScale) {
     if (value) {
       this._config.setThumbnailScale(value);
+    }
+  }
+
+  private _updateEmptyState(filterQuery: unknown, items: unknown[]): void {
+    if (this.config.emptyState?.validate && this.emptyStateTemplate) {
+      this.emptyStateEnabled = this.config.emptyState?.validate(filterQuery, items);
     }
   }
 

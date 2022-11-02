@@ -29,6 +29,7 @@ import { FsGalleryListColumnDirective } from '../../directives/column.directive'
 import { FsGalleryNavDirective, FsGalleryPreviewDetailsDirective } from '../../directives';
 import { FsGalleryPreviewComponent } from '../gallery-preview';
 import { GalleryPreviewComponentInjector } from '../../injectors';
+import { FsGalleryEmptyStateDirective } from '../../directives/empty-state.directive';
 
 
 @Component({
@@ -69,6 +70,9 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   @ContentChild(FsGalleryThumbnailPreviewDirective, { read: TemplateRef })
   public thumbnailPreviewTemplate: TemplateRef<any> = null;
 
+  @ContentChild(FsGalleryEmptyStateDirective, { read: TemplateRef })
+  public emptyStateTemplate: TemplateRef<any> = null;
+
   @ViewChild(FilterComponent, { static: true })
   public filter: FilterComponent;
 
@@ -103,6 +107,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
     this.galleryService.thumbnailTemplate = this.thumbnailTemplate;
     this.galleryService.detailsTemplate = this.detailsTemplate;
     this.galleryService.thumbnailPreviewTemplate = this.thumbnailPreviewTemplate;
+    this.galleryService.emptyStateTemplate = this.emptyStateTemplate;
     this.galleryService.setListColumns(this._listColumnDirectives.toArray());
   }
 

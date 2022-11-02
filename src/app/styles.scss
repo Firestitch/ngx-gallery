@@ -12,3 +12,9 @@ $header-gradient:   radial-gradient(circle at 27.78% 27.6%, #637073, transparent
 .fs-gallery-preview-open {
   overflow: hidden;
 }
+
+.fs-gallery-no-results {
+  text-align: center;
+  color: #999;
+  padding: 10px 0;
+}

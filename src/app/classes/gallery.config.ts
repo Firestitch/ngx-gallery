@@ -14,7 +14,7 @@ import { GalleryView } from './../enums';
 import {
   FsGalleryConfig, FsGalleryThumbnailConfig, FsGalleryConfigFetch, FsGalleryPersistance,
   FsGalleryDetailsConfig, FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig,
-  FsGalleryPreviewAction, FsGalleryPreviewMenu, FsGalleryInfoConfig
+  FsGalleryPreviewAction, FsGalleryPreviewMenu, FsGalleryInfoConfig, FsGalleryEmptyStateConfig
 } from '../interfaces';
 import { ThumbnailScale, GalleryLayout } from '../enums';
 import { FsGalleryListColumnDirective } from '../directives/column.directive';
@@ -64,6 +64,7 @@ export class GalleryConfig {
   public previewActions: FsGalleryPreviewAction[];
   public previewMenu: FsGalleryPreviewMenu;
   public preview: boolean;
+  public emptyState: FsGalleryEmptyStateConfig;
 
   private _listColumns$ = new BehaviorSubject<FsGalleryListColumnDirective[]>([]);
   private _updateActions$ = new Subject<FsFilterAction[]>();
@@ -148,6 +149,7 @@ export class GalleryConfig {
     this.reorderable = !!data.reorderEnd;
     this.showChangeSize = data.showChangeSize ?? true;
     this.showChangeView = data.showChangeView ?? true;
+    this.emptyState = data.emptyState;
 
     if (data.layout) {
       this.layout = data.layout;

@@ -52,6 +52,11 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       //   heightScale: .5,
       //   size: GalleryThumbnailSize.Cover,
       // },
+      emptyState: {
+        validate: (query, items) => {
+          return items.length === 0;
+        },
+      },
       details: {
         autoOpen: true,
       },

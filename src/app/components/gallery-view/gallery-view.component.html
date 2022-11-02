@@ -26,6 +26,11 @@
 
 <div
     *ngIf="!(data$ | async).length"
-    class="no-results">
-  No Results Found
+    class="fs-gallery-no-results">
+  <ng-container *ngIf="galleryService.emptyStateEnabled else notFound">
+    <ng-template [ngTemplateOutlet]="galleryService.emptyStateTemplate"></ng-template>
+  </ng-container>
+  <ng-template #notFound>
+    No Results Found
+  </ng-template>
 </div>

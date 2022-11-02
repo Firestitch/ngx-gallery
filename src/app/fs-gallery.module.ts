@@ -40,6 +40,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FsLabelModule } from '@firestitch/label';
 import { FsGalleryNavDirective, FsGalleryPreviewDetailsDirective } from './directives';
+import { FsGalleryEmptyStateDirective } from './directives/empty-state.directive';
 
 
 @NgModule({
@@ -85,6 +86,7 @@ import { FsGalleryNavDirective, FsGalleryPreviewDetailsDirective } from './direc
     FsGalleryFolderIconInfoComponent,
     FsGalleryNavComponent,
     FsGalleryNavDirective,
+    FsGalleryEmptyStateDirective,
   ],
   exports: [
     FsGalleryComponent,
@@ -101,6 +103,7 @@ import { FsGalleryNavDirective, FsGalleryPreviewDetailsDirective } from './direc
     FsGalleryPreviewDetailsDirective,
     FsGalleryNavComponent,
     FsGalleryNavDirective,
+    FsGalleryEmptyStateDirective,
   ],
 })
 export class FsGalleryModule {

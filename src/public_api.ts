@@ -27,6 +27,7 @@ export {
   FsGalleryListCellDirective,
   FsGalleryListHeaderDirective,
 } from './app/directives';
+export { FsGalleryEmptyStateDirective } from './app/directives/empty-state.directive';
 
 export {
   FsGalleryConfig,
@@ -39,6 +40,7 @@ export {
   FsGalleryPreviewAction,
   FsGalleryPreviewMenu,
   FsGalleryPreviewMenuItem,
+  FsGalleryEmptyStateConfig,
 } from './app/interfaces';
 
 export { FsGalleryPreviewService, FsGalleryService } from './app/services';
