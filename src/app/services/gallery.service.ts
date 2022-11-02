@@ -5,7 +5,12 @@ import { Location } from '@angular/common';
 
 import { guid, getNormalizedPath } from '@firestitch/common';
 import { FilterComponent, FilterConfig } from '@firestitch/filter';
-import { FsListConfig, FsListNoResultsConfig, ReorderStrategy } from '@firestitch/list';
+import {
+  FsListComponent,
+  FsListConfig,
+  FsListNoResultsConfig,
+  ReorderStrategy
+} from '@firestitch/list';
 
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -53,6 +58,7 @@ export class FsGalleryService implements OnDestroy {
   private _imageHeight: number = null;
   private _config: GalleryConfig = new GalleryConfig({});
   private _filter: FilterComponent;
+  private _lister: FsListComponent;
 
   private _configUpdated$ = new Subject<void>();
   private _destroy$ = new Subject<void>();
@@ -92,6 +98,10 @@ export class FsGalleryService implements OnDestroy {
 
   public setFilter(filter: FilterComponent) {
     this._filter = filter;
+  }
+
+  public setLister(lister: FsListComponent) {
+    this._lister = lister;
   }
 
   public set config(value: GalleryConfig) {
@@ -195,7 +205,7 @@ export class FsGalleryService implements OnDestroy {
     if (this._config.viewModeGallery) {
       this.loadGallery();
     } else if (this._config.viewModeList) {
-      this.filter.reload();
+      this._lister.reload();
     }
   }
 

@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
-import { FsListConfig } from '@firestitch/list';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
+import { FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { GalleryConfig } from '../../classes/gallery.config';
 import { GalleryView, MimeType } from '../../enums';
@@ -12,7 +19,10 @@ import { FsGalleryService } from '../../services/gallery.service';
   styleUrls: ['./list-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryListViewComponent {
+export class FsGalleryListViewComponent implements AfterViewInit {
+
+  @ViewChild(FsListComponent)
+  public listRef: FsListComponent;
 
   public listConfig: FsListConfig;
 
@@ -33,6 +43,10 @@ export class FsGalleryListViewComponent {
 
   public get emptyStateTemplate(): TemplateRef<any> {
     return this._galleryService.emptyStateTemplate;
+  }
+
+  public ngAfterViewInit(): void {
+    this._galleryService.setLister(this.listRef);
   }
 
   public openPreview = (item) => {
