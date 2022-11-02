@@ -348,6 +348,8 @@ export class FsGalleryService implements OnDestroy {
       },
       status: false,
       fetch: (query) => {
+        query = { ...this._filterQuery, ...query };
+
         return this.config.fetch(query, null)
           .pipe(
             map((items: any) => this.mapData(items)),
