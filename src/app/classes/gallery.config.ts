@@ -307,6 +307,7 @@ export class GalleryConfig {
       filterActions.push({
         mode: ActionMode.File,
         label: 'Upload',
+        className: 'fs-gallery-upload-btn',
         color: 'primary',
         select: (file) => {
           this.upload(file)
