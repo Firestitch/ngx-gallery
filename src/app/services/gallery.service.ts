@@ -288,6 +288,15 @@ export class FsGalleryService implements OnDestroy {
     this.config.setListColumns(columns);
   }
 
+  public getInfoItemName(item: FsGalleryItem) {
+    let name: any = item.name;
+    if (this.config.info?.name instanceof Function) {
+      name = this.config.info.name(item);
+    }
+
+    return name;
+  }
+
   public getInfoMenuItemActions(item: FsGalleryItem) {
     if (this.config.info.menu) {
       return this.config.info.menu.actions

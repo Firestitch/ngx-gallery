@@ -63,8 +63,10 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       layout: GalleryLayout.Flow,
       zoom: true,
       info: {
-        name: true,
-        icon: true,
+        // name: (item: FsGalleryItem) => {
+        //   return item.name === 'Scheme' ? item.name : '';
+        // },
+        icon: false,
         menu: {
           actions: [
             {

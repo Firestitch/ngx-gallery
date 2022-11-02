@@ -42,7 +42,7 @@ export class FsGalleryThumbnailComponent implements OnInit {
       });
 
     this.infoMenuActions = this.galleryService.getInfoMenuItemActions(this.item);
-    this.hasInfo = !!this.infoMenuActions.length || this.galleryService.config.info?.icon || this.galleryService.config.info?.name;
+    this.hasInfo = !!this.infoMenuActions.length || this.galleryService.config.info?.icon || !!this.galleryService.getInfoItemName(this.item);
   }
 
   public ngOnDestroy(): void {

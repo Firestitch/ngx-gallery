@@ -17,6 +17,7 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
   @Input() public hasInfo = false;
   @Input() public showIcon;
   @Input() public actions
+  @Input() public name
 
   @Output() public hasInfoChange = new EventEmitter();
 
@@ -33,6 +34,10 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
 
     if (this.actions === undefined) {
       this.actions = this.galleryService.getInfoMenuItemActions(this.item);
+    }
+
+    if (this.name === undefined) {
+      this.name = this.galleryService.getInfoItemName(this.item);
     }
   }
 

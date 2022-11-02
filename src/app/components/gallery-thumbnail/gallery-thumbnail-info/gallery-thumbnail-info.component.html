@@ -1,4 +1,4 @@
-<ng-container *ngIf="showIcon || galleryService.config.info.name || !!actions.length">
+<ng-container *ngIf="showIcon || name || !!actions.length">
   <div class="info">
     <div
         *ngIf="item.mime.type && showIcon"
@@ -7,10 +7,10 @@
     </div>
 
     <div class="name" 
-        *ngIf="galleryService.config.info.name"
+        *ngIf="name"
         [matTooltip]="item.name" 
         [matTooltipClass]="'gallery-thumbnail-tooltip'">
-      <div>{{ item.name }}</div>
+      <div>{{ name }}</div>
     </div>
 
     <fs-menu *ngIf="actions.length">
