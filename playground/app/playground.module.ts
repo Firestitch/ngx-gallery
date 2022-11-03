@@ -21,7 +21,8 @@ import {
   ExampleComponent,
   SimplePreviewComponent,
   ExamplesComponent,
-  ConfigureComponent
+  ConfigureComponent,
+  CoverComponent
 } from './components';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FsScrollModule } from '@firestitch/scroll';
@@ -34,7 +35,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -64,10 +65,11 @@ const routes: Routes = [
     ExamplesComponent,
     ExampleComponent,
     SimplePreviewComponent,
-    ConfigureComponent
+    ConfigureComponent,
+    CoverComponent,
   ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {floatLabel: 'always'}}
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } }
   ]
 })
 export class PlaygroundModule {

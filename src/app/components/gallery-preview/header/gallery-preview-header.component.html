@@ -14,7 +14,8 @@
         mat-icon-button 
         type="button" 
         class="action" 
-        (click)="previewAction.click(item)">
+        (click)="previewAction.click(item)"
+        [matTooltip]="previewAction.tooltip">
       <mat-icon>{{previewAction.icon}}</mat-icon>
     </button>
     <button 
@@ -22,7 +23,8 @@
         mat-icon-button 
         type="button" 
         class="action" 
-        (click)="detailsToggled.emit()">
+        (click)="detailsToggled.emit()"
+        [matTooltip]="'Details'">
       <mat-icon>info_outline</mat-icon>
     </button>
     <ng-container *ngIf="previewMenuItems.length">

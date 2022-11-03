@@ -96,6 +96,7 @@ export interface FsGalleryPreviewAction {
   icon: string,
   click?: (item: FsGalleryItem) => void,
   show?: (item: FsGalleryItem) => boolean,
+  tooltip?: string,
 }
 
 export interface FsGalleryPreviewMenu {
