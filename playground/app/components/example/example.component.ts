@@ -80,6 +80,12 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
                 window.open(item.image.large);
               },
               show: () => { return true },
+            },
+            {
+              label: 'Upload',
+              select: (item: FsGalleryItem, fsFile) => {
+                console.log(item, fsFile);
+              },
             }
           ]
         }

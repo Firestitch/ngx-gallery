@@ -14,12 +14,23 @@
     </div>
 
     <fs-menu *ngIf="actions.length">
-      <ng-template
-          fs-menu-item
-          (click)="menuClick($event, action, item)"
+      <ng-container
           *ngFor="let action of actions">
-        {{action.label}}
-      </ng-template>
+        
+        <ng-template
+          *ngIf="!action.select"
+          fs-menu-item
+          (click)="menuClick($event, action, item)">
+          {{action.label}}
+        </ng-template>
+        <ng-template
+            *ngIf="action.select"
+            fs-menu-file-item
+            (select)="select(action, $event)"
+            [multiple]="action.multiple">
+          {{action.label}}
+        </ng-template>
+      </ng-container>
     </fs-menu>
   </div>
 </ng-container>

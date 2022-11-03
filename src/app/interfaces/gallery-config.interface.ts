@@ -5,6 +5,7 @@ import { FsFilterAction, IFilterConfigItem } from '@firestitch/filter';
 import { FsListNoResultsConfig, FsListSelectionConfig } from '@firestitch/list';
 import { FsGalleryPersistance } from './gallery-persist-config.interface';
 import { MimeType } from '../enums';
+import { FsFile } from '@firestitch/file';
 
 
 export interface FsGalleryConfig {
@@ -84,6 +85,8 @@ export interface FsGalleryInfoMenuActionConfig {
   label?: ((item: FsGalleryItem) => string) | string;
   click?(item: FsGalleryItem): void;
   show?: (item: FsGalleryItem) => boolean;
+  select?: (item: FsGalleryItem, file: FsFile | FsFile[]) => void;
+  multiple?: boolean;
 }
 
 export interface Mime {

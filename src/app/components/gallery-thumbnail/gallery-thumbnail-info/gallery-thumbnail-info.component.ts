@@ -41,6 +41,10 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
     }
   }
 
+  public select(action, file) {
+    action.select(this.item, file);
+  }
+
   public menuClick(event, action, data) {
     action.click(data);
   }
