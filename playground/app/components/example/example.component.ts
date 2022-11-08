@@ -62,7 +62,7 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
           actions: [
             {
               label: (item: FsGalleryItem) => {
-                return `Info ${item.data.description}`;
+                return `Info ${item.data?.description}`;
               },
               click: (item: any) => {
                 console.log(item);

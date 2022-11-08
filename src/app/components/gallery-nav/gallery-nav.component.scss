@@ -2,14 +2,14 @@
   display: flex;
   align-items: center;
   color: #717171;
-  margin-bottom: 15px;
+  margin-bottom: 2px;
   user-select: none;
 
   mat-icon {
     margin: 0 5px;
   }
 
-  a {
+  a.name {
     color: inherit;
   }
 }
