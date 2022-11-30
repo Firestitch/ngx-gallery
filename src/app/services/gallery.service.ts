@@ -9,7 +9,6 @@ import {
   FsListComponent,
   FsListConfig,
   FsListNoResultsConfig,
-  ReorderStrategy
 } from '@firestitch/list';
 
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
@@ -357,7 +356,6 @@ export class FsGalleryService implements OnDestroy {
       selection: this.config.selection,
       emptyState: this.config.emptyState,
       reorder: {
-        strategy: ReorderStrategy.Always,
         done: (rows) => {
           const rowsData = rows.map((row) => {
             return row.data;
