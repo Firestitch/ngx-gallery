@@ -9,6 +9,7 @@ import {
   FsListComponent,
   FsListConfig,
   FsListNoResultsConfig,
+  FsListReorderConfig,
 } from '@firestitch/list';
 
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
@@ -333,12 +334,11 @@ export class FsGalleryService implements OnDestroy {
     const rowActions = (this.config.info?.menu?.items || [])
       .filter((item) => item.click);
 
-    this.listConfig = {
-      rowActions,
-      paging: false,
-      selection: this.config.selection,
-      emptyState: this.config.emptyState,
-      reorder: {
+    let reorder: FsListReorderConfig = null;
+
+    if (this.config.reorderEnd) {
+      reorder = {
+        ...reorder,
         done: (rows) => {
           const rowsData = rows.map((row) => {
             return row.data;
@@ -346,8 +346,25 @@ export class FsGalleryService implements OnDestroy {
 
           this.data$.next(rowsData);
           this.config.reorderEnd(rowsData);
-        }
-      },
+        },
+      };
+    }
+
+    if (this.config.reorderStart) {
+      reorder = {
+        ...reorder,
+        start: () => {
+          this.config.reorderStart({});
+        },
+      };
+    }
+
+    this.listConfig = {
+      rowActions,
+      paging: false,
+      selection: this.config.selection,
+      emptyState: this.config.emptyState,
+      reorder,
       status: false,
       fetch: (query) => {
         query = { ...this._filterQuery, ...query };

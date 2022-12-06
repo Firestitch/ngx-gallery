@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { processMenuItems } from '@firestitch/gallery';
+import { processMenuItems } from '../../helpers';
 
 import { FsGalleryItem, FsGalleryItemAction, FsGalleryMenuItem } from '../../interfaces';
 
