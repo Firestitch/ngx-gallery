@@ -1,7 +1,7 @@
 import { delay, takeUntil } from 'rxjs/operators';
 import { Component, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 
-import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType, ThumbnailScale } from '@firestitch/gallery';
+import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
 
 import { Observable, of, Subject } from 'rxjs';
@@ -12,6 +12,7 @@ import { SelectionActionType } from '@firestitch/selection';
 import { GalleryThumbnailSize } from 'src/app/enums';
 import { FsPrompt } from '@firestitch/prompt';
 import { getItems } from 'playground/app/helpers';
+import { FsFile } from '@firestitch/file';
 
 
 @Component({
@@ -59,7 +60,7 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       info: {
         icon: false,
         menu: {
-          actions: [
+          items: [
             {
               label: (item: FsGalleryItem) => {
                 return `Info ${item.data?.description}`;
@@ -234,6 +235,13 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
               });
           },
           tooltip: 'Delete',
+        },
+        {
+          tooltip: 'Re-upload',
+          icon: 'upload',
+          select: (item: FsGalleryItem, fsFile: FsFile) => {
+            console.log(item, fsFile);
+          }
         }
       ],
       previewMenu: {
@@ -248,6 +256,17 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
             label: (item) => {
               return 'Delete';
             },
+            click: (item: FsGalleryItem) => {
+              console.log('Delete Click');
+            }
+          },
+          {
+            label: (item) => {
+              return 'Re-upload';
+            },
+            select: (item: FsGalleryItem, fsFile: FsFile) => {
+              console.log(item, fsFile);
+            }
           }
         ]
       },

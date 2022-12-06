@@ -306,26 +306,6 @@ export class FsGalleryService implements OnDestroy {
     return name;
   }
 
-  public getInfoMenuItemActions(item: FsGalleryItem) {
-    if (this.config.info.menu) {
-      return this.config.info.menu.actions
-        .filter((action) => {
-          return !action.show || action.show(item);
-        })
-        .map((action) => {
-          const label = action.label instanceof Function ?
-            action.label(item) : action.label;
-
-          return {
-            ...action,
-            label,
-          };
-        });
-    }
-
-    return [];
-  }
-
   private _initFilterConfig() {
     this.filterConfig = {
       items: this.config.filterConfig.items,
@@ -350,8 +330,11 @@ export class FsGalleryService implements OnDestroy {
   }
 
   private _initListConfig(): void {
+    const rowActions = (this.config.info?.menu?.items || [])
+      .filter((item) => item.click);
+
     this.listConfig = {
-      rowActions: this.config.info?.menu?.actions,
+      rowActions,
       paging: false,
       selection: this.config.selection,
       emptyState: this.config.emptyState,

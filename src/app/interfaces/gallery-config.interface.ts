@@ -27,9 +27,9 @@ export interface FsGalleryConfig {
   zoom?: boolean;
   reorderEnd?(data: any): any,
   reorderStart?(event: { item: FsGalleryItem; el: any; source: any, handle: any, sibling: any }): boolean,
-  previewBeforeOpen?(item: FsGalleryItem): Observable<FsGalleryItem>,
-  previewOpened?(item: FsGalleryItem): any,
-  previewClosed?(item: FsGalleryItem): any,
+  previewBeforeOpen?(galleryItem: FsGalleryItem): Observable<FsGalleryItem>,
+  previewOpened?(galleryItem: FsGalleryItem): any,
+  previewClosed?(galleryItem: FsGalleryItem): any,
   previewActions?: FsGalleryPreviewAction[],
   previewMenu?: FsGalleryPreviewMenu,
   preview?: boolean,
@@ -69,24 +69,16 @@ export interface FsGalleryItemContains {
 
 export interface FsGalleryInfoConfig {
   icon?: boolean;
-  name?: ((item: FsGalleryItem) => string) | boolean;
+  name?: ((galleryItem: FsGalleryItem) => string) | boolean;
   menu?: FsGalleryInfoMenuConfig;
 }
 
 export interface FsGalleryInfoMenuConfig {
-  actions?: FsGalleryInfoMenuActionConfig[];
+  items?: FsGalleryMenuItem[];
 }
 
 export interface FsGalleryDetailsConfig {
   autoOpen?: boolean,
-}
-
-export interface FsGalleryInfoMenuActionConfig {
-  label?: ((item: FsGalleryItem) => string) | string;
-  click?(item: FsGalleryItem): void;
-  show?: (item: FsGalleryItem) => boolean;
-  select?: (item: FsGalleryItem, file: FsFile | FsFile[]) => void;
-  multiple?: boolean;
 }
 
 export interface Mime {
@@ -95,21 +87,29 @@ export interface Mime {
   color?: string,
 }
 
-export interface FsGalleryPreviewAction {
+export interface FsGalleryPreviewAction extends FsGalleryItemAction {
   icon: string,
-  click?: (item: FsGalleryItem) => void,
-  show?: (item: FsGalleryItem) => boolean,
   tooltip?: string,
 }
 
 export interface FsGalleryPreviewMenu {
-  items: FsGalleryPreviewMenuItem[],
+  items: FsGalleryMenuItem[],
 }
 
-export interface FsGalleryPreviewMenuItem {
-  label?: ((item: FsGalleryItem) => string) | string;
-  click?: (item: FsGalleryItem) => void,
-  show?: (item: FsGalleryItem) => boolean,
+export interface FsGalleryMenuItem extends FsGalleryItemAction {
+  label?: ((galleryItem: FsGalleryItem) => string) | string;
+}
+
+export interface FsGalleryInfoMenuAction extends FsGalleryItemAction {
+  label?: ((galleryItem: FsGalleryItem) => string) | string;
+  show?: (galleryItem: FsGalleryItem) => boolean;
+}
+
+export interface FsGalleryItemAction {
+  click?: (galleryItem: FsGalleryItem) => void;
+  show?: (galleryItem: FsGalleryItem) => boolean;
+  select?: (galleryItem: FsGalleryItem, file: FsFile | FsFile[]) => void;
+  multiple?: boolean;
 }
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }

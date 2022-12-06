@@ -33,7 +33,7 @@ import { FsGalleryListColumnDirective } from './directives/column.directive';
 import { FsGalleryListCellDirective } from './directives/cell.directive';
 import { FsGalleryListHeaderDirective } from './directives/header.directive';
 import {
-  FsGalleryFolderIconInfoComponent, FsGalleryIconComponent, FsGalleryNavComponent,
+  FsGalleryFolderIconInfoComponent, FsGalleryIconComponent, FsGalleryMenuComponent, FsGalleryNavComponent,
   FsGalleryPreviewDetailsComponent, FsGalleryThumbnailInfoComponent, FsGalleryThumbnailPreviewComponent
 } from './components';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -87,6 +87,7 @@ import { FsGalleryEmptyStateDirective } from './directives/empty-state.directive
     FsGalleryNavComponent,
     FsGalleryNavDirective,
     FsGalleryEmptyStateDirective,
+    FsGalleryMenuComponent,
   ],
   exports: [
     FsGalleryComponent,

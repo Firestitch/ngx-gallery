@@ -1,4 +1,4 @@
-<ng-container *ngIf="showIcon || name || !!actions.length">
+<ng-container *ngIf="showIcon || name || !!menuItems.length">
   <div class="info">
     <div
         *ngIf="item.mime.type && showIcon"
@@ -12,25 +12,9 @@
         [matTooltipClass]="'gallery-thumbnail-tooltip'">
       <div>{{ name }}</div>
     </div>
-
-    <fs-menu *ngIf="actions.length">
-      <ng-container
-          *ngFor="let action of actions">
-        
-        <ng-template
-          *ngIf="!action.select"
-          fs-menu-item
-          (click)="menuClick($event, action, item)">
-          {{action.label}}
-        </ng-template>
-        <ng-template
-            *ngIf="action.select"
-            fs-menu-file-item
-            (select)="select(action, $event)"
-            [multiple]="action.multiple">
-          {{action.label}}
-        </ng-template>
-      </ng-container>
-    </fs-menu>
+    <fs-gallery-menu
+      [item]="item"
+      [menuItems]="menuItems">
+    </fs-gallery-menu>
   </div>
 </ng-container>

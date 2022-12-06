@@ -8,16 +8,25 @@
       <mat-icon>arrow_back_ios_new</mat-icon>
     </button>
   </div>
-  <div class="actions right">   
-    <button 
-        *ngFor="let previewAction of previewActions"
-        mat-icon-button 
-        type="button" 
-        class="action" 
-        (click)="previewAction.click(item)"
-        [matTooltip]="previewAction.tooltip">
-      <mat-icon>{{previewAction.icon}}</mat-icon>
-    </button>
+  <div class="actions right">  
+    <ng-container *ngFor="let previewAction of previewActions">
+      <ng-container *ngIf="previewAction.select">
+        <fs-file class="action" (select)="previewAction.select(item, $event)">
+          <ng-container 
+            [ngTemplateOutlet]="previewActionButton"
+            [ngTemplateOutletContext]="{ previewAction: previewAction }">
+          </ng-container>
+        </fs-file>
+      </ng-container>
+      <ng-container *ngIf="!previewAction.select">
+        <span class="action">
+          <ng-container 
+            [ngTemplateOutlet]="previewActionButton"
+            [ngTemplateOutletContext]="{ previewAction: previewAction }">
+          </ng-container>
+        </span>
+      </ng-container>      
+    </ng-container>
     <button 
         *ngIf="galleryService.config.details"
         mat-icon-button 
@@ -27,15 +36,19 @@
         [matTooltip]="'Details'">
       <mat-icon>info_outline</mat-icon>
     </button>
-    <ng-container *ngIf="previewMenuItems.length">
-      <fs-menu>
-        <ng-template 
-            fs-menu-item 
-            *ngFor="let menuItem of previewMenuItems"
-            (click)="menuItem.click(item)">
-          {{menuItem.label}}
-        </ng-template>
-      </fs-menu>
-    </ng-container>
+    <fs-gallery-menu
+      [item]="item"
+      [menuItems]="previewMenuItems">
+    </fs-gallery-menu>
   </div>
 </div>
+
+<ng-template #previewActionButton let-previewAction="previewAction">
+  <button 
+      mat-icon-button 
+      type="button" 
+      (click)="previewActionClick(previewAction)"
+      [matTooltip]="previewAction.tooltip">
+    <mat-icon>{{previewAction.icon}}</mat-icon>
+  </button>
+</ng-template>

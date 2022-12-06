@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { FsGalleryService } from '../../services';
 import { FsGalleryItem } from '../../interfaces';
 import { GalleryLayout } from '../../enums';
+import { processMenuItems } from '../../helpers';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class FsGalleryThumbnailComponent implements OnInit {
 
   public galleryLayout = GalleryLayout;
   public hasInfo = false;
-  public infoMenuActions = [];
+  public infoMenuItems = [];
 
   private _destroy$ = new Subject();
 
@@ -41,8 +42,8 @@ export class FsGalleryThumbnailComponent implements OnInit {
         this._cdRef.markForCheck();
       });
 
-    this.infoMenuActions = this.galleryService.getInfoMenuItemActions(this.item);
-    this.hasInfo = !!this.infoMenuActions.length || this.galleryService.config.info?.icon || !!this.galleryService.getInfoItemName(this.item);
+    this.infoMenuItems = processMenuItems(this.galleryService.config.info?.menu?.items || [], this.item);
+    this.hasInfo = !!this.infoMenuItems.length || this.galleryService.config.info?.icon || !!this.galleryService.getInfoItemName(this.item);
   }
 
   public ngOnDestroy(): void {

@@ -35,11 +35,11 @@ export {
   FsGalleryNoResultsConfig,
   FsGalleryDataItem,
   FsGalleryThumbnailConfig,
-  FsGalleryInfoMenuActionConfig,
+  FsGalleryInfoMenuAction,
   FsGalleryInfoMenuConfig,
   FsGalleryPreviewAction,
   FsGalleryPreviewMenu,
-  FsGalleryPreviewMenuItem,
+  FsGalleryMenuItem,
   FsGalleryEmptyStateConfig,
 } from './app/interfaces';
 

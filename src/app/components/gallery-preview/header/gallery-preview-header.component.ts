@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { FsGalleryItem, FsGalleryPreviewAction, FsGalleryPreviewMenuItem } from '../../../interfaces';
+import { FsGalleryItem, FsGalleryItemAction, FsGalleryPreviewAction, FsGalleryMenuItem } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
 
 
@@ -18,31 +18,27 @@ export class FsGalleryPreviewHeaderComponent implements OnChanges {
   @Output() public previewClosed = new EventEmitter<void>();
   @Output() public detailsToggled = new EventEmitter<void>();
 
-  public previewMenuItems = [];
-  public previewActions = [];
+  public previewMenuItems: FsGalleryMenuItem[] = [];
+  public previewActions: FsGalleryPreviewAction[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
-      const previewMenuItems = this.galleryService.config.previewMenu?.items || [];
-      if (previewMenuItems) {
-        this.previewMenuItems = previewMenuItems
-          .filter((item: FsGalleryPreviewMenuItem) => {
-            return !item.show || item.show(this.item);
-          })
-          .map((item: FsGalleryPreviewMenuItem) => {
-            return {
-              ...item,
-              label: item.label instanceof Function ?
-                item.label(this.item) : item.label,
-            }
-          });
-      }
-
-      this.previewActions = this.galleryService.config.previewActions
-        .filter((item: FsGalleryPreviewAction) => {
-          return !item.show || item.show(this.item);
-        });
+      this.previewMenuItems = this.galleryService.config.previewMenu?.items || [];
+      this.previewActions = this._processGalleryItemAction(this.galleryService.config.previewActions);
     }
+  }
+
+  public previewActionClick(action: FsGalleryMenuItem) {
+    if (action.click) {
+      action.click(this.item);
+    }
+  }
+
+  public _processGalleryItemAction(actions: FsGalleryItemAction[]): any {
+    return actions
+      .filter((item: FsGalleryItemAction) => {
+        return !item.show || item.show(this.item);
+      });
   }
 
 }
