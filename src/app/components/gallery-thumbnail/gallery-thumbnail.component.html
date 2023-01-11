@@ -37,11 +37,6 @@
   </fs-gallery-thumbnail-info>
 </ng-template>
 
-<ng-template #template>
-  <ng-container *ngTemplateOutlet="previewTemplate"></ng-container>
-  <ng-container *ngTemplateOutlet="infoTemplate"></ng-container>
-</ng-template>
-
 <ng-template #previewTemplate>
   <fs-gallery-thumbnail-preview  
     [imageHeight]="galleryService.imageHeight" 
