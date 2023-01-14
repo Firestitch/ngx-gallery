@@ -69,7 +69,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     this._initAvailableImages();
     this.setActiveItem(this._item);
     this.classCarousel = this.galleryConfig.showCarousel;
-    this.drawer.opened = this.galleryConfig.details.autoOpen;
+    this.drawer.opened = window.innerWidth > 600 && this.galleryConfig.details.autoOpen;
 
     this._router.events
       .pipe(
