@@ -2,7 +2,7 @@
   "name": "@firestitch/gallery",
   "title": "Gallery",
   "description": "@firestitch/gallery",
-  "version": "12.9.8",
+  "version": "12.9.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-gallery"

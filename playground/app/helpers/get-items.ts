@@ -68,6 +68,13 @@ export function getItems(): FsGalleryItem[] {
     {
       data: {
         id: 8,
+        description: 'Image 8 description',
+      },
+      name: 'Giraffe.jpg',
+    },
+    {
+      data: {
+        id: 8,
         description: 'PDF description',
       },
       name: 'Document',

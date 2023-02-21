@@ -4,7 +4,7 @@
     [style.height]="(imageHeight ? imageHeight + 'px' :null)"
     [style.width]="(imageWidth ? imageWidth + 'px' :null)"
     [ngClass]="{
-      'previewable': config.preview,
+      'previewable': config.preview && item.preview,
       'file-folder': item.folder,
       'file-image': item.mime.type === MimeType.Image,
       'file-video': item.mime.type === MimeType.Video,
@@ -20,25 +20,31 @@
 </div>
 
 <ng-template #template>
-  <ng-container [ngSwitch]="item.mime.type">
-    <ng-template [ngSwitchCase]="MimeType.Image">
-      <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Cover">
-        <div class="image-cover"        
-          [style.backgroundSize]="config.thumbnail.size"
-          [style.backgroundPosition]="config.thumbnail.position"
-          [style.backgroundImage]="'url(' + item.preview + ')'">
-        </div> 
-      </ng-container>
-      <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Contain">
-        <img class="image-contain" [src]="item.preview">
-      </ng-container>
-    </ng-template>
-  
-    <ng-template ngSwitchDefault>
-      <fs-gallery-file-icon 
-        [width]="iconWidth"
-        [item]="item">
-      </fs-gallery-file-icon>
-    </ng-template>
+  <ng-container *ngIf="item.preview; else fileIcon">
+    <ng-container [ngSwitch]="item.mime.type">
+      <ng-template [ngSwitchCase]="MimeType.Image">
+        <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Cover">
+          <div class="image-cover"        
+            [style.backgroundSize]="config.thumbnail.size"
+            [style.backgroundPosition]="config.thumbnail.position"
+            [style.backgroundImage]="'url(' + item.preview + ')'">
+          </div> 
+        </ng-container>
+        <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Contain">
+          <img class="image-contain" [src]="item.preview">
+        </ng-container>
+      </ng-template>
+    
+      <ng-template ngSwitchDefault>
+        <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
+      </ng-template>
+    </ng-container>
   </ng-container>
+</ng-template>
+
+<ng-template #fileIcon>
+  <fs-gallery-file-icon 
+    [width]="iconWidth"
+    [item]="item">
+  </fs-gallery-file-icon>
 </ng-template>
