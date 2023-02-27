@@ -23,26 +23,40 @@ export class FsGalleryFileIconComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
       this.color = this.item.mime.color || '#cccccc';
-      this.darkColor = this.hue(this.color, -50);
+      this.darkColor = this.hue(this.color, -30);
     }
 
-    if (changes.width) {
+    if (changes.width && this.width) {
       this.fontSize = this.width * .2;
     }
 
-    if (changes.height) {
+    if (changes.height && this.height) {
       this.fontSize = this.height * .15;
     }
   }
 
-  public hue(col, amt) {
-    col = col.replace(/^#/, '');
-    const num = parseInt(col, 16);
-    const r = (num >> 16) + amt;
-    const b = ((num >> 8) & 0x00FF) + amt;
-    const g = (num & 0x0000FF) + amt;
-    const newColor = g | (b << 8) | (r << 16);
-    return `#${newColor.toString(16)}`;
+  public hue(hex, percent) {
+    // strip the leading # if it's there
+    hex = hex.replace(/^\s*#|\s*$/g, "");
+
+    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+    if (hex.length === 3) {
+      hex = hex.replace(/(.)/g, "$1$1");
+    }
+
+    let r = parseInt(hex.substr(0, 2), 16);
+    let g = parseInt(hex.substr(2, 2), 16);
+    let b = parseInt(hex.substr(4, 2), 16);
+
+    const calculatedPercent = (100 + percent) / 100;
+
+    r = Math.round(Math.min(255, Math.max(0, r * calculatedPercent)));
+    g = Math.round(Math.min(255, Math.max(0, g * calculatedPercent)));
+    b = Math.round(Math.min(255, Math.max(0, b * calculatedPercent)));
+
+    return `#${r.toString(16).toUpperCase()}${g.toString(16).toUpperCase()}${b
+      .toString(16)
+      .toUpperCase()}`;
   }
 
 }

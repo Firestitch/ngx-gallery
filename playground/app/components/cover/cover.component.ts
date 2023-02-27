@@ -40,7 +40,7 @@ export class CoverComponent implements OnInit, OnDestroy {
       showChangeView: true,
       thumbnail: {
         width: 250,
-        heightScale: .5,
+        heightScale: .7,
         size: GalleryThumbnailSize.Cover,
       },
       fetch: (query, item: FsGalleryItem): Observable<FsGalleryItem[]> => {

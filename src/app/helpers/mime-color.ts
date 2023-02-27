@@ -20,7 +20,7 @@ export function mimeColor(extension: string, folder: boolean): string {
       if (folder) {
         return '#FFCA28';
       } else if (extension.match(/(jpe?g|png|gif|tiff?|bmp)/i)) {
-        return '#B3C51C';
+        return '#a9c51c';
       } else if (extension.match(/(mov|avi|wmv|flv|3gp|mp4|mpg|mp3)/i)) {
         return '#A459AE';
       }

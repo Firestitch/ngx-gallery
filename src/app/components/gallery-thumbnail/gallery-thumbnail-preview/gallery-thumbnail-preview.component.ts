@@ -20,7 +20,8 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy 
   @Input() public imageWidth: number;
 
   public MimeType = MimeType;
-  public iconWidth = 80;
+  public iconWidth;
+  public iconHeight;
   public GalleryThumbnailSize = GalleryThumbnailSize;
   public styles = {
     width: null,
@@ -35,14 +36,17 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy 
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.imageWidth || changes.imageHeight) {
-      if (this.imageWidth) {
-        this.iconWidth = this.imageWidth * .4;
-      } else if (this.imageHeight) {
-        this.iconWidth = this.imageHeight * .4;
+      if (this.imageHeight > this.imageWidth) {
+        this.iconHeight = this.imageHeight * .7;
+        this.iconHeight = this.iconHeight > 90 ? 90 : this.iconHeight;
+        this.iconWidth = null;
+      } else {
+        this.iconWidth = this.imageWidth * .5;
+        this.iconWidth = this.iconWidth > 70 ? 70 : this.iconWidth;
+        this.iconHeight = null;
       }
     }
 
-    this.iconWidth = this.iconWidth > 120 ? 120 : this.iconWidth;
   }
 
   public click(item: FsGalleryItem) {

@@ -44,7 +44,8 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       allow: 'image/*, application/pdf, video/*',
       multiple: true,
       thumbnail: {
-        height: 180,
+        //height: 100,
+        width: 250,
         size: GalleryThumbnailSize.Contain,
       },
       emptyState: {
@@ -58,6 +59,7 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
       layout: GalleryLayout.Flow,
       zoom: true,
       info: {
+        name: true,
         icon: false,
         menu: {
           items: [
