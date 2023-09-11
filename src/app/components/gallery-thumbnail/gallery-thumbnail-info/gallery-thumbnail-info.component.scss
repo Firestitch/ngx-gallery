@@ -22,6 +22,7 @@
     position: relative;
     flex-wrap: wrap;
     padding: 2px 4px;
+
     ::ng-deep {
       .pill {
         margin-right: 4px;
@@ -59,7 +60,8 @@
     }
   }
 
-  fs-gallery-icon {
+  fs-gallery-menu {
+    align-items: center;
     display: flex;
   }
 }
