@@ -1,35 +1,35 @@
 import {
-  Component,
-  Input,
-  ContentChild,
-  ViewChild,
-  TemplateRef,
-  OnInit,
-  OnDestroy,
   AfterContentInit,
-  Output,
-  EventEmitter,
-  ContentChildren,
-  QueryList,
   ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 
 import { FilterComponent } from '@firestitch/filter';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 
-import { FsGalleryService } from '../../services';
-import { GalleryView } from './../../enums';
-import { PersistanceController, GalleryConfig } from '../../classes';
-import { FsGalleryItem, FsGalleryConfig } from '../../interfaces';
-import { FsGalleryThumbnailPreviewDirective } from '../../directives/gallery-thumbnail-preview.directive';
-import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.directive';
-import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
-import { FsGalleryListColumnDirective } from '../../directives/column.directive';
+import { GalleryConfig, PersistanceController } from '../../classes';
 import { FsGalleryNavDirective, FsGalleryPreviewDetailsDirective } from '../../directives';
-import { FsGalleryPreviewComponent } from '../gallery-preview';
-import { GalleryPreviewComponentInjector } from '../../injectors';
+import { FsGalleryListColumnDirective } from '../../directives/column.directive';
 import { FsGalleryEmptyStateDirective } from '../../directives/empty-state.directive';
+import { FsGalleryPreviewDirective } from '../../directives/gallery-preview.directive';
+import { FsGalleryThumbnailPreviewDirective } from '../../directives/gallery-thumbnail-preview.directive';
+import { FsGalleryThumbnailDirective } from '../../directives/gallery-thumbnail.directive';
+import { GalleryPreviewComponentInjector } from '../../injectors';
+import { FsGalleryConfig, FsGalleryItem } from '../../interfaces';
+import { FsGalleryService } from '../../services';
+import { FsGalleryPreviewComponent } from '../gallery-preview';
+import { GalleryView } from './../../enums';
 
 
 @Component({
@@ -125,6 +125,10 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public get hasFilter() {
+    if (!this.galleryService.filterConfig) {
+      return false;
+    }
+
     const actions = this.galleryService.filterConfig.actions
       .some((action) => {
         return !action.show || action.show();

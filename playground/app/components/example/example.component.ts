@@ -1,18 +1,16 @@
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { delay, takeUntil } from 'rxjs/operators';
-import { Component, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 
-import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType } from '@firestitch/gallery';
 import { ItemType } from '@firestitch/filter';
+import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType } from '@firestitch/gallery';
 
-import { Observable, of, Subject } from 'rxjs';
-import { ConfigureComponent } from '../configure/configure.component';
-import { clone } from 'lodash-es';
 import { FsExampleComponent } from '@firestitch/example';
-import { SelectionActionType } from '@firestitch/selection';
-import { GalleryThumbnailSize } from 'src/app/enums';
-import { FsPrompt } from '@firestitch/prompt';
-import { getItems } from 'playground/app/helpers';
 import { FsFile } from '@firestitch/file';
+import { FsPrompt } from '@firestitch/prompt';
+import { SelectionActionType } from '@firestitch/selection';
+import { getItems } from 'playground/app/helpers';
+import { Observable, of, Subject } from 'rxjs';
+import { GalleryThumbnailSize } from 'src/app/enums';
 
 
 @Component({
@@ -290,11 +288,7 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public ngAfterViewInit() {
-    this.example.setConfigureComponent(ConfigureComponent, {
-      config: this.gallery.config,
-      defaultConfig: clone(this.gallery.config),
-      galleryService: this.gallery.galleryService
-    });
+
   }
 
   public switchOrder() {

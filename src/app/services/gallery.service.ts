@@ -3,7 +3,7 @@ import { Inject, Injectable, Injector, OnDestroy, TemplateRef } from '@angular/c
 import { Overlay } from '@angular/cdk/overlay';
 import { Location } from '@angular/common';
 
-import { guid, getNormalizedPath } from '@firestitch/common';
+import { getNormalizedPath, guid } from '@firestitch/common';
 import { FilterComponent, FilterConfig } from '@firestitch/filter';
 import {
   FsListComponent,
@@ -12,21 +12,21 @@ import {
   FsListReorderConfig,
 } from '@firestitch/list';
 
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { round } from 'lodash-es';
 import { DragulaService } from 'ng2-dragula';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { GalleryConfig } from '../classes/gallery.config';
+import { PersistanceController } from '../classes/persistance-controller';
+import { FsGalleryListColumnDirective } from '../directives/column.directive';
+import { MimeType } from '../enums';
+import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
+import { mimeColor } from '../helpers';
+import { mime } from '../helpers/mime';
+import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
 import { FsGalleryItem, FsGalleryPersistance } from '../interfaces';
 import { FsGalleryPreviewService } from './gallery-preview.service';
-import { MimeType } from '../enums';
-import { mime } from '../helpers/mime';
-import { PersistanceController } from '../classes/persistance-controller';
-import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
-import { FsGalleryListColumnDirective } from '../directives/column.directive';
-import { mimeColor } from '../helpers';
-import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
 
 
 @Injectable()
@@ -316,9 +316,9 @@ export class FsGalleryService implements OnDestroy {
         this.reload();
       },
       actions: this.config.filterConfig.actions,
-      reload: () => {
+      reload: this.config.reload ? () => {
         this.reload();
-      },
+      } : null,
     };
 
     this.config.updateActions$

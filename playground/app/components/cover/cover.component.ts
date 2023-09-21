@@ -1,17 +1,11 @@
-import { delay, takeUntil } from 'rxjs/operators';
-import { Component, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { delay } from 'rxjs/operators';
 
-import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType, ThumbnailScale } from '@firestitch/gallery';
-import { ItemType } from '@firestitch/filter';
+import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, MimeType } from '@firestitch/gallery';
 
-import { Observable, of, Subject } from 'rxjs';
-import { ConfigureComponent } from '../configure/configure.component';
-import { clone } from 'lodash-es';
-import { FsExampleComponent } from '@firestitch/example';
-import { SelectionActionType } from '@firestitch/selection';
-import { GalleryThumbnailSize } from 'src/app/enums';
-import { FsPrompt } from '@firestitch/prompt';
 import { getItems } from 'playground/app/helpers';
+import { Observable, of, Subject } from 'rxjs';
+import { GalleryThumbnailSize } from 'src/app/enums';
 
 
 @Component({
@@ -38,6 +32,7 @@ export class CoverComponent implements OnInit, OnDestroy {
     this.galleryConfig = {
       showChangeSize: true,
       showChangeView: true,
+      reload: false,
       thumbnail: {
         width: 250,
         heightScale: .7,

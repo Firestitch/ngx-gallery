@@ -1,6 +1,5 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-import { FsListSelectionConfig } from '@firestitch/list';
 import {
   ActionMode,
   ActionType,
@@ -8,15 +7,22 @@ import {
   FsFilterAction,
   IFilterConfigItem,
 } from '@firestitch/filter';
+import { FsListSelectionConfig } from '@firestitch/list';
 
-import { GalleryView } from './../enums';
-import {
-  FsGalleryConfig, FsGalleryThumbnailConfig, FsGalleryConfigFetch, FsGalleryPersistance,
-  FsGalleryDetailsConfig, FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig,
-  FsGalleryPreviewAction, FsGalleryPreviewMenu, FsGalleryInfoConfig, FsGalleryEmptyStateConfig
-} from '../interfaces';
-import { ThumbnailScale, GalleryLayout } from '../enums';
 import { FsGalleryListColumnDirective } from '../directives/column.directive';
+import { GalleryLayout, ThumbnailScale } from '../enums';
+import {
+  FsGalleryConfig,
+  FsGalleryConfigFetch,
+  FsGalleryDetailsConfig,
+  FsGalleryEmptyStateConfig,
+  FsGalleryInfoConfig,
+  FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig,
+  FsGalleryPersistance,
+  FsGalleryPreviewAction, FsGalleryPreviewMenu,
+  FsGalleryThumbnailConfig
+} from '../interfaces';
+import { GalleryView } from './../enums';
 
 
 export class GalleryConfig {
@@ -63,6 +69,7 @@ export class GalleryConfig {
   public previewActions: FsGalleryPreviewAction[];
   public previewMenu: FsGalleryPreviewMenu;
   public preview: boolean;
+  public reload: boolean;
   public emptyState: FsGalleryEmptyStateConfig;
 
   private _listColumns$ = new BehaviorSubject<FsGalleryListColumnDirective[]>([]);
@@ -148,6 +155,7 @@ export class GalleryConfig {
     this.reorderable = !!data.reorderEnd;
     this.showChangeSize = data.showChangeSize ?? true;
     this.showChangeView = data.showChangeView ?? true;
+    this.reload = data.reload ?? true;
     this.emptyState = data.emptyState;
 
     if (data.layout) {

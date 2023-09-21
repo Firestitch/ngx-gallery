@@ -114,22 +114,9 @@
       .mat-drawer-content {
         display: flex;
         flex-direction: column;
+        padding-bottom: 10px;
+        box-sizing: border-box;
       }
     }
   }
 }
-
-
-// @media (max-width: 600px)  {
-//   .fs-gallery-preview {
-//     .wrap {
-//       .panel {
-//         .preview {
-//           .action {
-//             display: none !important;
-//           }
-//         }
-//       }
-//     }
-//   }
-// }

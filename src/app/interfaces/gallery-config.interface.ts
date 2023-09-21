@@ -1,11 +1,11 @@
-import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
-import { Observable } from 'rxjs';
-import { GalleryLayout } from '../enums/gallery-layout.enum';
+import { FsFile } from '@firestitch/file';
 import { FsFilterAction, IFilterConfigItem } from '@firestitch/filter';
 import { FsListNoResultsConfig, FsListSelectionConfig } from '@firestitch/list';
-import { FsGalleryPersistance } from './gallery-persist-config.interface';
+import { Observable } from 'rxjs';
 import { MimeType } from '../enums';
-import { FsFile } from '@firestitch/file';
+import { GalleryLayout } from '../enums/gallery-layout.enum';
+import { FsGalleryPersistance } from './gallery-persist-config.interface';
+import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
 
 
 export interface FsGalleryConfig {
@@ -17,6 +17,7 @@ export interface FsGalleryConfig {
   layout?: GalleryLayout;
   showChangeSize?: boolean;
   showChangeView?: boolean;
+  reload?: boolean;
   filter?: any;
   upload?: (query) => Observable<any>;
   emptyState?: FsGalleryEmptyStateConfig;
@@ -46,7 +47,6 @@ export interface FsGalleryConfig {
 export interface FsGalleryMapping {
   name?: string,
   preview?: string,
-  previewMedium?: string,
   previewLarge?: string,
   url?: string,
   extension?: string,
