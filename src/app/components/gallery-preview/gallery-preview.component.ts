@@ -1,18 +1,18 @@
-import { Component, HostListener, OnInit, OnDestroy, Inject, Renderer2, HostBinding, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
 
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
 
-import { takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
-import { FsGalleryService } from '../../services/gallery.service';
-import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
-import { PREVIEW_DATA } from '../../injectors/preview-data';
+import { GalleryConfig } from '../../classes';
 import { FsGalleryPreviewRef } from '../../classes/gallery-preview-ref';
 import { MimeType } from '../../enums';
-import { GalleryConfig } from '../../classes';
+import { PREVIEW_DATA } from '../../injectors/preview-data';
+import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
+import { FsGalleryService } from '../../services/gallery.service';
 
 
 @Component({

@@ -6,6 +6,7 @@ import {
   FilterConfig,
   FsFilterAction,
   IFilterConfigItem,
+  IFsFilterFileAction,
 } from '@firestitch/filter';
 import { FsListSelectionConfig } from '@firestitch/list';
 
@@ -66,6 +67,7 @@ export class GalleryConfig {
   public upload: (files: any) => Observable<any>;
   public fetch: FsGalleryConfigFetch;
   public actions: FsFilterAction[];
+  public uploadAction: IFsFilterFileAction;
   public previewActions: FsGalleryPreviewAction[];
   public previewMenu: FsGalleryPreviewMenu;
   public preview: boolean;
@@ -218,6 +220,7 @@ export class GalleryConfig {
     this.fetch = data.fetch;
     this.upload = data.upload;
     this.actions = data.actions;
+    this.uploadAction = data.uploadAction;
     this.previewActions = data.previewActions || [];
     this.previewMenu = data.previewMenu;
     this.preview = data.preview ?? true;
@@ -324,6 +327,7 @@ export class GalleryConfig {
         },
         accept: this.allow,
         multiple: this.multiple,
+        ...this.uploadAction,
       });
     }
 

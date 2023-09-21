@@ -1,5 +1,5 @@
 import { FsFile } from '@firestitch/file';
-import { FsFilterAction, IFilterConfigItem } from '@firestitch/filter';
+import { FsFilterAction, IFilterConfigItem, IFsFilterFileAction } from '@firestitch/filter';
 import { FsListNoResultsConfig, FsListSelectionConfig } from '@firestitch/list';
 import { Observable } from 'rxjs';
 import { MimeType } from '../enums';
@@ -20,6 +20,7 @@ export interface FsGalleryConfig {
   reload?: boolean;
   filter?: any;
   upload?: (query) => Observable<any>;
+  uploadAction?: IFsFilterFileAction;
   emptyState?: FsGalleryEmptyStateConfig;
   fetch?: FsGalleryConfigFetch;
   filters?: IFilterConfigItem[];
