@@ -1,10 +1,10 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 
-import { FsGalleryService } from '../../../services';
-import { FsGalleryConfig, FsGalleryItem } from '../../../interfaces';
-import { GalleryThumbnailSize, MimeType } from '../../../enums';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { GalleryThumbnailSize, MimeType } from '../../../enums';
+import { FsGalleryConfig, FsGalleryItem } from '../../../interfaces';
+import { FsGalleryService } from '../../../services';
 
 
 @Component({

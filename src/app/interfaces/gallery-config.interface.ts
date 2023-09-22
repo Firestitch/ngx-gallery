@@ -19,8 +19,7 @@ export interface FsGalleryConfig {
   showChangeView?: boolean;
   reload?: boolean;
   filter?: any;
-  upload?: (query) => Observable<any>;
-  uploadAction?: IFsFilterFileAction;
+  upload?: FsGalleryUploadConfig;
   emptyState?: FsGalleryEmptyStateConfig;
   fetch?: FsGalleryConfigFetch;
   filters?: IFilterConfigItem[];
@@ -66,6 +65,10 @@ export interface FsGalleryItemContains {
   folders?: number;
   files?: number;
   mimeTypes?: { [mimeType in MimeType]?: number };
+}
+
+export interface FsGalleryUploadConfig extends Omit<IFsFilterFileAction, 'mode'> {
+  select: (fsFile: FsFile[] | FsFile) => Observable<any>;
 }
 
 export interface FsGalleryInfoConfig {

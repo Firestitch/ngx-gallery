@@ -5,8 +5,7 @@ import {
   ActionType,
   FilterConfig,
   FsFilterAction,
-  IFilterConfigItem,
-  IFsFilterFileAction,
+  IFilterConfigItem
 } from '@firestitch/filter';
 import { FsListSelectionConfig } from '@firestitch/list';
 
@@ -21,7 +20,8 @@ import {
   FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig,
   FsGalleryPersistance,
   FsGalleryPreviewAction, FsGalleryPreviewMenu,
-  FsGalleryThumbnailConfig
+  FsGalleryThumbnailConfig,
+  FsGalleryUploadConfig
 } from '../interfaces';
 import { GalleryView } from './../enums';
 
@@ -64,10 +64,9 @@ export class GalleryConfig {
   public previewBeforeOpen: (item: FsGalleryItem) => Observable<any>;
   public zoomChanged: (value: number) => {};
   public map: (data: any) => FsGalleryMapping;
-  public upload: (files: any) => Observable<any>;
+  public upload: FsGalleryUploadConfig;
   public fetch: FsGalleryConfigFetch;
   public actions: FsFilterAction[];
-  public uploadAction: IFsFilterFileAction;
   public previewActions: FsGalleryPreviewAction[];
   public previewMenu: FsGalleryPreviewMenu;
   public preview: boolean;
@@ -220,7 +219,6 @@ export class GalleryConfig {
     this.fetch = data.fetch;
     this.upload = data.upload;
     this.actions = data.actions;
-    this.uploadAction = data.uploadAction;
     this.previewActions = data.previewActions || [];
     this.previewMenu = data.previewMenu;
     this.preview = data.preview ?? true;
@@ -319,15 +317,15 @@ export class GalleryConfig {
         label: 'Upload',
         className: 'fs-gallery-upload-btn',
         color: 'primary',
+        accept: this.allow,
+        multiple: this.multiple,
+        ...this.upload,
         select: (file) => {
-          this.upload(file)
+          this.upload.select(file)
             .subscribe(() => {
               this._upload$.next();
             });
         },
-        accept: this.allow,
-        multiple: this.multiple,
-        ...this.uploadAction,
       });
     }
 

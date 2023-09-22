@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { delay, takeUntil } from 'rxjs/operators';
 
 import { ItemType } from '@firestitch/filter';
@@ -18,7 +18,7 @@ import { GalleryThumbnailSize } from 'src/app/enums';
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
 })
-export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
+export class ExampleComponent implements OnInit, OnDestroy {
 
   @ViewChild(FsGalleryComponent, { static: true })
   public gallery: FsGalleryComponent;
@@ -195,19 +195,21 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
             delay(100),
           );
       },
-      upload: (files) => {
-        console.log('uploading...', files);
-        this.items.push({
-          data: {
-            id: 1,
-            description: 'Image 1 description',
-          },
-          name: 'Scheme',
-          preview: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
-          url: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
-        });
+      upload: {
+        select: (files) => {
+          console.log('uploading...', files);
+          this.items.push({
+            data: {
+              id: 1,
+              description: 'Image 1 description',
+            },
+            name: 'Scheme',
+            preview: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`,
+            url: `https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
+          });
 
-        return of(true);
+          return of(true);
+        },
       },
       previewActions: [
         {
@@ -285,10 +287,6 @@ export class ExampleComponent implements AfterViewInit, OnInit, OnDestroy {
         console.log('zoomChanged', value);
       }
     };
-  }
-
-  public ngAfterViewInit() {
-
   }
 
   public switchOrder() {
