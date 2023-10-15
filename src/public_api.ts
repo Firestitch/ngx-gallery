@@ -4,47 +4,24 @@
 export { FsGalleryModule } from './app/fs-gallery.module';
 
 export {
-  FsGalleryIconComponent,
-  FsGalleryFileIconComponent,
-  FsGalleryPreviewComponent,
-  FsGalleryComponent,
-  FsGalleryPreviewCarouselComponent,
-  FsGalleryPreviewHeaderComponent,
-  FsGalleryNavComponent,
-  FsGalleryThumbnailInfoComponent,
-  FsGalleryThumbnailComponent,
-  FsGalleryThumbnailPreviewComponent,
+  FsGalleryComponent, FsGalleryFileIconComponent, FsGalleryIconComponent, FsGalleryNavComponent, FsGalleryPreviewCarouselComponent, FsGalleryPreviewComponent, FsGalleryPreviewHeaderComponent, FsGalleryThumbnailComponent, FsGalleryThumbnailInfoComponent, FsGalleryThumbnailPreviewComponent
 } from './app/components';
 
 
 export {
-  FsGalleryThumbnailDirective,
-  FsGalleryThumbnailPreviewDirective,
-  FsGalleryPreviewDirective,
-  FsGalleryPreviewDetailsDirective,
-  FsGalleryNavDirective,
-  FsGalleryListColumnDirective,
-  FsGalleryListCellDirective,
-  FsGalleryListHeaderDirective,
+  FsGalleryListCellDirective, FsGalleryListColumnDirective, FsGalleryListHeaderDirective, FsGalleryNavDirective, FsGalleryPreviewDetailsDirective, FsGalleryPreviewDirective, FsGalleryThumbnailDirective,
+  FsGalleryThumbnailPreviewDirective
 } from './app/directives';
 export { FsGalleryEmptyStateDirective } from './app/directives/empty-state.directive';
 
 export {
-  FsGalleryConfig,
-  FsGalleryItem,
-  FsGalleryNoResultsConfig,
-  FsGalleryDataItem,
-  FsGalleryThumbnailConfig,
-  FsGalleryInfoMenuAction,
-  FsGalleryInfoMenuConfig,
-  FsGalleryPreviewAction,
-  FsGalleryPreviewMenu,
-  FsGalleryMenuItem,
-  FsGalleryEmptyStateConfig,
+  FsGalleryConfig, FsGalleryDataItem, FsGalleryEmptyStateConfig, FsGalleryInfoMenuAction,
+  FsGalleryInfoMenuConfig, FsGalleryItem, FsGalleryMenuItem, FsGalleryNoResultsConfig, FsGalleryPreviewAction,
+  FsGalleryPreviewMenu, FsGalleryThumbnailConfig
 } from './app/interfaces';
 
-export { FsGalleryPreviewService, FsGalleryService } from './app/services';
+export { FsGallery } from './app/services/fs-gallery';
 
-export { GalleryLayout, MimeType, ThumbnailScale, GalleryThumbnailSize } from './app/enums';
+export { GalleryLayout, GalleryThumbnailSize, MimeType, ThumbnailScale } from './app/enums';
 
 export * from './app/helpers';

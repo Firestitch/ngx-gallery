@@ -1,4 +1,4 @@
-<div class="fs-gallery-preview" [ngClass]="{ 'multiple': hasManyItems }">
+<div class="fs-gallery-preview" [ngClass]="{ 'multiple': hasMultipleItems }">
   <mat-drawer-container   
       class="example-container">
     <mat-drawer 
@@ -50,7 +50,7 @@
       </div>
       
       <fs-gallery-preview-carousel 
-        *ngIf="hasManyItems" 
+        *ngIf="hasMultipleItems" 
         [items]="availableImages" 
         [activeItem]="activeItem"
         (activeItemChanged)="setActiveItem($event)">

@@ -45,7 +45,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   public availableImages: FsGalleryItem[];
   public imageHover = false;
   public MimeType = MimeType;
-  public hasManyItems = false;
+  public hasMultipleItems = false;
   public drawerShow = true;
   public activeItem: FsGalleryItem;
   public activeImage: { height: number, width: number };
@@ -135,6 +135,8 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     const item = this.availableImages[this.activeImageIndex - 1];
     if (item) {
       this.setActiveItem(item);
+    } else {
+      this.setActiveItem(this.availableImages[this.availableImages.length - 1]);
     }
   }
 
@@ -142,12 +144,15 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     const item = this.availableImages[this.activeImageIndex + 1];
     if (item) {
       this.setActiveItem(item);
+    } else {
+      this.setActiveItem(this.availableImages[0]);
     }
   }
 
   public setActiveItem(item: FsGalleryItem) {
     this.activeItem = item;
-    this.activeImageIndex = this.availableImages.indexOf(item);
+    this.activeImageIndex = this.availableImages
+      .findIndex((item) => this.activeItem?.guid === item.guid);
 
     setTimeout(() => {
       const el = this._el.nativeElement.querySelector(`fs-gallery-preview-carousel [data-index='${this.activeImageIndex}']`);
@@ -162,7 +167,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
       });
 
 
-    this.hasManyItems = this.availableImages.length > 1;
+    this.hasMultipleItems = this.availableImages.length > 1;
   }
 
 }

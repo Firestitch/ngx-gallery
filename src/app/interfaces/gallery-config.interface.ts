@@ -47,7 +47,6 @@ export interface FsGalleryConfig {
 export interface FsGalleryMapping {
   name?: string,
   preview?: string,
-  previewLarge?: string,
   url?: string,
   extension?: string,
   folder?: boolean,
@@ -59,6 +58,7 @@ export interface FsGalleryItem extends FsGalleryMapping {
   mime?: Mime,
   index?: number,
   contains?: FsGalleryItemContains,
+  guid?: string,
 }
 
 export interface FsGalleryItemContains {

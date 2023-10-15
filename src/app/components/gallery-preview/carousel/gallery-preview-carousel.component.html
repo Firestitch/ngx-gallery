@@ -4,12 +4,11 @@
     <a 
         (click)="itemClick(item)"
         [attr.data-index]="index"
-        [ngClass]="{ active: activeItem === item }">
+        [ngClass]="{ active: activeItem.guid === item.guid }">
       <ng-container [ngSwitch]="item.mime.type">
         <ng-template [ngSwitchCase]="MimeType.Image">
           <img [src]="item.preview">
         </ng-template>
-      
         <ng-template ngSwitchDefault>
           <fs-gallery-file-icon 
             [height]="100"

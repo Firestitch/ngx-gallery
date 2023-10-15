@@ -1,13 +1,14 @@
 import { Injector } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ComponentPortal } from '@angular/cdk/portal';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
-import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
-import { PREVIEW_DATA } from '../injectors/preview-data';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
+import { PREVIEW_DATA } from '../injectors/preview-data';
+import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
+import { FsGalleryService } from './gallery.service';
 
 
 export class FsGalleryPreviewService {
@@ -20,13 +21,14 @@ export class FsGalleryPreviewService {
   constructor(
     private _overlay: Overlay,
     private _galleryPreviewComponent,
-    private _injector: Injector
+    private _injector: Injector,
+    private _galleryService: FsGalleryService = null,
   ) {
     this._router = this._injector.get(Router);
     this._route = this._injector.get(ActivatedRoute);
   }
 
-  public open(data: FsGalleryDataItem) {
+  public open(data: FsGalleryDataItem): FsGalleryPreviewRef {
     const overlayRef = this._createOverlay();
     this._previewRef = new FsGalleryPreviewRef(overlayRef);
 
@@ -101,12 +103,18 @@ export class FsGalleryPreviewService {
   }
 
   private _createInjector(parentInjector: Injector, previewRef: FsGalleryPreviewRef, data: FsGalleryDataItem) {
+    const providers: any = [
+      { provide: FsGalleryPreviewRef, useValue: previewRef },
+      { provide: PREVIEW_DATA, useValue: data }
+    ];
+
+    if (this._galleryService) {
+      providers.push({ provide: FsGalleryService, useValue: this._galleryService });
+    }
+
     return Injector.create({
       parent: parentInjector,
-      providers: [
-        { provide: FsGalleryPreviewRef, useValue: previewRef },
-        { provide: PREVIEW_DATA, useValue: data }
-      ]
+      providers
     });
   }
 }

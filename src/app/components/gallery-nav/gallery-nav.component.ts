@@ -1,13 +1,13 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
   ChangeDetectorRef,
+  Component,
+  OnInit,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { FsGalleryService } from '../../services';
+import { FsGalleryService } from '../../services/gallery.service';
 
 
 @Component({

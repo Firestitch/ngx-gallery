@@ -9,6 +9,7 @@
 @import "~@firestitch/chip/styles";
 @import "~@firestitch/chip/styles";
 @import "~@firestitch/selection/styles";
+@import '~@firestitch/scrollbar/styles';
 @import "../src/app/styles";
 
 @include fs-drawer(mat.$blue-palette);

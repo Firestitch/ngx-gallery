@@ -17,6 +17,7 @@ import { DragulaService } from 'ng2-dragula';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
+import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
 import { GalleryConfig } from '../classes/gallery.config';
 import { PersistanceController } from '../classes/persistance-controller';
 import { FsGalleryListColumnDirective } from '../directives/column.directive';
@@ -72,13 +73,21 @@ export class FsGalleryService implements OnDestroy {
     private _persistanceController: PersistanceController,
   ) {
     this.dragName += guid();
-    this.galleryPreviewService = new FsGalleryPreviewService(_overlay, this._galleryPreviewComponent, _injector);
+    this.galleryPreviewService = new FsGalleryPreviewService(_overlay, this._galleryPreviewComponent, _injector, this);
     this.reorderStart$ = this._dragulaService.drag(this.dragName);
     this.reorderEnd$ = this._dragulaService.dragend(this.dragName);
   }
 
   public get data$() {
     return this._data$;
+  }
+
+  public set data(items: FsGalleryItem[]) {
+    this._data$.next(this.mapData(items));
+  }
+
+  public get data(): FsGalleryItem[] {
+    return this._data$.getValue();
   }
 
   public get activeFilters$() {
@@ -174,12 +183,14 @@ export class FsGalleryService implements OnDestroy {
     this.galleryPreviewService.close()
   }
 
-  public openPreview(item: FsGalleryItem) {
+  public openPreview(item: FsGalleryItem): FsGalleryPreviewRef {
     if (this.config.previewOpened) {
       this.config.previewOpened(item);
     }
 
-    this.galleryPreviewService.open(item)
+    const galleryPreviewRef = this.galleryPreviewService.open(item);
+
+    galleryPreviewRef
       .onClose
       .pipe(
         take(1),
@@ -190,6 +201,8 @@ export class FsGalleryService implements OnDestroy {
           this.config.previewClosed(item);
         }
       });
+
+    return galleryPreviewRef;
   }
 
   public openItem(item: FsGalleryItem) {
@@ -229,6 +242,7 @@ export class FsGalleryService implements OnDestroy {
 
         item = {
           ...item,
+          guid: guid(),
           items: this.mapData(item.items || []),
         };
 
@@ -371,14 +385,12 @@ export class FsGalleryService implements OnDestroy {
 
         return this.config.fetch(query, null)
           .pipe(
-            map((items: any) => this.mapData(items)),
             map((items: FsGalleryItem[]) => {
-              this.data$.next(items);
-
-              this._updateEmptyState(query, items);
+              this.data = items;
+              this._updateEmptyState(query, this.data);
 
               return {
-                data: items,
+                data: this.data,
                 paging: { records: items.length },
               }
             }),
