@@ -14,11 +14,7 @@ export {
 } from './app/directives';
 export { FsGalleryEmptyStateDirective } from './app/directives/empty-state.directive';
 
-export {
-  FsGalleryConfig, FsGalleryDataItem, FsGalleryEmptyStateConfig, FsGalleryInfoMenuAction,
-  FsGalleryInfoMenuConfig, FsGalleryItem, FsGalleryMenuItem, FsGalleryNoResultsConfig, FsGalleryPreviewAction,
-  FsGalleryPreviewMenu, FsGalleryThumbnailConfig
-} from './app/interfaces';
+export * from './app/interfaces';
 
 export { FsGallery } from './app/services/fs-gallery';
 
