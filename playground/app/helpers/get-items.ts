@@ -1,6 +1,7 @@
+import { FsApi } from "@firestitch/api";
 import { FsGalleryItem } from "@firestitch/gallery";
 
-export function getItems(): FsGalleryItem[] {
+export function getItems(api: FsApi): FsGalleryItem[] {
   return [
     {
       data: {
@@ -71,7 +72,7 @@ export function getItems(): FsGalleryItem[] {
         description: 'PDF description',
       },
       name: 'pdf-sample.pdf',
-      url: '/assets/pdf-sample.pdf',
+      url: api.createApiFile('/assets/pdf-sample.pdf'),
     },
     {
       data: {

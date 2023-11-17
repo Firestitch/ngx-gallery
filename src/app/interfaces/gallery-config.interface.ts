@@ -1,3 +1,4 @@
+import { FsApiFile } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
 import { FsFilterAction, IFilterConfigItem, IFsFilterFileAction } from '@firestitch/filter';
 import { FsListNoResultsConfig, FsListSelectionConfig } from '@firestitch/list';
@@ -47,7 +48,7 @@ export interface FsGalleryConfig {
 export interface FsGalleryMapping {
   name?: string,
   preview?: string,
-  url?: string,
+  url?: string | FsApiFile,
   extension?: string,
   folder?: boolean,
 }

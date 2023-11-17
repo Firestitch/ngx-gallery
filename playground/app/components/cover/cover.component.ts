@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { delay } from 'rxjs/operators';
 
 import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, MimeType } from '@firestitch/gallery';
 
+import { FsApi } from '@firestitch/api';
 import { getItems } from 'playground/app/helpers';
 import { Observable, of, Subject } from 'rxjs';
 import { GalleryThumbnailSize } from 'src/app/enums';
@@ -12,6 +13,7 @@ import { GalleryThumbnailSize } from 'src/app/enums';
   selector: 'app-cover',
   templateUrl: './cover.component.html',
   styleUrls: ['./cover.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CoverComponent implements OnInit, OnDestroy {
 
@@ -19,13 +21,14 @@ export class CoverComponent implements OnInit, OnDestroy {
   public gallery: FsGalleryComponent;
 
   public reorderEnabled = false;
-  public items = getItems();
+  public items = getItems(this._api);
   public galleryConfig: FsGalleryConfig;
   public MimeType = MimeType;
 
   private _destroy$ = new Subject();
 
   constructor(
+    private _api: FsApi
   ) { }
 
   public ngOnInit(): void {

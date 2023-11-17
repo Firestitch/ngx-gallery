@@ -1,12 +1,20 @@
+import { FsApiFile } from '@firestitch/api';
 import { MimeType } from '../enums';
 import { mimeColor } from './mime-color';
 
 
-export function mime(name: string, url: string, extension: string, folder: boolean): { type: MimeType, extension: string, color: string } {
+export function mime(name: string, url: string | FsApiFile, extension: string, folder: boolean): { type: MimeType, extension: string, color: string } {
   if (!extension) {
-    const urlMatch = String(url).match(/\.([^\.]{3,4})(?=\?|$)/);
-    if (urlMatch) {
-      extension = urlMatch[1];
+    if (typeof url === 'string') {
+      const urlMatch = String(url).match(/\.([^\.]{3,4})(?=\?|$)/);
+      if (urlMatch) {
+        extension = urlMatch[1];
+      }
+    } else if (url instanceof FsApiFile) {
+      const urlMatch = String(url.name).match(/\.([^\.]{3,4})(?=\?|$)/);
+      if (urlMatch) {
+        extension = urlMatch[1];
+      }
     }
   }
 

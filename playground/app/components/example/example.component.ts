@@ -4,6 +4,7 @@ import { delay, takeUntil } from 'rxjs/operators';
 import { ItemType } from '@firestitch/filter';
 import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType } from '@firestitch/gallery';
 
+import { FsApi } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
 import { FsPrompt } from '@firestitch/prompt';
 import { SelectionActionType } from '@firestitch/selection';
@@ -23,7 +24,7 @@ export class ExampleComponent implements OnInit, OnDestroy {
   public gallery: FsGalleryComponent;
 
   public reorderEnabled = false;
-  public items = getItems();
+  public items = getItems(this._api);
   public galleryConfig: FsGalleryConfig;
   public MimeType = MimeType;
 
@@ -31,6 +32,7 @@ export class ExampleComponent implements OnInit, OnDestroy {
 
   constructor(
     private _prompt: FsPrompt,
+    private _api: FsApi
   ) { }
 
   public ngOnInit(): void {
