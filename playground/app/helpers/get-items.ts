@@ -68,17 +68,10 @@ export function getItems(): FsGalleryItem[] {
     {
       data: {
         id: 8,
-        description: 'Image 8 description',
-      },
-      name: 'Giraffe.jpg',
-    },
-    {
-      data: {
-        id: 8,
         description: 'PDF description',
       },
-      name: 'Document',
-      url: 'http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf',
+      name: 'pdf-sample.pdf',
+      url: '/assets/pdf-sample.pdf',
     },
     {
       data: {

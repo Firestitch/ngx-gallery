@@ -23,8 +23,22 @@
         (detailsToggled)="detailsToggled()">
       </fs-gallery-preview-header>
 
-      <div class="preview" [class]="'file file-' + activeItem.mime.type">
+      <div class="preview" [class]="'file file-' + activeItem.mime.type + ' extension-' + activeItem.mime.extension">        
+        <a class="prev-overlay" *ngIf="hasPrevItem" (click)="prevItem()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"/></svg>
+        </a>
+        <a class="next-overlay" *ngIf="hasNextItem" (click)="nextItem()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg>
+        </a>
         <ng-container [ngSwitch]="activeItem.mime.type">
+          <ng-template [ngSwitchCase]="MimeType.Application">
+            <ng-container *ngIf="activeItem.mime.extension === 'pdf'; else fileIcon">
+              <fs-pdf-viewer 
+                [backgroundColor]="'transparent'"
+                [pdf]="activeItem.url">
+              </fs-pdf-viewer>
+            </ng-container>            
+          </ng-template>
           <ng-template [ngSwitchCase]="MimeType.Image">
             <img class="image" 
               (load)="imageLoad($event)"
@@ -32,21 +46,17 @@
               (swipeleft)="nextItem()"
               (swiperight)="prevItem()">
           </ng-template>
-  
           <ng-template ngSwitchDefault>
-            <fs-gallery-file-icon 
-              [width]="150"
-              [item]="activeItem">
-            </fs-gallery-file-icon>
+            <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
           </ng-template>
         </ng-container>
-        
-        <a class="prev-overlay" *ngIf="hasPrevItem" (click)="prevItem()">
-          <mat-icon>keyboard_arrow_left</mat-icon>
-        </a>
-        <a class="next-overlay" *ngIf="hasNextItem" (click)="nextItem()">
-          <mat-icon>keyboard_arrow_right</mat-icon>
-        </a>
+
+        <ng-template #fileIcon>
+          <fs-gallery-file-icon 
+            [width]="150"
+            [item]="activeItem">
+          </fs-gallery-file-icon>
+        </ng-template>
       </div>
       
       <fs-gallery-preview-carousel 

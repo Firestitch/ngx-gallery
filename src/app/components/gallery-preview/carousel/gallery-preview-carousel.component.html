@@ -7,7 +7,7 @@
         [ngClass]="{ active: activeItem.guid === item.guid }">
       <ng-container [ngSwitch]="item.mime.type">
         <ng-template [ngSwitchCase]="MimeType.Image">
-          <img [src]="item.preview">
+          <img [src]="item.preview" (load)="loaded()">
         </ng-template>
         <ng-template ngSwitchDefault>
           <fs-gallery-file-icon 

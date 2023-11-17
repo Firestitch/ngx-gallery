@@ -27,12 +27,19 @@
   .preview {
     height: 100%;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
     min-height: 0;
     user-select: none;
+
+    &:not(.extension-pdf) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &.extension-pdf {
+      overflow: auto;
+    }
 
     .image {
       display: flex;
@@ -45,43 +52,56 @@
     }
   }
 
+  .preview.extension-pdf {
+    .prev-overlay,
+    .next-overlay {
+      position: sticky;
+    }
+  }
+
   .prev-overlay,
   .next-overlay {
     position: absolute;
     top: 0;
     width: 50%;
-    height: 100%;
     user-select: none;
+    z-index: 999;
+    display: block;
+    float: left;
+    height: 100%;
+      
+    svg {
+      position: absolute;
+      top: 50%;
+    }
 
     &.prev-overlay {
       left: 0;
 
-      mat-icon {
-        position: absolute;
+      svg {
         left: 50px;
-        top: 50%;
       }
     }
 
     &.next-overlay {
       right: 0;
       
-      mat-icon {
-        position: absolute;
+      svg {
         right: 50px;
-        top: 50%;
       }
     }
 
     &:hover {
-      mat-icon {
+      svg {
         visibility: visible;
       }
     }
 
-    mat-icon {
-      transform: scale(3);
-      color: #fff;
+    svg {
+      width: 40px;
+      fill: #f5f5f5;
+      text-shadow: beige;
+      filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.3));
       visibility: hidden;
     }
   }

@@ -4,7 +4,6 @@ import { delay, takeUntil } from 'rxjs/operators';
 import { ItemType } from '@firestitch/filter';
 import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType } from '@firestitch/gallery';
 
-import { FsExampleComponent } from '@firestitch/example';
 import { FsFile } from '@firestitch/file';
 import { FsPrompt } from '@firestitch/prompt';
 import { SelectionActionType } from '@firestitch/selection';
@@ -31,7 +30,6 @@ export class ExampleComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(
-    private example: FsExampleComponent,
     private _prompt: FsPrompt,
   ) { }
 
