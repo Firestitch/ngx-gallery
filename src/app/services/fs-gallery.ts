@@ -28,7 +28,11 @@ export class FsGallery {
   ) {
   }
 
-  public openPreview(items: FsGalleryItem[]) {
+  public openPreview(item: FsGalleryItem) {
+    this.openPreviews([item]);
+  }
+
+  public openPreviews(items: FsGalleryItem[]) {
     const persistanceController = new PersistanceController(this._store, this._route);
 
     const galleryService = new FsGalleryService(FsGalleryPreviewComponent, this._overlay, this._injector, this._location, this._dragulaService, persistanceController);

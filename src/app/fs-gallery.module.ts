@@ -42,6 +42,7 @@ import { FsGalleryListCellDirective } from './directives/cell.directive';
 import { FsGalleryListColumnDirective } from './directives/column.directive';
 import { FsGalleryEmptyStateDirective } from './directives/empty-state.directive';
 import { FsGalleryListHeaderDirective } from './directives/header.directive';
+import { ImageSrcPipe } from './pipes';
 
 
 @NgModule({
@@ -90,6 +91,7 @@ import { FsGalleryListHeaderDirective } from './directives/header.directive';
     FsGalleryNavDirective,
     FsGalleryEmptyStateDirective,
     FsGalleryMenuComponent,
+    ImageSrcPipe,
   ],
   exports: [
     FsGalleryComponent,

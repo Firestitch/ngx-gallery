@@ -76,19 +76,19 @@ export function getItems(api: FsApi): FsGalleryItem[] {
     },
     {
       data: {
+        id: 55,
+        description: 'Image',
+      },
+      preview: api.createApiFile('/assets/car.jpg'),
+      url: api.createApiFile('/assets/car.jpg'),
+    },
+    {
+      data: {
         id: 9,
         description: 'Video description',
       },
       name: 'Video',
       url: 'http://techslides.com/demos/sample-videos/small.mp4',
-    },
-    {
-      data: {
-        id: 10,
-        custom: 'html',
-        description: '',
-      },
-      name: 'Custom Name',
     },
     {
       data: {

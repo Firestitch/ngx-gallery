@@ -47,7 +47,7 @@
 
 <ng-template #infoTemplate>
   <fs-gallery-thumbnail-info 
-    *ngIf="galleryService.config.info!==false"
+    *ngIf="hasInfo"
     [item]="item">
   </fs-gallery-thumbnail-info>
 </ng-template>

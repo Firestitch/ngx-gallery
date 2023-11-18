@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { SafeUrl } from '@angular/platform-browser';
+import { FsApiFile } from '@firestitch/api';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { GalleryThumbnailSize, MimeType } from '../../../enums';
 import { FsGalleryConfig, FsGalleryItem } from '../../../interfaces';
@@ -13,7 +15,7 @@ import { FsGalleryService } from '../../../services';
   styleUrls: ['./gallery-thumbnail-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy {
+export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy, OnInit {
 
   @Input() public item: FsGalleryItem;
   @Input() public imageHeight: number;
@@ -28,11 +30,41 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy 
     height: null,
   };
 
+  private _preview$ = new ReplaySubject<SafeUrl>();
+
   private _destroy$ = new Subject();
 
   constructor(
     public galleryService: FsGalleryService,
   ) { }
+
+  public get preview$(): Observable<SafeUrl> {
+    return this._preview$.asObservable();
+  }
+
+  public ngOnInit(): void {
+    if (this.config.thumbnail.size === GalleryThumbnailSize.Contain) {
+      if (this.item.preview instanceof FsApiFile) {
+        this.item.preview.safeBase64Url
+          .subscribe((base64) => {
+            this._preview$.next(base64);
+          });
+
+      } else {
+        this._preview$.next(this.item.preview);
+      }
+    } else if (this.config.thumbnail.size === GalleryThumbnailSize.Cover) {
+      if (this.item.preview instanceof FsApiFile) {
+        this.item.preview.base64
+          .subscribe((base64) => {
+            this._preview$.next(`url(${base64})`);
+          });
+
+      } else {
+        this._preview$.next(`url(${this.item.preview})`);
+      }
+    }
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.imageWidth || changes.imageHeight) {
@@ -46,7 +78,6 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy 
         this.iconHeight = null;
       }
     }
-
   }
 
   public click(item: FsGalleryItem) {

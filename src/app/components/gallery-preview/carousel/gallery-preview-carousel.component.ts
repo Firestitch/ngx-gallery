@@ -30,7 +30,6 @@ export class FsGalleryPreviewCarouselComponent {
 
   public loaded() {
     const el = this._el.nativeElement.querySelector('.active');
-
     el?.scrollIntoView({ block: 'center', inline: 'center' });
   }
 

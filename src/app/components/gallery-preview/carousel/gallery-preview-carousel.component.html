@@ -7,7 +7,9 @@
         [ngClass]="{ active: activeItem.guid === item.guid }">
       <ng-container [ngSwitch]="item.mime.type">
         <ng-template [ngSwitchCase]="MimeType.Image">
-          <img [src]="item.preview" (load)="loaded()">
+          <ng-container *ngIf="(item.url | imageSrc | async) as image">
+            <img [src]="image" (load)="loaded()">
+          </ng-container>
         </ng-template>
         <ng-template ngSwitchDefault>
           <fs-gallery-file-icon 

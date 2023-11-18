@@ -44,7 +44,7 @@ export class PreviewComponent {
   ) { }
 
   public open(): void {
-    this.gallery.openPreview(this.items);
+    this.gallery.openPreviews(this.items);
   }
 
 }

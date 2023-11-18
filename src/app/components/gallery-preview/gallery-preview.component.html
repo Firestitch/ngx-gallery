@@ -40,11 +40,13 @@
             </ng-container>            
           </ng-template>
           <ng-template [ngSwitchCase]="MimeType.Image">
-            <img class="image" 
-              (load)="imageLoad($event)"
-              [src]="activeItem.url" 
-              (swipeleft)="nextItem()"
-              (swiperight)="prevItem()">
+            <ng-container *ngIf="(imageUrl$ | async) as image">
+              <img class="image" 
+                (load)="imageLoad($event)"
+                [src]="image" 
+                (swipeleft)="nextItem()"
+                (swiperight)="prevItem()">
+            </ng-container>
           </ng-template>
           <ng-template ngSwitchDefault>
             <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>

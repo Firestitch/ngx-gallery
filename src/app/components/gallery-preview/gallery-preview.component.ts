@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
+import { SafeUrl } from '@angular/platform-browser';
+import { FsApiFile } from '@firestitch/api';
 import { GalleryConfig } from '../../classes';
 import { FsGalleryPreviewRef } from '../../classes/gallery-preview-ref';
 import { MimeType } from '../../enums';
@@ -51,6 +52,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   public activeImage: { height: number, width: number };
   public drawerMode: any = 'side';
   public activeImageIndex = 0;
+  public imageUrl$: Observable<string | SafeUrl>;
 
   private _destroy$ = new Subject();
 
@@ -60,8 +62,6 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     public renderer: Renderer2,
     private _router: Router,
     private _previewRef: FsGalleryPreviewRef,
-    private _breakpointObserver: BreakpointObserver,
-    private _cdRef: ChangeDetectorRef,
     private _el: ElementRef,
   ) { }
 
@@ -79,23 +79,6 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
       .subscribe((event: NavigationStart) => {
         this._previewRef.close();
       });
-
-    this._breakpointObserver
-      .observe(['(min-width: 800px)'])
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe((state: BreakpointState) => {
-        if (state.matches) {
-          this.drawerMode = 'side';
-        } else {
-          this.drawerMode = 'over';
-        }
-
-        this._cdRef.markForCheck();
-      });
-
-    this.renderer.addClass(document.body, 'fs-gallery-preview-open');
   }
 
   public get galleryConfig(): GalleryConfig {
@@ -153,6 +136,10 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     this.activeItem = item;
     this.activeImageIndex = this.availableImages
       .findIndex((item) => this.activeItem?.guid === item.guid);
+
+    this.imageUrl$ = this.activeItem.url instanceof FsApiFile ?
+      this.activeItem.url.safeBase64Url :
+      of(this.activeItem.url);
 
     setTimeout(() => {
       const el = this._el.nativeElement.querySelector(`fs-gallery-preview-carousel [data-index='${this.activeImageIndex}']`);
