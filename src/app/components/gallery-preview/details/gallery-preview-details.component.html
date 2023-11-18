@@ -3,8 +3,8 @@
     <div mat-dialog-title>Details</div>
   </div>
   <div class="content">
-    <ng-container *ngIf="galleryService.detailsTemplate; else template">
-      <ng-template [ngTemplateOutlet]="galleryService.detailsTemplate"
+    <ng-container *ngIf="galleryService.previewDetails; else template">
+      <ng-template [ngTemplateOutlet]="galleryService.previewDetails.templateRef"
         [ngTemplateOutletContext]="{ item: item, template: template }">
       </ng-template>
     </ng-container>

@@ -61,8 +61,8 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   @ContentChild(FsGalleryNavDirective, { read: TemplateRef })
   public navTemplate: TemplateRef<any> = null;
 
-  @ContentChild(FsGalleryPreviewDetailsDirective, { read: TemplateRef })
-  public detailsTemplate: TemplateRef<any> = null;
+  @ContentChild(FsGalleryPreviewDetailsDirective)
+  public previewDetails: FsGalleryPreviewDetailsDirective;
 
   @ContentChild(FsGalleryThumbnailDirective, { read: TemplateRef })
   public thumbnailTemplate: TemplateRef<any> = null;
@@ -105,7 +105,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   public ngAfterContentInit() {
     this.galleryService.previewTemplate = this.previewTemplate;
     this.galleryService.thumbnailTemplate = this.thumbnailTemplate;
-    this.galleryService.detailsTemplate = this.detailsTemplate;
+    this.galleryService.previewDetails = this.previewDetails;
     this.galleryService.thumbnailPreviewTemplate = this.thumbnailPreviewTemplate;
     this.galleryService.emptyStateTemplate = this.emptyStateTemplate;
     this.galleryService.setListColumns(this._listColumnDirectives.toArray());

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
-import { FsGalleryConfig, FsGalleryItem } from '@firestitch/gallery';
+import { FsGalleryConfig, FsGalleryItem, FsGalleryPreviewDetailsDirective } from '@firestitch/gallery';
 import { of } from 'rxjs';
 import { FsGallery } from 'src/app/services/fs-gallery';
 
@@ -12,6 +12,9 @@ import { FsGallery } from 'src/app/services/fs-gallery';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PreviewComponent {
+
+  @ViewChild(FsGalleryPreviewDetailsDirective)
+  public previewDetails: FsGalleryPreviewDetailsDirective;
 
   public config: FsGalleryConfig = {
     draggable: false,
@@ -44,7 +47,14 @@ export class PreviewComponent {
   ) { }
 
   public open(): void {
-    this.gallery.openPreviews(this.items);
+    this.gallery.openPreviews(this.items, {
+      previewDetails: this.previewDetails,
+      config: {
+        details: {
+          autoOpen: true,
+        }
+      }
+    });
   }
 
 }

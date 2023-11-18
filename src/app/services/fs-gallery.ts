@@ -9,7 +9,8 @@ import { FsStore } from '@firestitch/store';
 import { DragulaService } from 'ng2-dragula';
 import { PersistanceController } from '../classes';
 import { FsGalleryPreviewComponent } from '../components';
-import { FsGalleryItem } from '../interfaces';
+import { FsGalleryPreviewDetailsDirective } from '../directives';
+import { FsGalleryConfig, FsGalleryItem } from '../interfaces';
 import { FsGalleryService } from './gallery.service';
 
 
@@ -28,15 +29,20 @@ export class FsGallery {
   ) {
   }
 
-  public openPreview(item: FsGalleryItem) {
+  public openPreview(item: FsGalleryItem, options?: GalleryOptions) {
     this.openPreviews([item]);
   }
 
-  public openPreviews(items: FsGalleryItem[]) {
+  public openPreviews(items: FsGalleryItem[], options?: GalleryOptions) {
     const persistanceController = new PersistanceController(this._store, this._route);
 
     const galleryService = new FsGalleryService(FsGalleryPreviewComponent, this._overlay, this._injector, this._location, this._dragulaService, persistanceController);
     galleryService.data = items;
+    galleryService.previewDetails = options?.previewDetails;
+
+    if (options?.config) {
+      galleryService.config = options.config;
+    }
 
     galleryService.openPreview(galleryService.data[0])
       .onClose
@@ -47,4 +53,10 @@ export class FsGallery {
 
       });
   }
+}
+
+
+interface GalleryOptions {
+  previewDetails?: FsGalleryPreviewDetailsDirective,
+  config?: FsGalleryConfig
 }

@@ -20,13 +20,14 @@ import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
 import { GalleryConfig } from '../classes/gallery.config';
 import { PersistanceController } from '../classes/persistance-controller';
+import { FsGalleryPreviewDetailsDirective } from '../directives';
 import { FsGalleryListColumnDirective } from '../directives/column.directive';
 import { MimeType } from '../enums';
 import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
 import { mimeColor } from '../helpers';
 import { mime } from '../helpers/mime';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
-import { FsGalleryItem, FsGalleryPersistance } from '../interfaces';
+import { FsGalleryConfig, FsGalleryItem, FsGalleryPersistance } from '../interfaces';
 import { FsGalleryPreviewService } from './gallery-preview.service';
 
 
@@ -39,7 +40,7 @@ export class FsGalleryService implements OnDestroy {
   public thumbnailPreviewTemplate: TemplateRef<any>;
   public emptyStateTemplate: TemplateRef<any>;
   public thumbnailTemplate: TemplateRef<any>;
-  public detailsTemplate: TemplateRef<any>;
+  public previewDetails: FsGalleryPreviewDetailsDirective;
   public imageZoom = 0;
   public imageZoomInteger = 0;
   public dimentionsChange$ = new Subject<void>();
@@ -101,20 +102,8 @@ export class FsGalleryService implements OnDestroy {
     return this._config;
   }
 
-  public get filter(): FilterComponent {
-    return this._filter;
-  }
-
-  public setFilter(filter: FilterComponent) {
-    this._filter = filter;
-  }
-
-  public setLister(lister: FsListComponent) {
-    this._lister = lister;
-  }
-
-  public set config(value: GalleryConfig) {
-    this._config = value || new GalleryConfig({});
+  public set config(config: FsGalleryConfig) {
+    this._config = new GalleryConfig(config);
     this._config.filterInit = this.filterInit.bind(this);
     this._config.filterChange = this.filterChange.bind(this);
 
@@ -151,6 +140,19 @@ export class FsGalleryService implements OnDestroy {
       });
     }
   }
+
+  public get filter(): FilterComponent {
+    return this._filter;
+  }
+
+  public setFilter(filter: FilterComponent) {
+    this._filter = filter;
+  }
+
+  public setLister(lister: FsListComponent) {
+    this._lister = lister;
+  }
+
 
   public get imageWidth(): number {
     return this._imageWidth;
