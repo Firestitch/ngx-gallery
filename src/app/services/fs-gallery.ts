@@ -30,7 +30,7 @@ export class FsGallery {
   }
 
   public openPreview(item: FsGalleryItem, options?: GalleryOptions) {
-    this.openPreviews([item]);
+    this.openPreviews([item], options);
   }
 
   public openPreviews(items: FsGalleryItem[], options?: GalleryOptions) {

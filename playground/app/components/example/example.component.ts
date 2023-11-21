@@ -244,6 +244,11 @@ export class ExampleComponent implements OnInit, OnDestroy {
           select: (item: FsGalleryItem, fsFile: FsFile) => {
             console.log(item, fsFile);
           }
+        },
+        {
+          tooltip: 'Download',
+          icon: 'download',
+          download: true
         }
       ],
       previewMenu: {

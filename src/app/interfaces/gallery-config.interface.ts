@@ -115,6 +115,7 @@ export interface FsGalleryItemAction {
   show?: (galleryItem: FsGalleryItem) => boolean;
   select?: (galleryItem: FsGalleryItem, file: FsFile | FsFile[]) => void;
   multiple?: boolean;
+  download?: boolean;
 }
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }
