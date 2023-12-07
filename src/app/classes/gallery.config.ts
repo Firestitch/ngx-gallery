@@ -235,7 +235,7 @@ export class GalleryConfig {
       change: (query) => {
         this.filterChange(query);
       },
-      items: items.slice(),
+      items: [...items],
     };
 
     config.actions = this._getActionsConfig(this.actions);

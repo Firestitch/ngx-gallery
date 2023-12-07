@@ -50,9 +50,10 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @Output() zoomChanged = new EventEmitter();
 
-  @Input() set config(value: FsGalleryConfig) {
-    this._config = new GalleryConfig(value);
-    this.galleryService.config = this._config;
+  @Input() set config(config: FsGalleryConfig) {
+    this.galleryService.config = config;
+    this._config = this.galleryService.config;
+
   }
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })

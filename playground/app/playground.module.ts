@@ -18,6 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FsApiModule } from '@firestitch/api';
+import { ButtonStyle, FsFilterModule } from '@firestitch/filter';
 import { FsListModule } from '@firestitch/list';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsSelectionModule } from '@firestitch/selection';
@@ -46,6 +47,12 @@ const routes: Routes = [
     DragulaModule.forRoot(),
     FsGalleryModule.forRoot(),
     FsFileModule.forRoot(),
+    FsFilterModule.forRoot({
+      button: {
+        style: ButtonStyle.Flat,
+        label: '',
+      }
+    }),
     FsApiModule.forRoot(),
     FsMenuModule,
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),

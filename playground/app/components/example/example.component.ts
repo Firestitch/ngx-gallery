@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { delay, takeUntil } from 'rxjs/operators';
 
 import { ItemType } from '@firestitch/filter';
@@ -17,6 +17,7 @@ import { GalleryThumbnailSize } from 'src/app/enums';
   selector: 'example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExampleComponent implements OnInit, OnDestroy {
 
