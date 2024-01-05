@@ -17,38 +17,36 @@
   &.previewable {
     cursor: pointer;
   }
-  
+
   &:not(.previewable) {
     min-width: 150px;
     min-height: 100px;
   }
 
   &.file-image {
-    &.previewable {
-      display: block;
+    display: block;
 
-      .image-cover,
-      .image-contain {
-        border-radius: 4px;
-      }
-    
-      .image-cover {
-        width: 100%;
-        height: 100%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: top center;
-    
-        &.portrait {
-          background-size: auto 100%;
-        }
-      }
+    .image-cover,
+    .image-contain {
+      border-radius: 4px;
+    }
 
-      .image-contain {
-        height: 100%;
-        width: 100%;
-        min-width: 50px;
+    .image-cover {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: top center;
+
+      &.portrait {
+        background-size: auto 100%;
       }
+    }
+
+    .image-contain {
+      height: 100%;
+      width: 100%;
+      min-width: 50px;
     }
   }
 }
