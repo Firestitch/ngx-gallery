@@ -40,7 +40,7 @@
             </ng-container>            
           </ng-template>
           <ng-template [ngSwitchCase]="MimeType.Image">
-            <ng-container *ngIf="(imageUrl$ | async) as image">
+            <ng-container *ngIf="(activeItem.url | imageSrc | async) as image">
               <img class="image" 
                 (load)="imageLoad($event)"
                 [src]="image" 

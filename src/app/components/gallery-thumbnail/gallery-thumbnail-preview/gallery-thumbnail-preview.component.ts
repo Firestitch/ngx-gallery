@@ -24,13 +24,12 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
   public MimeType = MimeType;
   public iconWidth;
   public iconHeight;
+  public preview;
   public GalleryThumbnailSize = GalleryThumbnailSize;
   public styles = {
     width: null,
     height: null,
   };
-
-  private _preview$ = new ReplaySubject<SafeUrl>();
 
   private _destroy$ = new Subject();
 
@@ -38,32 +37,9 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
     public galleryService: FsGalleryService,
   ) { }
 
-  public get preview$(): Observable<SafeUrl> {
-    return this._preview$.asObservable();
-  }
 
   public ngOnInit(): void {
-    if (this.config.thumbnail.size === GalleryThumbnailSize.Contain) {
-      if (this.item.preview instanceof FsApiFile) {
-        this.item.preview.safeBase64Url
-          .subscribe((base64) => {
-            this._preview$.next(base64);
-          });
-
-      } else {
-        this._preview$.next(this.item.preview);
-      }
-    } else if (this.config.thumbnail.size === GalleryThumbnailSize.Cover) {
-      if (this.item.preview instanceof FsApiFile) {
-        this.item.preview.base64
-          .subscribe((base64) => {
-            this._preview$.next(`url(${base64})`);
-          });
-
-      } else {
-        this._preview$.next(`url(${this.item.preview})`);
-      }
-    }
+    this.preview = this.item.preview;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

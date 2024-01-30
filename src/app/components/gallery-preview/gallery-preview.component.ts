@@ -137,10 +137,6 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     this.activeImageIndex = this.availableImages
       .findIndex((item) => this.activeItem?.guid === item.guid);
 
-    this.imageUrl$ = this.activeItem.url instanceof FsApiFile ?
-      this.activeItem.url.safeBase64Url :
-      of(this.activeItem.url);
-
     setTimeout(() => {
       const el = this._el.nativeElement.querySelector(`fs-gallery-preview-carousel [data-index='${this.activeImageIndex}']`);
       el?.scrollIntoView({ block: 'center', inline: 'center' });

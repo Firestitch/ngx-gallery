@@ -47,8 +47,8 @@ export interface FsGalleryConfig {
 
 export interface FsGalleryMapping {
   name?: string,
-  preview?: string | FsApiFile,
-  url?: string | FsApiFile,
+  preview?: string | FsApiFile | File | FsFile,
+  url?: string | FsApiFile | File | FsFile,
   extension?: string,
   folder?: boolean,
 }

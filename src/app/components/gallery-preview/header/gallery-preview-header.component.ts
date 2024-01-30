@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Out
 import { FsApiFile } from '@firestitch/api';
 import { FsGalleryItem, FsGalleryItemAction, FsGalleryMenuItem, FsGalleryPreviewAction } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
+import { FsFile } from '@firestitch/file';
 
 
 @Component({
@@ -36,6 +37,11 @@ export class FsGalleryPreviewHeaderComponent implements OnChanges {
 
     if (action.download) {
       if (this.item.url instanceof FsApiFile) {
+        this.item.url.download();
+      } else if (this.item.url instanceof File) {
+        (new FsFile(this.item.url))
+          .download();
+      } else if (this.item.url instanceof FsFile) {
         this.item.url.download();
       } else {
         const url = new URL(this.item.url);

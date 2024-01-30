@@ -4,7 +4,7 @@
     [style.height]="(imageHeight ? imageHeight + 'px' :null)"
     [style.width]="(imageWidth ? imageWidth + 'px' :null)"
     [ngClass]="{
-      'previewable': config.preview && (preview$ | async),
+      'previewable': config.preview && !!preview  ,
       'file-folder': item.folder,
       'file-image': item.mime.type === MimeType.Image,
       'file-video': item.mime.type === MimeType.Video,
@@ -20,7 +20,7 @@
 </div>
 
 <ng-template #template>
-  <ng-container *ngIf="(preview$ | async) as preview; else fileIcon">      
+  <ng-container *ngIf="(preview | imageSrc:config.thumbnail.size === GalleryThumbnailSize.Cover | async) as preview; else fileIcon">      
     <ng-container [ngSwitch]="item.mime.type">
       <ng-template [ngSwitchCase]="MimeType.Image">
         <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Cover">
