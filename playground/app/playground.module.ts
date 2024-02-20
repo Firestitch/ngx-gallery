@@ -38,51 +38,48 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  bootstrap: [AppComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppMaterialModule,
-    FormsModule,
-    DragulaModule.forRoot(),
-    FsGalleryModule.forRoot(),
-    FsFileModule.forRoot(),
-    FsFilterModule.forRoot({
-      button: {
-        style: ButtonStyle.Flat,
-        label: '',
-      }
-    }),
-    FsApiModule.forRoot(),
-    FsMenuModule,
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
-    FsExampleModule.forRoot(),
-    ToastrModule.forRoot({ preventDuplicates: true }),
-    FsMessageModule.forRoot(),
-    FsScrollModule.forRoot(),
-    FsScrollbarModule.forRoot(),
-    FsSelectionModule,
-    FsDrawerModule,
-    FsLabelModule,
-    FsListModule.forRoot({
-      chips: true,
-    }),
-  ],
-  entryComponents: [
-    ConfigureComponent
-  ],
-  declarations: [
-    AppComponent,
-    ExamplesComponent,
-    ExampleComponent,
-    SimplePreviewComponent,
-    ConfigureComponent,
-    CoverComponent,
-    PreviewComponent,
-  ],
-  providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } }
-  ]
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppMaterialModule,
+        FormsModule,
+        DragulaModule.forRoot(),
+        FsGalleryModule.forRoot(),
+        FsFileModule.forRoot(),
+        FsFilterModule.forRoot({
+            button: {
+                style: ButtonStyle.Flat,
+                label: '',
+            }
+        }),
+        FsApiModule.forRoot(),
+        FsMenuModule,
+        RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+        FsExampleModule.forRoot(),
+        ToastrModule.forRoot({ preventDuplicates: true }),
+        FsMessageModule.forRoot(),
+        FsScrollModule.forRoot(),
+        FsScrollbarModule.forRoot(),
+        FsSelectionModule,
+        FsDrawerModule,
+        FsLabelModule,
+        FsListModule.forRoot({
+            chips: true,
+        }),
+    ],
+    declarations: [
+        AppComponent,
+        ExamplesComponent,
+        ExampleComponent,
+        SimplePreviewComponent,
+        ConfigureComponent,
+        CoverComponent,
+        PreviewComponent,
+    ],
+    providers: [
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } }
+    ]
 })
 export class PlaygroundModule {
 }
