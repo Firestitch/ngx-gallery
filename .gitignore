@@ -43,3 +43,4 @@ dist/*
 /demo
 /docs
 /package
+upgrade.js
