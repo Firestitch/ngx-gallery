@@ -36,7 +36,12 @@
               "highlight.js",
               "date-fns-tz",
               "dragula"
-            ]
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
           },
           "configurations": {
             "production": {

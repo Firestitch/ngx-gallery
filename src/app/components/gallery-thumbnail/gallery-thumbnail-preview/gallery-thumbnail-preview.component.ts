@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 
-import { SafeUrl } from '@angular/platform-browser';
-import { FsApiFile } from '@firestitch/api';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { GalleryThumbnailSize, MimeType } from '../../../enums';
 import { FsGalleryConfig, FsGalleryItem } from '../../../interfaces';

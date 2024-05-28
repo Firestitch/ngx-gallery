@@ -22,15 +22,15 @@ export class ImageSrcPipe implements PipeTransform {
 
     if(cssUrl) {
       if (url instanceof FsApiFile) {
-        return url.base64
+        return url.base64Url
         .pipe(
-          map((base64) => (`url(${base64})`)),
+          map((data) => (`url(${data})`)),
         );
 
       } else if(url instanceof FsFile) {
-        return url.base64
+        return url.base64Url
         .pipe(
-          map((base64) => `url(${base64})`),
+          map((data) => `url(${data})`),
         );
       } else {
         return of(`url(${url})`);
@@ -42,9 +42,9 @@ export class ImageSrcPipe implements PipeTransform {
       }
 
       if(url instanceof FsFile) {
-        return url.base64
+        return url.base64Url
           .pipe(
-            map((base64) => this._sanitizer.bypassSecurityTrustResourceUrl(base64)),
+            map((data) => this._sanitizer.bypassSecurityTrustResourceUrl(data)),
           );
       }
 
