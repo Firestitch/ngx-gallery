@@ -1,16 +1,20 @@
-import { Overlay } from '@angular/cdk/overlay';
+import { Location } from '@angular/common';
 import { Injectable, Injector } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { Overlay } from '@angular/cdk/overlay';
+
+import { FsStore } from '@firestitch/store';
 
 import { take } from 'rxjs/operators';
 
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { FsStore } from '@firestitch/store';
 import { DragulaService } from 'ng2-dragula';
+
 import { PersistanceController } from '../classes';
 import { FsGalleryPreviewComponent } from '../components';
 import { FsGalleryPreviewDetailsDirective } from '../directives';
 import { FsGalleryConfig, FsGalleryItem } from '../interfaces';
+
 import { FsGalleryService } from './gallery.service';
 
 
@@ -49,9 +53,7 @@ export class FsGallery {
       .pipe(
         take(1),
       )
-      .subscribe(() => {
-
-      });
+      .subscribe();
   }
 }
 

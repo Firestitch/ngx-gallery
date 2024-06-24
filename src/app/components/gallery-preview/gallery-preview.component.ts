@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { NavigationStart, Router } from '@angular/router';
 
 import { MatDrawer } from '@angular/material/sidenav';
 
-import { Observable, Subject, of } from 'rxjs';
+
+import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { SafeUrl } from '@angular/platform-browser';
-import { FsApiFile } from '@firestitch/api';
+
 import { GalleryConfig } from '../../classes';
 import { FsGalleryPreviewRef } from '../../classes/gallery-preview-ref';
 import { MimeType } from '../../enums';
@@ -73,8 +74,8 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
     this._router.events
       .pipe(
+        filter((event) => event instanceof NavigationStart),
         takeUntil(this._destroy$),
-        filter(event => event instanceof NavigationStart)
       )
       .subscribe((event: NavigationStart) => {
         this._previewRef.close();
@@ -96,7 +97,6 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
-    this.renderer.removeClass(document.body, 'fs-gallery-preview-open');
   }
 
   public close() {

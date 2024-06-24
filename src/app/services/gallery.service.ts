@@ -1,10 +1,11 @@
+import { Location } from '@angular/common';
 import { Inject, Injectable, Injector, OnDestroy, TemplateRef } from '@angular/core';
 
 import { Overlay } from '@angular/cdk/overlay';
-import { Location } from '@angular/common';
 
 import { getNormalizedPath, guid } from '@firestitch/common';
 import { FilterComponent, FilterConfig } from '@firestitch/filter';
+import { HtmlClassRenderer } from '@firestitch/html';
 import {
   FsListComponent,
   FsListConfig,
@@ -12,10 +13,11 @@ import {
   FsListReorderConfig,
 } from '@firestitch/list';
 
-import { round } from 'lodash-es';
-import { DragulaService } from 'ng2-dragula';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
+
+import { round } from 'lodash-es';
+import { DragulaService } from 'ng2-dragula';
 
 import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
 import { GalleryConfig } from '../classes/gallery.config';
@@ -28,6 +30,7 @@ import { mimeColor } from '../helpers';
 import { mime } from '../helpers/mime';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
 import { FsGalleryConfig, FsGalleryItem, FsGalleryPersistance } from '../interfaces';
+
 import { FsGalleryPreviewService } from './gallery-preview.service';
 
 
@@ -136,7 +139,7 @@ export class FsGalleryService implements OnDestroy {
           const item: FsGalleryItem = group.drake.models[0][index];
 
           return this.config.reorderStart({ item, el, source, handle, sibling });
-        }
+        },
       });
     }
   }
@@ -152,7 +155,6 @@ export class FsGalleryService implements OnDestroy {
   public setLister(lister: FsListComponent) {
     this._lister = lister;
   }
-
 
   public get imageWidth(): number {
     return this._imageWidth;
@@ -182,7 +184,7 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public closePreview() {
-    this.galleryPreviewService.close()
+    this.galleryPreviewService.close();
   }
 
   public openPreview(item: FsGalleryItem): FsGalleryPreviewRef {
@@ -190,15 +192,17 @@ export class FsGalleryService implements OnDestroy {
       this.config.previewOpened(item);
     }
 
+    this._injector.get(HtmlClassRenderer).addClass('fs-gallery-preview-open');
     const galleryPreviewRef = this.galleryPreviewService.open(item);
 
     galleryPreviewRef
       .onClose
       .pipe(
         take(1),
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe(() => {
+        this._injector.get(HtmlClassRenderer).removeClass('fs-gallery-preview-open');
         if (this.config.previewClosed) {
           this.config.previewClosed(item);
         }
@@ -267,12 +271,14 @@ export class FsGalleryService implements OnDestroy {
 
         item.contains = {
           files: Number(Object.values(mimeTypes)
-            .reduce((accum: number, value: number) => { return accum + value }, 0)),
+            .reduce((accum: number, value: number) => {
+              return accum + value; 
+            }, 0)),
           folders: item.items
             .filter((item) => item.folder)
             .length,
           mimeTypes: {},
-        }
+        };
 
         return item;
       });
@@ -281,11 +287,7 @@ export class FsGalleryService implements OnDestroy {
   public updateImageDims() {
     this._imageWidth = this.config.thumbnail.width + (this.imageZoom * this.config.thumbnail.width);
 
-    if (this.config.thumbnail.height) {
-      this._imageHeight = this.config.thumbnail.height + (this.imageZoom * this.config.thumbnail.height);
-    } else {
-      this._imageHeight = (this._imageWidth * this.config.thumbnail.heightScale);
-    }
+    this._imageHeight = this.config.thumbnail.height ? this.config.thumbnail.height + (this.imageZoom * this.config.thumbnail.height) : (this._imageWidth * this.config.thumbnail.heightScale);
 
     this.dimentionsChange$.next();
   }
@@ -394,10 +396,10 @@ export class FsGalleryService implements OnDestroy {
               return {
                 data: this.data,
                 paging: { records: items.length },
-              }
+              };
             }),
           );
-      }
+      },
     };
 
     if (this.config.noResults !== undefined) {
@@ -420,10 +422,11 @@ export class FsGalleryService implements OnDestroy {
           if (this._config.fetch) {
             const item = this.navItems[this.navItems.length - 1];
 
-            return this._config.fetch(query, item)
-          } else {
-            return of([]);
+            return this._config.fetch(query, item);
           }
+ 
+          return of([]);
+          
         }),
         map((items: any) => this.mapData(items)),
         takeUntil(this._destroy$),

@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { FsGalleryConfig, FsGalleryItem, FsGalleryPreviewDetailsDirective } from '@firestitch/gallery';
+
 import { of } from 'rxjs';
+
 import { FsGallery } from 'src/app/services/fs-gallery';
 
 
@@ -22,28 +24,28 @@ export class PreviewComponent {
     map: (data) => {
       return {
         url: data.image,
-        preview: data.image
-      }
+        preview: data.image,
+      };
     },
     zoom: false,
     fetch: (query) => {
       return of(this.items);
-    }
+    },
   };
 
   public items: FsGalleryItem[] = [
     {
       preview: 'https://img.freepik.com/premium-photo/cute-dachshund-puppy-hand-mistress_414160-1577.jpg',
-      url: 'https://img.freepik.com/premium-photo/cute-dachshund-puppy-hand-mistress_414160-1577.jpg?w=1800'
+      url: 'https://img.freepik.com/premium-photo/cute-dachshund-puppy-hand-mistress_414160-1577.jpg?w=1800',
     },
     {
       url: 'https://img.freepik.com/premium-photo/puppy-breed-dachshund-brown-color_98725-768.jpg?w=1800',
       preview: 'https://img.freepik.com/premium-photo/puppy-breed-dachshund-brown-color_98725-768.jpg',
-    }
+    },
   ];
 
-  public constructor(
-    private gallery: FsGallery
+  constructor(
+    private gallery: FsGallery,
   ) { }
 
   public open(): void {
@@ -52,8 +54,8 @@ export class PreviewComponent {
       config: {
         details: {
           autoOpen: true,
-        }
-      }
+        },
+      },
     });
   }
 
