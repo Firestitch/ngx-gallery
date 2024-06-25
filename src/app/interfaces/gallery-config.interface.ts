@@ -2,9 +2,12 @@ import { FsApiFile } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
 import { FsFilterAction, IFilterConfigItem, IFsFilterFileAction } from '@firestitch/filter';
 import { FsListNoResultsConfig, FsListSelectionConfig } from '@firestitch/list';
+
 import { Observable } from 'rxjs';
+
 import { MimeType } from '../enums';
 import { GalleryLayout } from '../enums/gallery-layout.enum';
+
 import { FsGalleryPersistance } from './gallery-persist-config.interface';
 import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
 

@@ -317,9 +317,11 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public getInfoItemName(item: FsGalleryItem) {
-    let name: any = item.name;
+    let name = null;
     if (this.config.info?.name instanceof Function) {
       name = this.config.info.name(item);
+    } else if(this.config.info?.name) {
+      name = item.name;
     }
 
     return name;

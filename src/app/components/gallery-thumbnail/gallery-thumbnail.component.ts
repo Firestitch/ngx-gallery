@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { FsGalleryService } from '../../services';
   styleUrls: ['./gallery-thumbnail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryThumbnailComponent implements OnInit {
+export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
 
   @Input() public item: FsGalleryItem = null;
   @Input() public index;
@@ -45,9 +45,8 @@ export class FsGalleryThumbnailComponent implements OnInit {
     this.infoMenuItems = processMenuItems(this.galleryService.config.info?.menu?.items || [], this.item);
     this.hasInfo = (
       !!this.galleryService.config.info.icon ||
-      !!this.galleryService.config.info.name ||
-      !!this.infoMenuItems.length ||
-      !!this.galleryService.getInfoItemName(this.item)
+      !!this.galleryService.getInfoItemName(this.item) || 
+      !!this.infoMenuItems.length
     );
   }
 
