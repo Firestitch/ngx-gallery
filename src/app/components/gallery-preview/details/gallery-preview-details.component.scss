@@ -1,3 +1,5 @@
+@use '@firestitch/style/styles' as fs-style;
+
 .container {
   width: 300px;
   padding: 10px 18px;
@@ -7,6 +9,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 15px;
+    margin-top: fs-style.$safe-area-top;
 
     .mat-dialog-title {
       flex-grow: 1;

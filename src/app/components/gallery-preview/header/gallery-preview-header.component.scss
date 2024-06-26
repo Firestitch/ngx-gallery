@@ -1,7 +1,10 @@
+@use '@firestitch/style/styles' as fs-style;
+
 .header {
   padding: 10px;
   box-sizing: border-box;
   display: flex;
+  margin-top: fs-style.$safe-area-top;
 
   .actions {
     z-index: 1;
