@@ -3,11 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
 import { PREVIEW_DATA } from '../injectors/preview-data';
 import { FsGalleryDataItem } from '../interfaces/gallery-data-item.interface';
+
 import { FsGalleryService } from './gallery.service';
 
 
@@ -63,7 +66,8 @@ export class FsGalleryPreviewService {
   private _createOverlay() {
     const overlayConfig = new OverlayConfig({
       height: '100%',
-      width: '100%'
+      width: '100%',
+      direction: null,
     });
 
     const overlayRef = this._overlay.create(overlayConfig);
@@ -77,7 +81,7 @@ export class FsGalleryPreviewService {
           relativeTo: this._route,
           queryParams: { galleryPreview: null },
           queryParamsHandling: 'merge',
-        }).then(() => { });
+        }).then();
 
       });
 
@@ -105,7 +109,7 @@ export class FsGalleryPreviewService {
   private _createInjector(parentInjector: Injector, previewRef: FsGalleryPreviewRef, data: FsGalleryDataItem) {
     const providers: any = [
       { provide: FsGalleryPreviewRef, useValue: previewRef },
-      { provide: PREVIEW_DATA, useValue: data }
+      { provide: PREVIEW_DATA, useValue: data },
     ];
 
     if (this._galleryService) {
@@ -114,7 +118,7 @@ export class FsGalleryPreviewService {
 
     return Injector.create({
       parent: parentInjector,
-      providers
+      providers,
     });
   }
 }

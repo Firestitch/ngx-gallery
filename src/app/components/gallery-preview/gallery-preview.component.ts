@@ -41,6 +41,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   public activeImageIndex = 0;
 
   private _destroy$ = new Subject();
+  private _disableCloses = {};
 
   constructor(
     @Inject(PREVIEW_DATA) private _item: FsGalleryItem,
@@ -50,7 +51,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     private _previewRef: FsGalleryPreviewRef,
     private _el: ElementRef,
     private _dialog: MatDialog,
-  ) { }
+  ) {}
 
   @HostListener('document:keydown', ['$event'])
   public onKeydownHandler(event: KeyboardEvent) {
@@ -68,7 +69,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this._removeElementFocus();
+    this._disableDialogEscapeClose();
     this._initAvailableImages();
     this.setActiveItem(this._item);
     this.classCarousel = this.galleryConfig.showCarousel;
@@ -97,6 +98,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
+    this._enableDialogEscapeClose();
     this._destroy$.next();
     this._destroy$.complete();
   }
@@ -146,6 +148,25 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     });
   }
 
+  private _disableDialogEscapeClose() {
+    this._dialog.openDialogs
+      .forEach((dialog) => {  
+        this._disableCloses = {
+          ...this._disableCloses,
+          [dialog.id]: dialog.disableClose,
+        };
+
+        dialog.disableClose = true;
+      });
+  }
+
+  private _enableDialogEscapeClose() {
+    this._dialog.openDialogs
+      .forEach((dialog) => {  
+        dialog.disableClose = this._disableCloses[dialog.id];               
+      });
+  }
+
   private _initAvailableImages() {
     this.availableImages = this.galleryService.data$.getValue()
       .filter((item: FsGalleryItem) => {
@@ -156,7 +177,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     this.hasMultipleItems = this.availableImages.length > 1;
   }
 
-  private _removeElementFocus() {
-    (document.activeElement as HTMLElement)?.blur();
-  }
+  // private _removeElementFocus() {
+  //   (document.activeElement as HTMLElement)?.blur();
+  // }
 }
