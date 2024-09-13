@@ -142,7 +142,8 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
       .findIndex((item) => this.activeItem?.guid === item.guid);
 
     setTimeout(() => {
-      const el = this._el.nativeElement.querySelector(`fs-gallery-preview-carousel [data-index='${this.activeImageIndex}']`);
+      const el = this._el.nativeElement
+        .querySelector(`fs-gallery-preview-carousel [data-index='${this.activeImageIndex}']`);
       el?.scrollIntoView({ block: 'center', inline: 'center' });
     });
   }
@@ -155,15 +156,17 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
           [dialog.id]: dialog.disableClose,
         };
 
-        dialog.disableClose = true;        
+        dialog.disableClose = true;
       });
   }
 
   private _enableDialogEscapeClose() {
-    this._dialog.openDialogs
-      .forEach((dialog) => {  
-        dialog.disableClose = this._disableCloses[dialog.id];               
-      });
+    setTimeout(() => {
+      this._dialog.openDialogs
+        .forEach((dialog) => {  
+          dialog.disableClose = this._disableCloses[dialog.id];               
+        });
+    },1000);
   }
 
   private _initAvailableImages() {
