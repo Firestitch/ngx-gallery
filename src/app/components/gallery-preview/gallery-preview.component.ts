@@ -161,12 +161,10 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   }
 
   private _enableDialogEscapeClose() {
-    setTimeout(() => {
-      this._dialog.openDialogs
-        .forEach((dialog) => {  
-          dialog.disableClose = this._disableCloses[dialog.id];               
-        });
-    },1000);
+    this._dialog.openDialogs
+      .forEach((dialog) => {  
+        dialog.disableClose = this._disableCloses[dialog.id];
+      });
   }
 
   private _initAvailableImages() {
