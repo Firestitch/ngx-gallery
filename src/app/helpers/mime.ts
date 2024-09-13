@@ -1,7 +1,9 @@
 import { FsApiFile } from '@firestitch/api';
-import { MimeType } from '../enums';
-import { mimeColor } from './mime-color';
 import { FsFile } from '@firestitch/file';
+
+import { MimeType } from '../enums';
+
+import { mimeColor } from './mime-color';
 
 
 export function mime(name: string, url: string | FsApiFile | FsFile | File, extension: string, folder: boolean): { type: MimeType, extension: string, color: string } {

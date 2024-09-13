@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListen
 import { SafeUrl } from '@angular/platform-browser';
 import { NavigationStart, Router } from '@angular/router';
 
+import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
-
 
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -29,6 +29,30 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   @HostBinding('class.carousel') public classCarousel = false;
 
+  public imageUrl$: Observable<string | SafeUrl>;
+  public availableImages: FsGalleryItem[];
+  public imageHover = false;
+  public MimeType = MimeType;
+  public hasMultipleItems = false;
+  public drawerShow = true;
+  public activeItem: FsGalleryItem;
+  public activeImage: { height: number, width: number };
+  public drawerMode: any = 'side';
+  public activeImageIndex = 0;
+
+  private _destroy$ = new Subject();
+  private _disableCloses = {};
+
+  constructor(
+    @Inject(PREVIEW_DATA) private _item: FsGalleryItem,
+    public galleryService: FsGalleryService,
+    public renderer: Renderer2,
+    private _router: Router,
+    private _previewRef: FsGalleryPreviewRef,
+    private _el: ElementRef,
+    private _dialog: MatDialog,
+  ) { }
+
   @HostListener('document:keydown', ['$event'])
   public onKeydownHandler(event: KeyboardEvent) {
     switch (event.keyCode) {
@@ -44,29 +68,8 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  public availableImages: FsGalleryItem[];
-  public imageHover = false;
-  public MimeType = MimeType;
-  public hasMultipleItems = false;
-  public drawerShow = true;
-  public activeItem: FsGalleryItem;
-  public activeImage: { height: number, width: number };
-  public drawerMode: any = 'side';
-  public activeImageIndex = 0;
-  public imageUrl$: Observable<string | SafeUrl>;
-
-  private _destroy$ = new Subject();
-
-  constructor(
-    @Inject(PREVIEW_DATA) private _item: FsGalleryItem,
-    public galleryService: FsGalleryService,
-    public renderer: Renderer2,
-    private _router: Router,
-    private _previewRef: FsGalleryPreviewRef,
-    private _el: ElementRef,
-  ) { }
-
   public ngOnInit(): void {
+    this._disableDialogEscapeClose();
     this._initAvailableImages();
     this.setActiveItem(this._item);
     this.classCarousel = this.galleryConfig.showCarousel;
@@ -95,6 +98,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
+    this._enableDialogEscapeClose();
     this._destroy$.next();
     this._destroy$.complete();
   }
@@ -132,8 +136,8 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  public setActiveItem(item: FsGalleryItem) {
-    this.activeItem = item;
+  public setActiveItem(galleryItem: FsGalleryItem) {
+    this.activeItem = galleryItem;
     this.activeImageIndex = this.availableImages
       .findIndex((item) => this.activeItem?.guid === item.guid);
 
@@ -141,6 +145,25 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
       const el = this._el.nativeElement.querySelector(`fs-gallery-preview-carousel [data-index='${this.activeImageIndex}']`);
       el?.scrollIntoView({ block: 'center', inline: 'center' });
     });
+  }
+
+  private _disableDialogEscapeClose() {
+    this._dialog.openDialogs
+      .forEach((dialog) => {  
+        this._disableCloses = {
+          ...this._disableCloses,
+          [dialog.id]: dialog.disableClose,
+        };
+
+        dialog.disableClose = true;        
+      });
+  }
+
+  private _enableDialogEscapeClose() {
+    this._dialog.openDialogs
+      .forEach((dialog) => {  
+        dialog.disableClose = this._disableCloses[dialog.id];               
+      });
   }
 
   private _initAvailableImages() {

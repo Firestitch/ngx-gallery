@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { delay } from 'rxjs/operators';
 
-import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, MimeType } from '@firestitch/gallery';
 
 import { FsApi } from '@firestitch/api';
-import { getItems } from 'playground/app/helpers';
+import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, MimeType } from '@firestitch/gallery';
+
 import { Observable, of, Subject } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
+import { getItems } from 'playground/app/helpers';
 import { GalleryThumbnailSize } from 'src/app/enums';
 
 
@@ -28,7 +30,7 @@ export class CoverComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(
-    private _api: FsApi
+    private _api: FsApi,
   ) { }
 
   public ngOnInit(): void {
@@ -49,9 +51,9 @@ export class CoverComponent implements OnInit, OnDestroy {
           items = item.items;
         }
 
-        if (!!query.keyword) {
+        if (query.keyword) {
           items = items.filter((item: any) => {
-            return item.name.toLowerCase().includes(query.keyword.toLowerCase())
+            return item.name.toLowerCase().includes(query.keyword.toLowerCase());
           });
         }
 
@@ -65,6 +67,7 @@ export class CoverComponent implements OnInit, OnDestroy {
       },
       reorderStart: ({ item, el, source, handle, sibling }) => {
         console.log('reorderStart', item, el, source, handle, sibling);
+
         return true;
       },
     };

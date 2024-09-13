@@ -2,12 +2,12 @@ import { Directive, TemplateRef } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsGalleryPreviewDetails]'
+  selector: '[fsGalleryPreviewDetails]',
 })
 export class FsGalleryPreviewDetailsDirective {
 
-  public constructor(
-    public templateRef: TemplateRef<any>
+  constructor(
+    public templateRef: TemplateRef<any>,
   ) { }
 
 }
