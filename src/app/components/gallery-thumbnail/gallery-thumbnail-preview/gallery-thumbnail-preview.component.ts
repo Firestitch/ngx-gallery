@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges,
+} from '@angular/core';
+
+import { FsApiFile } from '@firestitch/api';
+import { FsFile } from '@firestitch/file';
 
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { GalleryThumbnailSize, MimeType } from '../../../enums';
 import { FsGalleryConfig, FsGalleryItem } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
@@ -22,7 +28,7 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
   public MimeType = MimeType;
   public iconWidth;
   public iconHeight;
-  public preview;
+  public preview: string | FsApiFile | File | FsFile;
   public GalleryThumbnailSize = GalleryThumbnailSize;
   public styles = {
     width: null,
@@ -34,7 +40,6 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
   constructor(
     public galleryService: FsGalleryService,
   ) { }
-
 
   public ngOnInit(): void {
     this.preview = this.item.preview;
@@ -54,12 +59,12 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
     }
   }
 
-  public click(item: FsGalleryItem) {
-    if (item.folder) {
-      this.galleryService.openItem(item);
+  public click(galleryItem: FsGalleryItem) {
+    if (galleryItem.folder) {
+      this.galleryService.openItem(galleryItem);
     } else {
       if (this.galleryService.config.preview) {
-        this.galleryService.beforeOpenPreview(item)
+        this.galleryService.beforeOpenPreview(galleryItem)
           .pipe(
             filter((item) => !!item),
             takeUntil(this._destroy$),
@@ -69,7 +74,7 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
           });
 
         if (this.galleryService.config.previewClick) {
-          this.galleryService.config.previewClick(item);
+          this.galleryService.config.previewClick(galleryItem);
         }
       }
     }

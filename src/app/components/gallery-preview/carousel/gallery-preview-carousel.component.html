@@ -5,20 +5,16 @@
         (click)="itemClick(item)"
         [attr.data-index]="index"
         [ngClass]="{ active: activeItem.guid === item.guid }">
-      <ng-container [ngSwitch]="item.mime.type">
-        <ng-template [ngSwitchCase]="MimeType.Image">
-          <ng-container *ngIf="(item.url | imageSrc | async) as image">
-            <img [src]="image" (load)="loaded()">
-          </ng-container>
-        </ng-template>
-        <ng-template ngSwitchDefault>
+        <ng-container *ngIf="(item.preview | imageSrc | async) as image; else icon">
+          <img [src]="image" (load)="loaded()">
+        </ng-container>
+        <ng-template #icon>
           <fs-gallery-file-icon 
             [height]="100"
             [width]="null"
             [item]="item">
           </fs-gallery-file-icon>
         </ng-template>
-      </ng-container>
     </a>
   </ng-container>
 </div>

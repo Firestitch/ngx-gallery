@@ -21,23 +21,15 @@
 
 <ng-template #template>
   <ng-container *ngIf="(preview | imageSrc:config.thumbnail.size === GalleryThumbnailSize.Cover | async) as preview; else fileIcon">      
-    <ng-container [ngSwitch]="item.mime.type">
-      <ng-template [ngSwitchCase]="MimeType.Image">
-        <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Cover">
-          <div class="image-cover"        
-            [style.backgroundSize]="config.thumbnail.size"
-            [style.backgroundPosition]="config.thumbnail.position"
-            [style.backgroundImage]="preview">
-          </div> 
-        </ng-container>
-        <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Contain">
-          <img class="image-contain" [src]="preview">
-        </ng-container>
-      </ng-template>
-    
-      <ng-template ngSwitchDefault>
-        <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
-      </ng-template>
+    <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Cover">
+      <div class="image-cover"        
+        [style.backgroundSize]="config.thumbnail.size"
+        [style.backgroundPosition]="config.thumbnail.position"
+        [style.backgroundImage]="preview">
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Contain">
+      <img class="image-contain" [src]="preview">
     </ng-container>
   </ng-container>
 </ng-template>

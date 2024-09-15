@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FsGalleryItem } from '../../interfaces';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
 import { MimeType } from '../../enums';
+import { FsGalleryItem } from '../../interfaces';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class FsGalleryFileIconComponent implements OnChanges {
   public MimeType = MimeType;
   public darkColor;
   public color: string;
-  public fontSize
+  public fontSize;
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
@@ -35,13 +36,13 @@ export class FsGalleryFileIconComponent implements OnChanges {
     }
   }
 
-  public hue(hex, percent) {
+  public hue(hex, percent: number) {
     // strip the leading # if it's there
-    hex = hex.replace(/^\s*#|\s*$/g, "");
+    hex = hex.replace(/^\s*#|\s*$/g, '');
 
     // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
     if (hex.length === 3) {
-      hex = hex.replace(/(.)/g, "$1$1");
+      hex = hex.replace(/(.)/g, '$1$1');
     }
 
     let r = parseInt(hex.substr(0, 2), 16);

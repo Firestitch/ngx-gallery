@@ -43,12 +43,12 @@ export class CoverComponent implements OnInit, OnDestroy {
         heightScale: .7,
         size: GalleryThumbnailSize.Cover,
       },
-      fetch: (query, item: FsGalleryItem): Observable<FsGalleryItem[]> => {
+      fetch: (query, galleryItem: FsGalleryItem): Observable<FsGalleryItem[]> => {
         console.log('fetch', query);
         let items = this.items;
 
-        if (item) {
-          items = item.items;
+        if (galleryItem) {
+          items = galleryItem.items;
         }
 
         if (query.keyword) {

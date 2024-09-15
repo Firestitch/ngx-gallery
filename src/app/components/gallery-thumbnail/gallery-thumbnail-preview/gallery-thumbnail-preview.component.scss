@@ -23,8 +23,8 @@
     min-height: 100px;
   }
 
-  &.file-image {
-    display: block;
+  &.file {
+    display: flex;
 
     .image-cover,
     .image-contain {
