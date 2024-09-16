@@ -50,22 +50,12 @@
       width: auto !important;
       height: auto !important;
     }
-
-    fs-pdf-viewer {
-      background-color: transparent;
-
-      ::ng-deep {
-        .ng2-pdf-viewer-container {
-          background-color: transparent !important;
-        }
-      }
-    }
   }
 
   .preview.extension-pdf {
     .prev-overlay,
     .next-overlay {
-      position: sticky;
+      position: absolute;
     }
   }
 

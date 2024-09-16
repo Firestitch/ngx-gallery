@@ -34,6 +34,8 @@
           <ng-template [ngSwitchCase]="MimeType.Application">
             <ng-container *ngIf="activeItem.mime.extension === 'pdf'; else fileIcon">
               <fs-pdf-viewer 
+                [backgroundColor]="'transparent'"
+                [zoomEnabled]="false"
                 [pdf]="activeItem.url">
               </fs-pdf-viewer>
             </ng-container>            
