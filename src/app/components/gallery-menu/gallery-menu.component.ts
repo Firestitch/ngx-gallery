@@ -1,6 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { processMenuItems } from '../../helpers';
+import {
+  ChangeDetectionStrategy, Component,
+  HostBinding, Input, OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
+import { processMenuItems } from '../../helpers';
 import { FsGalleryItem, FsGalleryItemAction, FsGalleryMenuItem } from '../../interfaces';
 
 
@@ -11,6 +15,9 @@ import { FsGalleryItem, FsGalleryItemAction, FsGalleryMenuItem } from '../../int
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsGalleryMenuComponent implements OnChanges {
+
+  @HostBinding('class.open')
+  public open = false;
 
   @Input() public item: FsGalleryItem;
   @Input() public menuItems: FsGalleryItemAction[];

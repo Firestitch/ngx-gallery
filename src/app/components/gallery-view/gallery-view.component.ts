@@ -8,10 +8,9 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { FsGalleryService } from '../../services/gallery.service';
-
 import { GalleryConfig } from '../../classes/gallery.config';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
+import { FsGalleryService } from '../../services/gallery.service';
 
 
 @Component({

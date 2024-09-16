@@ -1,6 +1,8 @@
 
 <ng-container *ngIf="visibleMenuItems.length">
-  <fs-menu>
+  <fs-menu
+      (opened)="open=true"
+      (closed)="open=false">
     <ng-container *ngFor="let menuItem of visibleMenuItems">
       <ng-template 
           *ngIf="!menuItem.select"

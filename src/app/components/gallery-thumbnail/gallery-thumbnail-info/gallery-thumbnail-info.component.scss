@@ -72,3 +72,11 @@
     display: none;
   }
 }
+
+@media(min-width: 599px) {
+  .info:not(:hover) { 
+    fs-gallery-menu:not(.open) {
+      display: none;
+    }
+  }
+}

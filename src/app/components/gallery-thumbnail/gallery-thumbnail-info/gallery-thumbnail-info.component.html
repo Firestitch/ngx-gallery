@@ -6,9 +6,7 @@
       <fs-gallery-icon [item]="item"></fs-gallery-icon>
     </div>
     <div class="name" 
-        *ngIf="name"
-        [matTooltip]="item.name" 
-        [matTooltipClass]="'gallery-thumbnail-tooltip'">
+        *ngIf="name">
       <div>{{ name }}</div>
     </div>
     <fs-gallery-menu

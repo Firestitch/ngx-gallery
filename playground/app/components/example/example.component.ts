@@ -46,8 +46,9 @@ export class ExampleComponent implements OnInit, OnDestroy {
       multiple: true,
       thumbnail: {
         //height: 100,
-        width: 250,
-        size: GalleryThumbnailSize.Contain,
+        width: 100,
+        heightScale: 1,
+        size: GalleryThumbnailSize.Cover,
       },
       emptyState: {
         validate: (query, items) => {
@@ -61,7 +62,7 @@ export class ExampleComponent implements OnInit, OnDestroy {
       zoom: true,
       info: {
         name: true,
-        icon: false,
+        icon: true,
         menu: {
           items: [
             {
