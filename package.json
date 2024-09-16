@@ -50,7 +50,7 @@
     "@firestitch/chip": "^12.0.0",
     "@firestitch/clear": "^12.4.0",
     "@firestitch/common": "^13.0.1",
-    "@firestitch/component-tools": "^13.1.1",
+    "@firestitch/component-tools": "^14.0.0",
     "@firestitch/core": "^13.0.0",
     "@firestitch/date": "^12.4.5",
     "@firestitch/datepicker": "^13.4.2",
