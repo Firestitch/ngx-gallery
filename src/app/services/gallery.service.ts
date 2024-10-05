@@ -112,7 +112,7 @@ export class FsGalleryService implements OnDestroy {
 
     this._initListConfig();
     this._initFilterConfig();
-    this._configUpdated$.next();
+    this._configUpdated$.next(null);
 
     if (this._config.persist) {
       this._restorePersistance(this._config.persist);
@@ -171,7 +171,7 @@ export class FsGalleryService implements OnDestroy {
   public ngOnDestroy(): void {
     this._configUpdated$.complete();
 
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
 
     this.galleryPreviewService.destroy();
@@ -217,7 +217,7 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public loadGallery() {
-    this._fetch$.next();
+    this._fetch$.next(null);
   }
 
   public reload() {
@@ -289,7 +289,7 @@ export class FsGalleryService implements OnDestroy {
 
     this._imageHeight = this.config.thumbnail.height ? this.config.thumbnail.height + (this.imageZoom * this.config.thumbnail.height) : (this._imageWidth * this.config.thumbnail.heightScale);
 
-    this.dimentionsChange$.next();
+    this.dimentionsChange$.next(null);
   }
 
   public updateImageZoom(val: number) {

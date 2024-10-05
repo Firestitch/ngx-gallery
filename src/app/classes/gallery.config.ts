@@ -323,7 +323,7 @@ export class GalleryConfig {
         select: (file) => {
           this.upload.select(file)
             .subscribe(() => {
-              this._upload$.next();
+              this._upload$.next(null);
             });
         },
       });

@@ -113,7 +113,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public ngOnDestroy() {
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
   }
 
@@ -162,7 +162,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public filterReady() {
-    this.galleryService.filtersReady$.next();
+    this.galleryService.filtersReady$.next(null);
   }
 
 }

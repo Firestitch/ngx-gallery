@@ -13,7 +13,7 @@ export class FsGalleryPreviewRef {
   }
 
   public close(): void {
-    this.onClose.next();
+    this.onClose.next(null);
     this.onClose.complete();
     this._overlayRef.dispose();
   }
