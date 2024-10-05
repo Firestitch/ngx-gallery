@@ -23,7 +23,7 @@ export class CoverComponent implements OnInit, OnDestroy {
   public gallery: FsGalleryComponent;
 
   public reorderEnabled = false;
-  public items = getItems(this._api);
+  public items: FsGalleryItem[];
   public galleryConfig: FsGalleryConfig;
   public MimeType = MimeType;
 
@@ -31,7 +31,9 @@ export class CoverComponent implements OnInit, OnDestroy {
 
   constructor(
     private _api: FsApi,
-  ) { }
+  ) { 
+    this.items = getItems(this._api);
+  }
 
   public ngOnInit(): void {
     this.galleryConfig = {

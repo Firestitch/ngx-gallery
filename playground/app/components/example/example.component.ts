@@ -27,7 +27,7 @@ export class ExampleComponent implements OnInit, OnDestroy {
   public gallery: FsGalleryComponent;
 
   public reorderEnabled = false;
-  public items = getItems(this._api);
+  public items: FsGalleryItem[];
   public galleryConfig: FsGalleryConfig;
   public MimeType = MimeType;
 
@@ -36,7 +36,9 @@ export class ExampleComponent implements OnInit, OnDestroy {
   constructor(
     private _prompt: FsPrompt,
     private _api: FsApi,
-  ) { }
+  ) { 
+    this.items = getItems(this._api);
+  }
 
   public ngOnInit(): void {
     this.galleryConfig = {
