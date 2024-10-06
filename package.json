@@ -75,7 +75,7 @@
     "@firestitch/scroll-picker": "^17.0.0",
     "@firestitch/scrollbar": "^17.0.0",
     "@firestitch/selectbutton": "^17.0.0",
-    "@firestitch/selection": "^17.0.0",
+    "@firestitch/selection": "^18.0.0",
     "@firestitch/skeleton": "^17.0.0",
     "@firestitch/store": "^17.0.0",
     "@firestitch/style": "^18.0.0",
