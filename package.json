@@ -88,6 +88,7 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
+    "dragula": "^3.7.3",
     "ng2-dragula": "^5.1.0"
   },
   "overrides": {
