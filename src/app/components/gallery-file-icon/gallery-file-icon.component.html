@@ -1,33 +1,62 @@
-<div 
+<div
     class="file-icon"
     [style.height]="height ? height + 'px' : null"
     [style.width]="width ? width + 'px' : null">
   <ng-container *ngIf="item.folder">
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 270.7 309.6" style="enable-background:new 0 0 270.7 309.6;" xml:space="preserve">
+    <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xlink="http://www.w3.org/1999/xlink"
+        x="0px"
+        y="0px"
+        viewBox="0 0 270.7 309.6"
+        style="enable-background:new 0 0 270.7 309.6;"
+        space="preserve">
       <style type="text/css">
-        .st0{fill:#FFA000;}
-        .st1{fill:#FFCA28;}
+        .st0{fill:#FFA000;
+        }
+        .st1{fill:#FFCA28;
+        }
       </style>
-      <path class="st0" d="M243.6,120.1H121.8L94.8,93H27.1C12.2,93,0,105.2,0,120.1v54.1h270.7v-27.1
-        C270.7,132.3,258.5,120.1,243.6,120.1z"/>
-      <path class="st1" d="M243.6,120.1H27.1C12.2,120.1,0,132.3,0,147.2v135.4c0,14.9,12.2,27.1,27.1,27.1h216.6
-        c14.9,0,27.1-12.2,27.1-27.1V147.2C270.7,132.3,258.5,120.1,243.6,120.1z"/>
+      <path
+        class="st0"
+        d="M243.6,120.1H121.8L94.8,93H27.1C12.2,93,0,105.2,0,120.1v54.1h270.7v-27.1
+        C270.7,132.3,258.5,120.1,243.6,120.1z">
+      </path>
+      <path
+        class="st1"
+        d="M243.6,120.1H27.1C12.2,120.1,0,132.3,0,147.2v135.4c0,14.9,12.2,27.1,27.1,27.1h216.6
+        c14.9,0,27.1-12.2,27.1-27.1V147.2C270.7,132.3,258.5,120.1,243.6,120.1z">
+      </path>
     </svg>
-  
-    <fs-gallery-folder-icon-info
-      [item]="item">
-    </fs-gallery-folder-icon-info>
+    <fs-gallery-folder-icon-info [item]="item"></fs-gallery-folder-icon-info>
   </ng-container>
   <ng-container *ngIf="!item.folder">
-    <svg version="1.1"xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 270.6 309.3" style="enable-background:new 0 0 270.6 309.3;" xml:space="preserve">
-    <g>
-      <path [attr.fill]="color" d="M19.3,0h164.2l87,86.7v203.2c0,10.7-8.7,19.3-19.3,19.3h-232C8.7,309.3,0,300.6,0,289.9V19.3C0,8.6,8.7,0,19.3,0z"/>
-      <path [attr.fill]="darkColor" d="M270.3,87H203c-10.7,0-19.3-8.7-19.3-19.3V0.2L270.3,87z"/>
-    </g>
+    <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xlink="http://www.w3.org/1999/xlink"
+        x="0px"
+        y="0px"
+        viewBox="0 0 270.6 309.3"
+        style="enable-background:new 0 0 270.6 309.3;"
+        space="preserve">
+      <g>
+        <path
+          [attr.fill]="color"
+          d="M19.3,0h164.2l87,86.7v203.2c0,10.7-8.7,19.3-19.3,19.3h-232C8.7,309.3,0,300.6,0,289.9V19.3C0,8.6,8.7,0,19.3,0z">
+        </path>
+        <path
+          [attr.fill]="darkColor"
+          d="M270.3,87H203c-10.7,0-19.3-8.7-19.3-19.3V0.2L270.3,87z">
+        </path>
+      </g>
     </svg>
-  </ng-container> 
-
-  <div class="file-ext" *ngIf="item.mime.extension" [style.fontSize]="fontSize + 'px'">
+  </ng-container>
+  <div
+      class="file-ext"
+      *ngIf="item.mime.extension"
+      [style.fontSize]="fontSize + 'px'">
     {{ item.mime.extension }}
   </div>
 </div>

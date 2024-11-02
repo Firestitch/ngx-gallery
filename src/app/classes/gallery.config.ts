@@ -1,13 +1,14 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import {
   ActionMode,
   ActionType,
   FilterConfig,
   FsFilterAction,
-  IFilterConfigItem
+  IFilterConfigItem,
 } from '@firestitch/filter';
 import { FsListSelectionConfig } from '@firestitch/list';
+
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FsGalleryListColumnDirective } from '../directives/column.directive';
 import { GalleryLayout, ThumbnailScale } from '../enums';
@@ -21,8 +22,9 @@ import {
   FsGalleryPersistance,
   FsGalleryPreviewAction, FsGalleryPreviewMenu,
   FsGalleryThumbnailConfig,
-  FsGalleryUploadConfig
+  FsGalleryUploadConfig,
 } from '../interfaces';
+
 import { GalleryView } from './../enums';
 
 
@@ -260,7 +262,7 @@ export class GalleryConfig {
         {
           mode: ActionMode.Menu,
           icon: this._resizeActionIcon,
-          type: ActionType.Raised,
+          type: ActionType.Flat,
           className: 'size',
           primary: false,
           items: [

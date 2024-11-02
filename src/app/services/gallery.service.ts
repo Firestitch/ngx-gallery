@@ -119,7 +119,8 @@ export class FsGalleryService implements OnDestroy {
     }
 
     if (this._persistanceController.enabled) {
-      this._restoreThumbnailScaleParams(this._persistanceController.getDataFromScope('thumbnailScale'));
+      this._restoreThumbnailScaleParams(this._persistanceController
+        .getDataFromScope('thumbnailScale'));
     }
 
     this._listenFetch();
@@ -254,19 +255,19 @@ export class FsGalleryService implements OnDestroy {
 
         const mimeTypes = {};
         mimeTypes[MimeType.Image] = item.items
-          .filter((item) => item.mime.type === MimeType.Image)
+          .filter((_item) => _item.mime.type === MimeType.Image)
           .length;
 
         mimeTypes[MimeType.Video] = item.items
-          .filter((item) => item.mime.type === MimeType.Video)
+          .filter((_item) => _item.mime.type === MimeType.Video)
           .length;
 
         mimeTypes[MimeType.Audio] = item.items
-          .filter((item) => item.mime.type === MimeType.Audio)
+          .filter((_item) => _item.mime.type === MimeType.Audio)
           .length;
 
         mimeTypes[MimeType.Application] = item.items
-          .filter((item) => item.mime.type === MimeType.Application)
+          .filter((_item) => _item.mime.type === MimeType.Application)
           .length;
 
         item.contains = {
@@ -275,7 +276,7 @@ export class FsGalleryService implements OnDestroy {
               return accum + value; 
             }, 0)),
           folders: item.items
-            .filter((item) => item.folder)
+            .filter((_item) => _item.folder)
             .length,
           mimeTypes: {},
         };

@@ -3,21 +3,20 @@
   [config]="galleryService.filterConfig"
   (ready)="filterReady()">
 </fs-filter>
-
 <ng-container *ngIf="navTemplate; else nav">
-  <ng-template [ngTemplateOutlet]="navTemplate" [ngTemplateOutletContext]="{ template: nav }"></ng-template>
+  <ng-template
+    [ngTemplateOutlet]="navTemplate"
+    [ngTemplateOutletContext]="{ template: nav }">
+  </ng-template>
 </ng-container>
-
 <ng-template #nav>
   <fs-gallery-nav></fs-gallery-nav>
 </ng-template>
-
 <fs-gallery-list-view
   *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.List"
   [imageWidth]="galleryService.imageWidth"
   [galleryConfig]="galleryService.config">
 </fs-gallery-list-view>
-
 <fs-gallery-gallery-view
   *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.Gallery"
   [reorderEnabled]="reorderEnabled"
