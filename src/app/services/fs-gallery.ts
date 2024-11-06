@@ -8,12 +8,11 @@ import { FsStore } from '@firestitch/store';
 
 import { take } from 'rxjs/operators';
 
-import { DragulaService } from 'ng2-dragula';
-
 import { PersistanceController } from '../classes';
 import { FsGalleryPreviewComponent } from '../components';
 import { FsGalleryPreviewDetailsDirective } from '../directives';
 import { FsGalleryConfig, FsGalleryItem } from '../interfaces';
+import { DragulaService } from '../modules/dragula';
 
 import { FsGalleryService } from './gallery.service';
 

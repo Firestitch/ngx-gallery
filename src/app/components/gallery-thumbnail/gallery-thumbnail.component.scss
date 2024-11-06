@@ -24,16 +24,18 @@
     }
   }
 
-  &:hover {
-    .menu-container {
-      display: block;
-    }
-  }
-
   .menu-container {
     display: none;
     position: absolute;
     top: 5px;
     right: 5px;
+  }
+}
+
+:host:not(.gu-mirror) {
+  .fs-gallery-thumbnail:hover {
+    .menu-container {
+      display: block;
+    }
   }
 }

@@ -17,7 +17,6 @@ import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { round } from 'lodash-es';
-import { DragulaService } from 'ng2-dragula';
 
 import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
 import { GalleryConfig } from '../classes/gallery.config';
@@ -30,6 +29,7 @@ import { mimeColor } from '../helpers';
 import { mime } from '../helpers/mime';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
 import { FsGalleryConfig, FsGalleryItem, FsGalleryPersistance } from '../interfaces';
+import { DragulaService } from '../modules/dragula';
 
 import { FsGalleryPreviewService } from './gallery-preview.service';
 
@@ -472,30 +472,38 @@ export class FsGalleryService implements OnDestroy {
 
         switch (size) {
           case ThumbnailScale.Small: {
-            this.config.viewModeGallery
-              ? this.updateImageZoom(-0.1)
-              : this.updateImageZoom(-0.7);
+            if(this.config.viewModeGallery) {
+              this.updateImageZoom(-0.1);
+            } else {
+              this.updateImageZoom(-0.7);
+            }
           }
             break;
 
           case ThumbnailScale.Medium: {
-            this.config.viewModeGallery
-              ? this.updateImageZoom(1.3)
-              : this.updateImageZoom(-0.2);
+            if(this.config.viewModeGallery) {
+              this.updateImageZoom(1.3);
+            } else {
+              this.updateImageZoom(-0.2);
+            }
           }
             break;
 
           case ThumbnailScale.Large: {
-            this.config.viewModeGallery
-              ? this.updateImageZoom(3)
-              : this.updateImageZoom(0.3);
+            if(this.config.viewModeGallery) {
+              this.updateImageZoom(3);
+            } else {
+              this.updateImageZoom(0.3);
+            }
           }
             break;
 
           case ThumbnailScale.None: {
-            this.config.viewModeGallery
-              ? this.updateImageZoom(0)
-              : this.updateImageZoom(0);
+            if(this.config.viewModeGallery) {
+              this.updateImageZoom(0);
+            } else {
+              this.updateImageZoom(0);
+            }
           }
             break;
         }

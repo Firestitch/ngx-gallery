@@ -2,7 +2,7 @@
   "name": "@firestitch/gallery",
   "title": "Gallery",
   "description": "@firestitch/gallery",
-  "version": "18.0.3",
+  "version": "18.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-gallery"
@@ -82,21 +82,13 @@
     "lodash-es": "^4.17.21",
     "rxjs": "^7.5.6",
     "typescript": "5.4.5",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.14.10",
+    "@types/dragula": "^3.7.3"
   },
   "engines": {
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "dragula": "^3.7.3",
-    "ng2-dragula": "^5.1.0"
-  },
-  "overrides": {
-    "ng2-dragula": {
-      "@types/dragula": "^3.7.3",
-      "@angular/animations": "18.2.7",
-      "@angular/common": "18.2.7",
-      "@angular/core": "18.2.7"
-    }
+    "dragula": "^3.7.3"
   }
 }
