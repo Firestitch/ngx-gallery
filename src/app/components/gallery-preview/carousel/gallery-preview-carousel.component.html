@@ -4,11 +4,20 @@
         (click)="itemClick(item)"
         [attr.data-index]="index"
         [ngClass]="{ active: activeItem.guid === item.guid }">
-      <ng-container *ngIf="(item.preview | imageSrc | async) as image; else icon">
-        <img
-          [src]="image"
-          (load)="loaded()">
-      </ng-container>
+      @if (item.preview) {
+        @if (item.preview | imageSrc | async; as image) {
+          <img
+            [src]="image"
+            (load)="loaded()">
+        } @else {
+          <mat-progress-spinner
+            [diameter]="30"
+            [mode]="'indeterminate'">
+          </mat-progress-spinner>
+        }
+      } @else {
+        <ng-container [ngTemplateOutlet]="icon"></ng-container>
+      }
       <ng-template #icon>
         <fs-gallery-file-icon
           [width]="60"
