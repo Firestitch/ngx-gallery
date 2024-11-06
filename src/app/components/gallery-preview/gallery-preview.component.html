@@ -46,30 +46,41 @@
             <path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"></path>
           </svg>
         </a>
-        <ng-container [ngSwitch]="activeItem.mime.type">
-          <ng-template [ngSwitchCase]="MimeType.Application">
-            <ng-container *ngIf="activeItem.mime.extension === 'pdf'; else fileIcon">
-              <fs-pdf-viewer
-                [backgroundColor]="'transparent'"
-                [zoomEnabled]="false"
-                [pdf]="activeItem.url">
-              </fs-pdf-viewer>
-            </ng-container>
-          </ng-template>
-          <ng-template [ngSwitchCase]="MimeType.Image">
-            <ng-container *ngIf="(activeItem.url | imageSrc | async) as image">
-              <img
-                class="image"
-                (load)="imageLoad($event)"
-                [src]="image"
-                (swipeleft)="nextItem()"
-                (swiperight)="prevItem()">
-            </ng-container>
-          </ng-template>
-          <ng-template ngSwitchDefault>
-            <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
-          </ng-template>
-        </ng-container>
+        @if (activeItem.url) {
+          <ng-container [ngSwitch]="activeItem.mime.type">
+            <ng-template [ngSwitchCase]="MimeType.Application">
+              @if (activeItem.mime.extension === 'pdf') {
+                <fs-pdf-viewer
+                  [backgroundColor]="'transparent'"
+                  [zoomEnabled]="false"
+                  [pdf]="activeItem.url">
+                </fs-pdf-viewer>
+              } @else {
+                <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
+              }
+            </ng-template>
+            <ng-template [ngSwitchCase]="MimeType.Image">
+              @if ((activeItem.url | imageSrc | async); as image) {
+                <img
+                  class="image"
+                  (load)="imageLoad($event)"
+                  [src]="image"
+                  (swipeleft)="nextItem()"
+                  (swiperight)="prevItem()">
+              } @else {
+                <mat-progress-spinner
+                  [diameter]="20"
+                  [mode]="'indeterminate'">
+                </mat-progress-spinner>
+              }
+            </ng-template>
+            <ng-template>
+              <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
+            </ng-template>
+          </ng-container>
+        } @else {
+          <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
+        }
         <ng-template #fileIcon>
           <fs-gallery-file-icon
             [width]="150"

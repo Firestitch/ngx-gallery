@@ -89,8 +89,8 @@ export function getItems(api: FsApi): FsGalleryItem[] {
         id: 9,
         description: 'Video description',
       },
-      name: 'Video',
-      url: 'http://techslides.com/demos/sample-videos/small.mp4',
+      name: 'Video.mp4',
+
     },
     {
       data: {

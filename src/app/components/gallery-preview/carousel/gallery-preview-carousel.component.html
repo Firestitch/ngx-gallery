@@ -1,20 +1,20 @@
 <div class="fs-gallery-preview-carousel">
-  <ng-container
-      *ngFor="let item of items; let index = index;">
-    <a 
+  <ng-container *ngFor="let item of items; let index = index;">
+    <a
         (click)="itemClick(item)"
         [attr.data-index]="index"
         [ngClass]="{ active: activeItem.guid === item.guid }">
-        <ng-container *ngIf="(item.preview | imageSrc | async) as image; else icon">
-          <img [src]="image" (load)="loaded()">
-        </ng-container>
-        <ng-template #icon>
-          <fs-gallery-file-icon 
-            [height]="100"
-            [width]="null"
-            [item]="item">
-          </fs-gallery-file-icon>
-        </ng-template>
+      <ng-container *ngIf="(item.preview | imageSrc | async) as image; else icon">
+        <img
+          [src]="image"
+          (load)="loaded()">
+      </ng-container>
+      <ng-template #icon>
+        <fs-gallery-file-icon
+          [width]="60"
+          [item]="item">
+        </fs-gallery-file-icon>
+      </ng-template>
     </a>
   </ng-container>
 </div>

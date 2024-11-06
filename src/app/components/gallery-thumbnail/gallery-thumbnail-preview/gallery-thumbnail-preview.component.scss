@@ -30,6 +30,7 @@
       height: 100%;
       width: 100%;
       min-width: 50px;
+      object-position: top;
 
       &.image-cover,
       &.image-contain {
@@ -38,7 +39,6 @@
 
       &.image-contain {
         object-fit: contain;
-        object-position: top;
       }
 
       &.image-cover {
