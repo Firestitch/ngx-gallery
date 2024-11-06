@@ -80,7 +80,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
         filter((event) => event instanceof NavigationStart),
         takeUntil(this._destroy$),
       )
-      .subscribe((event: NavigationStart) => {
+      .subscribe(() => {
         this._previewRef.close();
       });
   }
@@ -168,7 +168,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   }
 
   private _initAvailableImages() {
-    this.availableImages = this.galleryService.data$.getValue()
+    this.availableImages = this.galleryService.data
       .filter((item: FsGalleryItem) => {
         return !item.folder;
       });

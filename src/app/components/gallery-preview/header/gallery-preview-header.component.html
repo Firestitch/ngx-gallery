@@ -1,54 +1,62 @@
 <div class="header">
   <div class="actions left">
-    <button 
-        mat-icon-button 
-        type="button" 
-        class="action" 
+    <button
+        mat-icon-button
+        type="button"
+        class="action"
         (click)="previewClosed.emit()">
-      <mat-icon>close</mat-icon>
+      <mat-icon>
+        close
+      </mat-icon>
     </button>
   </div>
-  <div class="actions right">  
-    <ng-container *ngFor="let previewAction of previewActions">
-      <ng-container *ngIf="previewAction.select">
-        <fs-file class="action" (select)="previewAction.select(item, $event)">
-          <ng-container 
-            [ngTemplateOutlet]="previewActionButton"
-            [ngTemplateOutletContext]="{ previewAction: previewAction }">
+  <div class="actions right">
+    <ng-container *ngFor="let buttonAction of buttonItemActions">
+      @if (buttonAction.upload) {
+        <fs-file
+            class="action"
+            (select)="buttonAction.upload.select(item, $event)">
+          <ng-container
+            [ngTemplateOutlet]="buttonActionButton"
+            [ngTemplateOutletContext]="{ buttonAction: buttonAction }">
           </ng-container>
         </fs-file>
-      </ng-container>
-      <ng-container *ngIf="!previewAction.select">
+      } @else {
         <span class="action">
-          <ng-container 
-            [ngTemplateOutlet]="previewActionButton"
-            [ngTemplateOutletContext]="{ previewAction: previewAction }">
+          <ng-container
+            [ngTemplateOutlet]="buttonActionButton"
+            [ngTemplateOutletContext]="{ buttonAction: buttonAction }">
           </ng-container>
         </span>
-      </ng-container>      
+      }
     </ng-container>
-    <button 
+    <button
         *ngIf="galleryService.config.details"
-        mat-icon-button 
-        type="button" 
-        class="action" 
+        mat-icon-button
+        type="button"
+        class="action"
         (click)="detailsToggled.emit()"
         [matTooltip]="'Details'">
-      <mat-icon>info_outline</mat-icon>
+      <mat-icon>
+        info_outline
+      </mat-icon>
     </button>
     <fs-gallery-menu
       [item]="item"
-      [menuItems]="previewMenuItems">
+      [itemActions]="menuItemActions">
     </fs-gallery-menu>
   </div>
 </div>
-
-<ng-template #previewActionButton let-previewAction="previewAction">
-  <button 
-      mat-icon-button 
-      type="button" 
-      (click)="previewActionClick(previewAction)"
-      [matTooltip]="previewAction.tooltip">
-    <mat-icon>{{previewAction.icon}}</mat-icon>
+<ng-template
+    #buttonActionButton
+    let-buttonAction="buttonAction">
+  <button
+      mat-icon-button
+      type="button"
+      (click)="previewActionClick(buttonAction)"
+      [matTooltip]="buttonAction.tooltip">
+    <mat-icon>
+      {{ buttonAction.icon }}
+    </mat-icon>
   </button>
 </ng-template>

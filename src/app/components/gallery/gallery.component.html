@@ -20,6 +20,6 @@
 <fs-gallery-gallery-view
   *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.Gallery"
   [reorderEnabled]="reorderEnabled"
-  [data$]="data$"
+  [data$]="galleryService.data$"
   (orderChange)="orderChange($event)">
 </fs-gallery-gallery-view>

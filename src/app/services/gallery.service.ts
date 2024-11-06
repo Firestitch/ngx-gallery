@@ -46,14 +46,12 @@ export class FsGalleryService implements OnDestroy {
   public previewDetails: FsGalleryPreviewDetailsDirective;
   public imageZoom = 0;
   public imageZoomInteger = 0;
-  public dimentionsChange$ = new Subject<void>();
   public reorderStart$: Observable<any>;
   public reorderEnd$: Observable<any>;
   public listConfig: FsListConfig;
   public filterConfig: FilterConfig;
   public navItems: FsGalleryItem[] = [];
   public emptyStateEnabled = false;
-  public filtersReady$ = new Subject<void>();
 
   private _fetch$ = new Subject<void>();
   private _activeFilters$ = new BehaviorSubject(0);
@@ -67,6 +65,7 @@ export class FsGalleryService implements OnDestroy {
 
   private _configUpdated$ = new Subject<void>();
   private _destroy$ = new Subject<void>();
+  private _filtersReady$ = new Subject<void>();
 
   constructor(
     @Inject(GalleryPreviewComponentInjector) private _galleryPreviewComponent,
@@ -82,8 +81,12 @@ export class FsGalleryService implements OnDestroy {
     this.reorderEnd$ = this._dragulaService.dragend(this.dragName);
   }
 
-  public get data$() {
-    return this._data$;
+  public filtersReady() {
+    this._filtersReady$.next(null);
+  }
+
+  public get data$(): Observable<FsGalleryItem[]> {
+    return this._data$.asObservable();
   }
 
   public set data(items: FsGalleryItem[]) {
@@ -287,10 +290,9 @@ export class FsGalleryService implements OnDestroy {
 
   public updateImageDims() {
     this._imageWidth = this.config.thumbnail.width + (this.imageZoom * this.config.thumbnail.width);
-
-    this._imageHeight = this.config.thumbnail.height ? this.config.thumbnail.height + (this.imageZoom * this.config.thumbnail.height) : (this._imageWidth * this.config.thumbnail.heightScale);
-
-    this.dimentionsChange$.next(null);
+    this._imageHeight = this.config.thumbnail.height ?
+      this.config.thumbnail.height + (this.imageZoom * this.config.thumbnail.height) : 
+      (this._imageWidth * this.config.thumbnail.heightScale);
   }
 
   public updateImageZoom(val: number) {
@@ -352,8 +354,14 @@ export class FsGalleryService implements OnDestroy {
   }
 
   private _initListConfig(): void {
-    const rowActions = (this.config.info?.menu?.items || [])
-      .filter((item) => item.click);
+    const rowActions = (this.config.itemActions || [])
+      .filter((item) => item.click)
+      .map((item) => {
+        return {
+          ...item,
+          icon: '',
+        };
+      });
 
     let reorder: FsListReorderConfig = null;
 
@@ -365,7 +373,7 @@ export class FsGalleryService implements OnDestroy {
             return row.data;
           });
 
-          this.data$.next(rowsData);
+          this._data$.next(rowsData);
           this.config.reorderEnd(rowsData);
         },
       };
@@ -412,7 +420,7 @@ export class FsGalleryService implements OnDestroy {
 
   private _listenFetch(): void {
     // Should wait until saved filters not loaded
-    combineLatest([this.fetch$, this.filtersReady$])
+    combineLatest([this.fetch$, this._filtersReady$])
       .pipe(
         map(() => {
           // const query = {

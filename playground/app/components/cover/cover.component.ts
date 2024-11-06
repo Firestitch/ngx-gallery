@@ -55,7 +55,7 @@ export class CoverComponent implements OnInit, OnDestroy {
 
         if (query.keyword) {
           items = items.filter((item: any) => {
-            return item.name.toLowerCase().includes(query.keyword.toLowerCase());
+            return item.name?.toLowerCase().includes(query.keyword.toLowerCase());
           });
         }
 

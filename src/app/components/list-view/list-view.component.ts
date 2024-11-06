@@ -4,8 +4,9 @@ import {
   Component,
   Input,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
+
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { GalleryConfig } from '../../classes/gallery.config';
@@ -51,5 +52,5 @@ export class FsGalleryListViewComponent implements AfterViewInit {
 
   public openPreview = (item) => {
     this._galleryService.openPreview(item);
-  }
+  };
 }

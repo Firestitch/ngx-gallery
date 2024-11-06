@@ -18,9 +18,8 @@ import {
   FsGalleryDetailsConfig,
   FsGalleryEmptyStateConfig,
   FsGalleryInfoConfig,
-  FsGalleryItem, FsGalleryMapping, FsGalleryNoResultsConfig,
+  FsGalleryItem, FsGalleryItemAction, FsGalleryMapping, FsGalleryNoResultsConfig,
   FsGalleryPersistance,
-  FsGalleryPreviewAction, FsGalleryPreviewMenu,
   FsGalleryThumbnailConfig,
   FsGalleryUploadConfig,
 } from '../interfaces';
@@ -36,13 +35,12 @@ export class GalleryConfig {
   public showChangeView: boolean;
   public toolbar = true;
   public reorderable = false;
-  public reorderEnd: (data: any) => {} = null;
+  public reorderEnd: (data: any) => {};
   public reorderStart: (event?: { item?: FsGalleryItem; el?: any; source?: any, handle?: any, sibling?: any }) => boolean = null;
   public repeat = true;
   public info: FsGalleryInfoConfig = {
     icon: false,
     name: false,
-    menu: null,
   };
   public layout = GalleryLayout.Grid;
   public showCarousel = true;
@@ -58,8 +56,8 @@ export class GalleryConfig {
   public selection: FsListSelectionConfig;
 
   public filterConfig: FilterConfig;
-  public filterInit = (query) => { };
-  public filterChange = (query) => { };
+  public filterInit: (query: any) => void;
+  public filterChange: (query: any) => void;
   public previewClick: (item: FsGalleryItem) => {};
   public previewOpened: (item: FsGalleryItem) => {};
   public previewClosed: (item: FsGalleryItem) => {};
@@ -69,8 +67,7 @@ export class GalleryConfig {
   public upload: FsGalleryUploadConfig;
   public fetch: FsGalleryConfigFetch;
   public actions: FsFilterAction[];
-  public previewActions: FsGalleryPreviewAction[];
-  public previewMenu: FsGalleryPreviewMenu;
+  public itemActions: FsGalleryItemAction[];
   public preview: boolean;
   public reload: boolean;
   public emptyState: FsGalleryEmptyStateConfig;
@@ -206,7 +203,6 @@ export class GalleryConfig {
       const info: any = data.info || {};
       this.info.icon = info.icon ?? true;
       this.info.name = info.name ?? true;
-      this.info.menu = info.menu ?? null;
     }
 
     this.reorderEnd = data.reorderEnd;
@@ -221,8 +217,7 @@ export class GalleryConfig {
     this.fetch = data.fetch;
     this.upload = data.upload;
     this.actions = data.actions;
-    this.previewActions = data.previewActions || [];
-    this.previewMenu = data.previewMenu;
+    this.itemActions = data.itemActions || [];
     this.preview = data.preview ?? true;
     this.filterConfig = this._getFilterConfig(data.filters);
   }
@@ -232,10 +227,14 @@ export class GalleryConfig {
 
     const config: FilterConfig = {
       init: (query) => {
-        this.filterInit(query);
+        if(this.filterInit) {
+          this.filterInit(query);
+        }
       },
       change: (query) => {
-        this.filterChange(query);
+        if(this.filterChange) {
+          this.filterChange(query);
+        }
       },
       items: [...items],
     };

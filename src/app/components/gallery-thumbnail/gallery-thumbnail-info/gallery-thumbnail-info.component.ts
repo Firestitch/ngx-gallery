@@ -16,7 +16,6 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
   @Input() public item: FsGalleryItem;
   @Input() public hasInfo = false;
   @Input() public showIcon;
-  @Input() public menuItems;
   @Input() public name;
 
   @Output() public hasInfoChange = new EventEmitter();
@@ -30,10 +29,6 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
   public ngOnInit(): void {
     if (this.showIcon === undefined) {
       this.showIcon = this.galleryService.config.info.icon;
-    }
-
-    if (this.menuItems === undefined) {
-      this.menuItems = this.galleryService.config.info?.menu?.items || [];
     }
 
     if (this.name === undefined) {

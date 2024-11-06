@@ -23,4 +23,17 @@
       }
     }
   }
+
+  &:hover {
+    .menu-container {
+      display: block;
+    }
+  }
+
+  .menu-container {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
 }

@@ -1,17 +1,16 @@
-<ng-container *ngIf="showIcon || name || !!menuItems.length">
+<ng-container *ngIf="showIcon || name">
   <div class="info">
     <div
         *ngIf="item.mime.type && showIcon"
         class="icon">
       <fs-gallery-icon [item]="item"></fs-gallery-icon>
     </div>
-    <div class="name" 
+    <div
+        class="name"
         *ngIf="name">
-      <div>{{ name }}</div>
+      <div>
+        {{ name }}
+      </div>
     </div>
-    <fs-gallery-menu
-      [item]="item"
-      [menuItems]="menuItems">
-    </fs-gallery-menu>
   </div>
 </ng-container>

@@ -4,13 +4,14 @@
 export { FsGalleryModule } from './app/fs-gallery.module';
 
 export {
-  FsGalleryComponent, FsGalleryFileIconComponent, FsGalleryIconComponent, FsGalleryNavComponent, FsGalleryPreviewCarouselComponent, FsGalleryPreviewComponent, FsGalleryPreviewHeaderComponent, FsGalleryThumbnailComponent, FsGalleryThumbnailInfoComponent, FsGalleryThumbnailPreviewComponent
+  FsGalleryComponent, FsGalleryFileIconComponent, FsGalleryIconComponent, FsGalleryNavComponent, FsGalleryPreviewCarouselComponent, FsGalleryPreviewComponent, FsGalleryPreviewHeaderComponent, FsGalleryThumbnailComponent, FsGalleryThumbnailInfoComponent, FsGalleryThumbnailPreviewComponent,
 } from './app/components';
 
 
 export {
-  FsGalleryListCellDirective, FsGalleryListColumnDirective, FsGalleryListHeaderDirective, FsGalleryNavDirective, FsGalleryPreviewDetailsDirective, FsGalleryPreviewDirective, FsGalleryThumbnailDirective,
-  FsGalleryThumbnailPreviewDirective
+  FsGalleryListCellDirective, FsGalleryListColumnDirective, FsGalleryListHeaderDirective,
+  FsGalleryNavDirective, FsGalleryPreviewDetailsDirective, FsGalleryPreviewDirective,
+  FsGalleryThumbnailDirective, FsGalleryThumbnailPreviewDirective,
 } from './app/directives';
 export { FsGalleryEmptyStateDirective } from './app/directives/empty-state.directive';
 

@@ -65,39 +65,6 @@ export class ExampleComponent implements OnInit, OnDestroy {
       info: {
         name: true,
         icon: true,
-        menu: {
-          items: [
-            {
-              label: (item: FsGalleryItem) => {
-                return `Info ${item.data?.description}`;
-              },
-              click: (item: any) => {
-                console.log(item);
-              },
-            },
-            {
-              label: 'Delete',
-              click: (item: any) => {
-                console.log(item);
-              },
-            },
-            {
-              label: 'Download',
-              click: (item: any) => {
-                window.open(item.image.large);
-              },
-              show: () => {
-                return true; 
-              },
-            },
-            {
-              label: 'Upload',
-              select: (item: FsGalleryItem, fsFile) => {
-                console.log(item, fsFile);
-              },
-            },
-          ],
-        },
       },
       actions: [
         {
@@ -197,7 +164,7 @@ export class ExampleComponent implements OnInit, OnDestroy {
 
         if (query.keyword) {
           items = items.filter((item: any) => {
-            return item.name.toLowerCase().includes(query.keyword.toLowerCase());
+            return item.name?.toLowerCase().includes(query.keyword.toLowerCase());
           });
         }
 
@@ -222,10 +189,11 @@ export class ExampleComponent implements OnInit, OnDestroy {
           return of(true);
         },
       },
-      previewActions: [
+      itemActions: [
         {
           icon: 'delete_outline',
-          show: (item: FsGalleryItem) => {
+          label: 'Delete',
+          show: () => {
             return true;
           },
           click: (item: FsGalleryItem) => {
@@ -251,43 +219,24 @@ export class ExampleComponent implements OnInit, OnDestroy {
         },
         {
           tooltip: 'Re-upload',
+          label: 'Re-upload',
           icon: 'upload',
-          select: (item: FsGalleryItem, fsFile: FsFile) => {
-            console.log(item, fsFile);
-          },
-        },
-        {
-          tooltip: 'Download',
-          icon: 'download',
-          download: true,
-        },
-      ],
-      previewMenu: {
-        items: [
-          {
-            label: 'Settings',
-            click: (item: FsGalleryItem) => {
-              console.log('Settings Click');
-            },
-          },
-          {
-            label: (item) => {
-              return 'Delete';
-            },
-            click: (item: FsGalleryItem) => {
-              console.log('Delete Click');
-            },
-          },
-          {
-            label: (item) => {
-              return 'Re-upload';
-            },
+          upload: {
             select: (item: FsGalleryItem, fsFile: FsFile) => {
               console.log(item, fsFile);
             },
           },
-        ],
-      },
+        },
+        {
+          tooltip: 'Download',
+          label: 'Download',
+          icon: 'download',
+          download: true,
+        },
+        {
+          label: 'Menu action',
+        },
+      ],
       previewOpened: (data) => {
         console.log('previewOpened', data);
       },

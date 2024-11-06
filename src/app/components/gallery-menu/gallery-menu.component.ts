@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 
 import { processMenuItems } from '../../helpers';
-import { FsGalleryItem, FsGalleryItemAction, FsGalleryMenuItem } from '../../interfaces';
+import { FsGalleryItem, FsGalleryItemAction } from '../../interfaces';
 
 
 @Component({
@@ -20,17 +20,18 @@ export class FsGalleryMenuComponent implements OnChanges {
   public open = false;
 
   @Input() public item: FsGalleryItem;
-  @Input() public menuItems: FsGalleryItemAction[];
+  @Input() public buttonType: 'icon' | 'miniFab' = 'icon';
+  @Input() public itemActions: FsGalleryItemAction[];
 
-  public visibleMenuItems: FsGalleryMenuItem[] = [];
+  public visibleMenuItems: FsGalleryItemAction[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.menuItems) {
-      this.visibleMenuItems = processMenuItems(this.menuItems, this.item);
+    if (changes.itemActions) {
+      this.visibleMenuItems = processMenuItems(this.itemActions, this.item);
     }
   }
 
-  public menuItemClick(menuItem: FsGalleryMenuItem) {
+  public menuItemClick(menuItem: FsGalleryItemAction) {
     if (menuItem.click) {
       menuItem.click(this.item);
     }

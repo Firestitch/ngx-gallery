@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges,
+} from '@angular/core';
 
 import { FsApiFile } from '@firestitch/api';
-import { FsGalleryItem, FsGalleryItemAction, FsGalleryMenuItem, FsGalleryPreviewAction } from '../../../interfaces';
-import { FsGalleryService } from '../../../services';
 import { FsFile } from '@firestitch/file';
+
+import { FsGalleryItem, FsGalleryItemAction } from '../../../interfaces';
+import { FsGalleryService } from '../../../services';
 
 
 @Component({
@@ -20,17 +23,21 @@ export class FsGalleryPreviewHeaderComponent implements OnChanges {
   @Output() public previewClosed = new EventEmitter<void>();
   @Output() public detailsToggled = new EventEmitter<void>();
 
-  public previewMenuItems: FsGalleryMenuItem[] = [];
-  public previewActions: FsGalleryPreviewAction[] = [];
+  public menuItemActions: FsGalleryItemAction[] = [];
+  public buttonItemActions: FsGalleryItemAction[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
-      this.previewMenuItems = this.galleryService.config.previewMenu?.items || [];
-      this.previewActions = this._processGalleryItemAction(this.galleryService.config.previewActions);
+      const itemActions = this._processGalleryItemAction(this.galleryService.config.itemActions);
+      this.buttonItemActions = itemActions
+        .filter((item: FsGalleryItemAction) => item.icon && !item.menu);
+
+      this.menuItemActions = itemActions
+        .filter((item) => !this.buttonItemActions.includes(item));
     }
   }
 
-  public previewActionClick(action: FsGalleryMenuItem) {
+  public previewActionClick(action: FsGalleryItemAction) {
     if (action.click) {
       action.click(this.item);
     }

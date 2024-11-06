@@ -16,7 +16,7 @@ import {
 
 import { FilterComponent } from '@firestitch/filter';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { GalleryConfig, PersistanceController } from '../../classes';
 import { FsGalleryNavDirective, FsGalleryPreviewDetailsDirective } from '../../directives';
@@ -29,6 +29,7 @@ import { GalleryPreviewComponentInjector } from '../../injectors';
 import { FsGalleryConfig, FsGalleryItem } from '../../interfaces';
 import { FsGalleryService } from '../../services';
 import { FsGalleryPreviewComponent } from '../gallery-preview';
+
 import { GalleryView } from './../../enums';
 
 
@@ -41,16 +42,18 @@ import { GalleryView } from './../../enums';
     PersistanceController,
     {
       provide: GalleryPreviewComponentInjector,
-      useValue: FsGalleryPreviewComponent
+      useValue: FsGalleryPreviewComponent,
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
-  @Output() zoomChanged = new EventEmitter();
+  @Output()
+  public zoomChanged = new EventEmitter();
 
-  @Input() set config(config: FsGalleryConfig) {
+  @Input()
+  public set config(config: FsGalleryConfig) {
     this.galleryService.config = config;
     this._config = this.galleryService.config;
 
@@ -77,7 +80,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   @ViewChild(FilterComponent, { static: true })
   public filter: FilterComponent;
 
-  public data$: BehaviorSubject<FsGalleryItem[]>;
   public reorderEnabled = true;
   public GalleryView = GalleryView;
 
@@ -93,7 +95,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public ngOnInit() {
     this.galleryService.setFilter(this.filter);
-    this.data$ = this.galleryService.data$;
     this.reorderEnabled = this.galleryService.config.reorderable;
   }
 
@@ -118,7 +119,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public orderChange(value: FsGalleryItem[]): void {
-    this.data$.next(value);
+    this.galleryService.data = value;
 
     if (this._config.reorderEnd) {
       this._config.reorderEnd(value);
@@ -162,7 +163,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public filterReady() {
-    this.galleryService.filtersReady$.next(null);
+    this.galleryService.filtersReady();
   }
 
 }

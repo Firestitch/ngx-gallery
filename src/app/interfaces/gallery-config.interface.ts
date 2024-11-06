@@ -35,8 +35,7 @@ export interface FsGalleryConfig {
   previewBeforeOpen?(galleryItem: FsGalleryItem): Observable<FsGalleryItem>,
   previewOpened?(galleryItem: FsGalleryItem): any,
   previewClosed?(galleryItem: FsGalleryItem): any,
-  previewActions?: FsGalleryPreviewAction[],
-  previewMenu?: FsGalleryPreviewMenu,
+  itemActions?: FsGalleryItemAction[],
   preview?: boolean,
   zoomChanged?(item: number): any,
   dragName?: string;
@@ -78,11 +77,6 @@ export interface FsGalleryUploadConfig extends Omit<IFsFilterFileAction, 'mode'>
 export interface FsGalleryInfoConfig {
   icon?: boolean;
   name?: ((galleryItem: FsGalleryItem) => string) | boolean;
-  menu?: FsGalleryInfoMenuConfig;
-}
-
-export interface FsGalleryInfoMenuConfig {
-  items?: FsGalleryMenuItem[];
 }
 
 export interface FsGalleryDetailsConfig {
@@ -95,30 +89,18 @@ export interface Mime {
   color?: string,
 }
 
-export interface FsGalleryPreviewAction extends FsGalleryItemAction {
-  icon: string,
-  tooltip?: string,
-}
-
-export interface FsGalleryPreviewMenu {
-  items: FsGalleryMenuItem[],
-}
-
-export interface FsGalleryMenuItem extends FsGalleryItemAction {
-  label?: ((galleryItem: FsGalleryItem) => string) | string;
-}
-
-export interface FsGalleryInfoMenuAction extends FsGalleryItemAction {
-  label?: ((galleryItem: FsGalleryItem) => string) | string;
-  show?: (galleryItem: FsGalleryItem) => boolean;
-}
-
 export interface FsGalleryItemAction {
+  label: ((galleryItem: FsGalleryItem) => string) | string;
+  icon?: string,
+  tooltip?: string,
   click?: (galleryItem: FsGalleryItem) => void;
   show?: (galleryItem: FsGalleryItem) => boolean;
-  select?: (galleryItem: FsGalleryItem, file: FsFile | FsFile[]) => void;
-  multiple?: boolean;
   download?: boolean;
+  menu?: boolean;
+  upload?: {
+    select: (galleryItem: FsGalleryItem, file: FsFile | FsFile[]) => void;
+    multiple?: boolean;
+  };
 }
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }

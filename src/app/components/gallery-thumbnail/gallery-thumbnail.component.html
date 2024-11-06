@@ -7,11 +7,10 @@
     }"
     id="fs-gallery-thumbnail-{{ item.index }}"
     [style.width]="galleryService.config.layout===galleryLayout.Grid ? '' : (galleryService.imageWidth ? galleryService.imageWidth + 'px' : null)">
-  <ng-container
-    *ngIf="galleryService.thumbnailTemplate; else template">
-      <ng-template
-        [ngTemplateOutlet]="galleryService.thumbnailTemplate"
-        [ngTemplateOutletContext]="{ 
+  <ng-container *ngIf="galleryService.thumbnailTemplate; else template">
+    <ng-template
+      [ngTemplateOutlet]="galleryService.thumbnailTemplate"
+      [ngTemplateOutletContext]="{ 
           item: item, 
           template: template, 
           previewTemplate: previewTemplate,
@@ -20,35 +19,34 @@
           last: last,
           index: index
         }">
-      </ng-template>
+    </ng-template>
   </ng-container>
+  <div class="menu-container">
+    <fs-gallery-menu
+      [item]="item"
+      [buttonType]="'miniFab'"
+      [itemActions]="galleryService.config.itemActions">
+    </fs-gallery-menu>
+  </div>
 </div>
-
 <ng-template #template>
-  <fs-gallery-thumbnail-preview  
-    [imageHeight]="galleryService.imageHeight" 
+  <fs-gallery-thumbnail-preview
+    [imageHeight]="galleryService.imageHeight"
     [imageWidth]="galleryService.config.layout===galleryLayout.Grid ? null : (galleryService.imageWidth ? galleryService.imageWidth : null)"
     [item]="item">
   </fs-gallery-thumbnail-preview>
-
-  <fs-gallery-thumbnail-info 
-    [item]="item"
-    [menuItems]="infoMenuItems">
-  </fs-gallery-thumbnail-info>
+  <fs-gallery-thumbnail-info [item]="item"></fs-gallery-thumbnail-info>
 </ng-template>
-
 <ng-template #previewTemplate>
-  <fs-gallery-thumbnail-preview  
-    [imageHeight]="galleryService.imageHeight" 
+  <fs-gallery-thumbnail-preview
+    [imageHeight]="galleryService.imageHeight"
     [imageWidth]="galleryService.config.layout===galleryLayout.Grid ? null : (galleryService.imageWidth ? galleryService.imageWidth : null)"
     [item]="item">
   </fs-gallery-thumbnail-preview>
 </ng-template>
-
 <ng-template #infoTemplate>
-  <fs-gallery-thumbnail-info 
+  <fs-gallery-thumbnail-info
     *ngIf="hasInfo"
     [item]="item">
   </fs-gallery-thumbnail-info>
 </ng-template>
-

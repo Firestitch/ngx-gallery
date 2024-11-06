@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { GalleryLayout } from '../../enums';
-import { processMenuItems } from '../../helpers';
 import { FsGalleryItem } from '../../interfaces';
 import { FsGalleryService } from '../../services';
 
@@ -42,11 +41,9 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
         this._cdRef.markForCheck();
       });
 
-    this.infoMenuItems = processMenuItems(this.galleryService.config.info?.menu?.items || [], this.item);
     this.hasInfo = (
       !!this.galleryService.config.info.icon ||
-      !!this.galleryService.getInfoItemName(this.item) || 
-      !!this.infoMenuItems.length
+      !!this.galleryService.getInfoItemName(this.item) 
     );
   }
 

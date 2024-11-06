@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { GalleryConfig } from '../../classes/gallery.config';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
@@ -22,7 +22,7 @@ import { FsGalleryService } from '../../services/gallery.service';
 export class FsGalleryViewComponent {
 
   @Input()
-  public data$: BehaviorSubject<FsGalleryItem[]>;
+  public data$: Observable<FsGalleryItem[]>;
 
   @Input()
   public reorderEnabled;
