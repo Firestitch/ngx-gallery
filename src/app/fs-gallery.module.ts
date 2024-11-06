@@ -6,6 +6,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -54,6 +55,7 @@ import { ImageSrcPipe } from './pipes';
     MatButtonModule,
     MatDialogModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
     MatSidenavModule,
 
     FsFilterModule,

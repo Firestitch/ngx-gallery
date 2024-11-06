@@ -19,7 +19,6 @@ export class ImageSrcPipe implements PipeTransform {
 
   public transform(
     url: string | FsApiFile | FsFile | File, 
-    cssUrl: boolean = false,
   ): Observable<string | SafeUrl> {
     if(!url){
       return of(null);
@@ -29,26 +28,8 @@ export class ImageSrcPipe implements PipeTransform {
       url = new FsFile(url);
     }
 
-    if(cssUrl) {
-      if (url instanceof FsApiFile) {
-        return url.base64Url
-          .pipe(
-            map((data) => (`url(${data})`)),
-          );
-
-      } else if(url instanceof FsFile) {
-        return url.base64Url
-          .pipe(
-            map((data) => `url(${data})`),
-          );
-      }
- 
-      return of(`url(${url})`);
-      
-
-    } 
     if(url instanceof FsApiFile) {
-      return url.safeBase64Url;
+      return url.safeDataUrl;
     }
 
     if(url instanceof FsFile) {

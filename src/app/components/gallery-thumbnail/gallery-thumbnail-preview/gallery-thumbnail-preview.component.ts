@@ -80,6 +80,10 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
     }
   }
 
+  public imgLoad(event: Event): void {
+    console.log('imgLoad', event);
+  }
+
   public get config(): FsGalleryConfig {
     return this.galleryService.config;
   }

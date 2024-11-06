@@ -14,7 +14,7 @@
   align-items: stretch;
   font-size: 90%;
   box-sizing: border-box;
-  padding: 0 14px;
+  padding: 0 8px;
   height: 40px;
   justify-content: flex-end;
 
@@ -32,12 +32,12 @@
   }
 
   .icon {
-    margin-right: 5px;
     align-items: center;
     display: flex;
   }
 
   .name {
+    margin-left: 4px;
     display: flex;
     position: relative;
     min-width: 0;

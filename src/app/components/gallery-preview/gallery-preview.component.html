@@ -1,50 +1,67 @@
-<div class="fs-gallery-preview" [ngClass]="{ 'multiple': hasMultipleItems }">
-  <mat-drawer-container   
-      class="example-container">
-    <mat-drawer 
+<div
+    class="fs-gallery-preview"
+    [ngClass]="{ 'multiple': hasMultipleItems }">
+  <mat-drawer-container class="example-container">
+    <mat-drawer
         (openedStart)="drawerShow = true"
         (closedStart)="drawerShow = false"
-        [mode]="drawerMode" 
+        [mode]="drawerMode"
         [ngClass]="{ show: drawerShow }"
-        [opened]="drawer.opened && !!galleryConfig.details" 
+        [opened]="drawer.opened && !!galleryConfig.details"
         [position]="'end'">
-      <fs-gallery-preview-details  
-        [item]="activeItem"    
-        [galleryService]="galleryService"  
+      <fs-gallery-preview-details
+        [item]="activeItem"
+        [galleryService]="galleryService"
         [image]="activeImage"
         (detailsToggled)="detailsToggled()">
       </fs-gallery-preview-details>
     </mat-drawer>
-    <mat-drawer-content>   
+    <mat-drawer-content>
       <fs-gallery-preview-header
         [galleryService]="galleryService"
         [item]="activeItem"
         (previewClosed)="close()"
         (detailsToggled)="detailsToggled()">
       </fs-gallery-preview-header>
-
-      <div class="preview" [class]="'file file-' + activeItem.mime.type + ' extension-' + activeItem.mime.extension">        
-        <a class="prev-overlay" *ngIf="hasPrevItem" (click)="prevItem()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"/></svg>
+      <div
+          class="preview"
+          [class]="'file file-' + activeItem.mime.type + ' extension-' + activeItem.mime.extension">
+        <a
+            class="prev-overlay"
+            *ngIf="hasPrevItem"
+            (click)="prevItem()">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24">
+            <path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"></path>
+          </svg>
         </a>
-        <a class="next-overlay" *ngIf="hasNextItem" (click)="nextItem()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg>
+        <a
+            class="next-overlay"
+            *ngIf="hasNextItem"
+            (click)="nextItem()">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24">
+            <path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"></path>
+          </svg>
         </a>
         <ng-container [ngSwitch]="activeItem.mime.type">
           <ng-template [ngSwitchCase]="MimeType.Application">
             <ng-container *ngIf="activeItem.mime.extension === 'pdf'; else fileIcon">
-              <fs-pdf-viewer 
+              <fs-pdf-viewer
                 [backgroundColor]="'transparent'"
                 [zoomEnabled]="false"
                 [pdf]="activeItem.url">
               </fs-pdf-viewer>
-            </ng-container>            
+            </ng-container>
           </ng-template>
           <ng-template [ngSwitchCase]="MimeType.Image">
             <ng-container *ngIf="(activeItem.url | imageSrc | async) as image">
-              <img class="image" 
+              <img
+                class="image"
                 (load)="imageLoad($event)"
-                [src]="image" 
+                [src]="image"
                 (swipeleft)="nextItem()"
                 (swiperight)="prevItem()">
             </ng-container>
@@ -53,22 +70,19 @@
             <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
           </ng-template>
         </ng-container>
-
         <ng-template #fileIcon>
-          <fs-gallery-file-icon 
+          <fs-gallery-file-icon
             [width]="150"
             [item]="activeItem">
           </fs-gallery-file-icon>
         </ng-template>
       </div>
-      
-      <fs-gallery-preview-carousel 
-        *ngIf="hasMultipleItems" 
-        [items]="availableImages" 
+      <fs-gallery-preview-carousel
+        *ngIf="hasMultipleItems"
+        [items]="availableImages"
         [activeItem]="activeItem"
         (activeItemChanged)="setActiveItem($event)">
       </fs-gallery-preview-carousel>
-
     </mat-drawer-content>
   </mat-drawer-container>
 </div>

@@ -80,6 +80,7 @@ export function getItems(api: FsApi): FsGalleryItem[] {
         id: 55,
         description: 'Image',
       },
+      name: 'car.jpg',
       preview: api.createApiFile('/assets/car.jpg'),
       url: api.createApiFile('/assets/car.jpg'),
     },

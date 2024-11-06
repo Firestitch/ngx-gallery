@@ -47,9 +47,8 @@ export class ExampleComponent implements OnInit, OnDestroy {
       allow: 'image/*, application/pdf, video/*',
       multiple: true,
       thumbnail: {
-        //height: 100,
-        width: 100,
-        heightScale: 1,
+        width: 150,
+        height: 100,
         size: GalleryThumbnailSize.Cover,
       },
       emptyState: {

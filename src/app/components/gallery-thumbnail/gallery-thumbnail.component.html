@@ -5,8 +5,7 @@
       'layout-flow': galleryService.config.layout === galleryLayout.Flow,
       'has-info': hasInfo
     }"
-    id="fs-gallery-thumbnail-{{ item.index }}"
-    [style.width]="galleryService.config.layout===galleryLayout.Grid ? '' : (galleryService.imageWidth ? galleryService.imageWidth + 'px' : null)">
+    id="fs-gallery-thumbnail-{{ item.index }}">
   <ng-container *ngIf="galleryService.thumbnailTemplate; else template">
     <ng-template
       [ngTemplateOutlet]="galleryService.thumbnailTemplate"

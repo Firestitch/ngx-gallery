@@ -1,4 +1,4 @@
-<div  
+<div
     (click)="click(item)"
     class="file"
     [style.height]="(imageHeight ? imageHeight + 'px' :null)"
@@ -18,24 +18,27 @@
     </ng-template>
   </ng-container>
 </div>
-
 <ng-template #template>
-  <ng-container *ngIf="(preview | imageSrc:config.thumbnail.size === GalleryThumbnailSize.Cover | async) as preview; else fileIcon">      
-    <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Cover">
-      <div class="image-cover"        
-        [style.backgroundSize]="config.thumbnail.size"
-        [style.backgroundPosition]="config.thumbnail.position"
-        [style.backgroundImage]="preview">
-      </div> 
-    </ng-container>
-    <ng-container *ngIf="config.thumbnail.size === GalleryThumbnailSize.Contain">
-      <img class="image-contain" [src]="preview">
-    </ng-container>
+  <ng-container *ngIf="preview; else fileIcon">
+    @if ((preview | imageSrc| async); as previewImage) {
+      <img
+        [ngClass]="{
+          'image-contain': config.thumbnail.size === GalleryThumbnailSize.Contain,
+          'image-cover': config.thumbnail.size === GalleryThumbnailSize.Cover,
+        }"
+        [src]="previewImage">
+    } @else {
+      <div class="image-placeholder">
+        <mat-progress-spinner
+          [diameter]="40"
+          [mode]="'indeterminate'">
+        </mat-progress-spinner>
+      </div>
+    }
   </ng-container>
 </ng-template>
-
 <ng-template #fileIcon>
-  <fs-gallery-file-icon 
+  <fs-gallery-file-icon
     [width]="iconWidth"
     [height]="iconHeight"
     [item]="item">
