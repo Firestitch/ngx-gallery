@@ -43,7 +43,8 @@ export class FsGalleryPreviewService {
       queryParamsHandling: 'merge',
     }).then();
 
-    this._previewRef.onClose
+    this._previewRef
+      .onClose
       .pipe(
         takeUntil(this._destroy$),
       )

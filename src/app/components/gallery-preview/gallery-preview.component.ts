@@ -71,6 +71,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this._disableDialogEscapeClose();
     this._initAvailableImages();
+    this._initDataChanges();
     this.setActiveItem(this._item);
     this.classCarousel = this.galleryConfig.showCarousel;
     this.drawer.opened = window.innerWidth > 600 && this.galleryConfig.details.autoOpen;
@@ -177,7 +178,16 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     this.hasMultipleItems = this.availableImages.length > 1;
   }
 
-  // private _removeElementFocus() {
-  //   (document.activeElement as HTMLElement)?.blur();
-  // }
+  private _initDataChanges() {
+    this.galleryService.data$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe((data) => {
+        const activeItem = data
+          .find((item) => item.guid === this.activeItem.guid);
+
+        this.setActiveItem(activeItem);
+      });
+  }
 }

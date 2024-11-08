@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output,
+} from '@angular/core';
 
 import { MimeType } from '../../../enums';
 import { FsGalleryItem } from '../../../interfaces';
@@ -19,8 +21,8 @@ export class FsGalleryPreviewCarouselComponent {
 
   public MimeType = MimeType;
 
-  public constructor(
-    private _el: ElementRef
+  constructor(
+    private _el: ElementRef,
   ) { }
 
   public itemClick(item) {

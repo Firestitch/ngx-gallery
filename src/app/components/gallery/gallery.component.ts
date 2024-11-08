@@ -56,7 +56,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   public set config(config: FsGalleryConfig) {
     this.galleryService.config = config;
     this._config = this.galleryService.config;
-
   }
 
   @ContentChild(FsGalleryPreviewDirective, { read: TemplateRef })
@@ -116,6 +115,10 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   public ngOnDestroy() {
     this._destroy$.next(null);
     this._destroy$.complete();
+  }
+
+  public updateItemData(itemData, data) {
+    this.galleryService.updateItemData(itemData, data);
   }
 
   public orderChange(value: FsGalleryItem[]): void {

@@ -76,7 +76,12 @@ export class FsGalleryService implements OnDestroy {
     private _persistanceController: PersistanceController,
   ) {
     this.dragName += guid();
-    this.galleryPreviewService = new FsGalleryPreviewService(_overlay, this._galleryPreviewComponent, _injector, this);
+    this.galleryPreviewService = new FsGalleryPreviewService(
+      this._overlay, 
+      this._galleryPreviewComponent,
+      this._injector,
+      this,
+    );
     this.reorderStart$ = this._dragulaService.drag(this.dragName);
     this.reorderEnd$ = this._dragulaService.dragend(this.dragName);
   }
@@ -317,6 +322,21 @@ export class FsGalleryService implements OnDestroy {
 
   public setListColumns(columns: FsGalleryListColumnDirective[]): void {
     this.config.setListColumns(columns);
+  }
+
+  public updateItemData(galleryItem: FsGalleryItem, itemData) {
+    const data = this.data
+      .map((_item) => {
+        if (_item.guid === galleryItem.guid) {
+          galleryItem.data = itemData;
+
+          return galleryItem;
+        }
+
+        return _item;
+      });
+
+    this._data$.next(data);
   }
 
   public getInfoItemName(item: FsGalleryItem) {

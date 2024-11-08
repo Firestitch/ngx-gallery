@@ -265,6 +265,13 @@ export class ExampleComponent implements OnInit, OnDestroy {
     }
   }
 
+  public updateDescription(item: FsGalleryItem) {
+    console.log(item);
+    this.gallery.updateItemData(item, {
+      description: 'Updated Description!!!',
+    });
+  }
+
   public onReorderImages(data) {
     console.log(data);
   }

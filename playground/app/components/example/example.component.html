@@ -38,7 +38,14 @@
       [ngTemplateOutlet]="template"
       [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
-    6
+    <fs-label-field>
+      <fs-label>
+        Description
+      </fs-label>
+      <div (click)="updateDescription(item)">
+        {{ item.data?.description }}
+      </div>
+    </fs-label-field>
   </ng-template>
   <ng-template
       fsGalleryPreview
