@@ -1,7 +1,21 @@
-import { Directive } from '@angular/core';
+import { Directive, TemplateRef } from '@angular/core';
+
+import { FsGalleryItem } from '../interfaces';
 
 
 @Directive({
-  selector: '[fsGalleryThumbnail]'
+  selector: '[fsGalleryThumbnail]',
 })
-export class FsGalleryThumbnailDirective {}
+export class FsGalleryThumbnailDirective {
+
+  public static ngTemplateContextGuard(
+    directive: FsGalleryThumbnailDirective,
+    context: unknown,
+  ): context is { 
+    item: FsGalleryItem,
+    template: TemplateRef<any>
+  } {
+    return true;
+  }
+  
+}

@@ -1,7 +1,18 @@
-import { Directive } from '@angular/core';
+import { Directive, TemplateRef } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsGalleryNav]'
+  selector: '[fsGalleryNav]',
 })
-export class FsGalleryNavDirective { }
+export class FsGalleryNavDirective { 
+
+  public static ngTemplateContextGuard(
+    directive: FsGalleryNavDirective,
+    context: unknown,
+  ): context is { 
+    template: TemplateRef<any>
+  } {
+    return true;
+  }
+
+}

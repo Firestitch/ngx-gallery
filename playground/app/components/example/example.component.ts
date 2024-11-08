@@ -4,7 +4,9 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from
 import { FsApi } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
 import { ItemType } from '@firestitch/filter';
-import { FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType } from '@firestitch/gallery';
+import {
+  FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType,
+} from '@firestitch/gallery';
 import { FsPrompt } from '@firestitch/prompt';
 import { SelectionActionType } from '@firestitch/selection';
 

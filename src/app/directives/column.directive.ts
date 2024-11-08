@@ -5,11 +5,10 @@ import {
   TemplateRef,
 } from '@angular/core';
 
-// Directives
-import { FsGalleryListHeaderDirective } from './header.directive';
-import { FsGalleryListCellDirective } from './cell.directive';
-
 import { FsGalleryCellConfig } from '../interfaces/gallery-cellconfig.interface';
+
+import { FsGalleryListCellDirective } from './cell.directive';
+import { FsGalleryListHeaderDirective } from './header.directive';
 
 
 @Directive({
