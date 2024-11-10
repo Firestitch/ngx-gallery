@@ -2,8 +2,8 @@ import { Directive, Input } from '@angular/core';
 
 import { FsGalleryItem } from '../interfaces';
 
-@Directive({ 
-  selector: '[fs-gallery-list-cell],[fsGalleryListCell]', 
+@Directive({
+  selector: '[fs-gallery-list-cell],[fsGalleryListCell]',
 })
 export class FsGalleryListCellDirective {
 
@@ -14,7 +14,8 @@ export class FsGalleryListCellDirective {
   public static ngTemplateContextGuard(
     directive: FsGalleryListCellDirective,
     context: unknown,
-  ): context is { 
+  ): context is {
+    $implicit: FsGalleryItem,
     row: FsGalleryItem,
     openPreview: (item: FsGalleryItem) => void,
   } {

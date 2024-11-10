@@ -7,11 +7,12 @@ import { FsGalleryItem } from '../interfaces';
   selector: '[fsGalleryPreview]',
 })
 export class FsGalleryPreviewDirective {
-  
+
   public static ngTemplateContextGuard(
     directive: FsGalleryPreviewDirective,
     context: unknown,
-  ): context is { 
+  ): context is {
+    $implicit: FsGalleryItem,
     item: FsGalleryItem,
     template: TemplateRef<any>
   } {

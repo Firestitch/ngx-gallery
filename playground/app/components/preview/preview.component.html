@@ -1,13 +1,13 @@
-<a  
-    mat-raised-button 
+<a
+    mat-raised-button
     color="primary"
     (click)="open()">
   Open Preview
 </a>
 
-<ng-template 
+<ng-template
     fsGalleryPreviewDetails
-    let-item="item"
+    let-item
     let-template="template">
   <ng-container [ngTemplateOutlet]="template"></ng-container>
   {{item|json}}

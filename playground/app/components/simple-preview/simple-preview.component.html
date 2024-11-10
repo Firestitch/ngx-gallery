@@ -1,14 +1,14 @@
 <fs-gallery [config]="config">
   <ng-template
       fsGalleryThumbnail
-      let-item="item">
+      let-item>
     <a>
       {{ item.name }}
     </a>
   </ng-template>
   <ng-template
       fsGalleryPreview
-      let-item="item">
+      let-item>
     <div>
       {{ item.data?.description }}
     </div>

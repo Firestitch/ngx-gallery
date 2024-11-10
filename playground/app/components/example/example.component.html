@@ -1,7 +1,7 @@
 <fs-gallery [config]="galleryConfig">
   <ng-template
       fsGalleryThumbnailPreview
-      let-item="item"
+      let-item
       let-template="template">
     <ng-template
       [ngTemplateOutlet]="template"
@@ -23,7 +23,7 @@
   </ng-template>
   <ng-template
       fsGalleryThumbnail
-      let-item="item"
+      let-item
       let-template="template">
     <ng-template
       [ngTemplateOutlet]="template"
@@ -32,7 +32,7 @@
   </ng-template>
   <ng-template
       fsGalleryPreviewDetails
-      let-item="item"
+      let-item
       let-template="template">
     <ng-template
       [ngTemplateOutlet]="template"
@@ -49,7 +49,7 @@
   </ng-template>
   <ng-template
       fsGalleryPreview
-      let-item="item">
+      let-item>
     <div
         class="description"
         *ngIf="item.data?.description">
@@ -59,7 +59,7 @@
   <fs-gallery-list-column>
     <ng-template
         fsGalleryListCell
-        let-row="row"
+        let-row
         let-openPreview="openPreview">
       <ng-container *ngIf="row.mime.type === MimeType.Image; else folder">
         <a

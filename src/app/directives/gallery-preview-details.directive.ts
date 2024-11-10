@@ -15,7 +15,8 @@ export class FsGalleryPreviewDetailsDirective {
   public static ngTemplateContextGuard(
     directive: FsGalleryPreviewDetailsDirective,
     context: unknown,
-  ): context is { 
+  ): context is {
+    $implicit: FsGalleryItem,
     item: FsGalleryItem,
     template: TemplateRef<any>
   } {
