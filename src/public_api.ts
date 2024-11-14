@@ -19,6 +19,9 @@ export * from './app/interfaces';
 
 export { FsGallery } from './app/services/fs-gallery';
 
-export { GalleryLayout, GalleryThumbnailSize, MimeType, ThumbnailScale } from './app/enums';
+export { GalleryLayout } from './app/enums/gallery-layout.enum';
+export { GalleryThumbnailSize } from './app/enums/gallery-thumbnail-size.enum';
+export { MimeType } from './app/enums/mime-type.enum';
+export { ThumbnailScale } from './app/enums/thumbnail-scale.enum';
 
 export * from './app/helpers';
