@@ -1,6 +1,3 @@
-// Hack
-(window as any).global = window;
-
 export { FsGalleryModule } from './app/fs-gallery.module';
 
 export {
