@@ -3,6 +3,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 import { OverlayModule } from '@angular/cdk/overlay';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -42,7 +43,6 @@ import { FsGalleryPreviewDirective } from './directives/gallery-preview.directiv
 import { FsGalleryThumbnailPreviewDirective } from './directives/gallery-thumbnail-preview.directive';
 import { FsGalleryThumbnailDirective } from './directives/gallery-thumbnail.directive';
 import { FsGalleryListHeaderDirective } from './directives/header.directive';
-import { DragulaModule } from './modules/dragula';
 import { ImageSrcPipe } from './pipes';
 
 
@@ -66,7 +66,8 @@ import { ImageSrcPipe } from './pipes';
     FsPdfViewerModule,
 
     OverlayModule,
-    DragulaModule,
+    CdkDropList,
+    CdkDrag,
   ],
   declarations: [
     FsGalleryComponent,

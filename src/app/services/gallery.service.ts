@@ -29,7 +29,6 @@ import { mimeColor } from '../helpers';
 import { mime } from '../helpers/mime';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
 import { FsGalleryConfig, FsGalleryItem, FsGalleryPersistance } from '../interfaces';
-import { DragulaService } from '../modules/dragula';
 
 import { FsGalleryPreviewService } from './gallery-preview.service';
 
@@ -72,18 +71,15 @@ export class FsGalleryService implements OnDestroy {
     private _overlay: Overlay,
     private _injector: Injector,
     private _location: Location,
-    private _dragulaService: DragulaService,
     private _persistanceController: PersistanceController,
   ) {
     this.dragName += guid();
     this.galleryPreviewService = new FsGalleryPreviewService(
-      this._overlay, 
+      this._overlay,
       this._galleryPreviewComponent,
       this._injector,
       this,
     );
-    this.reorderStart$ = this._dragulaService.drag(this.dragName);
-    this.reorderEnd$ = this._dragulaService.dragend(this.dragName);
   }
 
   public filtersReady() {
@@ -137,19 +133,6 @@ export class FsGalleryService implements OnDestroy {
 
     if (this.config.viewModeGallery) {
       this.loadGallery();
-    }
-
-
-    if (this.config.reorderStart) {
-      this._dragulaService.createGroup(this.dragName, {
-        moves: (el, source, handle, sibling) => {
-          const group = this._dragulaService.find(this.dragName);
-          const index = Array.from(source.childNodes).indexOf(el);
-          const item: FsGalleryItem = group.drake.models[0][index];
-
-          return this.config.reorderStart({ item, el, source, handle, sibling });
-        },
-      });
     }
   }
 
@@ -281,7 +264,7 @@ export class FsGalleryService implements OnDestroy {
         item.contains = {
           files: Number(Object.values(mimeTypes)
             .reduce((accum: number, value: number) => {
-              return accum + value; 
+              return accum + value;
             }, 0)),
           folders: item.items
             .filter((_item) => _item.folder)
@@ -296,7 +279,7 @@ export class FsGalleryService implements OnDestroy {
   public updateImageDims() {
     this._imageWidth = this.config.thumbnail.width + (this.imageZoom * this.config.thumbnail.width);
     this._imageHeight = this.config.thumbnail.height ?
-      this.config.thumbnail.height + (this.imageZoom * this.config.thumbnail.height) : 
+      this.config.thumbnail.height + (this.imageZoom * this.config.thumbnail.height) :
       (this._imageWidth * this.config.thumbnail.heightScale);
   }
 
@@ -455,9 +438,9 @@ export class FsGalleryService implements OnDestroy {
 
             return this._config.fetch(query, item);
           }
- 
+
           return of([]);
-          
+
         }),
         map((items: any) => this.mapData(items)),
         takeUntil(this._destroy$),

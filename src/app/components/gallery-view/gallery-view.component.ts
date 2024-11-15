@@ -6,9 +6,10 @@ import {
   Output,
 } from '@angular/core';
 
+import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
+
 import { Observable } from 'rxjs';
 
-import { GalleryConfig } from '../../classes/gallery.config';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryService } from '../../services/gallery.service';
 
@@ -27,14 +28,25 @@ export class FsGalleryViewComponent {
   @Input()
   public reorderEnabled;
 
-  @Input()
-  public galleryConfig: GalleryConfig;
-
   @Output()
   public orderChange = new EventEmitter<FsGalleryItem[]>();
 
   constructor(
     public galleryService: FsGalleryService,
   ) { }
+
+  public moved(event: CdkDragDrop<FsGalleryItem[], FsGalleryItem[], FsGalleryItem>) {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+
+    this.orderChange.emit(event.container.data);
+  }
+
+  public dragStarted(event: CdkDragStart<FsGalleryItem>) {
+    this.galleryService.config?.reorderStart({
+      item: event.source.data,
+      el: event.source.element.nativeElement,
+      source: event.event
+    });
+  }
 
 }

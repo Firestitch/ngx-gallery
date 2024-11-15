@@ -1,33 +1,45 @@
-<div
-    *ngIf="reorderEnabled"
-    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
-    [dragula]="galleryService.dragName"
-    [dragulaModel]="data$ | async"
-    (dragulaModelChange)="orderChange.emit($event)">
-  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-</div>
-<div
-    *ngIf="!reorderEnabled && (data$ | async).length"
-    [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
-  <ng-container *ngTemplateOutlet="thumbnailsTemplate"></ng-container>
-</div>
-<ng-template #thumbnailsTemplate>
-  <fs-gallery-thumbnail
-    *ngFor="let item of data$ | async; let index = index; let first = first; let last = last"
-    #fsGalleryThumbnail
-    [index]="index"
-    [first]="first"
-    [last]="last"
-    [item]="item">
-  </fs-gallery-thumbnail>
-</ng-template>
-<div
-    *ngIf="!(data$ | async).length"
-    class="fs-gallery-no-results">
-  <ng-container *ngIf="galleryService.emptyStateEnabled else notFound">
-    <ng-template [ngTemplateOutlet]="galleryService.emptyStateTemplate"></ng-template>
-  </ng-container>
-  <ng-template #notFound>
-    No Results Found
-  </ng-template>
-</div>
+@let data = data$ | async;
+
+@if (!!data?.length) {
+  @if (reorderEnabled) {
+    <div
+      [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
+      cdkDropList
+      cdkDropListOrientation="mixed"
+      [cdkDropListData]="data"
+
+      (cdkDropListDropped)="moved($event)">
+      @for (item of data; track item.guid; let index = $index, first = $first, last = $last) {
+        <fs-gallery-thumbnail
+          cdkDrag
+          [cdkDragData]="item"
+          (cdkDragStarted)="dragStarted($event)"
+          [index]="index"
+          [first]="first"
+          [last]="last"
+          [item]="item">
+        </fs-gallery-thumbnail>
+      }
+    </div>
+  } @else {
+    <div
+      [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
+      @for (item of data; track item; let index = $index, first = $first, last = $last) {
+        <fs-gallery-thumbnail
+          [index]="index"
+          [first]="first"
+          [last]="last"
+          [item]="item">
+        </fs-gallery-thumbnail>
+      }
+    </div>
+  }
+} @else {
+  <div class="fs-gallery-no-results">
+    @if (galleryService.emptyStateEnabled) {
+      <ng-template [ngTemplateOutlet]="galleryService.emptyStateTemplate"></ng-template>
+    } @else {
+      No Results Found
+    }
+  </div>
+}

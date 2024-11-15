@@ -36,7 +36,7 @@ export class GalleryConfig {
   public toolbar = true;
   public reorderable = false;
   public reorderEnd: (data: any) => {};
-  public reorderStart: (event?: { item?: FsGalleryItem; el?: any; source?: any, handle?: any, sibling?: any }) => boolean = null;
+  public reorderStart: (event?: { item?: FsGalleryItem; el?: HTMLElement; source?: any }) => boolean = null;
   public repeat = true;
   public info: FsGalleryInfoConfig = {
     icon: false,

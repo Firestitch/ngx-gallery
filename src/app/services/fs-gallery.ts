@@ -12,7 +12,6 @@ import { PersistanceController } from '../classes';
 import { FsGalleryPreviewComponent } from '../components';
 import { FsGalleryPreviewDetailsDirective } from '../directives';
 import { FsGalleryConfig, FsGalleryItem } from '../interfaces';
-import { DragulaService } from '../modules/dragula';
 
 import { FsGalleryService } from './gallery.service';
 
@@ -26,7 +25,6 @@ export class FsGallery {
     private _injector: Injector,
     private _overlay: Overlay,
     private _location: Location,
-    private _dragulaService: DragulaService,
     private _store: FsStore,
     private _route: ActivatedRoute,
   ) {
@@ -39,7 +37,7 @@ export class FsGallery {
   public openPreviews(items: FsGalleryItem[], options?: GalleryOptions) {
     const persistanceController = new PersistanceController(this._store, this._route);
 
-    const galleryService = new FsGalleryService(FsGalleryPreviewComponent, this._overlay, this._injector, this._location, this._dragulaService, persistanceController);
+    const galleryService = new FsGalleryService(FsGalleryPreviewComponent, this._overlay, this._injector, this._location, persistanceController);
     galleryService.data = items;
     galleryService.previewDetails = options?.previewDetails;
 
