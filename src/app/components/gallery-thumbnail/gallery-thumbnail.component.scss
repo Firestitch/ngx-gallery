@@ -32,10 +32,14 @@
   }
 }
 
-:host:not(.gu-mirror) {
-  .fs-gallery-thumbnail:hover {
-    .menu-container {
-      display: block;
+:host {
+  max-width: 100%;
+  
+  &:not(.gu-mirror) {
+    .fs-gallery-thumbnail:hover {
+      .menu-container {
+        display: block;
+      }
     }
   }
 }

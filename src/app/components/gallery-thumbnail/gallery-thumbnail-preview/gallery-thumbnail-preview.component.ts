@@ -8,7 +8,7 @@ import { FsFile } from '@firestitch/file';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { GalleryThumbnailSize, MimeType } from '../../../enums';
+import { GalleryObjectFit, MimeType } from '../../../enums';
 import { FsGalleryConfig, FsGalleryItem } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
 
@@ -29,7 +29,8 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
   public iconWidth;
   public iconHeight;
   public preview: string | FsApiFile | File | FsFile;
-  public GalleryThumbnailSize = GalleryThumbnailSize;
+  public GalleryObjectFit = GalleryObjectFit;
+  public objectFit: GalleryObjectFit;
   public styles = {
     width: null,
     height: null,
@@ -42,6 +43,7 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
   ) { }
 
   public ngOnInit(): void {
+    this.objectFit = this.config.thumbnail.objectFit || GalleryObjectFit.Cover;
     this.preview = this.item.preview;
   }
 

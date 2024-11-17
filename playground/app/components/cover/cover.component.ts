@@ -8,7 +8,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { getItems } from 'playground/app/helpers';
-import { GalleryThumbnailSize } from 'src/app/enums';
+import { GalleryObjectFit } from 'src/app/enums';
 
 
 @Component({
@@ -43,7 +43,7 @@ export class CoverComponent implements OnInit, OnDestroy {
       thumbnail: {
         width: 250,
         heightScale: .7,
-        size: GalleryThumbnailSize.Cover,
+        objectFit: GalleryObjectFit.Cover,
       },
       fetch: (query, galleryItem: FsGalleryItem): Observable<FsGalleryItem[]> => {
         console.log('fetch', query);

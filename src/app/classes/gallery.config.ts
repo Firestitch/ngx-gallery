@@ -42,7 +42,7 @@ export class GalleryConfig {
     icon: false,
     name: false,
   };
-  public layout = GalleryLayout.Grid;
+  public layout = GalleryLayout.Flow;
   public showCarousel = true;
   public noResults: FsGalleryNoResultsConfig | boolean;
   public persist: FsGalleryPersistance = true;
@@ -152,6 +152,7 @@ export class GalleryConfig {
   }
 
   private _initConfig(data: FsGalleryConfig) {
+    this._thumbnailScale$.next(this.thumbnail.scale);
     this.reorderable = !!data.reorderEnd;
     this.showChangeSize = data.showChangeSize ?? true;
     this.showChangeView = data.showChangeView ?? true;

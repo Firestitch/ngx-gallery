@@ -23,8 +23,8 @@
     @if ((preview | imageSrc| async); as previewImage) {
       <img
         [ngClass]="{
-          'image-contain': config.thumbnail.size === GalleryThumbnailSize.Contain,
-          'image-cover': config.thumbnail.size === GalleryThumbnailSize.Cover,
+          'image-contain': objectFit === GalleryObjectFit.Contain,
+          'image-cover': objectFit === GalleryObjectFit.Cover,
         }"
         [src]="previewImage">
     } @else {

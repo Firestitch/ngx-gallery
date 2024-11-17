@@ -14,7 +14,6 @@ import { Observable, of, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
 
 import { getItems } from 'playground/app/helpers';
-import { GalleryThumbnailSize } from 'src/app/enums';
 
 
 @Component({
@@ -49,9 +48,10 @@ export class ExampleComponent implements OnInit, OnDestroy {
       allow: 'image/*, application/pdf, video/*',
       multiple: true,
       thumbnail: {
-        width: 150,
-        height: 100,
-        size: GalleryThumbnailSize.Cover,
+        // width: 150,
+        // height: 100,
+        width: 300,
+        heightScale: 1.3,
       },
       emptyState: {
         validate: (query, items) => {

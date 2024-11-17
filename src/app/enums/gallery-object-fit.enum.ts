@@ -1,4 +1,4 @@
-export enum GalleryThumbnailSize {
+export enum GalleryObjectFit {
   Cover = 'cover',
   Contain = 'contain',
 }
