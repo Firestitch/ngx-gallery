@@ -76,7 +76,7 @@ export class GalleryConfig {
   private _updateActions$ = new Subject<FsFilterAction[]>();
   private _viewMode$ = new BehaviorSubject<GalleryView>(GalleryView.Gallery);
   private _upload$ = new Subject<any>();
-  private _thumbnailScale$ = new BehaviorSubject<ThumbnailScale>(ThumbnailScale.Small);
+  private _thumbnailScale$ = new BehaviorSubject<ThumbnailScale>(ThumbnailScale.None);
 
   constructor(data: FsGalleryConfig) {
     this._initConfig(data);
