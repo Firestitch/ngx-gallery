@@ -51,7 +51,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     private _previewRef: FsGalleryPreviewRef,
     private _el: ElementRef,
     private _dialog: MatDialog,
-  ) {}
+  ) { }
 
   @HostListener('document:keydown', ['$event'])
   public onKeydownHandler(event: KeyboardEvent) {
@@ -151,7 +151,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   private _disableDialogEscapeClose() {
     this._dialog.openDialogs
-      .forEach((dialog) => {  
+      .forEach((dialog) => {
         this._disableCloses = {
           ...this._disableCloses,
           [dialog.id]: dialog.disableClose,
@@ -163,8 +163,8 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
   private _enableDialogEscapeClose() {
     this._dialog.openDialogs
-      .forEach((dialog) => {  
-        dialog.disableClose = this._disableCloses[dialog.id];               
+      .forEach((dialog) => {
+        dialog.disableClose = this._disableCloses[dialog.id];
       });
   }
 
@@ -185,7 +185,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         const activeItem = data
-          .find((item) => item.guid === this.activeItem.guid);
+          .find((item) => item.guid === this.activeItem?.guid);
 
         this.setActiveItem(activeItem);
       });
