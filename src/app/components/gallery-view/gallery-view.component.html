@@ -1,14 +1,12 @@
 @let data = data$ | async;
-
 @if (!!data?.length) {
   @if (reorderEnabled) {
     <div
-      [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
-      cdkDropList
-      cdkDropListOrientation="mixed"
-      [cdkDropListData]="data"
-
-      (cdkDropListDropped)="moved($event)">
+        [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
+        cdkDropList
+        cdkDropListOrientation="mixed"
+        [cdkDropListData]="data"
+        (cdkDropListDropped)="moved($event)">
       @for (item of data; track item.guid; let index = $index, first = $first, last = $last) {
         <fs-gallery-thumbnail
           cdkDrag
@@ -22,8 +20,7 @@
       }
     </div>
   } @else {
-    <div
-      [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
+    <div [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout">
       @for (item of data; track item; let index = $index, first = $first, last = $last) {
         <fs-gallery-thumbnail
           [index]="index"

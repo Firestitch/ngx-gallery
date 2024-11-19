@@ -45,10 +45,10 @@ export class GalleryConfig {
   public layout = GalleryLayout.Flow;
   public showCarousel = true;
   public noResults: FsGalleryNoResultsConfig | boolean;
-  public persist: FsGalleryPersistance = true;
+  public persist: FsGalleryPersistance = false;
   public details: FsGalleryDetailsConfig;
   public thumbnail: FsGalleryThumbnailConfig = {
-    scale: ThumbnailScale.Medium,
+    scale: ThumbnailScale.None,
   };
 
   public zoom = true;
@@ -118,7 +118,7 @@ export class GalleryConfig {
     return this.viewMode === GalleryView.List;
   }
 
-  private get _resizeActionIcon(): 'image' | 'photo_size_select_large' | 'photo_size_select_small' {
+  private get _resizeActionIcon() {
     switch (this.thumbnailScale) {
       case ThumbnailScale.Small:
         return 'photo_size_select_small';
@@ -126,6 +126,8 @@ export class GalleryConfig {
         return 'photo_size_select_large';
       case ThumbnailScale.Large:
         return 'image';
+      default:
+        return 'crop_original';
     }
   }
 
@@ -174,8 +176,8 @@ export class GalleryConfig {
       this.allow = data.allow;
     }
 
-    if (data.persist !== undefined) {
-      this.persist = data.persist;
+    if (this.showChangeSize) {
+      this.persist = data.persist ?? true;
     }
 
     if (data.thumbnail) {
@@ -266,6 +268,14 @@ export class GalleryConfig {
           className: 'size',
           primary: false,
           items: [
+            {
+              label: 'None',
+              icon: 'crop_original',
+              click: () => {
+                this.setThumbnailScale(ThumbnailScale.None);
+                this._updateActions();
+              },
+            },
             {
               label: 'Large',
               icon: 'image',
