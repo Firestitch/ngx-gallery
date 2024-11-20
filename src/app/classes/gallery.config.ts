@@ -78,8 +78,8 @@ export class GalleryConfig {
   private _upload$ = new Subject<any>();
   private _thumbnailScale$ = new BehaviorSubject<ThumbnailScale>(ThumbnailScale.None);
 
-  constructor(data: FsGalleryConfig) {
-    this._initConfig(data);
+  constructor(config: FsGalleryConfig) {
+    this._initConfig(config);
   }
 
   public get viewMode$(): Observable<GalleryView> {
