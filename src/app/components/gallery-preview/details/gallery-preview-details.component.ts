@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { FsGalleryItem } from '../../../interfaces';
 import { FsGalleryService } from '../../../services/gallery.service';

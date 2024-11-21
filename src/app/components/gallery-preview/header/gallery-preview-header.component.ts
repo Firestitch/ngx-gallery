@@ -2,8 +2,6 @@ import {
   ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges,
 } from '@angular/core';
 
-import { FsApiFile } from '@firestitch/api';
-import { FsFile } from '@firestitch/file';
 
 import { FsGalleryItem, FsGalleryItemAction } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
@@ -40,25 +38,6 @@ export class FsGalleryPreviewHeaderComponent implements OnChanges {
   public previewActionClick(action: FsGalleryItemAction) {
     if (action.click) {
       action.click(this.item);
-    }
-
-    if (action.download) {
-      if (this.item.url instanceof FsApiFile) {
-        this.item.url.download();
-      } else if (this.item.url instanceof File) {
-        (new FsFile(this.item.url))
-          .download();
-      } else if (this.item.url instanceof FsFile) {
-        this.item.url.download();
-      } else {
-        const url = new URL(this.item.url);
-        const link = document.createElement('a');
-        link.href = this.item.url;
-        link.download = url.pathname.split('/').pop();
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
     }
   }
 

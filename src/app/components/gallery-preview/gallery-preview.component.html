@@ -9,12 +9,14 @@
         [ngClass]="{ show: drawerShow }"
         [opened]="drawer.opened && !!galleryConfig.details"
         [position]="'end'">
-      <fs-gallery-preview-details
-        [item]="activeItem"
-        [galleryService]="galleryService"
-        [image]="activeImage"
-        (detailsToggled)="detailsToggled()">
-      </fs-gallery-preview-details>
+      @if (activeItem) {
+        <fs-gallery-preview-details
+          [item]="activeItem"
+          [galleryService]="galleryService"
+          [image]="activeImage"
+          (detailsToggled)="detailsToggled()">
+        </fs-gallery-preview-details>
+      }
     </mat-drawer>
     <mat-drawer-content>
       <fs-gallery-preview-header

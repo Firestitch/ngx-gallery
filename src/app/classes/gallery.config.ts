@@ -1,4 +1,6 @@
 
+import { FsApiFile } from '@firestitch/api';
+import { FsFile } from '@firestitch/file';
 import {
   ActionMode,
   ActionType,
@@ -220,9 +222,40 @@ export class GalleryConfig {
     this.fetch = data.fetch;
     this.upload = data.upload;
     this.actions = data.actions;
-    this.itemActions = data.itemActions || [];
     this.preview = data.preview ?? true;
     this.filterConfig = this._getFilterConfig(data.filters);
+    this._initItemActions(data.itemActions);
+  }
+
+  private _initItemActions(actions: FsGalleryItemAction[]) {
+    this.itemActions = (actions || [])
+      .map((action: FsGalleryItemAction) => {
+        if (action.download) {
+          action = {
+            ...action,
+            click: (item: FsGalleryItem) => {
+              if (item.url instanceof FsApiFile) {
+                item.url.download();
+              } else if (item.url instanceof File) {
+                (new FsFile(item.url))
+                  .download();
+              } else if (item.url instanceof FsFile) {
+                item.url.download();
+              } else {
+                const url = new URL(item.url);
+                const link = document.createElement('a');
+                link.href = item.url;
+                link.download = url.pathname.split('/').pop();
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }
+            },
+          };
+        }
+
+        return action;
+      });
   }
 
   private _getFilterConfig(items: IFilterConfigItem[]): FilterConfig {

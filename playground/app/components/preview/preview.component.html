@@ -4,11 +4,10 @@
     (click)="open()">
   Open Preview
 </a>
-
 <ng-template
     fsGalleryPreviewDetails
     let-item
     let-template="template">
   <ng-container [ngTemplateOutlet]="template"></ng-container>
-  {{item|json}}
+  {{ item|json }}
 </ng-template>

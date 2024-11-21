@@ -36,7 +36,6 @@ import { FsGalleryPreviewService } from './gallery-preview.service';
 @Injectable()
 export class FsGalleryService implements OnDestroy {
 
-  public dragName = 'fs-gallery-dragular';
   public galleryPreviewService: FsGalleryPreviewService;
   public previewTemplate: TemplateRef<any>;
   public thumbnailPreviewTemplate: TemplateRef<any>;
@@ -73,7 +72,6 @@ export class FsGalleryService implements OnDestroy {
     private _location: Location,
     private _persistanceController: PersistanceController,
   ) {
-    this.dragName += guid();
     this.galleryPreviewService = new FsGalleryPreviewService(
       this._overlay,
       this._galleryPreviewComponent,

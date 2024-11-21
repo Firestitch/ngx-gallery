@@ -38,7 +38,6 @@ export interface FsGalleryConfig {
   itemActions?: FsGalleryItemAction[],
   preview?: boolean,
   zoomChanged?(item: number): any,
-  dragName?: string;
   info?: boolean | FsGalleryInfoConfig;
   showCarousel?: boolean;
   thumbnail?: FsGalleryThumbnailConfig;

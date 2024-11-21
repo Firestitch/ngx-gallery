@@ -1,24 +1,28 @@
 <div class="container">
   <div class="header">
-    <div mat-dialog-title>Details</div>
+    <div mat-dialog-title>
+      Details
+    </div>
   </div>
   <div class="content">
     <ng-container *ngIf="galleryService.previewDetails; else template">
-      <ng-template [ngTemplateOutlet]="galleryService.previewDetails.templateRef"
+      <ng-template
+        [ngTemplateOutlet]="galleryService.previewDetails.templateRef"
         [ngTemplateOutletContext]="{ item: item, template: template }">
       </ng-template>
     </ng-container>
   </div>
 </div>
-
 <ng-template #template>
   <fs-label-field>
-    <fs-label>File</fs-label>
-    {{item.name}}
-    <div 
+    <fs-label>
+      File
+    </fs-label>
+    {{ item.name }}
+    <div
         class="small"
         *ngIf="image">
-      {{image.width}} x {{image.height}}
+      {{ image.width }} x                   {{ image.height }}
     </div>
   </fs-label-field>
 </ng-template>
