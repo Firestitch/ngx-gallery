@@ -31,15 +31,14 @@ import { GalleryView } from './../enums';
 
 export class GalleryConfig {
 
-  public allow = 'image/*';
-  public multiple: boolean;
+  public uploadAccept: string;
+  public uploadMultiple: boolean;
   public showChangeSize: boolean;
   public showChangeView: boolean;
   public toolbar = true;
   public reorderable = false;
   public reorderEnd: (data: any) => {};
   public reorderStart: (event?: { item?: FsGalleryItem; el?: HTMLElement; source?: any }) => boolean = null;
-  public repeat = true;
   public info: FsGalleryInfoConfig = {
     icon: false,
     name: false,
@@ -162,20 +161,17 @@ export class GalleryConfig {
     this.showChangeView = data.showChangeView ?? true;
     this.reload = data.reload ?? true;
     this.emptyState = data.emptyState;
+    this.uploadAccept = data.upload?.accept ?? '';
+    this.uploadMultiple = data.upload?.multiple ?? true;
 
     if (data.layout) {
       this.layout = data.layout;
     }
 
-    this.repeat = (data.repeat !== undefined) ? data.repeat : true;
     this.showCarousel = (data.showCarousel !== undefined) ? data.showCarousel : true;
 
     if (data.zoom !== undefined) {
       this.zoom = data.zoom;
-    }
-
-    if (data.allow) {
-      this.allow = data.allow;
     }
 
     if (this.showChangeSize) {
@@ -191,10 +187,6 @@ export class GalleryConfig {
       if (data.thumbnail.scale) {
         this.setThumbnailScale(data.thumbnail.scale);
       }
-    }
-
-    if (data.multiple !== undefined) {
-      this.multiple = data.multiple;
     }
 
     if (data.details !== false) {
@@ -362,8 +354,8 @@ export class GalleryConfig {
         label: 'Upload',
         className: 'fs-gallery-upload-btn',
         color: 'primary',
-        accept: this.allow,
-        multiple: this.multiple,
+        accept: this.uploadAccept,
+        multiple: this.uploadMultiple,
         ...this.upload,
         select: (file) => {
           this.upload.select(file)

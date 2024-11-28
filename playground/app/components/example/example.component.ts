@@ -45,8 +45,6 @@ export class ExampleComponent implements OnInit, OnDestroy {
     this.galleryConfig = {
       showChangeSize: true,
       showChangeView: true,
-      allow: 'image/*, application/pdf, video/*',
-      multiple: true,
       thumbnail: {
         // width: 150,
         // height: 100,
@@ -175,6 +173,8 @@ export class ExampleComponent implements OnInit, OnDestroy {
           );
       },
       upload: {
+        accept: 'image/*, application/pdf, video/*',
+        multiple: true,
         select: (files) => {
           console.log('uploading...', files);
           this.items.push({

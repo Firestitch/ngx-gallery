@@ -13,10 +13,7 @@ import { FsGalleryThumbnailConfig } from './gallery-thumbnail-config.interface';
 
 
 export interface FsGalleryConfig {
-  allow?: string;
-  multiple?: boolean;
   map?: (data: any) => FsGalleryMapping,
-  repeat?: boolean;
   draggable?: boolean;
   layout?: GalleryLayout;
   showChangeSize?: boolean;
@@ -71,6 +68,8 @@ export interface FsGalleryItemContains {
 
 export interface FsGalleryUploadConfig extends Omit<IFsFilterFileAction, 'mode'> {
   select: (fsFile: FsFile[] | FsFile) => Observable<any>;
+  accept?: string;
+  multiple?: boolean;
 }
 
 export interface FsGalleryInfoConfig {
