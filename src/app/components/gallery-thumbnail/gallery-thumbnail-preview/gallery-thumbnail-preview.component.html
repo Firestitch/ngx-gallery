@@ -26,6 +26,7 @@
           'image-contain': objectFit === GalleryObjectFit.Contain,
           'image-cover': objectFit === GalleryObjectFit.Cover,
         }"
+        (error)="preview = null"
         [src]="previewImage">
     } @else {
       <div class="image-placeholder">
