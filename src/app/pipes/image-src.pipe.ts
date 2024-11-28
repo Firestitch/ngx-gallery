@@ -5,7 +5,7 @@ import { FsApiFile } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
 
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 
 @Pipe({
@@ -28,18 +28,24 @@ export class ImageSrcPipe implements PipeTransform {
       url = new FsFile(url);
     }
 
-    if(url instanceof FsApiFile) {
-      return url.safeDataUrl;
-    }
+    return of(url)
+      .pipe(
+        switchMap((_url) => {
+          return (_url instanceof FsApiFile) ? 
+            _url.safeDataUrl : 
+            of(_url);
+        }),
+        switchMap((_url) => {
+          if(_url instanceof FsFile) {
+            return _url.base64Url
+              .pipe(
+                map((data) => this._sanitizer.bypassSecurityTrustResourceUrl(data)),
+              );
+          }
 
-    if(url instanceof FsFile) {
-      return url.base64Url
-        .pipe(
-          map((data) => this._sanitizer.bypassSecurityTrustResourceUrl(data)),
-        );
-    }
-
-    return of(url);
-    
+          return of(_url);
+        }),
+        catchError(() => of('Image error')),
+      );
   }
 }

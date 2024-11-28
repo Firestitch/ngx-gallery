@@ -39,6 +39,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   public activeImage: { height: number, width: number };
   public drawerMode: any = 'side';
   public activeImageIndex = 0;
+  public validUrl = true;
 
   private _destroy$ = new Subject();
   private _disableCloses = {};
@@ -112,6 +113,10 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
     this.drawer.opened = !this.drawer.opened;
   }
 
+  public imageError() {
+    this.validUrl = false;
+  }
+
   public imageLoad(event) {
     this.activeImage = {
       height: event.target.naturalHeight,
@@ -138,7 +143,11 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   }
 
   public setActiveItem(galleryItem: FsGalleryItem) {
-    this.activeItem = galleryItem;
+    this.validUrl = true;
+    this.activeItem = {
+      ...galleryItem,
+    };
+
     this.activeImageIndex = this.availableImages
       .findIndex((item) => this.activeItem?.guid === item.guid);
 
