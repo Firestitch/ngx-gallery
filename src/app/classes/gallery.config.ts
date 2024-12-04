@@ -3,7 +3,6 @@ import { FsApiFile } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
 import {
   ActionMode,
-  ActionType,
   FilterConfig,
   FsFilterAction,
   IFilterConfigItem,
@@ -289,7 +288,6 @@ export class GalleryConfig {
         {
           mode: ActionMode.Menu,
           icon: this._resizeActionIcon,
-          type: ActionType.Flat,
           className: 'size',
           primary: false,
           items: [
