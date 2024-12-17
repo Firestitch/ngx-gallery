@@ -1,8 +1,8 @@
 <div class="container">
   <div class="header">
-    <div mat-dialog-title>
+    <h1>
       Details
-    </div>
+    </h1>
   </div>
   <div class="content">
     <ng-container *ngIf="galleryService.previewDetails; else template">
@@ -22,7 +22,7 @@
     <div
         class="small"
         *ngIf="image">
-      {{ image.width }} x                   {{ image.height }}
+      {{ image.width }} x {{ image.height }}
     </div>
   </fs-label-field>
 </ng-template>
