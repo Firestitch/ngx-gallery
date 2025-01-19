@@ -55,7 +55,7 @@
   </ng-container>
   <div
       class="file-ext"
-      *ngIf="item.mime.extension"
+      *ngIf="item.mime?.extension"
       [style.fontSize]="fontSize + 'px'">
     {{ item.mime.extension }}
   </div>

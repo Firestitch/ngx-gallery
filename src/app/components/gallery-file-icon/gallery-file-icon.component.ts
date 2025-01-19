@@ -23,7 +23,7 @@ export class FsGalleryFileIconComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {
-      this.color = this.item.mime.color || '#cccccc';
+      this.color = this.item?.mime?.color || '#cccccc';
       this.darkColor = this.hue(this.color, -30);
     }
 
