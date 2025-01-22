@@ -238,7 +238,7 @@ export class FsGalleryService implements OnDestroy {
 
         item = {
           ...item,
-          guid: guid(),
+          guid: item.guid || guid(),
           items: this.mapData(item.items || []),
         };
 
