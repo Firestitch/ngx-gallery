@@ -57,7 +57,7 @@ export interface FsGalleryItem extends FsGalleryMapping {
   mime?: Mime,
   index?: number,
   contains?: FsGalleryItemContains,
-  guid?: string,
+  guid: string,
 }
 
 export interface FsGalleryItemContains {

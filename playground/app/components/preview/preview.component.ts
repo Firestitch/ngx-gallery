@@ -37,10 +37,12 @@ export class PreviewComponent {
     {
       preview: 'https://img.freepik.com/premium-photo/cute-dachshund-puppy-hand-mistress_414160-1577.jpg',
       url: 'https://img.freepik.com/premium-photo/cute-dachshund-puppy-hand-mistress_414160-1577.jpg?w=1800',
+      guid: 'dog-1',
     },
     {
       url: 'https://img.freepik.com/premium-photo/puppy-breed-dachshund-brown-color_98725-768.jpg?w=1800',
       preview: 'https://img.freepik.com/premium-photo/puppy-breed-dachshund-brown-color_98725-768.jpg',
+      guid: 'dog-1',
     },
   ];
 

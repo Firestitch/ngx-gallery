@@ -178,6 +178,7 @@ export class ExampleComponent implements OnInit, OnDestroy {
         select: (files) => {
           console.log('uploading...', files);
           this.items.push({
+            guid: 'scheme-1',
             data: {
               id: 1,
               description: 'Image 1 description',
