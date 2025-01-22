@@ -70,9 +70,9 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.setActiveItem(this._item);
     this._disableDialogEscapeClose();
     this._initAvailableImages();
+    this.setActiveItem(this._item);
     this._initDataChanges();    
     this.classCarousel = this.galleryConfig.showCarousel;
     this.drawer.opened = window.innerWidth > 600 && this.galleryConfig.details.autoOpen;
