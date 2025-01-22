@@ -30,7 +30,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   @HostBinding('class.carousel') public classCarousel = false;
 
   public imageUrl$: Observable<string | SafeUrl>;
-  public availableImages: FsGalleryItem[];
+  public availableImages: FsGalleryItem[] = [];
   public imageHover = false;
   public MimeType = MimeType;
   public hasMultipleItems = false;
