@@ -237,6 +237,9 @@ export class ExampleComponent implements OnInit, OnDestroy {
         },
         {
           label: 'Menu action',
+          click: () => {
+            this.gallery.reload();
+          },
         },
       ],
       previewOpened: (data) => {

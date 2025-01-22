@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, HostListener, inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { NavigationStart, Router } from '@angular/router';
 
@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
 
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, skip, takeUntil } from 'rxjs/operators';
 
 
 import { GalleryConfig } from '../../classes';
@@ -40,19 +40,17 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   public drawerMode: any = 'side';
   public activeImageIndex = 0;
   public validUrl = true;
+  public galleryService = inject(FsGalleryService);
+  public renderer = inject(Renderer2);
 
   private _destroy$ = new Subject();
   private _disableCloses = {};
-
-  constructor(
-    @Inject(PREVIEW_DATA) private _item: FsGalleryItem,
-    public galleryService: FsGalleryService,
-    public renderer: Renderer2,
-    private _router: Router,
-    private _previewRef: FsGalleryPreviewRef,
-    private _el: ElementRef,
-    private _dialog: MatDialog,
-  ) { }
+  private _item: FsGalleryItem = inject(PREVIEW_DATA);
+  private _router = inject(Router);
+  private _previewRef = inject(FsGalleryPreviewRef);
+  private _el = inject(ElementRef);
+  private _dialog = inject(MatDialog);
+  private _cdRef = inject(ChangeDetectorRef);
 
   @HostListener('document:keydown', ['$event'])
   public onKeydownHandler(event: KeyboardEvent) {
@@ -190,6 +188,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
   private _initDataChanges() {
     this.galleryService.data$
       .pipe(
+        skip(1),
         takeUntil(this._destroy$),
       )
       .subscribe((data) => {
@@ -197,6 +196,7 @@ export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
           .find((item) => item.guid === this.activeItem?.guid);
 
         this.setActiveItem(activeItem);
+        this._cdRef.markForCheck();
       });
   }
 }

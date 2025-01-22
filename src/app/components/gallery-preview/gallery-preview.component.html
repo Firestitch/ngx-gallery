@@ -28,7 +28,7 @@
         </fs-gallery-preview-header>
         <div
             class="preview"
-            [class]="'file file-' + activeItem.mime?.type + ' extension-' + activeItem.mime?.extension">
+            [class]="'file file-' + activeItem.mime.type + ' extension-' + activeItem.mime.extension">
           <a
               class="prev-overlay"
               *ngIf="hasPrevItem"

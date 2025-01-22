@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { FsApiFile } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
 
