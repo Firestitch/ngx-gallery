@@ -94,7 +94,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public ngOnInit() {
     this.galleryService.setFilter(this.filter);
-    this.reorderEnabled = this.galleryService.config.reorderable;
+    this.reorderEnabled = this.galleryService.config.reorderEnabled;
   }
 
   public navClick(item) {
@@ -123,10 +123,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public orderChange(value: FsGalleryItem[]): void {
     this.galleryService.data = value;
-
-    if (this._config.reorderEnd) {
-      this._config.reorderEnd(value);
-    }
+    this._config.reorderEnd(value);
   }
 
   public get hasFilter() {

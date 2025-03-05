@@ -36,8 +36,9 @@ export class GalleryConfig {
   public showChangeView: boolean;
   public toolbar = true;
   public reorderable = false;
-  public reorderEnd: (data: any) => {};
-  public reorderStart: (event?: { item?: FsGalleryItem; el?: HTMLElement; source?: any }) => boolean = null;
+  public reorderEnabled = false;
+  public reorderEnd: (data: any) => void;
+  public reorderStart: (event?: { item?: FsGalleryItem; el?: HTMLElement; source?: any }) => boolean;
   public info: FsGalleryInfoConfig = {
     icon: false,
     name: false,
@@ -50,19 +51,17 @@ export class GalleryConfig {
   public thumbnail: FsGalleryThumbnailConfig = {
     scale: ThumbnailScale.None,
   };
-
   public zoom = true;
   public mode: GalleryView = GalleryView.Gallery;
   public selection: FsListSelectionConfig;
-
   public filterConfig: FilterConfig;
   public filterInit: (query: any) => void;
   public filterChange: (query: any) => void;
-  public previewClick: (item: FsGalleryItem) => {};
-  public previewOpened: (item: FsGalleryItem) => {};
-  public previewClosed: (item: FsGalleryItem) => {};
+  public previewClick: (item: FsGalleryItem) => void;
+  public previewOpened: (item: FsGalleryItem) => void;
+  public previewClosed: (item: FsGalleryItem) => void;
+  public zoomChanged: (value: number) => void;
   public previewBeforeOpen: (item: FsGalleryItem) => Observable<any>;
-  public zoomChanged: (value: number) => {};
   public map: (data: any) => FsGalleryMapping;
   public upload: FsGalleryUploadConfig;
   public fetch: FsGalleryConfigFetch;
@@ -154,70 +153,85 @@ export class GalleryConfig {
   public setListColumns(columns: FsGalleryListColumnDirective[]): void {
     this._listColumns$.next(columns);
   }
-
-  private _initConfig(data: FsGalleryConfig) {
+  
+  // eslint-disable-next-line complexity, max-statements
+  private _initConfig(config: FsGalleryConfig) {
     this._thumbnailScale$.next(this.thumbnail.scale);
-    this.reorderable = !!data.reorderEnd;
-    this.showChangeSize = data.showChangeSize ?? true;
-    this.showChangeView = data.showChangeView ?? true;
-    this.reload = data.reload ?? true;
-    this.emptyState = data.emptyState;
-    this.uploadAccept = data.upload?.accept ?? '';
-    this.uploadMultiple = data.upload?.multiple ?? true;
+    this.showChangeSize = config.showChangeSize ?? true;
+    this.showChangeView = config.showChangeView ?? true;
+    this.reload = config.reload ?? true;
+    this.emptyState = config.emptyState;
+    this.uploadAccept = config.upload?.accept ?? '';
+    this.uploadMultiple = config.upload?.multiple ?? true;
 
-    if (data.layout) {
-      this.layout = data.layout;
+    if (config.layout) {
+      this.layout = config.layout;
     }
 
-    this.showCarousel = (data.showCarousel !== undefined) ? data.showCarousel : true;
+    this.showCarousel = (config.showCarousel !== undefined) ? config.showCarousel : true;
 
-    if (data.zoom !== undefined) {
-      this.zoom = data.zoom;
+    if (config.zoom !== undefined) {
+      this.zoom = config.zoom;
     }
 
     if (this.showChangeSize) {
-      this.persist = data.persist ?? true;
+      this.persist = config.persist ?? true;
     }
 
-    if (data.thumbnail) {
+    if (config.thumbnail) {
       this.thumbnail = {
         ...this.thumbnail,
-        ...data.thumbnail,
+        ...config.thumbnail,
       };
 
-      if (data.thumbnail.scale) {
-        this.setThumbnailScale(data.thumbnail.scale);
+      if (config.thumbnail.scale) {
+        this.setThumbnailScale(config.thumbnail.scale);
       }
     }
 
-    if (data.details !== false) {
+    if (config.details !== false) {
       this.details = {
         autoOpen: false,
-        ...data.details as FsGalleryDetailsConfig,
+        ...config.details as FsGalleryDetailsConfig,
       };
     }
 
-    if (data.info !== false) {
-      const info: any = data.info || {};
+    if (config.info !== false) {
+      const info: any = config.info || {};
       this.info.icon = info.icon ?? true;
       this.info.name = info.name ?? true;
     }
 
-    this.reorderEnd = data.reorderEnd;
-    this.reorderStart = data.reorderStart;
-    this.map = data.map;
-    this.selection = data.selection;
-    this.previewClosed = data.previewClosed;
-    this.previewOpened = data.previewOpened;
-    this.previewBeforeOpen = data.previewBeforeOpen;
-    this.zoomChanged = data.zoomChanged;
-    this.noResults = data.noResults;
-    this.fetch = data.fetch;
-    this.upload = data.upload;
-    this.actions = data.actions;
-    this.preview = data.preview ?? true;
-    this.filterConfig = this._getFilterConfig(data.filters);
-    this._initItemActions(data.itemActions);
+    this.map = config.map;
+    this.selection = config.selection;
+    this.previewClosed = config.previewClosed;
+    this.previewClick = config.previewClick;
+    this.previewOpened = config.previewOpened;
+    this.previewBeforeOpen = config.previewBeforeOpen;
+    this.zoomChanged = config.zoomChanged;
+    this.noResults = config.noResults;
+    this.fetch = config.fetch;
+    this.upload = config.upload;
+    this.actions = config.actions;
+    this.preview = config.preview ?? true;
+    this.filterConfig = this._getFilterConfig(config.filters);
+    this._initItemActions(config.itemActions);
+    this._initReorder(config);
+  }
+
+  private _initReorder(config: FsGalleryConfig) {
+    this.reorderable = !!config.reorder;
+    if(this.reorderable) {
+      this.reorderEnabled = config.reorder?.enabled ?? true;
+    }
+
+    this.reorderEnd = config.reorder?.end || (() => {
+      // DO NOTHING
+    });
+
+    this.reorderStart = config.reorder?.start || (() => {
+      return false;
+    });
   }
 
   private _initItemActions(actions: FsGalleryItemAction[]) {

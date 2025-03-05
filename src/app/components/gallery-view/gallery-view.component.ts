@@ -26,14 +26,18 @@ export class FsGalleryViewComponent {
   public data$: Observable<FsGalleryItem[]>;
 
   @Input()
-  public reorderEnabled;
+  public reorderEnabled: boolean;
+
+  public reorderable: boolean;
 
   @Output()
   public orderChange = new EventEmitter<FsGalleryItem[]>();
 
   constructor(
     public galleryService: FsGalleryService,
-  ) { }
+  ) { 
+    this.reorderable = this.galleryService.config.reorderable;
+  }
 
   public moved(event: CdkDragDrop<FsGalleryItem[], FsGalleryItem[], FsGalleryItem>) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -42,7 +46,7 @@ export class FsGalleryViewComponent {
   }
 
   public dragStarted(event: CdkDragStart<FsGalleryItem>) {
-    this.galleryService.config?.reorderStart({
+    this.galleryService.config.reorderStart({
       item: event.source.data,
       el: event.source.element.nativeElement,
       source: event.event,

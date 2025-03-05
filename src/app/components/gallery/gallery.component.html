@@ -12,14 +12,16 @@
 <ng-template #nav>
   <fs-gallery-nav></fs-gallery-nav>
 </ng-template>
-<fs-gallery-list-view
-  *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.List"
-  [imageWidth]="galleryService.imageWidth"
-  [galleryConfig]="galleryService.config">
-</fs-gallery-list-view>
-<fs-gallery-gallery-view
-  *ngIf="(galleryService.config.viewMode$ | async) === GalleryView.Gallery"
-  [reorderEnabled]="reorderEnabled"
-  [data$]="galleryService.data$"
-  (orderChange)="orderChange($event)">
-</fs-gallery-gallery-view>
+@if ((galleryService.config.viewMode$ | async) === GalleryView.List) {
+  <fs-gallery-list-view
+    [imageWidth]="galleryService.imageWidth"
+    [galleryConfig]="galleryService.config">
+  </fs-gallery-list-view>
+}
+@if ((galleryService.config.viewMode$ | async) === GalleryView.Gallery) {
+  <fs-gallery-gallery-view
+    [reorderEnabled]="reorderEnabled"
+    [data$]="galleryService.data$"
+    (orderChange)="orderChange($event)">
+  </fs-gallery-gallery-view>
+}

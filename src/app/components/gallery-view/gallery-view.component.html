@@ -1,9 +1,10 @@
 @let data = data$ | async;
 @if (!!data?.length) {
-  @if (reorderEnabled) {
+  @if (reorderable) {
     <div
         [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.imageZoomInteger + ' layout-' + galleryService.config.layout"
         cdkDropList
+        [cdkDropListDisabled]="!reorderEnabled"
         cdkDropListOrientation="mixed"
         [cdkDropListData]="data"
         (cdkDropListDropped)="moved($event)">

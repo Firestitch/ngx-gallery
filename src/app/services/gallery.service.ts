@@ -10,7 +10,6 @@ import {
   FsListComponent,
   FsListConfig,
   FsListNoResultsConfig,
-  FsListReorderConfig,
 } from '@firestitch/list';
 
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
@@ -43,6 +42,7 @@ export class FsGalleryService implements OnDestroy {
   public thumbnailTemplate: TemplateRef<any>;
   public previewDetails: FsGalleryPreviewDetailsDirective;
   public imageZoom = 0;
+  public reorderEnabled = false;
   public imageZoomInteger = 0;
   public reorderStart$: Observable<any>;
   public reorderEnd$: Observable<any>;
@@ -334,7 +334,9 @@ export class FsGalleryService implements OnDestroy {
   private _initFilterConfig() {
     this.filterConfig = {
       items: this.config.filterConfig.items,
-      init: this.filterInit.bind(this),
+      init: () => {
+        this.filterInit(this._filterQuery);
+      },
       change: (query) => {
         this.filterChange(query);
         this.reload();
@@ -364,37 +366,11 @@ export class FsGalleryService implements OnDestroy {
         };
       });
 
-    let reorder: FsListReorderConfig = null;
-
-    if (this.config.reorderEnd) {
-      reorder = {
-        ...reorder,
-        done: (rows) => {
-          const rowsData = rows.map((row) => {
-            return row.data;
-          });
-
-          this._data$.next(rowsData);
-          this.config.reorderEnd(rowsData);
-        },
-      };
-    }
-
-    if (this.config.reorderStart) {
-      reorder = {
-        ...reorder,
-        start: () => {
-          this.config.reorderStart({});
-        },
-      };
-    }
-
     this.listConfig = {
       rowActions,
       paging: false,
       selection: this.config.selection,
       emptyState: this.config.emptyState,
-      reorder,
       status: false,
       fetch: (query) => {
         query = { ...this._filterQuery, ...query };
@@ -424,10 +400,6 @@ export class FsGalleryService implements OnDestroy {
     combineLatest([this.fetch$, this._filtersReady$])
       .pipe(
         map(() => {
-          // const query = {
-          //   ...this._filterQuery,
-          // };
-
           return this._filterQuery;
         }),
         switchMap((query) => {

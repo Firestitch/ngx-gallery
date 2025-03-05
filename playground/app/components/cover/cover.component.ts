@@ -64,13 +64,16 @@ export class CoverComponent implements OnInit, OnDestroy {
             delay(100),
           );
       },
-      reorderEnd: (data) => {
-        console.log('reorderEnd', data);
-      },
-      reorderStart: ({ item, el, source, handle, sibling }) => {
-        console.log('reorderStart', item, el, source, handle, sibling);
+      reorder: {
+        enabled: true,
+        end: (data) => {
+          console.log('reorderEnd', data);
+        },
+        start: ({ item, el, source, handle, sibling }) => {
+          console.log('reorderStart', item, el, source, handle, sibling);
 
-        return true;
+          return true;
+        },
       },
     };
   }

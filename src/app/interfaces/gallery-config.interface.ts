@@ -27,10 +27,20 @@ export interface FsGalleryConfig {
   actions?: FsFilterAction[];
   selection?: FsListSelectionConfig;
   zoom?: boolean;
-  reorderEnd?(data: any): any,
-  reorderStart?(event: { item: FsGalleryItem; el: any; source: any, handle: any, sibling: any }): boolean,
+  reorder?: {
+    enabled?: boolean,
+    end?(data: any): any,
+    start?(event: { 
+      item: FsGalleryItem;
+       el: any; 
+       source: any, 
+       handle: any, 
+       sibling: any
+      }): boolean,
+  },
   previewBeforeOpen?(galleryItem: FsGalleryItem): Observable<FsGalleryItem>,
   previewOpened?(galleryItem: FsGalleryItem): any,
+  previewClick?(galleryItem: FsGalleryItem): any,
   previewClosed?(galleryItem: FsGalleryItem): any,
   itemActions?: FsGalleryItemAction[],
   preview?: boolean,
