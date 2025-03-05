@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -16,7 +18,7 @@ import { FsGalleryService } from '../../services/gallery.service';
   styleUrls: ['./gallery-nav.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryNavComponent implements OnInit {
+export class FsGalleryNavComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
 
@@ -32,7 +34,7 @@ export class FsGalleryNavComponent implements OnInit {
       )
       .subscribe(() => {
         this._cdRef.markForCheck();
-      })
+      });
   }
 
   public navClick(item) {

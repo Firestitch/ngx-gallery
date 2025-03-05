@@ -473,38 +473,27 @@ export class FsGalleryService implements OnDestroy {
 
         switch (size) {
           case ThumbnailScale.Small: {
-            if(this.config.viewModeGallery) {
-              this.updateImageZoom(-0.1);
-            } else {
-              this.updateImageZoom(-0.7);
-            }
+            this.updateImageZoom(-0.1);
           }
             break;
 
-          case ThumbnailScale.Medium: {
-            if(this.config.viewModeGallery) {
-              this.updateImageZoom(1.3);
-            } else {
-              this.updateImageZoom(-0.2);
-            }
+          case ThumbnailScale.Smaller: {
+            this.updateImageZoom(-.5);
           }
             break;
-
+  
           case ThumbnailScale.Large: {
-            if(this.config.viewModeGallery) {
-              this.updateImageZoom(3);
-            } else {
-              this.updateImageZoom(0.3);
-            }
+            this.updateImageZoom(1.3);
+          }
+            break;
+
+          case ThumbnailScale.Larger: {
+            this.updateImageZoom(3);
           }
             break;
 
           case ThumbnailScale.None: {
-            if(this.config.viewModeGallery) {
-              this.updateImageZoom(0);
-            } else {
-              this.updateImageZoom(0);
-            }
+            this.updateImageZoom(0);
           }
             break;
         }

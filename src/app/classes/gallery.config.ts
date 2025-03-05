@@ -122,7 +122,9 @@ export class GalleryConfig {
     switch (this.thumbnailScale) {
       case ThumbnailScale.Small:
         return 'photo_size_select_small';
-      case ThumbnailScale.Medium:
+      case ThumbnailScale.Smaller:
+        return 'photo_size_select_small';
+      case ThumbnailScale.Larger:
         return 'photo_size_select_large';
       case ThumbnailScale.Large:
         return 'image';
@@ -289,29 +291,30 @@ export class GalleryConfig {
           mode: ActionMode.Menu,
           icon: this._resizeActionIcon,
           className: 'size',
+          show: () => this.viewModeGallery,
           primary: false,
           items: [
             {
-              label: 'None',
-              icon: 'crop_original',
+              label: 'Larger',
+              icon: 'image',
               click: () => {
-                this.setThumbnailScale(ThumbnailScale.None);
+                this.setThumbnailScale(ThumbnailScale.Larger);
                 this._updateActions();
               },
             },
             {
               label: 'Large',
-              icon: 'image',
+              icon: 'photo_size_select_large',
               click: () => {
                 this.setThumbnailScale(ThumbnailScale.Large);
                 this._updateActions();
               },
             },
             {
-              label: 'Medium',
-              icon: 'photo_size_select_large',
+              label: 'Original',
+              icon: 'crop_original',
               click: () => {
-                this.setThumbnailScale(ThumbnailScale.Medium);
+                this.setThumbnailScale(ThumbnailScale.None);
                 this._updateActions();
               },
             },
@@ -320,6 +323,14 @@ export class GalleryConfig {
               icon: 'photo_size_select_small',
               click: () => {
                 this.setThumbnailScale(ThumbnailScale.Small);
+                this._updateActions();
+              },
+            },
+            {
+              label: 'Smaller',
+              icon: 'photo_size_select_small',
+              click: () => {
+                this.setThumbnailScale(ThumbnailScale.Smaller);
                 this._updateActions();
               },
             },

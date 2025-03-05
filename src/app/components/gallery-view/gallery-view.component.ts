@@ -45,7 +45,7 @@ export class FsGalleryViewComponent {
     this.galleryService.config?.reorderStart({
       item: event.source.data,
       el: event.source.element.nativeElement,
-      source: event.event
+      source: event.event,
     });
   }
 

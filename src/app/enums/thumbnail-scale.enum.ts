@@ -1,6 +1,7 @@
 export enum ThumbnailScale {
   Small = 'small',
-  Medium = 'medium',
+  Smaller = 'smaller',
+  Larger = 'larger',
   Large = 'large',
   None = 'none',
 }

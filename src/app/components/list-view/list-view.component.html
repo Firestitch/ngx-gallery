@@ -4,10 +4,15 @@
       [ngClass]="{ 'grid-mode': (galleryConfig.viewMode$ | async) === GalleryView.Gallery }"
       #list>
     <fs-list-column width="1%">
-      <ng-template fs-list-cell let-row="row">
+      <ng-template
+          fs-list-cell
+          let-row="row">
         <div class="icon">
           <ng-container *ngIf="row.mime.type === MimeType.Image else icon">
-            <img [src]="row.preview" alt="" [style.width]="'100px'">
+            <img
+              [src]="row.preview"
+              alt=""
+              [style.width]="'100px'">
           </ng-container>
           <ng-template #icon>
             <fs-gallery-file-icon
@@ -18,12 +23,11 @@
         </div>
       </ng-template>
     </fs-list-column>
-
     <ng-container *ngFor="let col of galleryConfig.listColumns$ | async">
       <fs-list-column
           [align]="col.align"
           [class]="col.className"
-          [customize]="col.customize"
+          [customizable]="col.customize"
           [direction]="col.direction"
           [name]="col.name"
           [show]="col.show"
@@ -31,29 +35,26 @@
           [title]="col.title"
           [width]="col.width">
         <ng-container *ngIf="col.headerTemplate">
-          <ng-template fs-list-header
+          <ng-template
+              fs-list-header
               let-row="row"
               [align]="col.headerConfigs?.align"
               [class]="col.headerConfigs?.styleClass"
               [colspan]="col.headerConfigs?.colspan">
-            <ng-container
-              *ngTemplateOutlet="col.headerTemplate; context: { $implicit: row, row: row }">
-            </ng-container>
+            <ng-container *ngTemplateOutlet="col.headerTemplate; context: { $implicit: row, row: row }"></ng-container>
           </ng-template>
         </ng-container>
-        <ng-template fs-list-cell
+        <ng-template
+            fs-list-cell
             let-row="row"
             [align]="col.cellConfigs.align"
             [class]="col.cellConfigs.styleClass"
             [colspan]="col.cellConfigs.colspan">
-          <ng-container
-            *ngTemplateOutlet="col.cellTemplate;
-            context: { $implicit: row, row: row, openPreview: openPreview }">
-          </ng-container>
+          <ng-container *ngTemplateOutlet="col.cellTemplate;
+            context: { $implicit: row, row: row, openPreview: openPreview }"></ng-container>
         </ng-template>
       </fs-list-column>
     </ng-container>
-
     <ng-template fs-list-empty-state>
       <div class="fs-gallery-no-results">
         <ng-template [ngTemplateOutlet]="emptyStateTemplate"></ng-template>
