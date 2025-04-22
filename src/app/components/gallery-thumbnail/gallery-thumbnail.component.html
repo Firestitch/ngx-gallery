@@ -20,11 +20,14 @@
         }">
     </ng-template>
   </ng-container>
-  <div class="menu-container">
+  <div
+      class="menu-container"
+      [ngClass]="{ 'opened': menuOpened }">
     <fs-gallery-menu
       [item]="item"
       [buttonType]="'miniFab'"
-      [itemActions]="galleryService.config.itemActions">
+      [itemActions]="galleryService.config.itemActions"
+      (openChange)="menuOpenChange($event)">
     </fs-gallery-menu>
   </div>
 </div>

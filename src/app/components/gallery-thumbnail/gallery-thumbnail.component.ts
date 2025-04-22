@@ -24,6 +24,7 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
   public galleryLayout = GalleryLayout;
   public hasInfo = false;
   public infoMenuItems = [];
+  public menuOpened = false;
 
   private _destroy$ = new Subject();
 
@@ -45,6 +46,11 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
       !!this.galleryService.config.info.icon ||
       !!this.galleryService.getInfoItemName(this.item) 
     );
+  }
+
+  public menuOpenChange(value: boolean) {
+    this.menuOpened = value;
+    this._cdRef.markForCheck();
   }
 
   public ngOnDestroy(): void {

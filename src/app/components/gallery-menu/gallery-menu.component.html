@@ -1,7 +1,7 @@
 <ng-container *ngIf="visibleMenuItems.length">
   <fs-menu
-      (opened)="open=true"
-      (closed)="open=false"
+      (opened)="switchOpen(true)"
+      (closed)="switchOpen(false)"
       [buttonColor]="'primary'"
       [buttonType]="buttonType">
     <ng-container *ngFor="let menuItem of visibleMenuItems">

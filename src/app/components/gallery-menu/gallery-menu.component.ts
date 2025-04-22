@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy, Component,
+  EventEmitter,
   HostBinding, Input, OnChanges,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 
@@ -23,6 +25,8 @@ export class FsGalleryMenuComponent implements OnChanges {
   @Input() public buttonType: 'icon' | 'miniFab' = 'icon';
   @Input() public itemActions: FsGalleryItemAction[];
 
+  @Output() public openChange = new EventEmitter<boolean>();
+
   public visibleMenuItems: FsGalleryItemAction[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -35,6 +39,11 @@ export class FsGalleryMenuComponent implements OnChanges {
     if (menuItem.click) {
       menuItem.click(this.item);
     }
+  }
+
+  public switchOpen(value: boolean) {
+    this.open = value;
+    this.openChange.emit(value);
   }
 
 }
