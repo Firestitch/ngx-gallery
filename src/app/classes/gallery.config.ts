@@ -43,7 +43,7 @@ export class GalleryConfig {
     icon: false,
     name: false,
   };
-  public layout = GalleryLayout.Flow;
+  public layout = GalleryLayout.Grid;
   public showCarousel = true;
   public noResults: FsGalleryNoResultsConfig | boolean;
   public persist: FsGalleryPersistance = false;

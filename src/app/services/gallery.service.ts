@@ -15,7 +15,6 @@ import {
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
-import { round } from 'lodash-es';
 
 import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
 import { GalleryConfig } from '../classes/gallery.config';
@@ -283,7 +282,7 @@ export class FsGalleryService implements OnDestroy {
 
   public updateImageZoom(val: number) {
     this.imageZoom = val;
-    this.imageZoomInteger = round(val, 0);
+    this.imageZoomInteger = val;
     this.updateImageDims();
 
     if (this.config.zoomChanged) {

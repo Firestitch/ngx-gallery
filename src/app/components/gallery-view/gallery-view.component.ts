@@ -1,7 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
+  inject,
   Input,
   Output,
 } from '@angular/core';
@@ -20,7 +23,7 @@ import { FsGalleryService } from '../../services/gallery.service';
   styleUrls: ['./gallery-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryViewComponent {
+export class FsGalleryViewComponent implements AfterViewInit {
 
   @Input()
   public data$: Observable<FsGalleryItem[]>;
@@ -32,6 +35,8 @@ export class FsGalleryViewComponent {
 
   @Output()
   public orderChange = new EventEmitter<FsGalleryItem[]>();
+  
+  private _elRef = inject(ElementRef);
 
   constructor(
     public galleryService: FsGalleryService,
@@ -43,6 +48,13 @@ export class FsGalleryViewComponent {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
 
     this.orderChange.emit(event.container.data);
+  }
+
+  public ngAfterViewInit() {
+    this._elRef.nativeElement.style
+      .setProperty('--gallery-thumbnail-width', `${this.galleryService.config.thumbnail.width}px`);
+    this._elRef.nativeElement.style
+      .setProperty('--gallery-thumbnail-height-scale', `${this.galleryService.config.thumbnail.heightScale}`);
   }
 
   public dragStarted(event: CdkDragStart<FsGalleryItem>) {

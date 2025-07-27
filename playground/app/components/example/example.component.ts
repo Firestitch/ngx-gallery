@@ -49,7 +49,7 @@ export class ExampleComponent implements OnInit, OnDestroy {
         // width: 150,
         // height: 100,
         width: 300,
-        heightScale: 1.3,
+        heightScale: .5,
       },
       emptyState: {
         validate: (query, items) => {
@@ -59,7 +59,7 @@ export class ExampleComponent implements OnInit, OnDestroy {
       details: {
         autoOpen: true,
       },
-      layout: GalleryLayout.Flow,
+      layout: GalleryLayout.Grid,
       zoom: true,
       info: {
         name: true,
