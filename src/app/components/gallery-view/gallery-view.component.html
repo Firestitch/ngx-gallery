@@ -1,43 +1,44 @@
-@let data = data$ | async;
-@if (!!data?.length) {
-  @if (reorderable) {
-    <div
-        [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.config.thumbnailScale + ' layout-' + galleryService.config.layout"
-        cdkDropList
-        [cdkDropListDisabled]="!reorderEnabled"
-        [cdkDropListOrientation]="'mixed'"
-        [cdkDropListData]="data"
-        (cdkDropListDropped)="moved($event)">
-      @for (item of data; track item.guid; let index = $index, first = $first, last = $last) {
-        <fs-gallery-thumbnail
-          cdkDrag
-          [cdkDragData]="item"
-          (cdkDragStarted)="dragStarted($event)"
-          [index]="index"
-          [first]="first"
-          [last]="last"
-          [item]="item">
-        </fs-gallery-thumbnail>
-      }
-    </div>
+@if (data) {
+  @if (!!data.length) {
+    @if (reorderable) {
+      <div
+          [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.config.thumbnailScale + ' layout-' + galleryService.config.layout"
+          cdkDropList
+          [cdkDropListDisabled]="!reorderEnabled"
+          [cdkDropListOrientation]="'mixed'"
+          [cdkDropListData]="data"
+          (cdkDropListDropped)="moved($event)">
+        @for (item of data; track item.guid; let index = $index, first = $first, last = $last) {
+          <fs-gallery-thumbnail
+            cdkDrag
+            [cdkDragData]="item"
+            (cdkDragStarted)="dragStarted($event)"
+            [index]="index"
+            [first]="first"
+            [last]="last"
+            [item]="item">
+          </fs-gallery-thumbnail>
+        }
+      </div>
+    } @else {
+      <div [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.config.thumbnailScale + ' layout-' + galleryService.config.layout">
+        @for (item of data; track item; let index = $index, first = $first, last = $last) {
+          <fs-gallery-thumbnail
+            [index]="index"
+            [first]="first"
+            [last]="last"
+            [item]="item">
+          </fs-gallery-thumbnail>
+        }
+      </div>
+    }
   } @else {
-    <div [class]="'fs-gallery-thumbnails zoom-size-' + galleryService.config.thumbnailScale + ' layout-' + galleryService.config.layout">
-      @for (item of data; track item; let index = $index, first = $first, last = $last) {
-        <fs-gallery-thumbnail
-          [index]="index"
-          [first]="first"
-          [last]="last"
-          [item]="item">
-        </fs-gallery-thumbnail>
+    <div class="fs-gallery-no-results">
+      @if (galleryService.emptyStateEnabled) {
+        <ng-template [ngTemplateOutlet]="galleryService.emptyStateTemplate"></ng-template>
+      } @else {
+        No Results Found
       }
     </div>
   }
-} @else {
-  <div class="fs-gallery-no-results">
-    @if (galleryService.emptyStateEnabled) {
-      <ng-template [ngTemplateOutlet]="galleryService.emptyStateTemplate"></ng-template>
-    } @else {
-      No Results Found
-    }
-  </div>
 }

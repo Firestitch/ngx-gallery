@@ -1,17 +1,22 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
 
 import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 
-import { Observable } from 'rxjs';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryService } from '../../services/gallery.service';
@@ -23,25 +28,36 @@ import { FsGalleryService } from '../../services/gallery.service';
   styleUrls: ['./gallery-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsGalleryViewComponent implements AfterViewInit {
-
-  @Input()
-  public data$: Observable<FsGalleryItem[]>;
+export class FsGalleryViewComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @Input()
   public reorderEnabled: boolean;
 
   public reorderable: boolean;
+  public data: FsGalleryItem[];
 
   @Output()
   public orderChange = new EventEmitter<FsGalleryItem[]>();
   
   private _elRef = inject(ElementRef);
+  private _cdRef = inject(ChangeDetectorRef);
+  private _destroy$ = new Subject<void>();
 
   constructor(
     public galleryService: FsGalleryService,
   ) { 
     this.reorderable = this.galleryService.config.reorderable;
+  }
+
+  public ngOnInit(): void {
+    this.galleryService.data$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this._cdRef.markForCheck();
+      });
   }
 
   public moved(event: CdkDragDrop<FsGalleryItem[], FsGalleryItem[], FsGalleryItem>) {
@@ -63,6 +79,11 @@ export class FsGalleryViewComponent implements AfterViewInit {
       el: event.source.element.nativeElement,
       source: event.event,
     });
+  }
+
+  public ngOnDestroy(): void {
+    this._destroy$.next(null);
+    this._destroy$.complete();
   }
 
 }
