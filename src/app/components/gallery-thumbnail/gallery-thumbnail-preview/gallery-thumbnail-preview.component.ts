@@ -11,13 +11,26 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { GalleryObjectFit, MimeType } from '../../../enums';
 import { FsGalleryConfig, FsGalleryItem } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
+import { NgClass, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { FsGalleryFileIconComponent } from '../../gallery-file-icon/gallery-file-icon.component';
+import { ImageSrcPipe } from '../../../pipes/image-src.pipe';
 
 
 @Component({
-  selector: 'fs-gallery-thumbnail-preview',
-  templateUrl: './gallery-thumbnail-preview.component.html',
-  styleUrls: ['./gallery-thumbnail-preview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-thumbnail-preview',
+    templateUrl: './gallery-thumbnail-preview.component.html',
+    styleUrls: ['./gallery-thumbnail-preview.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgClass,
+        NgTemplateOutlet,
+        MatProgressSpinner,
+        FsGalleryFileIconComponent,
+        AsyncPipe,
+        ImageSrcPipe,
+    ],
 })
 export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy, OnInit {
 

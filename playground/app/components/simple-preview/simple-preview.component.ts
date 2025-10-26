@@ -2,12 +2,17 @@ import { Component } from '@angular/core';
 
 import { FsGalleryConfig } from '@firestitch/gallery';
 import { of } from 'rxjs';
+import { FsGalleryComponent } from '../../../../src/app/components/gallery/gallery.component';
+import { FsGalleryThumbnailDirective } from '../../../../src/app/directives/gallery-thumbnail.directive';
+import { FsGalleryPreviewDirective } from '../../../../src/app/directives/gallery-preview.directive';
 
 
 @Component({
-  selector: 'simple-preview',
-  templateUrl: './simple-preview.component.html',
-  styleUrls: ['./simple-preview.component.css']
+    selector: 'simple-preview',
+    templateUrl: './simple-preview.component.html',
+    styleUrls: ['./simple-preview.component.css'],
+    standalone: true,
+    imports: [FsGalleryComponent, FsGalleryThumbnailDirective, FsGalleryPreviewDirective]
 })
 export class SimplePreviewComponent {
 

@@ -5,13 +5,28 @@ import {
 
 import { FsGalleryItem, FsGalleryItemAction } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { FsFileModule } from '@firestitch/file';
+import { NgTemplateOutlet } from '@angular/common';
+import { FsGalleryMenuComponent } from '../../gallery-menu/gallery-menu.component';
+import { MatTooltip } from '@angular/material/tooltip';
 
 
 @Component({
-  selector: 'fs-gallery-preview-header',
-  templateUrl: './gallery-preview-header.component.html',
-  styleUrls: ['./gallery-preview-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-preview-header',
+    templateUrl: './gallery-preview-header.component.html',
+    styleUrls: ['./gallery-preview-header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        MatIconButton,
+        MatIcon,
+        FsFileModule,
+        NgTemplateOutlet,
+        FsGalleryMenuComponent,
+        MatTooltip,
+    ],
 })
 export class FsGalleryPreviewHeaderComponent implements OnChanges {
 

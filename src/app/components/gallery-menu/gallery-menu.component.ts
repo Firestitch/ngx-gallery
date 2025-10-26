@@ -8,13 +8,16 @@ import {
 
 import { processMenuItems } from '../../helpers';
 import { FsGalleryItem, FsGalleryItemAction } from '../../interfaces';
+import { FsMenuModule } from '@firestitch/menu';
 
 
 @Component({
-  selector: 'fs-gallery-menu',
-  templateUrl: './gallery-menu.component.html',
-  styleUrls: ['./gallery-menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-menu',
+    templateUrl: './gallery-menu.component.html',
+    styleUrls: ['./gallery-menu.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsMenuModule],
 })
 export class FsGalleryMenuComponent implements OnChanges {
 

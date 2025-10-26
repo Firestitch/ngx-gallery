@@ -31,21 +31,35 @@ import { FsGalleryService } from '../../services';
 import { FsGalleryPreviewComponent } from '../gallery-preview';
 
 import { GalleryView } from './../../enums';
+import { NgClass, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { FsGalleryNavComponent } from '../gallery-nav/gallery-nav.component';
+import { FsGalleryListViewComponent } from '../list-view/list-view.component';
+import { FsGalleryViewComponent } from '../gallery-view/gallery-view.component';
 
 
 @Component({
-  selector: 'fs-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.scss'],
-  providers: [
-    FsGalleryService,
-    PersistanceController,
-    {
-      provide: GalleryPreviewComponentInjector,
-      useValue: FsGalleryPreviewComponent,
-    },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery',
+    templateUrl: './gallery.component.html',
+    styleUrls: ['./gallery.component.scss'],
+    providers: [
+        FsGalleryService,
+        PersistanceController,
+        {
+            provide: GalleryPreviewComponentInjector,
+            useValue: FsGalleryPreviewComponent,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FilterComponent,
+        NgClass,
+        NgTemplateOutlet,
+        FsGalleryNavComponent,
+        FsGalleryListViewComponent,
+        FsGalleryViewComponent,
+        AsyncPipe,
+    ],
 })
 export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 

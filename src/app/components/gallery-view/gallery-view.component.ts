@@ -12,7 +12,7 @@ import {
   Output,
 } from '@angular/core';
 
-import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragStart, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 
 
 import { Subject } from 'rxjs';
@@ -20,13 +20,22 @@ import { takeUntil } from 'rxjs/operators';
 
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryService } from '../../services/gallery.service';
+import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
+import { NgTemplateOutlet } from '@angular/common';
 
 
 @Component({
-  selector: 'fs-gallery-gallery-view',
-  templateUrl: './gallery-view.component.html',
-  styleUrls: ['./gallery-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-gallery-view',
+    templateUrl: './gallery-view.component.html',
+    styleUrls: ['./gallery-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        CdkDropList,
+        FsGalleryThumbnailComponent,
+        CdkDrag,
+        NgTemplateOutlet,
+    ],
 })
 export class FsGalleryViewComponent implements AfterViewInit, OnInit, OnDestroy {
 

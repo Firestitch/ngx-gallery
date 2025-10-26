@@ -12,7 +12,8 @@ import { FsGalleryListHeaderDirective } from './header.directive';
 
 
 @Directive({
-  selector: 'fs-gallery-list-column',
+    selector: 'fs-gallery-list-column',
+    standalone: true,
 })
 export class FsGalleryListColumnDirective {
 

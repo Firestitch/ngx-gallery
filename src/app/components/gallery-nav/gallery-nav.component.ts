@@ -10,13 +10,17 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { FsGalleryService } from '../../services/gallery.service';
+import { MatIconAnchor } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
-  selector: 'fs-gallery-nav',
-  templateUrl: './gallery-nav.component.html',
-  styleUrls: ['./gallery-nav.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-nav',
+    templateUrl: './gallery-nav.component.html',
+    styleUrls: ['./gallery-nav.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [MatIconAnchor, MatIcon],
 })
 export class FsGalleryNavComponent implements OnInit, OnDestroy {
 

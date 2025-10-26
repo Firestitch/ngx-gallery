@@ -2,13 +2,16 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 
 import { FsGalleryItem } from '../../../interfaces';
 import { MimeType } from '../../../enums';
+import { MatTooltip } from '@angular/material/tooltip';
 
 
 @Component({
-  selector: 'fs-gallery-folder-icon-info',
-  templateUrl: './gallery-folder-icon-info.component.html',
-  styleUrls: ['./gallery-folder-icon-info.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-folder-icon-info',
+    templateUrl: './gallery-folder-icon-info.component.html',
+    styleUrls: ['./gallery-folder-icon-info.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [MatTooltip],
 })
 export class FsGalleryFolderIconInfoComponent implements OnInit {
 

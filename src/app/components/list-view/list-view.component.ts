@@ -7,18 +7,32 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { FsListComponent, FsListConfig } from '@firestitch/list';
+import { FsListComponent, FsListConfig, FsListColumnDirective, FsListCellDirective, FsListHeaderDirective, FsListEmptyStateDirective } from '@firestitch/list';
 
 import { GalleryConfig } from '../../classes/gallery.config';
 import { GalleryView, MimeType } from '../../enums';
 import { FsGalleryService } from '../../services/gallery.service';
+import { NgClass, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { FsGalleryFileIconComponent } from '../gallery-file-icon/gallery-file-icon.component';
 
 
 @Component({
-  selector: 'fs-gallery-list-view',
-  templateUrl: './list-view.component.html',
-  styleUrls: ['./list-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-list-view',
+    templateUrl: './list-view.component.html',
+    styleUrls: ['./list-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsListComponent,
+        NgClass,
+        FsListColumnDirective,
+        FsListCellDirective,
+        FsGalleryFileIconComponent,
+        FsListHeaderDirective,
+        NgTemplateOutlet,
+        FsListEmptyStateDirective,
+        AsyncPipe,
+    ],
 })
 export class FsGalleryListViewComponent implements AfterViewInit {
 

@@ -3,7 +3,8 @@ import { Directive, Input } from '@angular/core';
 import { FsGalleryItem } from '../interfaces';
 
 @Directive({
-  selector: '[fs-gallery-list-cell],[fsGalleryListCell]',
+    selector: '[fs-gallery-list-cell],[fsGalleryListCell]',
+    standalone: true,
 })
 export class FsGalleryListCellDirective {
 

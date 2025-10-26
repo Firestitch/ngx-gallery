@@ -9,7 +9,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 
 @Pipe({
-  name: 'imageSrc',
+    name: 'imageSrc',
+    standalone: true,
 })
 export class ImageSrcPipe implements PipeTransform {
 

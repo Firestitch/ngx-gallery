@@ -4,7 +4,8 @@ import { FsGalleryItem } from '../interfaces';
 
 
 @Directive({
-  selector: '[fsGalleryThumbnailPreview]',
+    selector: '[fsGalleryThumbnailPreview]',
+    standalone: true,
 })
 export class FsGalleryThumbnailPreviewDirective {
 

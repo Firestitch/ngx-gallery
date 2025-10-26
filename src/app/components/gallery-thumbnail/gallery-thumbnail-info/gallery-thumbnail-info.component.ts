@@ -3,13 +3,16 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { MimeType } from '../../../enums';
 import { FsGalleryItem } from '../../../interfaces';
 import { FsGalleryService } from '../../../services';
+import { FsGalleryIconComponent } from '../../gallery-icon/gallery-icon.component';
 
 
 @Component({
-  selector: 'fs-gallery-thumbnail-info',
-  templateUrl: './gallery-thumbnail-info.component.html',
-  styleUrls: ['./gallery-thumbnail-info.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-thumbnail-info',
+    templateUrl: './gallery-thumbnail-info.component.html',
+    styleUrls: ['./gallery-thumbnail-info.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsGalleryIconComponent],
 })
 export class FsGalleryThumbnailInfoComponent implements OnInit {
 

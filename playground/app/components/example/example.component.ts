@@ -14,13 +14,36 @@ import { Observable, of, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
 
 import { getItems } from 'playground/app/helpers';
+import { FsGalleryComponent as FsGalleryComponent_1 } from '../../../../src/app/components/gallery/gallery.component';
+import { FsGalleryEmptyStateDirective } from '../../../../src/app/directives/empty-state.directive';
+import { FsGalleryNavDirective } from '../../../../src/app/directives/gallery-nav.directive';
+import { NgTemplateOutlet } from '@angular/common';
+import { FsGalleryThumbnailDirective } from '../../../../src/app/directives/gallery-thumbnail.directive';
+import { FsGalleryPreviewDetailsDirective } from '../../../../src/app/directives/gallery-preview-details.directive';
+import { FsLabelModule } from '@firestitch/label';
+import { FsGalleryPreviewDirective } from '../../../../src/app/directives/gallery-preview.directive';
+import { FsGalleryListColumnDirective } from '../../../../src/app/directives/column.directive';
+import { FsGalleryListCellDirective } from '../../../../src/app/directives/cell.directive';
 
 
 @Component({
-  selector: 'example',
-  templateUrl: './example.component.html',
-  styleUrls: ['./example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'example',
+    templateUrl: './example.component.html',
+    styleUrls: ['./example.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsGalleryComponent_1,
+        FsGalleryEmptyStateDirective,
+        FsGalleryNavDirective,
+        NgTemplateOutlet,
+        FsGalleryThumbnailDirective,
+        FsGalleryPreviewDetailsDirective,
+        FsLabelModule,
+        FsGalleryPreviewDirective,
+        FsGalleryListColumnDirective,
+        FsGalleryListCellDirective,
+    ],
 })
 export class ExampleComponent implements OnInit, OnDestroy {
 

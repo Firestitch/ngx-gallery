@@ -5,13 +5,23 @@ import { FsGalleryConfig, FsGalleryItem, FsGalleryPreviewDetailsDirective } from
 import { of } from 'rxjs';
 
 import { FsGallery } from 'src/app/services/fs-gallery';
+import { MatAnchor } from '@angular/material/button';
+import { FsGalleryPreviewDetailsDirective as FsGalleryPreviewDetailsDirective_1 } from '../../../../src/app/directives/gallery-preview-details.directive';
+import { NgTemplateOutlet, JsonPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'app-preview',
-  templateUrl: './preview.component.html',
-  styleUrls: ['./preview.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-preview',
+    templateUrl: './preview.component.html',
+    styleUrls: ['./preview.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        MatAnchor,
+        FsGalleryPreviewDetailsDirective_1,
+        NgTemplateOutlet,
+        JsonPipe,
+    ],
 })
 export class PreviewComponent {
 

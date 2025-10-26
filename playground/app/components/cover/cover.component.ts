@@ -9,13 +9,16 @@ import { delay } from 'rxjs/operators';
 
 import { getItems } from 'playground/app/helpers';
 import { GalleryObjectFit } from 'src/app/enums';
+import { FsGalleryComponent as FsGalleryComponent_1 } from '../../../../src/app/components/gallery/gallery.component';
 
 
 @Component({
-  selector: 'app-cover',
-  templateUrl: './cover.component.html',
-  styleUrls: ['./cover.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-cover',
+    templateUrl: './cover.component.html',
+    styleUrls: ['./cover.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsGalleryComponent_1],
 })
 export class CoverComponent implements OnInit, OnDestroy {
 

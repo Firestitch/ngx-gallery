@@ -6,13 +6,25 @@ import { takeUntil } from 'rxjs/operators';
 import { GalleryLayout } from '../../enums';
 import { FsGalleryItem } from '../../interfaces';
 import { FsGalleryService } from '../../services';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { FsGalleryThumbnailPreviewComponent } from './gallery-thumbnail-preview/gallery-thumbnail-preview.component';
+import { FsGalleryThumbnailInfoComponent } from './gallery-thumbnail-info/gallery-thumbnail-info.component';
+import { FsGalleryMenuComponent } from '../gallery-menu/gallery-menu.component';
 
 
 @Component({
-  selector: 'fs-gallery-thumbnail',
-  templateUrl: './gallery-thumbnail.component.html',
-  styleUrls: ['./gallery-thumbnail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-thumbnail',
+    templateUrl: './gallery-thumbnail.component.html',
+    styleUrls: ['./gallery-thumbnail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgClass,
+        NgTemplateOutlet,
+        FsGalleryThumbnailPreviewComponent,
+        FsGalleryThumbnailInfoComponent,
+        FsGalleryMenuComponent,
+    ],
 })
 export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
 

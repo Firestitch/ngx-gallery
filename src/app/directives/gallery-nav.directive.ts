@@ -2,7 +2,8 @@ import { Directive, TemplateRef } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsGalleryNav]',
+    selector: '[fsGalleryNav]',
+    standalone: true,
 })
 export class FsGalleryNavDirective {
 

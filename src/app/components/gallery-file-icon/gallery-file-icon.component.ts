@@ -2,13 +2,16 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } f
 
 import { MimeType } from '../../enums';
 import { FsGalleryItem } from '../../interfaces';
+import { FsGalleryFolderIconInfoComponent } from './gallery-folder-icon-info/gallery-folder-icon-info.component';
 
 
 @Component({
-  selector: 'fs-gallery-file-icon',
-  templateUrl: './gallery-file-icon.component.html',
-  styleUrls: ['./gallery-file-icon.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-gallery-file-icon',
+    templateUrl: './gallery-file-icon.component.html',
+    styleUrls: ['./gallery-file-icon.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsGalleryFolderIconInfoComponent],
 })
 export class FsGalleryFileIconComponent implements OnChanges {
 

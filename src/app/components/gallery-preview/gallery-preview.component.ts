@@ -3,7 +3,7 @@ import { SafeUrl } from '@angular/platform-browser';
 import { NavigationStart, Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/material/sidenav';
 
 import { Observable, Subject } from 'rxjs';
 import { filter, skip, takeUntil } from 'rxjs/operators';
@@ -15,12 +15,39 @@ import { MimeType } from '../../enums';
 import { PREVIEW_DATA } from '../../injectors/preview-data';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryService } from '../../services/gallery.service';
+import { NgClass, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { FsGalleryPreviewDetailsComponent } from './details/gallery-preview-details.component';
+import { FsGalleryPreviewHeaderComponent } from './header/gallery-preview-header.component';
+import { FsPdfViewerModule } from '@firestitch/pdf-viewer';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { FsGalleryFileIconComponent } from '../gallery-file-icon/gallery-file-icon.component';
+import { FsGalleryPreviewCarouselComponent } from './carousel/gallery-preview-carousel.component';
+import { ImageSrcPipe } from '../../pipes/image-src.pipe';
 
 
 @Component({
-  templateUrl: './gallery-preview.component.html',
-  styleUrls: ['./gallery-preview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './gallery-preview.component.html',
+    styleUrls: ['./gallery-preview.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgClass,
+        MatDrawerContainer,
+        MatDrawer,
+        FsGalleryPreviewDetailsComponent,
+        MatDrawerContent,
+        FsGalleryPreviewHeaderComponent,
+        NgIf,
+        NgSwitch,
+        NgSwitchCase,
+        FsPdfViewerModule,
+        NgTemplateOutlet,
+        MatProgressSpinner,
+        FsGalleryFileIconComponent,
+        FsGalleryPreviewCarouselComponent,
+        AsyncPipe,
+        ImageSrcPipe,
+    ],
 })
 export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 
