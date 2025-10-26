@@ -1,24 +1,24 @@
-<ng-container *ngIf="visibleMenuItems.length">
+@if (visibleMenuItems.length) {
   <fs-menu
-      (opened)="switchOpen(true)"
-      (closed)="switchOpen(false)"
-      [buttonColor]="'primary'"
-      [buttonType]="buttonType">
-    <ng-container *ngFor="let menuItem of visibleMenuItems">
+    (opened)="switchOpen(true)"
+    (closed)="switchOpen(false)"
+    [buttonColor]="'primary'"
+    [buttonType]="buttonType">
+    @for (menuItem of visibleMenuItems; track menuItem) {
       @if (menuItem.upload) {
         <ng-template
-            fs-menu-file-item
-            [multiple]="menuItem.upload.multiple || false"
-            (select)="menuItem.upload.select(item, $event)">
+          fs-menu-file-item
+          [multiple]="menuItem.upload.multiple || false"
+          (select)="menuItem.upload.select(item, $event)">
           {{ menuItem.label }}
         </ng-template>
       } @else {
         <ng-template
-            fs-menu-item
-            (click)="menuItemClick(menuItem)">
+          fs-menu-item
+          (click)="menuItemClick(menuItem)">
           {{ menuItem.label }}
         </ng-template>
       }
-    </ng-container>
+    }
   </fs-menu>
-</ng-container>
+}

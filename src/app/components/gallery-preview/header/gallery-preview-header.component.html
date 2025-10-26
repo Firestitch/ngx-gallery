@@ -1,21 +1,21 @@
 <div class="header">
   <div class="actions left">
     <button
-        mat-icon-button
-        type="button"
-        class="action"
-        (click)="previewClosed.emit()">
+      mat-icon-button
+      type="button"
+      class="action"
+      (click)="previewClosed.emit()">
       <mat-icon>
         close
       </mat-icon>
     </button>
   </div>
   <div class="actions right">
-    <ng-container *ngFor="let buttonAction of buttonItemActions">
+    @for (buttonAction of buttonItemActions; track buttonAction) {
       @if (buttonAction.upload) {
         <fs-file
-            class="action"
-            (select)="buttonAction.upload.select(item, $event)">
+          class="action"
+          (select)="buttonAction.upload.select(item, $event)">
           <ng-container
             [ngTemplateOutlet]="buttonActionButton"
             [ngTemplateOutletContext]="{ buttonAction: buttonAction }">
@@ -29,17 +29,18 @@
           </ng-container>
         </span>
       }
-    </ng-container>
-    <button
-        *ngIf="galleryService.config.details"
+    }
+    @if (galleryService.config.details) {
+      <button
         mat-icon-button
         type="button"
         class="action"
         (click)="detailsToggled.emit()">
-      <mat-icon>
-        info_outline
-      </mat-icon>
-    </button>
+        <mat-icon>
+          info_outline
+        </mat-icon>
+      </button>
+    }
     <fs-gallery-menu
       [item]="item"
       [itemActions]="menuItemActions">
@@ -47,13 +48,13 @@
   </div>
 </div>
 <ng-template
-    #buttonActionButton
-    let-buttonAction="buttonAction">
+  #buttonActionButton
+  let-buttonAction="buttonAction">
   <button
-      mat-icon-button
-      type="button"
-      (click)="previewActionClick(buttonAction)"
-      [matTooltip]="buttonAction.tooltip">
+    mat-icon-button
+    type="button"
+    (click)="previewActionClick(buttonAction)"
+    [matTooltip]="buttonAction.tooltip">
     <mat-icon>
       {{ buttonAction.icon }}
     </mat-icon>

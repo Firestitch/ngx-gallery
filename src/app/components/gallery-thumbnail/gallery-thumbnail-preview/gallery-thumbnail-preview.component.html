@@ -1,8 +1,8 @@
 <div
-    (click)="click(item)"
-    class="file"
-    [style.height]="(imageHeight ? imageHeight + 'px' :null)"
-    [style.width]="(imageWidth ? imageWidth + 'px' :null)"
+  (click)="click(item)"
+  class="file"
+  [style.height]="(imageHeight ? imageHeight + 'px' :null)"
+  [style.width]="(imageWidth ? imageWidth + 'px' :null)"
     [ngClass]="{
       'previewable': config.preview && !!preview  ,
       'file-folder': item.folder,
@@ -11,15 +11,40 @@
       'file-audio': item.mime.type === MimeType.Audio,
       'file-application': item.mime.type === MimeType.Application
     }">
-  <ng-container *ngIf="galleryService.thumbnailPreviewTemplate; else template">
+  @if (galleryService.thumbnailPreviewTemplate) {
     <ng-template
       [ngTemplateOutlet]="galleryService.thumbnailPreviewTemplate"
       [ngTemplateOutletContext]="{ item: item, template: template }">
     </ng-template>
-  </ng-container>
+  } @else {
+    @if (preview) {
+      @if ((preview | imageSrc| async); as previewImage) {
+        <img
+        [ngClass]="{
+          'image-contain': objectFit === GalleryObjectFit.Contain,
+          'image-cover': objectFit === GalleryObjectFit.Cover,
+        }"
+          (error)="preview = null"
+          [src]="previewImage">
+      } @else {
+        <div class="image-placeholder">
+          <mat-progress-spinner
+            [diameter]="40"
+            [mode]="'indeterminate'">
+          </mat-progress-spinner>
+        </div>
+      }
+    } @else {
+      <fs-gallery-file-icon
+        [width]="iconWidth"
+        [height]="iconHeight"
+        [item]="item">
+      </fs-gallery-file-icon>
+    }
+  }
 </div>
 <ng-template #template>
-  <ng-container *ngIf="preview; else fileIcon">
+  @if (preview) {
     @if ((preview | imageSrc| async); as previewImage) {
       <img
         [ngClass]="{
@@ -36,12 +61,11 @@
         </mat-progress-spinner>
       </div>
     }
-  </ng-container>
-</ng-template>
-<ng-template #fileIcon>
-  <fs-gallery-file-icon
-    [width]="iconWidth"
-    [height]="iconHeight"
-    [item]="item">
-  </fs-gallery-file-icon>
+  } @else {
+    <fs-gallery-file-icon
+      [width]="iconWidth"
+      [height]="iconHeight"
+      [item]="item">
+    </fs-gallery-file-icon>
+  }
 </ng-template>

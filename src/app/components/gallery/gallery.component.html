@@ -2,12 +2,14 @@
   [ngClass]="{ 'has-filter': hasFilter }"
   [config]="galleryService.filterConfig">
 </fs-filter>
-<ng-container *ngIf="navTemplate; else nav">
+@if (navTemplate) {
   <ng-template
     [ngTemplateOutlet]="navTemplate"
     [ngTemplateOutletContext]="{ template: nav }">
   </ng-template>
-</ng-container>
+} @else {
+  <fs-gallery-nav></fs-gallery-nav>
+}
 <ng-template #nav>
   <fs-gallery-nav></fs-gallery-nav>
 </ng-template>

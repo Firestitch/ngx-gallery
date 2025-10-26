@@ -1,9 +1,9 @@
 <div class="fs-gallery-preview-carousel">
-  <ng-container *ngFor="let item of items; let index = index;">
+  @for (item of items; track item; let index = $index) {
     <a
-        (click)="itemClick(item)"
-        [attr.data-index]="index"
-        [ngClass]="{ active: activeItem.guid === item.guid }">
+      (click)="itemClick(item)"
+      [attr.data-index]="index"
+      [ngClass]="{ active: activeItem.guid === item.guid }">
       @if (item.preview) {
         @if (item.preview | imageSrc | async; as image) {
           <img
@@ -25,5 +25,5 @@
         </fs-gallery-file-icon>
       </ng-template>
     </a>
-  </ng-container>
+  }
 </div>

@@ -1,12 +1,12 @@
 <div
-    class="fs-gallery-thumbnail"
+  class="fs-gallery-thumbnail"
     [ngClass]="{ 
       'layout-grid': galleryService.config.layout === galleryLayout.Grid,
       'layout-flow': galleryService.config.layout === galleryLayout.Flow,
       'has-info': hasInfo
     }"
-    id="fs-gallery-thumbnail-{{ item.index }}">
-  <ng-container *ngIf="galleryService.thumbnailTemplate; else template">
+  id="fs-gallery-thumbnail-{{ item.index }}">
+  @if (galleryService.thumbnailTemplate) {
     <ng-template
       [ngTemplateOutlet]="galleryService.thumbnailTemplate"
       [ngTemplateOutletContext]="{ 
@@ -19,10 +19,17 @@
           index: index
         }">
     </ng-template>
-  </ng-container>
+  } @else {
+    <fs-gallery-thumbnail-preview
+      [imageHeight]="galleryService.imageHeight"
+      [imageWidth]="galleryService.config.layout===galleryLayout.Grid ? null : (galleryService.imageWidth ? galleryService.imageWidth : null)"
+      [item]="item">
+    </fs-gallery-thumbnail-preview>
+    <fs-gallery-thumbnail-info [item]="item"></fs-gallery-thumbnail-info>
+  }
   <div
-      class="menu-container"
-      [ngClass]="{ 'opened': menuOpened }">
+    class="menu-container"
+    [ngClass]="{ 'opened': menuOpened }">
     <fs-gallery-menu
       [item]="item"
       [buttonType]="'miniFab'"
@@ -47,8 +54,9 @@
   </fs-gallery-thumbnail-preview>
 </ng-template>
 <ng-template #infoTemplate>
-  <fs-gallery-thumbnail-info
-    *ngIf="hasInfo"
-    [item]="item">
-  </fs-gallery-thumbnail-info>
+  @if (hasInfo) {
+    <fs-gallery-thumbnail-info
+      [item]="item">
+    </fs-gallery-thumbnail-info>
+  }
 </ng-template>

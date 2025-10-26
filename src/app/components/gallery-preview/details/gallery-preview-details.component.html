@@ -5,12 +5,26 @@
     </h1>
   </div>
   <div class="content">
-    <ng-container *ngIf="galleryService.previewDetails; else template">
+    @if (galleryService.previewDetails) {
       <ng-template
         [ngTemplateOutlet]="galleryService.previewDetails.templateRef"
         [ngTemplateOutletContext]="{ item: item, template: template }">
       </ng-template>
-    </ng-container>
+    } @else {
+      <fs-label-field>
+        <fs-label>
+          File
+        </fs-label>
+        {{ item.name }}
+        @if (image) {
+          <div
+            class="small"
+            >
+            {{ image.width }} x {{ image.height }}
+          </div>
+        }
+      </fs-label-field>
+    }
   </div>
 </div>
 <ng-template #template>
@@ -19,10 +33,12 @@
       File
     </fs-label>
     {{ item.name }}
-    <div
+    @if (image) {
+      <div
         class="small"
-        *ngIf="image">
-      {{ image.width }} x {{ image.height }}
-    </div>
+        >
+        {{ image.width }} x {{ image.height }}
+      </div>
+    }
   </fs-label-field>
 </ng-template>

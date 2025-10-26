@@ -1,16 +1,19 @@
-<ng-container *ngIf="showIcon || name">
+@if (showIcon || name) {
   <div class="info">
-    <div
-        *ngIf="item.mime.type && showIcon"
+    @if (item.mime.type && showIcon) {
+      <div
         class="icon">
-      <fs-gallery-icon [item]="item"></fs-gallery-icon>
-    </div>
-    <div
-        class="name"
-        *ngIf="name">
-      <div>
-        {{ name }}
+        <fs-gallery-icon [item]="item"></fs-gallery-icon>
       </div>
-    </div>
+    }
+    @if (name) {
+      <div
+        class="name"
+        >
+        <div>
+          {{ name }}
+        </div>
+      </div>
+    }
   </div>
-</ng-container>
+}

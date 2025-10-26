@@ -1,78 +1,79 @@
 <fs-gallery [config]="galleryConfig">
   <!-- <ng-template
-      fsGalleryThumbnailPreview
-      let-item
-      let-template="template">
-    <ng-template
-      [ngTemplateOutlet]="template"
-      [ngTemplateOutletContext]="{ item: item }">
-    </ng-template>
+  fsGalleryThumbnailPreview
+  let-item
+  let-template="template">
+  <ng-template
+    [ngTemplateOutlet]="template"
+    [ngTemplateOutletContext]="{ item: item }">
+  </ng-template>
+  <div
+    *ngIf="item.data?.custom"
+    class="custom">
+    Custom
+  </div>
+</ng-template> -->
+<ng-template fsGalleryEmptyState>
+  Custom No Results Message
+</ng-template>
+<ng-template
+  fsGalleryNav
+  let-template="template">
+  <ng-template [ngTemplateOutlet]="template"></ng-template>
+</ng-template>
+<ng-template
+  fsGalleryThumbnail
+  let-item
+  let-template="template">
+  <ng-template
+    [ngTemplateOutlet]="template"
+    [ngTemplateOutletContext]="{ item: item }">
+  </ng-template>
+</ng-template>
+<ng-template
+  fsGalleryPreviewDetails
+  let-item
+  let-template="template">
+  <ng-template
+    [ngTemplateOutlet]="template"
+    [ngTemplateOutletContext]="{ item: item }">
+  </ng-template>
+  @if (item) {
+    <fs-label-field>
+      <fs-label>
+        Description
+      </fs-label>
+      <div (click)="updateDescription(item)">
+        {{ item.data?.description }}
+      </div>
+    </fs-label-field>
+  }
+</ng-template>
+<ng-template
+  fsGalleryPreview
+  let-item>
+  @if (item.data?.description) {
     <div
-        *ngIf="item.data?.custom"
-        class="custom">
-      Custom
-    </div>
-  </ng-template> -->
-  <ng-template fsGalleryEmptyState>
-    Custom No Results Message
-  </ng-template>
-  <ng-template
-      fsGalleryNav
-      let-template="template">
-    <ng-template [ngTemplateOutlet]="template"></ng-template>
-  </ng-template>
-  <ng-template
-      fsGalleryThumbnail
-      let-item
-      let-template="template">
-    <ng-template
-      [ngTemplateOutlet]="template"
-      [ngTemplateOutletContext]="{ item: item }">
-    </ng-template>
-  </ng-template>
-  <ng-template
-      fsGalleryPreviewDetails
-      let-item
-      let-template="template">
-    <ng-template
-      [ngTemplateOutlet]="template"
-      [ngTemplateOutletContext]="{ item: item }">
-    </ng-template>
-    @if (item) {
-      <fs-label-field>
-        <fs-label>
-          Description
-        </fs-label>
-        <div (click)="updateDescription(item)">
-          {{ item.data?.description }}
-        </div>
-      </fs-label-field>
-    }
-  </ng-template>
-  <ng-template
-      fsGalleryPreview
-      let-item>
-    <div
-        class="description"
-        *ngIf="item.data?.description">
+      class="description"
+      >
       {{ item.data?.description }}
     </div>
-  </ng-template>
-  <fs-gallery-list-column>
-    <ng-template
-        fsGalleryListCell
-        let-row
-        let-openPreview="openPreview">
-      <ng-container *ngIf="row.mime.type === MimeType.Image; else folder">
-        <a
-            (click)="openPreview(row)"
-            class="name">
-          {{ row.name }}
-        </a>
-      </ng-container>
-      <ng-template #folder>
+  }
+</ng-template>
+<fs-gallery-list-column>
+  <ng-template
+    fsGalleryListCell
+    let-row
+    let-openPreview="openPreview">
+    @if (row.mime.type === MimeType.Image) {
+      <a
+        (click)="openPreview(row)"
+        class="name">
         {{ row.name }}
-      </ng-template>
-    </ng-template>
-  </fs-gallery-list-column>
+      </a>
+    } @else {
+      {{ row.name }}
+    }
+  </ng-template>
+</fs-gallery-list-column>
 </fs-gallery>
