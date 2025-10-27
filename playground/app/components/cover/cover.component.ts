@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 
 
 import { FsApi } from '@firestitch/api';
@@ -21,6 +21,8 @@ import { FsGalleryComponent as FsGalleryComponent_1 } from '../../../../src/app/
     imports: [FsGalleryComponent_1],
 })
 export class CoverComponent implements OnInit, OnDestroy {
+  private _api = inject(FsApi);
+
 
   @ViewChild(FsGalleryComponent, { static: true })
   public gallery: FsGalleryComponent;
@@ -32,9 +34,7 @@ export class CoverComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
 
-  constructor(
-    private _api: FsApi,
-  ) { 
+  constructor() { 
     this.items = getItems(this._api);
   }
 

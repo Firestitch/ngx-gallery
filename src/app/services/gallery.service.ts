@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Inject, Injectable, Injector, OnDestroy, TemplateRef } from '@angular/core';
+import { Injectable, Injector, OnDestroy, TemplateRef, inject } from '@angular/core';
 
 import { Overlay } from '@angular/cdk/overlay';
 
@@ -12,7 +12,7 @@ import {
   FsListNoResultsConfig,
 } from '@firestitch/list';
 
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
 import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 
@@ -58,17 +58,16 @@ export class FsGalleryService implements OnDestroy {
   private _config: GalleryConfig = new GalleryConfig({});
   private _filter: FilterComponent;
   private _lister: FsListComponent;
+  private _galleryPreviewComponent = inject(GalleryPreviewComponentInjector);
+  private _overlay = inject(Overlay);
+  private _injector = inject(Injector);
+  private _location = inject(Location);
+  private _persistanceController = inject(PersistanceController);
 
   private _configUpdated$ = new Subject<void>();
   private _destroy$ = new Subject<void>();
 
-  constructor(
-    @Inject(GalleryPreviewComponentInjector) private _galleryPreviewComponent,
-    private _overlay: Overlay,
-    private _injector: Injector,
-    private _location: Location,
-    private _persistanceController: PersistanceController,
-  ) {
+  constructor() {
     this.galleryPreviewService = new FsGalleryPreviewService(
       this._overlay,
       this._galleryPreviewComponent,

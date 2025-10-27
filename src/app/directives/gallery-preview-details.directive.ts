@@ -1,4 +1,4 @@
-import { Directive, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef, inject } from '@angular/core';
 
 import { FsGalleryItem } from '../interfaces';
 
@@ -8,10 +8,8 @@ import { FsGalleryItem } from '../interfaces';
     standalone: true,
 })
 export class FsGalleryPreviewDetailsDirective {
+  templateRef = inject<TemplateRef<any>>(TemplateRef);
 
-  constructor(
-    public templateRef: TemplateRef<any>,
-  ) { }
 
   public static ngTemplateContextGuard(
     directive: FsGalleryPreviewDetailsDirective,

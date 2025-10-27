@@ -1,6 +1,4 @@
-import {
-  ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, inject } from '@angular/core';
 
 import { FsApiFile } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
@@ -33,6 +31,8 @@ import { ImageSrcPipe } from '../../../pipes/image-src.pipe';
     ],
 })
 export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy, OnInit {
+  galleryService = inject(FsGalleryService);
+
 
   @Input() public item: FsGalleryItem;
   @Input() public imageHeight: number;
@@ -50,10 +50,6 @@ export class FsGalleryThumbnailPreviewComponent implements OnChanges, OnDestroy,
   };
 
   private _destroy$ = new Subject();
-
-  constructor(
-    public galleryService: FsGalleryService,
-  ) { }
 
   public ngOnInit(): void {
     this.objectFit = this.config.thumbnail.objectFit || GalleryObjectFit.Cover;

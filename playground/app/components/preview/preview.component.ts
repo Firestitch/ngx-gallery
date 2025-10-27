@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 
 import { FsGalleryConfig, FsGalleryItem, FsGalleryPreviewDetailsDirective } from '@firestitch/gallery';
 
@@ -24,6 +24,8 @@ import { NgTemplateOutlet, JsonPipe } from '@angular/common';
     ],
 })
 export class PreviewComponent {
+  private gallery = inject(FsGallery);
+
 
   @ViewChild(FsGalleryPreviewDetailsDirective)
   public previewDetails: FsGalleryPreviewDetailsDirective;
@@ -55,10 +57,6 @@ export class PreviewComponent {
       guid: 'dog-1',
     },
   ];
-
-  constructor(
-    private gallery: FsGallery,
-  ) { }
 
   public open(): void {
     this.gallery.openPreviews(this.items, {

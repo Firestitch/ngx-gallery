@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DrawerRef, DRAWER_DATA, DrawerDataProxy, FsDrawerModule } from '@firestitch/drawer';
 import { ItemType } from '@firestitch/filter';
 import { FsLabelModule } from '@firestitch/label';
@@ -17,12 +17,16 @@ import { MatOption } from '@angular/material/core';
     imports: [FsDrawerModule, FsLabelModule, MatCheckbox, FormsModule, MatFormField, MatInput, MatSelect, MatOption]
 })
 export class ConfigureComponent {
+  drawer = inject<DrawerRef<ConfigureComponent>>(DrawerRef);
+  data = inject<DrawerDataProxy<any>>(DRAWER_DATA);
+
   public config;
   public defaultConfig;
   public galleryService;
 
-  constructor(public drawer: DrawerRef<ConfigureComponent>,
-              @Inject(DRAWER_DATA) public data: DrawerDataProxy<any>) {
+  constructor() {
+    const data = this.data;
+
     this.config = data.config;
     this.defaultConfig = data.defaultConfig;
     this.galleryService = data.galleryService;

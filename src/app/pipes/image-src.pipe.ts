@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { FsApiFile } from '@firestitch/api';
@@ -13,10 +13,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
     standalone: true,
 })
 export class ImageSrcPipe implements PipeTransform {
+  private _sanitizer = inject(DomSanitizer);
 
-  constructor(    
-    private _sanitizer: DomSanitizer,
-  ) {}
 
   public transform(
     url: string | FsApiFile | FsFile | File, 

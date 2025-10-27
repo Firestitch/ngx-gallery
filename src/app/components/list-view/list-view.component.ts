@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild, inject } from '@angular/core';
 
 import { FsListComponent, FsListConfig, FsListColumnDirective, FsListCellDirective, FsListHeaderDirective, FsListEmptyStateDirective } from '@firestitch/list';
 
@@ -35,6 +28,8 @@ import { FsGalleryFileIconComponent } from '../gallery-file-icon/gallery-file-ic
     ],
 })
 export class FsGalleryListViewComponent implements AfterViewInit {
+  private _galleryService = inject(FsGalleryService);
+
 
   @ViewChild(FsListComponent)
   public listRef: FsListComponent;
@@ -50,9 +45,7 @@ export class FsGalleryListViewComponent implements AfterViewInit {
   public MimeType = MimeType;
   public GalleryView = GalleryView;
 
-  constructor(
-    private _galleryService: FsGalleryService,
-  ) {
+  constructor() {
     this.listConfig = this._galleryService.listConfig;
   }
 

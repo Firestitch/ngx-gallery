@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 
 import { MimeType } from '../../../enums';
 import { FsGalleryItem } from '../../../interfaces';
@@ -15,6 +15,8 @@ import { FsGalleryIconComponent } from '../../gallery-icon/gallery-icon.componen
     imports: [FsGalleryIconComponent],
 })
 export class FsGalleryThumbnailInfoComponent implements OnInit {
+  galleryService = inject(FsGalleryService);
+
 
   @Input() public item: FsGalleryItem;
   @Input() public hasInfo = false;
@@ -24,10 +26,6 @@ export class FsGalleryThumbnailInfoComponent implements OnInit {
   @Output() public hasInfoChange = new EventEmitter();
 
   public MimeType = MimeType;
-
-  constructor(
-    public galleryService: FsGalleryService,
-  ) { }
 
   public ngOnInit(): void {
     if (this.showIcon === undefined) {

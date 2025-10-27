@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Overlay } from '@angular/cdk/overlay';
@@ -8,8 +8,6 @@ import { FsStore } from '@firestitch/store';
 
 import { take } from 'rxjs/operators';
 
-import { PersistanceController } from '../classes';
-import { FsGalleryPreviewComponent } from '../components';
 import { FsGalleryPreviewDetailsDirective } from '../directives';
 import { FsGalleryConfig, FsGalleryItem } from '../interfaces';
 
@@ -20,24 +18,19 @@ import { FsGalleryService } from './gallery.service';
   providedIn: 'root',
 })
 export class FsGallery {
+  private _injector = inject(Injector);
+  private _overlay = inject(Overlay);
+  private _location = inject(Location);
+  private _store = inject(FsStore);
+  private _route = inject(ActivatedRoute);
 
-  constructor(
-    private _injector: Injector,
-    private _overlay: Overlay,
-    private _location: Location,
-    private _store: FsStore,
-    private _route: ActivatedRoute,
-  ) {
-  }
 
   public openPreview(item: FsGalleryItem, options?: GalleryOptions) {
     this.openPreviews([item], options);
   }
 
   public openPreviews(items: FsGalleryItem[], options?: GalleryOptions) {
-    const persistanceController = new PersistanceController(this._store, this._route);
-
-    const galleryService = new FsGalleryService(FsGalleryPreviewComponent, this._overlay, this._injector, this._location, persistanceController);
+    const galleryService = new FsGalleryService();
     galleryService.data = items;
     galleryService.previewDetails = options?.previewDetails;
 

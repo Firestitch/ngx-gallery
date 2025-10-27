@@ -1,18 +1,4 @@
-import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChild,
-  ContentChildren,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  QueryList,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, TemplateRef, ViewChild, inject } from '@angular/core';
 
 import { FilterComponent } from '@firestitch/filter';
 
@@ -62,6 +48,8 @@ import { FsGalleryViewComponent } from '../gallery-view/gallery-view.component';
     ],
 })
 export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
+  galleryService = inject(FsGalleryService);
+
 
   @Output()
   public zoomChanged = new EventEmitter();
@@ -101,10 +89,6 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private _config: GalleryConfig = null;
   private _destroy$ = new Subject<void>();
-
-  constructor(
-    public galleryService: FsGalleryService,
-  ) { }
 
   public ngOnInit() {
     this.galleryService.setFilter(this.filter);

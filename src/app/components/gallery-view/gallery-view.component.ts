@@ -38,6 +38,8 @@ import { NgTemplateOutlet } from '@angular/common';
     ],
 })
 export class FsGalleryViewComponent implements AfterViewInit, OnInit, OnDestroy {
+  galleryService = inject(FsGalleryService);
+
 
   @Input()
   public reorderEnabled: boolean;
@@ -52,9 +54,7 @@ export class FsGalleryViewComponent implements AfterViewInit, OnInit, OnDestroy 
   private _cdRef = inject(ChangeDetectorRef);
   private _destroy$ = new Subject<void>();
 
-  constructor(
-    public galleryService: FsGalleryService,
-  ) { 
+  constructor() { 
     this.reorderable = this.galleryService.config.reorderable;
   }
 

@@ -1,6 +1,4 @@
-import {
-  ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, inject } from '@angular/core';
 
 import { MimeType } from '../../../enums';
 import { FsGalleryItem } from '../../../interfaces';
@@ -26,6 +24,8 @@ import { ImageSrcPipe } from '../../../pipes/image-src.pipe';
     ],
 })
 export class FsGalleryPreviewCarouselComponent {
+  private _el = inject(ElementRef);
+
 
   @Input() public items: FsGalleryItem[];
   @Input() public activeItem: FsGalleryItem;
@@ -33,10 +33,6 @@ export class FsGalleryPreviewCarouselComponent {
   @Output() public activeItemChanged = new EventEmitter<FsGalleryItem>();
 
   public MimeType = MimeType;
-
-  constructor(
-    private _el: ElementRef,
-  ) { }
 
   public itemClick(item) {
     this.activeItem = item;

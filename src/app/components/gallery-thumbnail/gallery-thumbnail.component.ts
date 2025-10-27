@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -27,6 +27,9 @@ import { FsGalleryMenuComponent } from '../gallery-menu/gallery-menu.component';
     ],
 })
 export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
+  galleryService = inject(FsGalleryService);
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   @Input() public item: FsGalleryItem = null;
   @Input() public index;
@@ -39,11 +42,6 @@ export class FsGalleryThumbnailComponent implements OnInit, OnDestroy {
   public menuOpened = false;
 
   private _destroy$ = new Subject();
-
-  constructor(
-    public galleryService: FsGalleryService,
-    private _cdRef: ChangeDetectorRef,
-  ) { }
 
   public ngOnInit(): void {
     this.galleryService.config.thumbnailScale$

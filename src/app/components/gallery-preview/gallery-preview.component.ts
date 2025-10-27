@@ -1,9 +1,13 @@
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, HostListener, inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { NavigationStart, Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/material/sidenav';
+
+import { FsPdfViewerModule } from '@firestitch/pdf-viewer';
 
 import { Observable, Subject } from 'rxjs';
 import { filter, skip, takeUntil } from 'rxjs/operators';
@@ -14,23 +18,21 @@ import { FsGalleryPreviewRef } from '../../classes/gallery-preview-ref';
 import { MimeType } from '../../enums';
 import { PREVIEW_DATA } from '../../injectors/preview-data';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
+import { ImageSrcPipe } from '../../pipes/image-src.pipe';
 import { FsGalleryService } from '../../services/gallery.service';
-import { NgClass, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { FsGalleryFileIconComponent } from '../gallery-file-icon/gallery-file-icon.component';
+
+import { FsGalleryPreviewCarouselComponent } from './carousel/gallery-preview-carousel.component';
 import { FsGalleryPreviewDetailsComponent } from './details/gallery-preview-details.component';
 import { FsGalleryPreviewHeaderComponent } from './header/gallery-preview-header.component';
-import { FsPdfViewerModule } from '@firestitch/pdf-viewer';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { FsGalleryFileIconComponent } from '../gallery-file-icon/gallery-file-icon.component';
-import { FsGalleryPreviewCarouselComponent } from './carousel/gallery-preview-carousel.component';
-import { ImageSrcPipe } from '../../pipes/image-src.pipe';
 
 
 @Component({
-    templateUrl: './gallery-preview.component.html',
-    styleUrls: ['./gallery-preview.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
+  templateUrl: './gallery-preview.component.html',
+  styleUrls: ['./gallery-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
     NgClass,
     MatDrawerContainer,
     MatDrawer,
@@ -43,8 +45,8 @@ import { ImageSrcPipe } from '../../pipes/image-src.pipe';
     FsGalleryFileIconComponent,
     FsGalleryPreviewCarouselComponent,
     AsyncPipe,
-    ImageSrcPipe
-],
+    ImageSrcPipe,
+  ],
 })
 export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 

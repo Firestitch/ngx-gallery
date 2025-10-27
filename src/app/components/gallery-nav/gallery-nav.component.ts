@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -23,13 +17,11 @@ import { MatIcon } from '@angular/material/icon';
     imports: [MatIconAnchor, MatIcon],
 })
 export class FsGalleryNavComponent implements OnInit, OnDestroy {
+  galleryService = inject(FsGalleryService);
+  _cdRef = inject(ChangeDetectorRef);
+
 
   private _destroy$ = new Subject();
-
-  constructor(
-    public galleryService: FsGalleryService,
-    public _cdRef: ChangeDetectorRef,
-  ) { }
 
   public ngOnInit(): void {
     this.galleryService.data$
