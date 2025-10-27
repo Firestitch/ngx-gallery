@@ -15,7 +15,7 @@ import { MimeType } from '../../enums';
 import { PREVIEW_DATA } from '../../injectors/preview-data';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryService } from '../../services/gallery.service';
-import { NgClass, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { NgClass, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { FsGalleryPreviewDetailsComponent } from './details/gallery-preview-details.component';
 import { FsGalleryPreviewHeaderComponent } from './header/gallery-preview-header.component';
 import { FsPdfViewerModule } from '@firestitch/pdf-viewer';
@@ -31,23 +31,20 @@ import { ImageSrcPipe } from '../../pipes/image-src.pipe';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgClass,
-        MatDrawerContainer,
-        MatDrawer,
-        FsGalleryPreviewDetailsComponent,
-        MatDrawerContent,
-        FsGalleryPreviewHeaderComponent,
-        NgIf,
-        NgSwitch,
-        NgSwitchCase,
-        FsPdfViewerModule,
-        NgTemplateOutlet,
-        MatProgressSpinner,
-        FsGalleryFileIconComponent,
-        FsGalleryPreviewCarouselComponent,
-        AsyncPipe,
-        ImageSrcPipe,
-    ],
+    NgClass,
+    MatDrawerContainer,
+    MatDrawer,
+    FsGalleryPreviewDetailsComponent,
+    MatDrawerContent,
+    FsGalleryPreviewHeaderComponent,
+    FsPdfViewerModule,
+    NgTemplateOutlet,
+    MatProgressSpinner,
+    FsGalleryFileIconComponent,
+    FsGalleryPreviewCarouselComponent,
+    AsyncPipe,
+    ImageSrcPipe
+],
 })
 export class FsGalleryPreviewComponent implements OnInit, OnDestroy {
 

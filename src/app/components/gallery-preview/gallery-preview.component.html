@@ -1,14 +1,14 @@
 <div
-    class="fs-gallery-preview"
-    [ngClass]="{ 'multiple': hasMultipleItems }">
+  class="fs-gallery-preview"
+  [ngClass]="{ 'multiple': hasMultipleItems }">
   <mat-drawer-container class="example-container">
     <mat-drawer
-        (openedStart)="drawerShow = true"
-        (closedStart)="drawerShow = false"
-        [mode]="drawerMode"
-        [ngClass]="{ show: drawerShow }"
-        [opened]="drawer.opened && !!galleryConfig.details"
-        [position]="'end'">
+      (openedStart)="drawerShow = true"
+      (closedStart)="drawerShow = false"
+      [mode]="drawerMode"
+      [ngClass]="{ show: drawerShow }"
+      [opened]="drawer.opened && !!galleryConfig.details"
+      [position]="'end'">
       @if (activeItem) {
         <fs-gallery-preview-details
           [item]="activeItem"
@@ -27,31 +27,33 @@
           (detailsToggled)="detailsToggled()">
         </fs-gallery-preview-header>
         <div
-            class="preview"
-            [class]="'file file-' + activeItem.mime.type + ' extension-' + activeItem.mime.extension">
-          <a
+          class="preview"
+          [class]="'file file-' + activeItem.mime.type + ' extension-' + activeItem.mime.extension">
+          @if (hasPrevItem) {
+            <a
               class="prev-overlay"
-              *ngIf="hasPrevItem"
               (click)="prevItem()">
-            <svg
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24">
-              <path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"></path>
-            </svg>
-          </a>
-          <a
+                <path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"></path>
+              </svg>
+            </a>
+          }
+          @if (hasNextItem) {
+            <a
               class="next-overlay"
-              *ngIf="hasNextItem"
               (click)="nextItem()">
-            <svg
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24">
-              <path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"></path>
-            </svg>
-          </a>
+                <path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"></path>
+              </svg>
+            </a>
+          }
           @if (activeItem.url && validUrl) {
-            <ng-container [ngSwitch]="activeItem.mime.type">
-              <ng-template [ngSwitchCase]="MimeType.Application">
+            @switch (activeItem.mime.type) {
+              @case (MimeType.Application) {
                 @if (activeItem.mime.extension === 'pdf') {
                   <fs-pdf-viewer
                     [backgroundColor]="'transparent'"
@@ -61,8 +63,8 @@
                 } @else {
                   <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
                 }
-              </ng-template>
-              <ng-template [ngSwitchCase]="MimeType.Image">
+              }
+              @case (MimeType.Image) {
                 @if ((activeItem.url | imageSrc | async); as image) {
                   <img
                     class="image"
@@ -77,11 +79,11 @@
                     [mode]="'indeterminate'">
                   </mat-progress-spinner>
                 }
-              </ng-template>
-              <ng-template>
+              }
+              @default {
                 <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
-              </ng-template>
-            </ng-container>
+              }
+            }
           } @else {
             <ng-container [ngTemplateOutlet]="fileIcon"></ng-container>
           }
@@ -92,12 +94,13 @@
             </fs-gallery-file-icon>
           </ng-template>
         </div>
-        <fs-gallery-preview-carousel
-          *ngIf="hasMultipleItems"
-          [items]="availableImages"
-          [activeItem]="activeItem"
-          (activeItemChanged)="setActiveItem($event)">
-        </fs-gallery-preview-carousel>
+        @if (hasMultipleItems) {
+          <fs-gallery-preview-carousel
+            [items]="availableImages"
+            [activeItem]="activeItem"
+            (activeItemChanged)="setActiveItem($event)">
+          </fs-gallery-preview-carousel>
+        }
       }
     </mat-drawer-content>
   </mat-drawer-container>
