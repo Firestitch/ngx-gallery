@@ -116,7 +116,11 @@
 
   ::ng-deep {
     .mat-drawer {     
-      &:not(.mat-drawer-opened, .ng-animating) {
+      // `.ng-animating` is the animating class for Material <= 18 (Angular
+      // animations); Material >= 20 toggles `.mat-drawer-animating` instead.
+      // Excluding both keeps the closed drawer from snapping left mid-close
+      // (which flashed it on the left) regardless of the Material version.
+      &:not(.mat-drawer-opened, .ng-animating, .mat-drawer-animating) {
         right: unset;
         left: 0;
       }
