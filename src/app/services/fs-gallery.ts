@@ -8,6 +8,8 @@ import { FsStore } from '@firestitch/store';
 
 import { take } from 'rxjs/operators';
 
+import { PersistanceController } from '../classes';
+import { FsGalleryPreviewComponent } from '../components';
 import { FsGalleryPreviewDetailsDirective } from '../directives';
 import { FsGalleryConfig, FsGalleryItem } from '../interfaces';
 
@@ -30,7 +32,9 @@ export class FsGallery {
   }
 
   public openPreviews(items: FsGalleryItem[], options?: GalleryOptions) {
-    const galleryService = new FsGalleryService();
+    const persistanceController = new PersistanceController(this._store, this._route);
+
+    const galleryService = new FsGalleryService(FsGalleryPreviewComponent, this._overlay, this._injector, this._location, persistanceController);
     galleryService.data = items;
     galleryService.previewDetails = options?.previewDetails;
 
