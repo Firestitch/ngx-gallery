@@ -15,6 +15,8 @@ export {
 } from './app/directives';
 export { FsGalleryEmptyStateDirective } from './app/directives/empty-state.directive';
 
+export { FsGalleryPreviewRef } from './app/classes/gallery-preview-ref';
+
 export * from './app/interfaces';
 
 export { FsGallery } from './app/services/fs-gallery';
