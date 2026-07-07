@@ -89,6 +89,7 @@ export interface FsGalleryInfoConfig {
 
 export interface FsGalleryDetailsConfig {
   autoOpen?: boolean,
+  width?: number,
 }
 
 export interface Mime {

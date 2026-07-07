@@ -45,3 +45,4 @@ dist/*
 /docs
 /package
 upgrade.js
+.specify/openapi-cache.json
