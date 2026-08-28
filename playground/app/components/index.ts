@@ -1,4 +1,3 @@
-export * from './configure';
 export * from './cover';
 export * from './example';
 export * from './examples';

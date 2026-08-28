@@ -303,6 +303,7 @@ export class FsGalleryService implements OnDestroy {
 
   private _initFilterConfig() {
     this.filterConfig = {
+      ...(this.config.filterConfig || {}),
       items: this.config.filterConfig.items,
       init: (query?: any) => {
         this._filterQuery = query;

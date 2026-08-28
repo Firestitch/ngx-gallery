@@ -1,6 +1,6 @@
 import { FsApiFile } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
-import { FsFilterAction, IFilterConfigItem, IFsFilterFileAction } from '@firestitch/filter';
+import { FilterConfig, FsFilterAction, IFilterConfigItem, IFsFilterFileAction } from '@firestitch/filter';
 import { FsListNoResultsConfig, FsListSelectionConfig } from '@firestitch/list';
 
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ export interface FsGalleryConfig {
   showChangeSize?: boolean;
   showChangeView?: boolean;
   reload?: boolean;
-  filter?: any;
+  filterConfig?: FilterConfig;
   upload?: FsGalleryUploadConfig;
   emptyState?: FsGalleryEmptyStateConfig;
   fetch?: FsGalleryConfigFetch;

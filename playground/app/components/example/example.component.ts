@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
-
+import { NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
@@ -7,6 +7,7 @@ import { ItemType } from '@firestitch/filter';
 import {
   FsGalleryComponent, FsGalleryConfig, FsGalleryItem, GalleryLayout, MimeType,
 } from '@firestitch/gallery';
+import { FsLabelModule } from '@firestitch/label';
 import { FsPrompt } from '@firestitch/prompt';
 import { SelectionActionType } from '@firestitch/selection';
 
@@ -14,41 +15,37 @@ import { Observable, of, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
 
 import { getItems } from 'playground/app/helpers';
+
 import { FsGalleryComponent as FsGalleryComponent_1 } from '../../../../src/app/components/gallery/gallery.component';
+import { FsGalleryListCellDirective } from '../../../../src/app/directives/cell.directive';
+import { FsGalleryListColumnDirective } from '../../../../src/app/directives/column.directive';
 import { FsGalleryEmptyStateDirective } from '../../../../src/app/directives/empty-state.directive';
 import { FsGalleryNavDirective } from '../../../../src/app/directives/gallery-nav.directive';
-import { NgTemplateOutlet } from '@angular/common';
-import { FsGalleryThumbnailDirective } from '../../../../src/app/directives/gallery-thumbnail.directive';
 import { FsGalleryPreviewDetailsDirective } from '../../../../src/app/directives/gallery-preview-details.directive';
-import { FsLabelModule } from '@firestitch/label';
 import { FsGalleryPreviewDirective } from '../../../../src/app/directives/gallery-preview.directive';
-import { FsGalleryListColumnDirective } from '../../../../src/app/directives/column.directive';
-import { FsGalleryListCellDirective } from '../../../../src/app/directives/cell.directive';
+import { FsGalleryThumbnailDirective } from '../../../../src/app/directives/gallery-thumbnail.directive';
 
 
 @Component({
-    selector: 'example',
-    templateUrl: './example.component.html',
-    styleUrls: ['./example.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        FsGalleryComponent_1,
-        FsGalleryEmptyStateDirective,
-        FsGalleryNavDirective,
-        NgTemplateOutlet,
-        FsGalleryThumbnailDirective,
-        FsGalleryPreviewDetailsDirective,
-        FsLabelModule,
-        FsGalleryPreviewDirective,
-        FsGalleryListColumnDirective,
-        FsGalleryListCellDirective,
-    ],
+  selector: 'example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FsGalleryComponent_1,
+    FsGalleryEmptyStateDirective,
+    FsGalleryNavDirective,
+    NgTemplateOutlet,
+    FsGalleryThumbnailDirective,
+    FsGalleryPreviewDetailsDirective,
+    FsLabelModule,
+    FsGalleryPreviewDirective,
+    FsGalleryListColumnDirective,
+    FsGalleryListCellDirective,
+  ],
 })
 export class ExampleComponent implements OnInit, OnDestroy {
-  private _prompt = inject(FsPrompt);
-  private _api = inject(FsApi);
-
 
   @ViewChild(FsGalleryComponent, { static: true })
   public gallery: FsGalleryComponent;
@@ -59,6 +56,8 @@ export class ExampleComponent implements OnInit, OnDestroy {
   public MimeType = MimeType;
 
   private _destroy$ = new Subject();
+  private _prompt = inject(FsPrompt);
+  private _api = inject(FsApi);
 
   constructor() { 
     this.items = getItems(this._api);
@@ -66,6 +65,9 @@ export class ExampleComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.galleryConfig = {
+      filterConfig: {
+        heading: 'Gallery',
+      },
       showChangeSize: true,
       showChangeView: true,
       thumbnail: {

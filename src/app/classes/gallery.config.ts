@@ -214,7 +214,7 @@ export class GalleryConfig {
     this.upload = config.upload;
     this.actions = config.actions;
     this.preview = config.preview ?? true;
-    this.filterConfig = this._getFilterConfig(config.filters);
+    this.filterConfig = this._getFilterConfig(config.filterConfig, config.filters);
     this._initItemActions(config.itemActions);
     this._initReorder(config);
   }
@@ -265,10 +265,11 @@ export class GalleryConfig {
       });
   }
 
-  private _getFilterConfig(items: IFilterConfigItem[]): FilterConfig {
+  private _getFilterConfig(filterConfig: FilterConfig, items: IFilterConfigItem[]): FilterConfig {
     items = items && Array.isArray(items) ? items : [];
 
     const config: FilterConfig = {
+      ...(filterConfig || {}),
       init: (query) => {
         if(this.filterInit) {
           this.filterInit(query);
