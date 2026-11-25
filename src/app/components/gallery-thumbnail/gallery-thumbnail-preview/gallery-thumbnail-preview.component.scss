@@ -14,7 +14,8 @@
     width: 100%;
   }
 
-  &.previewable {
+  // Whatever a click opens shows the hand: a folder always, a file when the gallery previews
+  &.clickable {
     cursor: pointer;
   }
 

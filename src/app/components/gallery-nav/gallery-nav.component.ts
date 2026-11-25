@@ -34,9 +34,7 @@ export class FsGalleryNavComponent implements OnInit, OnDestroy {
   }
 
   public navClick(item) {
-    const index = this.galleryService.navItems.indexOf(item);
-    this.galleryService.navItems = index === -1 ? [] : this.galleryService.navItems.splice(index);
-    this.galleryService.loadGallery();
+    this.galleryService.navigateTo(item);
   }
 
   public ngOnDestroy(): void {

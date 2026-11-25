@@ -204,9 +204,17 @@ export class FsGalleryService implements OnDestroy {
     return galleryPreviewRef;
   }
 
+  /** Into a folder: it joins the trail, and whichever view is shown lists its contents. */
   public openItem(item: FsGalleryItem) {
     this.navItems.push(item);
-    this.loadGallery();
+    this._loadFolder();
+  }
+
+  /** Back up the trail to one of its folders, or to the top when given none. */
+  public navigateTo(item: FsGalleryItem | null) {
+    const index = this.navItems.indexOf(item);
+    this.navItems = index === -1 ? [] : this.navItems.slice(0, index + 1);
+    this._loadFolder();
   }
 
   /** The gallery view from its first page. */
@@ -381,7 +389,7 @@ export class FsGalleryService implements OnDestroy {
       fetch: (query) => {
         query = { ...this._filterQuery, ...query };
 
-        return this.config.fetch(query, null)
+        return this.config.fetch(query, this._openItem)
           .pipe(
             map((response) => {
               const result = this._getFetchResult(response);
@@ -458,9 +466,7 @@ export class FsGalleryService implements OnDestroy {
       return of({ data: [], records: 0 });
     }
 
-    const item = this.navItems[this.navItems.length - 1];
-
-    return this._config.fetch(query, item)
+    return this._config.fetch(query, this._openItem)
       .pipe(
         map((response) => this._getFetchResult(response)),
       );
@@ -485,6 +491,21 @@ export class FsGalleryService implements OnDestroy {
     const loaded = (query.offset || 0) + result.data.length;
 
     return this.config.loadMore && result.data.length >= query.limit ? loaded + 1 : loaded;
+  }
+
+  /** The folder open: the last in the trail, or none at the top. */
+  private get _openItem(): FsGalleryItem | undefined {
+    return this.navItems[this.navItems.length - 1];
+  }
+
+  /** Another folder's contents, from the first page in either view: the page the last folder was on is not this one's. */
+  private _loadFolder(): void {
+    if (this._config.viewModeGallery) {
+      this.loadGallery();
+    } else if (this._config.viewModeList) {
+      this._lister.list.paging.resetPaging();
+      this._lister.reload();
+    }
   }
 
   /** A new query: the gallery view from its first page, and the list from what its own paging says. */

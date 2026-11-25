@@ -96,9 +96,7 @@ export class FsGalleryComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public navClick(item) {
-    const index = this.galleryService.navItems.indexOf(item);
-    this.galleryService.navItems = index === -1 ? [] : this.galleryService.navItems.splice(index);
-    this.galleryService.loadGallery();
+    this.galleryService.navigateTo(item);
   }
 
   public ngAfterContentInit() {

@@ -5,6 +5,7 @@
   [style.width]="(imageWidth ? imageWidth + 'px' :null)"
     [ngClass]="{
       'previewable': config.preview && !!preview  ,
+      'clickable': item.folder || config.preview,
       'file-folder': item.folder,
       'file-image': item.mime.type === MimeType.Image,
       'file-video': item.mime.type === MimeType.Video,
