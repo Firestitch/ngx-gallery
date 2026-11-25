@@ -13,6 +13,10 @@ import {
 } from '@angular/core';
 
 import { CdkDragDrop, CdkDragStart, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
+import { NgTemplateOutlet } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { MatButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 
 import { Subject } from 'rxjs';
@@ -21,7 +25,6 @@ import { takeUntil } from 'rxjs/operators';
 import { FsGalleryItem } from '../../interfaces/gallery-config.interface';
 import { FsGalleryService } from '../../services/gallery.service';
 import { FsGalleryThumbnailComponent } from '../gallery-thumbnail/gallery-thumbnail.component';
-import { NgTemplateOutlet } from '@angular/common';
 
 
 @Component({
@@ -35,6 +38,8 @@ import { NgTemplateOutlet } from '@angular/common';
         FsGalleryThumbnailComponent,
         CdkDrag,
         NgTemplateOutlet,
+        MatButton,
+        MatProgressSpinner,
     ],
 })
 export class FsGalleryViewComponent implements AfterViewInit, OnInit, OnDestroy {
@@ -46,10 +51,12 @@ export class FsGalleryViewComponent implements AfterViewInit, OnInit, OnDestroy 
 
   public reorderable: boolean;
   public data: FsGalleryItem[];
+  public hasMore = toSignal(this.galleryService.hasMore$, { initialValue: false });
+  public busy = toSignal(this.galleryService.loadingMore$, { initialValue: false });
 
   @Output()
   public orderChange = new EventEmitter<FsGalleryItem[]>();
-  
+
   private _elRef = inject(ElementRef);
   private _cdRef = inject(ChangeDetectorRef);
   private _destroy$ = new Subject<void>();
@@ -67,6 +74,21 @@ export class FsGalleryViewComponent implements AfterViewInit, OnInit, OnDestroy 
         this.data = data;
         this._cdRef.markForCheck();
       });
+  }
+
+  /** As the list's Load More dresses its button: no class for a basic one. */
+  public get loadMoreButtonClass(): string {
+    const buttonType = this.galleryService.config.loadMore?.buttonType;
+
+    return !buttonType || buttonType === 'basic' ? '' : `mat-${buttonType}-button`;
+  }
+
+  public loadMore(): void {
+    if (this.busy()) {
+      return;
+    }
+
+    this.galleryService.loadMore();
   }
 
   public moved(event: CdkDragDrop<FsGalleryItem[], FsGalleryItem[], FsGalleryItem>) {

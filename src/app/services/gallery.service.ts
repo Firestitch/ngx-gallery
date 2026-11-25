@@ -10,10 +10,11 @@ import {
   FsListComponent,
   FsListConfig,
   FsListNoResultsConfig,
+  PaginationStrategy,
 } from '@firestitch/list';
 
-import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
-import { map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
+import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 
 import { FsGalleryPreviewRef } from '../classes/gallery-preview-ref';
@@ -26,9 +27,17 @@ import { ThumbnailScale } from '../enums/thumbnail-scale.enum';
 import { mimeColor } from '../helpers';
 import { mime } from '../helpers/mime';
 import { GalleryPreviewComponentInjector } from '../injectors/gallery-preview-component.injector';
-import { FsGalleryConfig, FsGalleryItem, FsGalleryPersistance } from '../interfaces';
+import { FsGalleryConfig, FsGalleryFetchResult, FsGalleryItem, FsGalleryPersistance } from '../interfaces';
 
 import { FsGalleryPreviewService } from './gallery-preview.service';
+
+
+/** What a fetch of the gallery view is for: the first page, the next one, or the ones already shown, again. */
+enum GalleryFetch {
+  First = 'first',
+  More = 'more',
+  Reload = 'reload',
+}
 
 
 @Injectable()
@@ -50,9 +59,11 @@ export class FsGalleryService implements OnDestroy {
   public navItems: FsGalleryItem[] = [];
   public emptyStateEnabled = false;
 
-  private _fetch$ = new Subject<void>();
+  private _fetch$ = new Subject<GalleryFetch>();
   private _filterQuery = {};
   private _data$ = new BehaviorSubject<FsGalleryItem[]>([]);
+  private _hasMore$ = new BehaviorSubject<boolean>(false);
+  private _loadingMore$ = new BehaviorSubject<boolean>(false);
   private _imageWidth: number = null;
   private _imageHeight: number = null;
   private _config: GalleryConfig = new GalleryConfig({});
@@ -135,7 +146,19 @@ export class FsGalleryService implements OnDestroy {
   }
 
   public get fetch$(): Observable<void> {
-    return this._fetch$.asObservable();
+    return this._fetch$
+      .pipe(
+        map(() => undefined),
+      );
+  }
+
+  /** Whether the gallery view has more to load: Load More shows while it does. */
+  public get hasMore$(): Observable<boolean> {
+    return this._hasMore$.asObservable();
+  }
+
+  public get loadingMore$(): Observable<boolean> {
+    return this._loadingMore$.asObservable();
   }
 
   public ngOnDestroy(): void {
@@ -186,13 +209,20 @@ export class FsGalleryService implements OnDestroy {
     this.loadGallery();
   }
 
+  /** The gallery view from its first page. */
   public loadGallery() {
-    this._fetch$.next(null);
+    this._fetch$.next(GalleryFetch.First);
   }
 
+  /** The gallery view's next page, after the ones shown. */
+  public loadMore() {
+    this._fetch$.next(GalleryFetch.More);
+  }
+
+  /** What is shown, again: every page already loaded, so the view stays where it is. */
   public reload() {
     if (this._config.viewModeGallery) {
-      this.loadGallery();
+      this._fetch$.next(GalleryFetch.Reload);
     } else if (this._config.viewModeList) {
       this._lister.reload();
     }
@@ -307,11 +337,11 @@ export class FsGalleryService implements OnDestroy {
       items: this.config.filterConfig.items,
       init: (query?: any) => {
         this._filterQuery = query;
-        this.reload();
+        this._load();
       },
       change: (query?: any) => {
         this._filterQuery = query;
-        this.reload();
+        this._load();
       },
       actions: this.config.filterConfig.actions,
       reload: this.config.reload ? () => {
@@ -338,9 +368,13 @@ export class FsGalleryService implements OnDestroy {
         };
       });
 
+    const loadMore = this.config.loadMore;
+
     this.listConfig = {
       rowActions,
-      paging: false,
+      // With Load More the list pages as the gallery view does, by offset, under the list's own button
+      paging: loadMore ? { limit: loadMore.limit, strategy: PaginationStrategy.Offset } : false,
+      loadMore: loadMore ?? false,
       selection: this.config.selection,
       emptyState: this.config.emptyState,
       status: false,
@@ -349,13 +383,16 @@ export class FsGalleryService implements OnDestroy {
 
         return this.config.fetch(query, null)
           .pipe(
-            map((items: FsGalleryItem[]) => {
-              this.data = items;
+            map((response) => {
+              const result = this._getFetchResult(response);
+              const items = this.mapData(result.data);
+
+              this._data$.next(query.offset ? [...this.data, ...items] : items);
               this._updateEmptyState(query, this.data);
 
               return {
-                data: this.data,
-                paging: { records: items.length },
+                data: items,
+                paging: { records: this._getRecords(query, result) },
               };
             }),
           );
@@ -368,30 +405,95 @@ export class FsGalleryService implements OnDestroy {
   }
 
   private _listenFetch(): void {
-    // Should wait until saved filters not loaded
-    combineLatest([this.fetch$])
+    this._fetch$
       .pipe(
-        map(() => {
-          return this._filterQuery;
+        tap((fetch) => this._loadingMore$.next(fetch === GalleryFetch.More)),
+        switchMap((fetch) => {
+          const query = { ...this._filterQuery, ...this._getPagingQuery(fetch) };
+
+          return this._fetchItems(query)
+            .pipe(
+              map((result) => ({ fetch, query, result })),
+            );
         }),
-        switchMap((query) => {
-          if (this._config.fetch) {
-            const item = this.navItems[this.navItems.length - 1];
+        tap(({ fetch, query, result }) => {
+          const items = this.mapData(result.data);
+          const data = fetch === GalleryFetch.More ? [...this.data, ...items] : items;
 
-            return this._config.fetch(query, item);
-          }
-
-          return of([]);
-
+          this._hasMore$.next(!!this.config.loadMore && data.length < this._getRecords(query, result));
+          this._loadingMore$.next(false);
+          this._updateEmptyState(this._filterQuery, data);
+          this._data$.next(data);
         }),
-        map((items: any) => this.mapData(items)),
+        takeUntil(this._configUpdated$),
         takeUntil(this._destroy$),
       )
-      .subscribe((data: FsGalleryItem[]) => {
-        this._updateEmptyState(this._filterQuery, data);
+      .subscribe();
+  }
 
-        this._data$.next(data);
-      });
+  /**
+   * The page a gallery view's fetch asks for: none without Load More, which answers everything at once; with it,
+   * the first page, the one after those shown, or as many as are shown, so a reload keeps the view where it is.
+   */
+  private _getPagingQuery(fetch: GalleryFetch): { limit?: number; offset?: number } {
+    const loadMore = this.config.loadMore;
+    if (!loadMore) {
+      return {};
+    }
+
+    switch (fetch) {
+      case GalleryFetch.More:
+        return { limit: loadMore.limit, offset: this.data.length };
+
+      case GalleryFetch.Reload:
+        return { limit: Math.max(loadMore.limit, this.data.length), offset: 0 };
+
+      default:
+        return { limit: loadMore.limit, offset: 0 };
+    }
+  }
+
+  private _fetchItems(query: Record<string, unknown>): Observable<{ data: FsGalleryItem[]; records: number | null }> {
+    if (!this._config.fetch) {
+      return of({ data: [], records: 0 });
+    }
+
+    const item = this.navItems[this.navItems.length - 1];
+
+    return this._config.fetch(query, item)
+      .pipe(
+        map((response) => this._getFetchResult(response)),
+      );
+  }
+
+  /** A fetch's answer in one shape: its items, and how many the query matches in all when it says. */
+  private _getFetchResult(response: FsGalleryItem[] | FsGalleryFetchResult): { data: FsGalleryItem[]; records: number | null } {
+    return Array.isArray(response)
+      ? { data: response, records: null }
+      : { data: response?.data || [], records: response?.paging?.records ?? null };
+  }
+
+  /**
+   * How many the query matches in all: what the fetch said or, when it did not, the ones up to the end of this
+   * page, and one more when the page came back full, so Load More shows until a page comes back short.
+   */
+  private _getRecords(query: { offset?: number; limit?: number }, result: { data: FsGalleryItem[]; records: number | null }): number {
+    if (result.records !== null) {
+      return result.records;
+    }
+
+    const loaded = (query.offset || 0) + result.data.length;
+
+    return this.config.loadMore && result.data.length >= query.limit ? loaded + 1 : loaded;
+  }
+
+  /** A new query: the gallery view from its first page, and the list from what its own paging says. */
+  private _load(): void {
+    if (this._config.viewModeGallery) {
+      this.loadGallery();
+    } else if (this._config.viewModeList) {
+      this._lister.reload();
+    }
   }
 
   private _listenUpload(): void {

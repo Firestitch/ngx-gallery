@@ -19,7 +19,7 @@ import {
   FsGalleryDetailsConfig,
   FsGalleryEmptyStateConfig,
   FsGalleryInfoConfig,
-  FsGalleryItem, FsGalleryItemAction, FsGalleryMapping, FsGalleryNoResultsConfig,
+  FsGalleryItem, FsGalleryItemAction, FsGalleryLoadMoreConfig, FsGalleryMapping, FsGalleryNoResultsConfig,
   FsGalleryPersistance,
   FsGalleryThumbnailConfig,
   FsGalleryUploadConfig,
@@ -70,6 +70,8 @@ export class GalleryConfig {
   public preview: boolean;
   public reload: boolean;
   public emptyState: FsGalleryEmptyStateConfig;
+  /** Set when the gallery loads a page at a time; null when it loads everything its fetch answers at once. */
+  public loadMore: FsGalleryLoadMoreConfig = null;
 
   private _listColumns$ = new BehaviorSubject<FsGalleryListColumnDirective[]>([]);
   private _updateActions$ = new Subject<FsFilterAction[]>();
@@ -217,6 +219,22 @@ export class GalleryConfig {
     this.filterConfig = this._getFilterConfig(config.filterConfig, config.filters);
     this._initItemActions(config.itemActions);
     this._initReorder(config);
+    this._initLoadMore(config.loadMore);
+  }
+
+  /** The list's defaults (its label and button), and a page of 50. */
+  private _initLoadMore(loadMore: FsGalleryLoadMoreConfig | boolean): void {
+    if (!loadMore || (loadMore !== true && loadMore.enabled === false)) {
+      return;
+    }
+
+    this.loadMore = {
+      label: 'Load More',
+      buttonType: 'basic',
+      limit: 50,
+      ...(loadMore === true ? {} : loadMore),
+      enabled: true,
+    };
   }
 
   private _initReorder(config: FsGalleryConfig) {

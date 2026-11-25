@@ -32,6 +32,23 @@
         }
       </div>
     }
+    @if (hasMore()) {
+      <div class="fs-gallery-load-more">
+        <button
+            mat-stroked-button
+            type="button"
+            [class]="loadMoreButtonClass"
+            [color]="galleryService.config.loadMore.buttonColor"
+            [disabled]="busy()"
+            (click)="loadMore()">
+          @if (busy()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            <span>{{ galleryService.config.loadMore.label }}</span>
+          }
+        </button>
+      </div>
+    }
   } @else {
     <div class="fs-gallery-no-results">
       @if (galleryService.emptyStateEnabled) {

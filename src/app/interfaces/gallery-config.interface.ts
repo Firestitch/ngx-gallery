@@ -27,6 +27,7 @@ export interface FsGalleryConfig {
   actions?: FsFilterAction[];
   selection?: FsListSelectionConfig;
   zoom?: boolean;
+  loadMore?: FsGalleryLoadMoreConfig | boolean;
   reorder?: {
     enabled?: boolean,
     end?(data: any): any,
@@ -114,7 +115,31 @@ export interface FsGalleryItemAction {
 
 export interface FsGalleryNoResultsConfig extends FsListNoResultsConfig { }
 
-export type FsGalleryConfigFetch = (query?: any, item?: FsGalleryItem) => Observable<FsGalleryItem[]>;
+/**
+ * A page at a time, as the list's Load More, whose settings these are (the list
+ * does not export their interface): the first fetch asks for `limit` items
+ * (`offset` 0), and each click of the button below the thumbnails the next
+ * `limit`, while more remain.
+ */
+export interface FsGalleryLoadMoreConfig {
+  enabled?: boolean;
+  label?: string;
+  buttonColor?: 'primary' | 'accent' | 'warn';
+  buttonType?: 'flat' | 'raised' | 'stroked' | 'basic';
+  limit?: number;
+}
+
+/**
+ * A fetch's answer: the items, or the items with how many the query matches in
+ * all (`paging.records`), which tells Load More when the last page is in.
+ * Without it, more remain while a page comes back full.
+ */
+export interface FsGalleryFetchResult {
+  data: FsGalleryItem[];
+  paging?: { records?: number };
+}
+
+export type FsGalleryConfigFetch = (query?: any, item?: FsGalleryItem) => Observable<FsGalleryItem[] | FsGalleryFetchResult>;
 
 export interface FsGalleryEmptyStateConfig {
   validate: FsGalleryStateValidationFn;
